@@ -1,0 +1,6 @@
+2025-09-03T11:31:31.906309Z ERROR codex_core::config: Failed to deserialize overridden config: unknown variant `minimal`, expected one of `core`, `all`, `none`
+in `shell_environment_policy.inherit`
+
+Error: unknown variant `minimal`, expected one of `core`, `all`, `none`
+in `shell_environment_policy.inherit`
+
