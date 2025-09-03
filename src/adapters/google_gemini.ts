@@ -1,4 +1,5 @@
 import fetch from 'node-fetch';
+import { trackLLMUsage } from '../analytics/autoTracker.js';
 
 export async function geminiComplete(prompt: string, model = 'gemini-1.5-pro'): Promise<string> {
 	const apiKey = process.env.GEMINI_API_KEY;
@@ -12,5 +13,8 @@ export async function geminiComplete(prompt: string, model = 'gemini-1.5-pro'): 
 	if (!res.ok) throw new Error(`Gemini error ${res.status}: ${await res.text()}`);
 	const data: any = await res.json();
 	const text = data?.candidates?.[0]?.content?.parts?.[0]?.text ?? '';
+
+	// Record usage (optional, best-effort)
+	try { await trackLLMUsage('gemini', model, prompt, text); } catch {}
 	return text;
 }

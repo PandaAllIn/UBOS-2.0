@@ -1,0 +1,27 @@
+[
+  {
+    "id": "req_1",
+    "description": "Patterns for req_1",
+    "signals": [
+      "browser-automation-applicable"
+    ],
+    "effectiveness": 1,
+    "lastUpdated": "2025-09-03T12:37:52.465Z"
+  },
+  {
+    "id": "req_2",
+    "description": "Patterns for req_2",
+    "signals": [],
+    "effectiveness": 1,
+    "lastUpdated": "2025-09-03T12:36:43.286Z"
+  },
+  {
+    "id": "req_3",
+    "description": "Patterns for req_3",
+    "signals": [
+      "browser-automation-applicable"
+    ],
+    "effectiveness": 1,
+    "lastUpdated": "2025-09-03T12:36:43.286Z"
+  }
+]
