@@ -6,8 +6,9 @@ export async function runPerplexityTest(prompt: string): Promise<string> {
 	const apiKey = process.env.PERPLEXITY_API_KEY;
 	if (!apiKey) throw new Error('Missing PERPLEXITY_API_KEY');
 
+	const model = process.env.PERPLEXITY_MODEL || 'sonar-pro';
 	const body = {
-		model: 'sonar-small-chat',
+		model,
 		messages: [
 			{ role: 'system', content: 'You are EUFM test agent.' },
 			{ role: 'user', content: prompt }
