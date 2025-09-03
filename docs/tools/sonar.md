@@ -4,12 +4,14 @@ Primary: Perplexity Sonar (LLM models)
 
 ## Perplexity Sonar
 - API docs: https://docs.perplexity.ai/
+- Models: https://docs.perplexity.ai/getting-started/models
 
 Notes:
 - OpenAI-compatible style chat completions
 - Auth: Bearer API key
 - Use JSON tool calling where supported; log prompts/outputs for auditing
-- Check rate limits and model names under the docs (e.g., `sonar-*`)
+ - Model names (examples): `sonar-pro`, `sonar-reasoning-pro`, `sonar-small`
+ - Check rate limits and current availability under the Models page
 
 ## SonarQube/SonarCloud (code quality)
 - SonarQube docs: https://docs.sonarsource.com/sonarqube/latest/

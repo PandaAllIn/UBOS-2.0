@@ -2,6 +2,11 @@
 
 This folder organizes project knowledge in Markdown for easy sharing across tools.
 
+## Table of Contents
+- [Structure](#structure)
+- [Tools Index](#tools-index)
+- [Contributing](#contributing)
+
 ## Structure
 
 - `tools/` — Integration notes and official docs links for external providers
@@ -29,5 +34,4 @@ This folder organizes project knowledge in Markdown for easy sharing across tool
 - Prefer concise bullet points, link to authoritative sources.
 - Keep examples minimal and executable.
 - When a tool changes, update its doc and note breaking changes.
-
 
