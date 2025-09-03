@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EUFM Mission Control</title>
+    <link rel="stylesheet" href="dashboard.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="mission-control">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-left">
+                <h1><i class="fas fa-rocket"></i> EUFM Mission Control</h1>
+                <div class="system-status" id="system-status">
+                    <span class="status-indicator healthy"></span>
+                    <span>System Healthy</span>
+                </div>
+            </div>
+            <div class="header-right">
+                <div class="uptime" id="uptime">Uptime: 0h 0m</div>
+                <div class="timestamp" id="timestamp"></div>
+            </div>
+        </header>
+
+        <!-- Main Dashboard Grid -->
+        <div class="dashboard-grid">
+            <!-- System Overview -->
+            <div class="widget system-overview">
+                <h3><i class="fas fa-tachometer-alt"></i> System Overview</h3>
+                <div class="metrics">
+                    <div class="metric">
+                        <div class="metric-value" id="active-agents">0</div>
+                        <div class="metric-label">Active Agents</div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-value" id="completed-tasks">0</div>
+                        <div class="metric-label">Completed Tasks</div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-value" id="memory-notes">0</div>
+                        <div class="metric-label">Knowledge Base</div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-value" id="total-cost">$0.00</div>
+                        <div class="metric-label">Total Cost</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- EUFM Project Status -->
+            <div class="widget project-status">
+                <h3><i class="fas fa-project-diagram"></i> EUFM Project</h3>
+                <div class="project-phase" id="project-phase">Foundation Complete</div>
+                <div class="progress-container">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progress-fill" style="width: 75%"></div>
+                    </div>
+                    <div class="progress-text">75% Complete</div>
+                </div>
+                <div class="next-milestone" id="next-milestone">Next: EU Funding Application</div>
+                <div class="funding-opportunities">
+                    <span id="funding-count">0</span> Active Funding Opportunities
+                </div>
+            </div>
+
+            <!-- Agent Status -->
+            <div class="widget agent-status">
+                <h3><i class="fas fa-users-cog"></i> Agent Status</h3>
+                <div class="agent-list" id="agent-list">
+                    <!-- Agents will be populated dynamically -->
+                </div>
+            </div>
+
+            <!-- Tool Status -->
+            <div class="widget tool-status">
+                <h3><i class="fas fa-tools"></i> Tool Status</h3>
+                <div class="tool-grid" id="tool-grid">
+                    <!-- Tools will be populated dynamically -->
+                </div>
+            </div>
+
+            <!-- Subscription Usage -->
+            <div class="widget subscription-usage">
+                <h3><i class="fas fa-credit-card"></i> Subscription Usage</h3>
+                <div class="subscription-list" id="subscription-list">
+                    <!-- Subscriptions will be populated dynamically -->
+                </div>
+            </div>
+
+            <!-- Funding Opportunities -->
+            <div class="widget funding-opportunities">
+                <h3><i class="fas fa-euro-sign"></i> EU Funding Opportunities</h3>
+                <div class="opportunity-list" id="opportunity-list">
+                    <div class="loading">Scanning for opportunities...</div>
+                </div>
+                <button class="scan-button" onclick="scanFunding()">
+                    <i class="fas fa-search"></i> Scan Now
+                </button>
+            </div>
+
+            <!-- Activity Feed -->
+            <div class="widget activity-feed">
+                <h3><i class="fas fa-stream"></i> Recent Activity</h3>
+                <div class="activity-list" id="activity-list">
+                    <!-- Activities will be populated dynamically -->
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="widget quick-actions">
+                <h3><i class="fas fa-bolt"></i> Quick Actions</h3>
+                <div class="action-buttons">
+                    <button class="action-btn" onclick="executeTask()">
+                        <i class="fas fa-play"></i> Execute Task
+                    </button>
+                    <button class="action-btn" onclick="scanFunding()">
+                        <i class="fas fa-search"></i> Scan Funding
+                    </button>
+                    <button class="action-btn" onclick="generateReport()">
+                        <i class="fas fa-file-alt"></i> Generate Report
+                    </button>
+                    <button class="action-btn" onclick="optimizeSystem()">
+                        <i class="fas fa-cog"></i> Optimize System
+                    </button>
+                </div>
+            </div>
+
+            <!-- Chat Interface -->
+            <div class="widget chat-interface">
+                <h3><i class="fas fa-comments"></i> System Chat</h3>
+                <div class="chat-messages" id="chat-messages">
+                    <div class="chat-message system">
+                        <div class="message-content">EUFM Mission Control initialized successfully</div>
+                        <div class="message-time" id="init-time"></div>
+                    </div>
+                </div>
+                <div class="chat-input-container">
+                    <input type="text" id="chat-input" placeholder="Enter command or message..." onkeypress="handleChatInput(event)">
+                    <button onclick="sendChatMessage()"><i class="fas fa-paper-plane"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modals -->
+    <div id="task-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h3>Execute Task</h3>
+            <textarea id="task-input" placeholder="Describe the task you want to execute..."></textarea>
+            <div class="modal-actions">
+                <button onclick="submitTask()">Execute</button>
+                <button onclick="submitTask(true)">Dry Run</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="dashboard.js"></script>
+</body>
+</html>
