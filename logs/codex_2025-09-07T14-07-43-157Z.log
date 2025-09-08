@@ -1,0 +1,1028 @@
+Executing: codex exec --dangerously-bypass-approvals-and-sandbox Create Master Control CLI commands in src/cli/index.ts. Add exactly 4 new commands following the existing CLI pattern: 1) master:status - show portfolio overview, 2) master:health - show health scores, 3) master:projects - list active projects, 4) master:urgent - show critical items. Use the same structure as existing commands like claude:status and codex:status. Import projectRegistry from '../masterControl/projectRegistry.js'. Each command should have basic console.log output for now - we'll enhance functionality later. Focus on CLI structure and imports only.
+
+Project Context: EUFM (European Union Funds Manager) - AI Agent Orchestration System
+Working Directory: /Users/panda/Desktop/EUFM
+Project Type: TypeScript/Node.js multi-agent coordination system
+
+Safety Guidelines:
+- Preserve existing functionality when modifying files
+- Follow TypeScript best practices and existing code patterns
+- Add proper error handling and logging
+- Test changes before completing
+Working Directory: /Users/panda/Desktop/EUFM
+
+[2025-09-07T14:07:43] OpenAI Codex v0.28.0 (research preview)
+--------
+workdir: /Users/panda/Desktop/EUFM
+model: gpt-5
+provider: openai
+approval: never
+sandbox: danger-full-access
+reasoning effort: medium
+reasoning summaries: auto
+--------
+[2025-09-07T14:07:43] User instructions:
+Create Master Control CLI commands in src/cli/index.ts. Add exactly 4 new commands following the existing CLI pattern: 1) master:status - show portfolio overview, 2) master:health - show health scores, 3) master:projects - list active projects, 4) master:urgent - show critical items. Use the same structure as existing commands like claude:status and codex:status. Import projectRegistry from '../masterControl/projectRegistry.js'. Each command should have basic console.log output for now - we'll enhance functionality later. Focus on CLI structure and imports only.
+
+Project Context: EUFM (European Union Funds Manager) - AI Agent Orchestration System
+Working Directory: /Users/panda/Desktop/EUFM
+Project Type: TypeScript/Node.js multi-agent coordination system
+
+Safety Guidelines:
+- Preserve existing functionality when modifying files
+- Follow TypeScript best practices and existing code patterns
+- Add proper error handling and logging
+- Test changes before completing
+[2025-09-07T14:07:47] codex
+
+I’ll scan the CLI files to mirror the existing command pattern (e.g, claude:status., codex:status) and then add the four master:* commands with the same structure and minimal logging.
+[2025-09-07T14:07:49] exec bash -lc 'ls -la' in /Users/panda/Desktop/EUFM
+[2025-09-07T14:07:49] bash -lc 'ls -la' succeeded in 38ms:
+total 720
+drwxr-xr-x   40 panda  staff   1280 Sep  7 17:07 .
+drwx------+  16 panda  staff    512 Sep  5 20:43 ..
+-rw-r--r--@   1 panda  staff   8196 Sep  4 10:39 .DS_Store
+drwxr-xr-x    3 panda  staff     96 Sep  6 21:14 .claude
+-rw-r--r--    1 panda  staff    370 Sep  5 16:22 .env
+-rw-r--r--    1 panda  staff    123 Sep  3 12:43 .env.example
+drwxr-xr-x   14 panda  staff    448 Sep  6 20:42 .git
+drwxr-xr-x    3 panda  staff     96 Sep  3 11:39 .github
+-rw-r--r--    1 panda  staff     42 Sep  3 12:44 .gitignore
+-rw-r--r--    1 panda  staff   3971 Sep  6 17:40 AGENT_QUICK_REFERENCE.md
+-rw-r--r--    1 panda  staff  11019 Sep  6 20:32 CLAUDE_MISSION_BRIEFING.md
+-rw-r--r--    1 panda  staff  15420 Sep  6 21:26 CLAUDE_SESSION_MEMORY.md
+-rw-r--r--    1 panda  staff   8675 Sep  7 17:07 CODEX_IMPLEMENTATION_PLAN.md
+-rw-r--r--    1 panda  staff   5088 Sep  3 14:08 CODE_OF_CONDUCT.md
+-rw-r--r--@   1 panda  staff    458 Sep  3 11:40 CONTRIBUTING.md
+-rw-r--r--    1 panda  staff  19040 Sep  6 21:02 EUFM_TECHNICAL_ARCHITECTURE_EU_FUNDING.md
+-rw-r--r--    1 panda  staff  10799 Sep  6 21:00 EU_FUNDING_STRATEGY.md
+-rw-r--r--    1 panda  staff  12325 Sep  6 21:04 EU_FUNDING_TIMELINE.md
+-rw-r--r--    1 panda  staff  20690 Sep  6 21:34 MASTER_CONTROL_CENTER.md
+[2025-09-07T14:07:49] tokens used: 6026
+[2025-09-07T14:07:51] exec bash -lc "ls -la src && rg -n \"cli|Command|claude:status|codex:status\" -S src | sed -n '1,200p'" in /Users/panda/Desktop/EUFM
+[2025-09-07T14:07:51] bash -lc "ls -la src && rg -n \"cli|Command|claude:status|codex:status\" -S src | sed -n '1,200p'" succeeded in 95ms:
+total 16
+drwxr-xr-x  16 panda  staff   512 Sep  6 21:38 .
+drwxr-xr-x  40 panda  staff  1280 Sep  7 17:07 ..
+-rw-r--r--@  1 panda  staff  6148 Sep  3 12:43 .DS_Store
+drwxr-xr-x   5 panda  staff   160 Sep  3 12:43 adapters
+drwxr-xr-x  16 panda  staff   512 Sep  6 21:12 agents
+drwxr-xr-x   7 panda  staff   224 Sep  3 15:12 analytics
+drwxr-xr-x   3 panda  staff    96 Sep  6 21:26 cli
+drwxr-xr-x   8 panda  staff   256 Sep  6 17:09 dashboard
+drwxr-xr-x   4 panda  staff   128 Sep  3 15:34 intelligence
+drwxr-xr-x   3 panda  staff    96 Sep  6 21:38 masterControl
+drwxr-xr-x   6 panda  staff   192 Sep  6 21:37 mcc
+drwxr-xr-x   4 panda  staff   128 Sep  3 14:48 memory
+drwxr-xr-x   8 panda  staff   256 Sep  6 20:46 orchestrator
+drwxr-xr-x   5 panda  staff   160 Sep  6 21:12 tests
+drwxr-xr-x   7 panda  staff   224 Sep  6 20:48 tools
+drwxr-xr-x   4 panda  staff   128 Sep  6 21:24 utils
+src/orchestrator/capabilityMapper.ts:37:        specs.push({ id: `agent_${requirementId}_codex_cli`, type: 'CodexCLIAgent', requirementId, capabilities: ['coding', 'file_operations', 'system_access'], params: { mode: 'agent', approvalRequired: false } });
+src/orchestrator/taskAnalyzer.ts:10:  if (/(browser|web ui|automation|scrape|navigate|click|form)/.test(t)) caps.add('web_automation');
+src/dashboard/dashboardServer.ts:184:      console.log('Dashboard client connected');
+[2025-09-07T14:07:51] tokens used: 1441
+[2025-09-07T14:07:54] exec bash -lc "sed -n '1,220p' src/cli/index.ts" in /Users/panda/Desktop/EUFM
+[2025-09-07T14:07:54] bash -lc "sed -n '1,220p' src/cli/index.ts" succeeded in 15ms:
+#!/usr/bin/env node
+import 'dotenv/config';
+import { runPerplexityTest } from '../tools/perplexity_sonar.js';
+import { runGeminiTest } from '../tools/gemini_test.js';
+import { loadKnowledgeBase, toContext, findNotesByQuery } from '../memory/index.js';
+import { UsageAnalyticsAgent } from '../analytics/usageAnalytics.js';
+import { StrategicOrchestrator } from '../orchestrator/strategicOrchestrator.js';
+import { DashboardServer } from '../dashboard/dashboardServer.js';
+import { AgentFactory } from '../orchestrator/agentFactory.js';
+import { FundingOpportunityScanner } from '../dashboard/fundingOpportunityScanner.js';
+import { claudeInterface } from '../tools/claudeAgentInterface.js';
+
+async function main() {
+	const cmd = process.argv[2] || 'help';
+		switch (cmd) {
+		case 'analytics:setup': {
+			const agent = new UsageAnalyticsAgent();
+			await agent.interactiveSetup();
+			const limits = await agent.fetchLimits();
+			console.log('\nFetched plan info (best-effort):');
+[2025-09-07T14:07:54] tokens used: 1761
+[2025-09-07T14:07:57] exec bash -lc "sed -n '220,520p' src/cli/index.ts" in /Users/panda/Desktop/EUFM
+[2025-09-07T14:07:57] bash -lc "sed -n '220,520p' src/cli/index.ts" succeeded in 16ms:
+				}
+
+				case 'smoke:research': {
+					const prompt = 'Say hello from EUFM smoke test.';
+					try {
+						const out = await runPerplexityTest(prompt);
+						console.log('Perplexity OK:', out.slice(0, 120).replace(/\n/g, ' '), '...');
+					} catch (e: any) {
+						console.error('Perplexity smoke failed:', e.message);
+						process.exit(1);
+					}
+					break;
+				}
+
+				case 'codex:exec': {
+					const task = process.argv.slice(3).join(' ');
+					if (!task) {
+						console.log('Usage: npm run dev -- codex:exec "task description"');
+						break;
+					}
+[2025-09-07T14:07:57] tokens used: 3050
+
+[2025-09-07T14:07:59] thinking
+
+**Inspecting project imports**
+
+I noticed there's a pattern I need to address. Specifically, I should add an import for `projectRegistry` from '../masterControl/projectRegistry.js'. To confirm this, I’m going to check the `src/masterControl` directory to make sure the file actually exists, and to understand how it’s being used in the project. It's important to ensure everything is aligned correctly for proper functionality.
+[2025-09-07T14:08:02] exec bash -lc "ls -la src/masterControl && sed -n '1,200p' src/masterControl/projectRegistry.ts || true && sed -n '1,200p' src/masterControl/projectRegistry.js || true" in /Users/panda/Desktop/EUFM
+[2025-09-07T14:08:03] bash -lc "ls -la src/masterControl && sed -n '1,200p' src/masterControl/projectRegistry.ts || true && sed -n '1,200p' src/masterControl/projectRegistry.js || true" succeeded in 34ms:
+total 24
+drwxr-xr-x   3 panda  staff     96 Sep  6 21:38 .
+drwxr-xr-x  16 panda  staff    512 Sep  6 21:38 ..
+-rw-r--r--   1 panda  staff  10970 Sep  6 21:38 projectRegistry.ts
+import { promises as fs } from 'fs';
+import path from 'path';
+
+export interface ProjectMetadata {
+  id: string;
+  name: string;
+  description: string;
+  status: 'active' | 'paused' | 'completed' | 'planned';
+  priority: 'P0' | 'P1' | 'P2' | 'P3';
+  budget: {
+    allocated: number;
+    spent: number;
+    currency: string;
+    target?: number;
+  };
+  timeline: {
+[2025-09-07T14:08:03] tokens used: 3046
+[2025-09-07T14:08:05] exec bash -lc "sed -n '200,520p' src/masterControl/projectRegistry.ts" in /Users/panda/Desktop/EUFM
+[2025-09-07T14:08:05] bash -lc "sed -n '200,520p' src/masterControl/projectRegistry.ts" succeeded in 16ms:
+        blockedBy: [],
+        synergiesWith: ['xf_production']
+      },
+      automatedTasks: [
+        {
+          id: 'eu_funding_scan',
+          description: 'Daily EU funding opportunity scan',
+          schedule: '0 4 * * *', // 4 AM daily
+          agent: 'AgentSummoner',
+          nextRun: this.getNextCronRun('0 4 * * *'),
+          status: 'active'
+        },
+        {
+          id: 'deadline_monitor',
+          description: 'Critical deadline monitoring',
+          schedule: '0 8 * * *', // 8 AM daily
+          agent: 'ProjectMonitor',
+          nextRun: this.getNextCronRun('0 8 * * *'),
+          status: 'active'
+        }
+[2025-09-07T14:08:05] tokens used: 1899
+
+[2025-09-07T14:08:10] thinking
+
+**Considering TypeScript imports and commands**
+
+I’m looking at a TypeScript file that exports the projectRegistry instance, types, and class. The CLI instructions mention importing from '../masterControl/projectRegistry.js' with a .js extension, consistent with existing imports in the compiled JavaScript files. Since TypeScript code with ES module resolution often uses .js for compatibility when transpiling, I’ll follow that pattern. 
+
+I'll add four commands: 'master:status', 'master:health', 'master:projects', and 'master:urgent', starting with basic console.log outputs, while ensuring error handling and usage entries in the default help listing.
+**Planning command functionality**
+
+The commands will utilize projectRegistry to potentially show counts, but the instructions specify "basic console.log output for now," meaning I should focus on the CLI structure and imports first. Even though the projectRegistry may not be used heavily at this stage, it’s fine to import it and call some minimal methods. 
+
+While I can log simple messages and show numbers, it seems safer to use projectRegistry minimally. I need to ensure my commands follow the structure of existing ones, like claude:status and codex:status, which incorporate async tryatch-c handling.
+**Reviewing command implementation and configuration**
+
+I can start by simply logging a header and maybe some counts using projectRegistry methods, which is in line with keeping things minimal. Adding these basic interactions seems acceptable. I also need to ensure I’m incorporating proper error handling by wrapping each command in try-catch blocks while making quick calls to projectRegistry to show numbers. at future 
+
+Since the instructions hint use, I’ll check the tsconfig.json for module resolution settings; it might be set to ESNext or something similar. This way, I'll ensure everything is aligned correctly.
+[2025-09-07T14:08:18] codex
+**Planning command functionality**
+
+The commands will utilize projectRegistry to potentially show counts, but the instructions specify "basic console.log output for now," meaning I should focus on the CLI structure and imports first. Even though the projectRegistry may not be used heavily at this stage, it’s fine to import it and call some minimal methods. 
+
+While I can log simple messages and show numbers, it seems safer to use projectRegistry minimally. I need to ensure my commands follow the structure of existing ones, like claude:status and codex:status, which incorporate async try-catch handling.
+[2025-09-07T14:08:18] codex
+**Reviewing command implementation and configuration**
+
+I can start by simply logging a header and maybe some counts using projectRegistry methods, which is in line with keeping things minimal. Adding these basic interactions seems acceptable. I also need to ensure I’m incorporating proper error handling by wrapping each command in try-catch blocks while making quick calls to projectRegistry to show numbers. 
+
+Since the instructions hint at future use, I’ll check the tsconfig.json for module resolution settings; it might be set to ESNext or something similar. This way, I'll ensure everything is aligned correctly.
+[2025-09-07T14:08:18] exec bash -lc 'cat tsconfig.json' in /Users/panda/Desktop/EUFM
+[2025-09-07T14:08:18] bash -lc 'cat tsconfig.json' succeeded in 26ms:
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "outDir": "dist",
+    "rootDir": "src",
+    "strict": true,
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "skipLibCheck": true
+  },
+  "include": ["src/**/*"]
+}
+[2025-09-07T14:08:18] tokens used: 2111
+
+[2025-09-07T14:08:24] thinking
+
+**Planning TypeScript Imports**
+
+I’m considering how to address bundler resolution in Type imports. I plan to proposeScript by using the .js extension for adding this import line: `import { projectRegistry } from '../masterControl/projectRegistry.js';`. Then, we’ll insert four cases into the switch structure, likely placing them near 'dashboard' or 'claude/codex' sections, while maintaining tab indentation. I'll also update the help section by creating a "Master Control" section for these commands, ensuring reliability and clarity with minimal output.
+**Considering Async Initialization**
+
+I need to be cautious about the projectRegistry initialization, as it's an async function being called without await in the constructor. This could mean that when methods are called right after the import, the projectsData Map might still be empty until initialization completes. To be safe, I could either avoid heavy reliance on it or implement a brief wait until the registry is ready. Additionally, wrapping calls in try-catch would add safety. However, since the user prioritizes structure and imports, I’ll keep it simple with basic console.log lines.
+**Evaluating Testing OptionsConsidering**
+
+ the need to test changes before completing, given the concerns around full access and approvals, I think running a quick ts-node could be the way to go. The project probably uses `npm run dev` to execute the ts-node CLI. To confirm this, I should check the package.json file for the relevant scripts. This will help ensure I complications.’m following the right process to test without any[2025-09-07T14:08:31] codex
+**Considering Async Initialization**
+
+I need to be cautious about the projectRegistry initialization, as it's an async function being called without await in the constructor. This could mean that when methods are called right after the import, the projectsData Map might still be empty until initialization completes. To be safe, I could either avoid heavy reliance on it or implement a brief wait until the registry is ready. Additionally, wrapping calls in try-catch would add safety. However, since the user prioritizes structure and imports, I’ll keep it simple with basic console.log lines.
+[2025-09-07T14:08:31] codex
+**Evaluating Testing Options**
+
+Considering the need to test changes before completing, given the concerns around full access and approvals, I think running a quick ts-node could be the way to go. The project probably uses `npm run dev` to execute the ts-node CLI. To confirm this, I should check the package.json file for the relevant scripts. This will help ensure I’m following the right process to test without any complications.
+
+[2025-09-07T14:08:31] exec bash -lc 'cat package.json' in /Users/panda/Desktop/EUFM
+[2025-09-07T14:08:31] bash -lc 'cat package.json' succeeded in 39ms:
+{
+  "name": "eufm",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "tsc -p .",
+    "start": "node dist/cli/index.js",
+    "dev": "tsx src/cli/index.ts",
+    "lint": "eslint .",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test:integration": "tsx src/tests/eufm_integration_test.ts 'Integration check'",
+    "test:country-codes": "tsx src/tests/countryCodes_test.ts"
+  },
+  "dependencies": {
+    "@types/express": "^5.0.3",
+    "@types/ws": "^8.18.1",
+    "dotenv": "^17.2.2",
+    "express": "^5.1.0",
+    "node-fetch": "^3.3.2",
+[2025-09-07T14:08:31] tokens used: 642
+
+[2025-09-07T14:08:38] thinking
+
+**Implementing logging methods**
+
+I plan to up basic logging set using registry methods to display numbers, and I’ll wrap everything in a try-catch block to ensure it falls back to placeholders if something fails.
+
+For the 'master:health', I will retrieve health scores and print budget overall health, utilization, and critical issues. For 'master:projects', I’ll list active projects and their statuses. If there are none, it’ll sayNo " active projects." Finally, for 'master:urgent', I'll show critical items and their details. If there are none, it’ll say "No critical items." I'll add a new section for commands as well as ensure we import the project registry.
+[2025-09-07T14:08:43] codex
+
+Next, I/index.ts` to import the project registry and add the four `master:*` commands with try’ll update `src/cli/catch and minimal logging, plus help entries.
+[2025-09-07T14:08:54] apply_patch auto_approved=true:
+M /Users/panda/Desktop/EUFM/src/cli/index.ts
+@@ -11,2 +11,3 @@
+ import { claudeInterface } from '../tools/claudeAgentInterface.js';
++import { projectRegistry } from '../masterControl/projectRegistry.js';
+ 
+@@ -221,2 +222,64 @@
+ 
++				// Master Control CLI commands
++				case 'master:status': {
++					try {
++						console.log('=== Master Control: Portfolio Overview ===');
++						const health = await projectRegistry.getPortfolioHealth();
++						console.log(`Projects: ${health.projectCount} total, ${health.activeProjects} active`);
++						console.log(`Overall Health: ${health.overallHealth}%`);
++						console.log(`Critical Issues: ${health.criticalIssues}`);
++						console.log(`Budget Utilization: ${health.budgetUtilization}%`);
++					} catch (error: any) {
++						console.error('Error showing portfolio overview:', error.message);
++					}
++					break;
++				}
++
++				case 'master:health': {
++					try {
++						console.log('=== Master Control: Health Scores ===');
++						const health = await projectRegistry.getPortfolioHealth();
++						console.log(`Overall Health Score: ${health.overallHealth}%`);
++						console.log(`Active Projects: ${health.activeProjects}`);
++						console.log(`Critical Items: ${health.criticalIssues}`);
++					} catch (error: any) {
++						console.error('Error showing health scores:', error.message);
++					}
++					break;
++				}
++
++				case 'master:projects': {
++					try {
++						console.log('=== Master Control: Active Projects ===');
++						const active = await projectRegistry.getActiveProjects();
++						if (!active.length) {
++							console.log('No active projects found.');
++						} else {
++							active.forEach(p => {
++								console.log(`- ${p.name} (${p.id})`);
++							});
++						}
++					} catch (error: any) {
++						console.error('Error listing active projects:', error.message);
++					}
++					break;
++				}
++
++				case 'master:urgent': {
++					try {
++						console.log('=== Master Control: Critical Items ===');
++						const critical = await projectRegistry.getCriticalProjects();
++						if (!critical.length) {
++							console.log('No critical items at this time.');
++						} else {
++							critical.forEach(p => {
++								console.log(`- ${p.name} [risk=${p.metrics.riskLevel}, priority=${p.priority}]`);
++							});
++						}
++					} catch (error: any) {
++						console.error('Error showing critical items:', error.message);
++					}
++					break;
++				}
++
+ 				case 'smoke:research': {
+@@ -408,2 +471,8 @@
+ 			console.log('');
++			console.log('Master Control:');
++			console.log('  npm run dev -- master:status                   - Show portfolio overview');
++			console.log('  npm run dev -- master:health                   - Show portfolio health scores');
++			console.log('  npm run dev -- master:projects                 - List active projects');
++			console.log('  npm run dev -- master:urgent                   - Show critical items');
++			console.log('');
+ 			console.log('EU Funding:');
+[2025-09-07T14:08:54] apply_patch(auto_approved=true) exited 0 in 78ms:
+Success. Updated the following files:
+M src/cli/index.ts
+[2025-09-07T14:08:54] turn diff:
+diff --git a/src/cli/index.ts b/src/cli/index.ts
+index 5cfaab9c9ff4d9d1881260b7c00647d16e570f4b..03ccba03ba3af8f5a0ccb93e1ea8503dfe47250b
+--- a/src/cli/index.ts
++++ b/src/cli/index.ts
+@@ -9,6 +9,7 @@
+ import { AgentFactory } from '../orchestrator/agentFactory.js';
+ import { FundingOpportunityScanner } from '../dashboard/fundingOpportunityScanner.js';
+ import { claudeInterface } from '../tools/claudeAgentInterface.js';
++import { projectRegistry } from '../masterControl/projectRegistry.js';
+ 
+ async function main() {
+ 	const cmd = process.argv[2] || 'help';
+@@ -219,6 +220,68 @@
+ 					break;
+ 				}
+ 
++				// Master Control CLI commands
++				case 'master:status': {
++					try {
++						console.log('=== Master Control: Portfolio Overview ===');
++						const health = await projectRegistry.getPortfolioHealth();
++						console.log(`Projects: ${health.projectCount} total, ${health.activeProjects} active`);
++						console.log(`Overall Health: ${health.overallHealth}%`);
++						console.log(`Critical Issues: ${health.criticalIssues}`);
++						console.log(`Budget Utilization: ${health.budgetUtilization}%`);
++					} catch (error: any) {
++						console.error('Error showing portfolio overview:', error.message);
++					}
++					break;
++				}
++
++				case 'master:health': {
++					try {
++						console.log('=== Master Control: Health Scores ===');
++						const health = await projectRegistry.getPortfolioHealth();
++						console.log(`Overall Health Score: ${health.overallHealth}%`);
++						console.log(`Active Projects: ${health.activeProjects}`);
++						console.log(`Critical Items: ${health.criticalIssues}`);
++					} catch (error: any) {
++						console.error('Error showing health scores:', error.message);
++					}
++					break;
++				}
++
++				case 'master:projects': {
++					try {
++						console.log('=== Master Control: Active Projects ===');
++						const active = await projectRegistry.getActiveProjects();
++						if (!active.length) {
++							console.log('No active projects found.');
++						} else {
++							active.forEach(p => {
++								console.log(`- ${p.name} (${p.id})`);
++							});
++						}
++					} catch (error: any) {
++						console.error('Error listing active projects:', error.message);
++					}
++					break;
++				}
++
++				case 'master:urgent': {
++					try {
++						console.log('=== Master Control: Critical Items ===');
++						const critical = await projectRegistry.getCriticalProjects();
++						if (!critical.length) {
++							console.log('No critical items at this time.');
++						} else {
++							critical.forEach(p => {
++								console.log(`- ${p.name} [risk=${p.metrics.riskLevel}, priority=${p.priority}]`);
++							});
++						}
++					} catch (error: any) {
++						console.error('Error showing critical items:', error.message);
++					}
++					break;
++				}
++
+ 				case 'smoke:research': {
+ 					const prompt = 'Say hello from EUFM smoke test.';
+ 					try {
+@@ -406,6 +469,12 @@
+ 			console.log('  npm run dev -- dashboard:start');
+ 			console.log('  npm run dev -- dashboard:status');
+ 			console.log('');
++			console.log('Master Control:');
++			console.log('  npm run dev -- master:status                   - Show portfolio overview');
++			console.log('  npm run dev -- master:health                   - Show portfolio health scores');
++			console.log('  npm run dev -- master:projects                 - List active projects');
++			console.log('  npm run dev -- master:urgent                   - Show critical items');
++			console.log('');
+ 			console.log('EU Funding:');
+ 			console.log('  npm run dev -- funding:scan');
+ 			console.log('  npm run dev -- funding:opportunities');
+
+[2025-09-07T14:08:54] tokens used: 2129
+[2025-09-07T14:08:54] turn diff:
+diff --git a/src/cli/index.ts b/src/cli/index.ts
+index 5cfaab9c9ff4d9d1881260b7c00647d16e570f4b..03ccba03ba3af8f5a0ccb93e1ea8503dfe47250b
+--- a/src/cli/index.ts
++++ b/src/cli/index.ts
+@@ -9,6 +9,7 @@
+ import { AgentFactory } from '../orchestrator/agentFactory.js';
+ import { FundingOpportunityScanner } from '../dashboard/fundingOpportunityScanner.js';
+ import { claudeInterface } from '../tools/claudeAgentInterface.js';
++import { projectRegistry } from '../masterControl/projectRegistry.js';
+ 
+ async function main() {
+ 	const cmd = process.argv[2] || 'help';
+@@ -219,6 +220,68 @@
+ 					break;
+ 				}
+ 
++				// Master Control CLI commands
++				case 'master:status': {
++					try {
++						console.log('=== Master Control: Portfolio Overview ===');
++						const health = await projectRegistry.getPortfolioHealth();
++						console.log(`Projects: ${health.projectCount} total, ${health.activeProjects} active`);
++						console.log(`Overall Health: ${health.overallHealth}%`);
++						console.log(`Critical Issues: ${health.criticalIssues}`);
++						console.log(`Budget Utilization: ${health.budgetUtilization}%`);
++					} catch (error: any) {
++						console.error('Error showing portfolio overview:', error.message);
++					}
++					break;
++				}
++
++				case 'master:health': {
++					try {
++						console.log('=== Master Control: Health Scores ===');
++						const health = await projectRegistry.getPortfolioHealth();
++						console.log(`Overall Health Score: ${health.overallHealth}%`);
++						console.log(`Active Projects: ${health.activeProjects}`);
++						console.log(`Critical Items: ${health.criticalIssues}`);
++					} catch (error: any) {
++						console.error('Error showing health scores:', error.message);
++					}
++					break;
++				}
++
++				case 'master:projects': {
++					try {
++						console.log('=== Master Control: Active Projects ===');
++						const active = await projectRegistry.getActiveProjects();
++						if (!active.length) {
++							console.log('No active projects found.');
++						} else {
++							active.forEach(p => {
++								console.log(`- ${p.name} (${p.id})`);
++							});
++						}
++					} catch (error: any) {
++						console.error('Error listing active projects:', error.message);
++					}
++					break;
++				}
++
++				case 'master:urgent': {
++					try {
++						console.log('=== Master Control: Critical Items ===');
++						const critical = await projectRegistry.getCriticalProjects();
++						if (!critical.length) {
++							console.log('No critical items at this time.');
++						} else {
++							critical.forEach(p => {
++								console.log(`- ${p.name} [risk=${p.metrics.riskLevel}, priority=${p.priority}]`);
++							});
++						}
++					} catch (error: any) {
++						console.error('Error showing critical items:', error.message);
++					}
++					break;
++				}
++
+ 				case 'smoke:research': {
+ 					const prompt = 'Say hello from EUFM smoke test.';
+ 					try {
+@@ -406,6 +469,12 @@
+ 			console.log('  npm run dev -- dashboard:start');
+ 			console.log('  npm run dev -- dashboard:status');
+ 			console.log('');
++			console.log('Master Control:');
++			console.log('  npm run dev -- master:status                   - Show portfolio overview');
++			console.log('  npm run dev -- master:health                   - Show portfolio health scores');
++			console.log('  npm run dev -- master:projects                 - List active projects');
++			console.log('  npm run dev -- master:urgent                   - Show critical items');
++			console.log('');
+ 			console.log('EU Funding:');
+ 			console.log('  npm run dev -- funding:scan');
+ 			console.log('  npm run dev -- funding:opportunities');
+
+
+[2025-09-07T14:08:57] thinking
+
+**Validating commands**
+
+I need to run a typecheck and some commands to validate things. It seems like a good start is to run `tsx dev master:status`. I want to ensure everything is working smoothly before moving on. This will help confirm that all components are functioning correctly and set the stage for the next steps. I'll make sure I'm thorough in checking everything!
+[2025-09-07T14:08:59] exec bash -lc 'npm run typecheck && npm run dev -- master:status' in /Users/panda/Desktop/EUFM
+[2025-09-07T14:09:06] bash -lc 'npm run typecheck && npm run dev -- master:status' exited 2 in 7.45s:
+
+> eufm@0.1.0 typecheck
+> tsc -p tsconfig.json --noEmit
+
+src/agents/agentSummoner.ts(115,9): error TS2353: Object literal may only specify known properties, and 'metadata' does not exist in type 'AgentResult'.
+src/agents/agentSummonerAgent.ts(77,9): error TS2353: Object literal may only specify known properties, and 'metadata' does not exist in type 'AgentResult'.
+src/agents/codexCLIAgent.ts(74,11): error TS2353: Object literal may only specify known properties, and 'metadata' does not exist in type 'AgentResult'.
+src/agents/codexCLIAgent.ts(90,11): error TS2353: Object literal may only specify known properties, and 'metadata' does not exist in type 'AgentResult'.
+src/agents/enhancedAbacusAgent.ts(53,9): error TS2353: Object literal may only specify known properties, and 'metadata' does not exist in type 'AgentResult'.
+src/agents/eufmAgentSummoner.ts(129,9): error TS2353: Object literal may only specify known properties, and 'metadata' does not exist in type 'AgentResult'.
+src/dashboard/enhancedMissionControl.ts(53,11): error TS2564: Property 'sessionMemory' has no initializer and is not definitely assigned in the constructor.
+src/dashboard/enhancedMissionControl.ts(279,54): error TS2339: Property 'metadata' does not exist on type 'AgentResult'.
+src/dashboard/enhancedMissionControl.ts(281,79): error TS2339: Property 'metadata' does not exist on type 'AgentResult'.
+src/dashboard/enhancedMissionControl.ts(285,31): error TS2341: Property 'orchestrator' is private and only accessible within class 'MissionControl'.
+src/dashboard/enhancedMissionControl.ts(289,32): error TS2339: Property 'metadata' does not exist on type 'AgentResult'.
+src/dashboard/enhancedMissionControl.ts(290,38): error TS2339: Property 'metadata' does not exist on type 'AgentResult'.
+src/dashboard/enhancedMissionControl.ts(296,29): error TS2341: Property 'orchestrator' is private and only accessible within class 'MissionControl'.
+src/dashboard/enhancedMissionControl.ts(360,23): error TS2341: Property 'orchestrator' is private and only accessible within class 'MissionControl'.
+src/dashboard/enhancedMissionControl.ts(369,52): error TS2345: Argument of type '{ taskDescription: string; taskId: any; success: any; completedAt: any; }' is not assignable to parameter of type 'string'.
+src/orchestrator/agentFactory.ts(27,12): error TS2678: Type '"AgentSummoner"' is not comparable to type '"CodexAgent" | "CodexCLIAgent" | "JulesAgent" | "AbacusAgent" | "EnhancedAbacusAgent" | "AgentSummonerAgent" | "EUFMAgentSummoner" | "EUFundingProposalAgent" | "BrowserAgent" | "MemoryAgent" | "TestAgent"'.
+[2025-09-07T14:09:06] tokens used: 1620
+[2025-09-07T14:09:06] turn diff:
+diff --git a/src/cli/index.ts b/src/cli/index.ts
+index 5cfaab9c9ff4d9d1881260b7c00647d16e570f4b..03ccba03ba3af8f5a0ccb93e1ea8503dfe47250b
+--- a/src/cli/index.ts
++++ b/src/cli/index.ts
+@@ -9,6 +9,7 @@
+ import { AgentFactory } from '../orchestrator/agentFactory.js';
+ import { FundingOpportunityScanner } from '../dashboard/fundingOpportunityScanner.js';
+ import { claudeInterface } from '../tools/claudeAgentInterface.js';
++import { projectRegistry } from '../masterControl/projectRegistry.js';
+ 
+ async function main() {
+ 	const cmd = process.argv[2] || 'help';
+@@ -219,6 +220,68 @@
+ 					break;
+ 				}
+ 
++				// Master Control CLI commands
++				case 'master:status': {
++					try {
++						console.log('=== Master Control: Portfolio Overview ===');
++						const health = await projectRegistry.getPortfolioHealth();
++						console.log(`Projects: ${health.projectCount} total, ${health.activeProjects} active`);
++						console.log(`Overall Health: ${health.overallHealth}%`);
++						console.log(`Critical Issues: ${health.criticalIssues}`);
++						console.log(`Budget Utilization: ${health.budgetUtilization}%`);
++					} catch (error: any) {
++						console.error('Error showing portfolio overview:', error.message);
++					}
++					break;
++				}
++
++				case 'master:health': {
++					try {
++						console.log('=== Master Control: Health Scores ===');
++						const health = await projectRegistry.getPortfolioHealth();
++						console.log(`Overall Health Score: ${health.overallHealth}%`);
++						console.log(`Active Projects: ${health.activeProjects}`);
++						console.log(`Critical Items: ${health.criticalIssues}`);
++					} catch (error: any) {
++						console.error('Error showing health scores:', error.message);
++					}
++					break;
++				}
++
++				case 'master:projects': {
++					try {
++						console.log('=== Master Control: Active Projects ===');
++						const active = await projectRegistry.getActiveProjects();
++						if (!active.length) {
++							console.log('No active projects found.');
++						} else {
++							active.forEach(p => {
++								console.log(`- ${p.name} (${p.id})`);
++							});
++						}
++					} catch (error: any) {
++						console.error('Error listing active projects:', error.message);
++					}
++					break;
++				}
++
++				case 'master:urgent': {
++					try {
++						console.log('=== Master Control: Critical Items ===');
++						const critical = await projectRegistry.getCriticalProjects();
++						if (!critical.length) {
++							console.log('No critical items at this time.');
++						} else {
++							critical.forEach(p => {
++								console.log(`- ${p.name} [risk=${p.metrics.riskLevel}, priority=${p.priority}]`);
++							});
++						}
++					} catch (error: any) {
++						console.error('Error showing critical items:', error.message);
++					}
++					break;
++				}
++
+ 				case 'smoke:research': {
+ 					const prompt = 'Say hello from EUFM smoke test.';
+ 					try {
+@@ -406,6 +469,12 @@
+ 			console.log('  npm run dev -- dashboard:start');
+ 			console.log('  npm run dev -- dashboard:status');
+ 			console.log('');
++			console.log('Master Control:');
++			console.log('  npm run dev -- master:status                   - Show portfolio overview');
++			console.log('  npm run dev -- master:health                   - Show portfolio health scores');
++			console.log('  npm run dev -- master:projects                 - List active projects');
++			console.log('  npm run dev -- master:urgent                   - Show critical items');
++			console.log('');
+ 			console.log('EU Funding:');
+ 			console.log('  npm run dev -- funding:scan');
+ 			console.log('  npm run dev -- funding:opportunities');
+
+
+[2025-09-07T14:09:13] thinking
+
+**Evaluating typecheck issues see**
+
+I that type checking is failing because of unrelated TypeScript issues. The guidelines mention not fixing unrelated bugs, which makes sense. Still, I think I can run the CLI even with the typecheck failure since tsx runs TypeScript directly and tends to ignore type errors. It's worth noting that while tsx can execute, it might compile with those errors. Alright, let's run `dev master:status` to check the output!
+[2025-09-07T14:09:15] exec bash -lc 'npm run dev -- master:status' in /Users/panda/Desktop/EUFM
+[2025-09-07T14:09:16] bash -lc 'npm run dev -- master:status' succeeded in 1.51s:
+
+> eufm@0.1.0 dev
+> tsx src/cli/index.ts master:status
+
+=== Master Control: Portfolio Overview ===
+Projects: 0 total, 0 active
+Overall Health: 0%
+Critical Issues: 0
+Budget Utilization: 0%
+📋 Project registered: XF Production System (xf_production)
+📋 Project registered: EUFM EU Funding Acquisition (eufm_funding)
+✅ Default projects created in registry
+[2025-09-07T14:09:16] tokens used: 1392
+[2025-09-07T14:09:16] turn diff:
+diff --git a/src/cli/index.ts b/src/cli/index.ts
+index 5cfaab9c9ff4d9d1881260b7c00647d16e570f4b..03ccba03ba3af8f5a0ccb93e1ea8503dfe47250b
+--- a/src/cli/index.ts
++++ b/src/cli/index.ts
+@@ -9,6 +9,7 @@
+ import { AgentFactory } from '../orchestrator/agentFactory.js';
+ import { FundingOpportunityScanner } from '../dashboard/fundingOpportunityScanner.js';
+ import { claudeInterface } from '../tools/claudeAgentInterface.js';
++import { projectRegistry } from '../masterControl/projectRegistry.js';
+ 
+ async function main() {
+ 	const cmd = process.argv[2] || 'help';
+@@ -219,6 +220,68 @@
+ 					break;
+ 				}
+ 
++				// Master Control CLI commands
++				case 'master:status': {
++					try {
++						console.log('=== Master Control: Portfolio Overview ===');
++						const health = await projectRegistry.getPortfolioHealth();
++						console.log(`Projects: ${health.projectCount} total, ${health.activeProjects} active`);
++						console.log(`Overall Health: ${health.overallHealth}%`);
++						console.log(`Critical Issues: ${health.criticalIssues}`);
++						console.log(`Budget Utilization: ${health.budgetUtilization}%`);
++					} catch (error: any) {
++						console.error('Error showing portfolio overview:', error.message);
++					}
++					break;
++				}
++
++				case 'master:health': {
++					try {
++						console.log('=== Master Control: Health Scores ===');
++						const health = await projectRegistry.getPortfolioHealth();
++						console.log(`Overall Health Score: ${health.overallHealth}%`);
++						console.log(`Active Projects: ${health.activeProjects}`);
++						console.log(`Critical Items: ${health.criticalIssues}`);
++					} catch (error: any) {
++						console.error('Error showing health scores:', error.message);
++					}
++					break;
++				}
++
++				case 'master:projects': {
++					try {
++						console.log('=== Master Control: Active Projects ===');
++						const active = await projectRegistry.getActiveProjects();
++						if (!active.length) {
++							console.log('No active projects found.');
++						} else {
++							active.forEach(p => {
++								console.log(`- ${p.name} (${p.id})`);
++							});
++						}
++					} catch (error: any) {
++						console.error('Error listing active projects:', error.message);
++					}
++					break;
++				}
++
++				case 'master:urgent': {
++					try {
++						console.log('=== Master Control: Critical Items ===');
++						const critical = await projectRegistry.getCriticalProjects();
++						if (!critical.length) {
++							console.log('No critical items at this time.');
++						} else {
++							critical.forEach(p => {
++								console.log(`- ${p.name} [risk=${p.metrics.riskLevel}, priority=${p.priority}]`);
++							});
++						}
++					} catch (error: any) {
++						console.error('Error showing critical items:', error.message);
++					}
++					break;
++				}
++
+ 				case 'smoke:research': {
+ 					const prompt = 'Say hello from EUFM smoke test.';
+ 					try {
+@@ -406,6 +469,12 @@
+ 			console.log('  npm run dev -- dashboard:start');
+ 			console.log('  npm run dev -- dashboard:status');
+ 			console.log('');
++			console.log('Master Control:');
++			console.log('  npm run dev -- master:status                   - Show portfolio overview');
++			console.log('  npm run dev -- master:health                   - Show portfolio health scores');
++			console.log('  npm run dev -- master:projects                 - List active projects');
++			console.log('  npm run dev -- master:urgent                   - Show critical items');
++			console.log('');
+ 			console.log('EU Funding:');
+ 			console.log('  npm run dev -- funding:scan');
+ 			console.log('  npm run dev -- funding:opportunities');
+
+[2025-09-07T14:09:29] exec bash -lc 'npm run dev -- master:projects' in /Users/panda/Desktop/EUFM
+[2025-09-07T14:09:30] bash -lc 'npm run dev -- master:projects' succeeded in 996ms:
+
+> eufm@0.1.0 dev
+> tsx src/cli/index.ts master:projects
+
+=== Master Control: Active Projects ===
+No active projects found.
+[2025-09-07T14:09:35] tokens used: 363
+[2025-09-07T14:09:35] turn diff:
+diff --git a/src/cli/index.ts b/src/cli/index.ts
+index 5cfaab9c9ff4d9d1881260b7c00647d16e570f4b..03ccba03ba3af8f5a0ccb93e1ea8503dfe47250b
+--- a/src/cli/index.ts
++++ b/src/cli/index.ts
+@@ -9,6 +9,7 @@
+ import { AgentFactory } from '../orchestrator/agentFactory.js';
+ import { FundingOpportunityScanner } from '../dashboard/fundingOpportunityScanner.js';
+ import { claudeInterface } from '../tools/claudeAgentInterface.js';
++import { projectRegistry } from '../masterControl/projectRegistry.js';
+ 
+ async function main() {
+ 	const cmd = process.argv[2] || 'help';
+@@ -219,6 +220,68 @@
+ 					break;
+ 				}
+ 
++				// Master Control CLI commands
++				case 'master:status': {
++					try {
++						console.log('=== Master Control: Portfolio Overview ===');
++						const health = await projectRegistry.getPortfolioHealth();
++						console.log(`Projects: ${health.projectCount} total, ${health.activeProjects} active`);
++						console.log(`Overall Health: ${health.overallHealth}%`);
++						console.log(`Critical Issues: ${health.criticalIssues}`);
++						console.log(`Budget Utilization: ${health.budgetUtilization}%`);
++					} catch (error: any) {
++						console.error('Error showing portfolio overview:', error.message);
++					}
++					break;
++				}
++
++				case 'master:health': {
++					try {
++						console.log('=== Master Control: Health Scores ===');
++						const health = await projectRegistry.getPortfolioHealth();
++						console.log(`Overall Health Score: ${health.overallHealth}%`);
++						console.log(`Active Projects: ${health.activeProjects}`);
++						console.log(`Critical Items: ${health.criticalIssues}`);
++					} catch (error: any) {
++						console.error('Error showing health scores:', error.message);
++					}
++					break;
++				}
++
++				case 'master:projects': {
++					try {
++						console.log('=== Master Control: Active Projects ===');
++						const active = await projectRegistry.getActiveProjects();
++						if (!active.length) {
++							console.log('No active projects found.');
++						} else {
++							active.forEach(p => {
++								console.log(`- ${p.name} (${p.id})`);
++							});
++						}
++					} catch (error: any) {
++						console.error('Error listing active projects:', error.message);
++					}
++					break;
++				}
++
++				case 'master:urgent': {
++					try {
++						console.log('=== Master Control: Critical Items ===');
++						const critical = await projectRegistry.getCriticalProjects();
++						if (!critical.length) {
++							console.log('No critical items at this time.');
++						} else {
++							critical.forEach(p => {
++								console.log(`- ${p.name} [risk=${p.metrics.riskLevel}, priority=${p.priority}]`);
++							});
++						}
++					} catch (error: any) {
++						console.error('Error showing critical items:', error.message);
++					}
++					break;
++				}
++
+ 				case 'smoke:research': {
+ 					const prompt = 'Say hello from EUFM smoke test.';
+ 					try {
+@@ -406,6 +469,12 @@
+ 			console.log('  npm run dev -- dashboard:start');
+ 			console.log('  npm run dev -- dashboard:status');
+ 			console.log('');
++			console.log('Master Control:');
++			console.log('  npm run dev -- master:status                   - Show portfolio overview');
++			console.log('  npm run dev -- master:health                   - Show portfolio health scores');
++			console.log('  npm run dev -- master:projects                 - List active projects');
++			console.log('  npm run dev -- master:urgent                   - Show critical items');
++			console.log('');
+ 			console.log('EU Funding:');
+ 			console.log('  npm run dev -- funding:scan');
+ 			console.log('  npm run dev -- funding:opportunities');
+
+[2025-09-07T14:09:39] codex
+
+**What I Changed**
+- Added Master Control CLI commands in `src/ - `master:cli/index.ts`:
+ status`: portfolio overview
+  - `master:health`: health scores
+  - `master:projects`: active projects
+  - `master:urgent`: critical items
+- Imported `projectRegistry` from `../masterControl/projectRegistry.js`.
+- Followed existing CLI patterns (e.g `claude.,:status`, `codex:status`) with try/catch and concise console output.
+- Updated the help section to include the new `master:*` commands.
+
+**Notes**
+- The commands currently provide basic console.log `projectRegistry` where appropriate output using. The registry initializes asynchronously; initial runs may show zeros/empty until defaults finish initializing (by design ` in).
+- IProjectRegistry` did not modify unrelated code. Type errors exist elsewhere in the project but do not block running the CLI via `npm run dev`.
+
+**
+- `npm**Try It run dev -- master:status`
+- `npm run dev -- master:health`
+- `npm run dev -- master:projects`
+- `npm run dev -- master:urgent`
+
+Want me to make the registry initialization awaited for more consistent first-run outputs?
+[2025-09-07T14:09:43] tokens used: 602
+[2025-09-07T14:09:43] turn diff:
+diff --git a/src/cli/index.ts b/src/cli/index.ts
+index 5cfaab9c9ff4d9d1881260b7c00647d16e570f4b..03ccba03ba3af8f5a0ccb93e1ea8503dfe47250b
+--- a/src/cli/index.ts
++++ b/src/cli/index.ts
+@@ -9,6 +9,7 @@
+ import { AgentFactory } from '../orchestrator/agentFactory.js';
+ import { FundingOpportunityScanner } from '../dashboard/fundingOpportunityScanner.js';
+ import { claudeInterface } from '../tools/claudeAgentInterface.js';
++import { projectRegistry } from '../masterControl/projectRegistry.js';
+ 
+ async function main() {
+ 	const cmd = process.argv[2] || 'help';
+@@ -219,6 +220,68 @@
+ 					break;
+ 				}
+ 
++				// Master Control CLI commands
++				case 'master:status': {
++					try {
++						console.log('=== Master Control: Portfolio Overview ===');
++						const health = await projectRegistry.getPortfolioHealth();
++						console.log(`Projects: ${health.projectCount} total, ${health.activeProjects} active`);
++						console.log(`Overall Health: ${health.overallHealth}%`);
++						console.log(`Critical Issues: ${health.criticalIssues}`);
++						console.log(`Budget Utilization: ${health.budgetUtilization}%`);
++					} catch (error: any) {
++						console.error('Error showing portfolio overview:', error.message);
++					}
++					break;
++				}
++
++				case 'master:health': {
++					try {
++						console.log('=== Master Control: Health Scores ===');
++						const health = await projectRegistry.getPortfolioHealth();
++						console.log(`Overall Health Score: ${health.overallHealth}%`);
++						console.log(`Active Projects: ${health.activeProjects}`);
++						console.log(`Critical Items: ${health.criticalIssues}`);
++					} catch (error: any) {
++						console.error('Error showing health scores:', error.message);
++					}
++					break;
++				}
++
++				case 'master:projects': {
++					try {
++						console.log('=== Master Control: Active Projects ===');
++						const active = await projectRegistry.getActiveProjects();
++						if (!active.length) {
++							console.log('No active projects found.');
++						} else {
++							active.forEach(p => {
++								console.log(`- ${p.name} (${p.id})`);
++							});
++						}
++					} catch (error: any) {
++						console.error('Error listing active projects:', error.message);
++					}
++					break;
++				}
++
++				case 'master:urgent': {
++					try {
++						console.log('=== Master Control: Critical Items ===');
++						const critical = await projectRegistry.getCriticalProjects();
++						if (!critical.length) {
++							console.log('No critical items at this time.');
++						} else {
++							critical.forEach(p => {
++								console.log(`- ${p.name} [risk=${p.metrics.riskLevel}, priority=${p.priority}]`);
++							});
++						}
++					} catch (error: any) {
++						console.error('Error showing critical items:', error.message);
++					}
++					break;
++				}
++
+ 				case 'smoke:research': {
+ 					const prompt = 'Say hello from EUFM smoke test.';
+ 					try {
+@@ -406,6 +469,12 @@
+ 			console.log('  npm run dev -- dashboard:start');
+ 			console.log('  npm run dev -- dashboard:status');
+ 			console.log('');
++			console.log('Master Control:');
++			console.log('  npm run dev -- master:status                   - Show portfolio overview');
++			console.log('  npm run dev -- master:health                   - Show portfolio health scores');
++			console.log('  npm run dev -- master:projects                 - List active projects');
++			console.log('  npm run dev -- master:urgent                   - Show critical items');
++			console.log('');
+ 			console.log('EU Funding:');
+ 			console.log('  npm run dev -- funding:scan');
+ 			console.log('  npm run dev -- funding:opportunities');
+
+
+Process exited with code: 0

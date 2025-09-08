@@ -1,0 +1,2525 @@
+Executing: codex exec --dangerously-bypass-approvals-and-sandbox Create a Master Control Center system that can manage multiple AI research projects simultaneously, with automated scheduling capabilities for 24/7 operations. Include project registry, cross-project resource management, and automated task scheduling using the existing EUFM infrastructure patterns.
+
+Project Context: EUFM (European Union Funds Manager) - AI Agent Orchestration System
+Working Directory: /Users/panda/Desktop/EUFM
+Project Type: TypeScript/Node.js multi-agent coordination system
+
+Safety Guidelines:
+- Preserve existing functionality when modifying files
+- Follow TypeScript best practices and existing code patterns
+- Add proper error handling and logging
+- Test changes before completing
+Working Directory: /Users/panda/Desktop/EUFM
+
+[2025-09-06T18:35:12] OpenAI Codex v0.28.0 (research preview)
+--------
+workdir: /Users/panda/Desktop/EUFM
+model: gpt-5
+provider: openai
+approval: never
+sandbox: danger-full-access
+reasoning effort: medium
+reasoning summaries: auto
+--------
+[2025-09-06T18:35:12] User instructions:
+Create a Master Control Center system that can manage multiple AI research projects simultaneously, with automated scheduling capabilities for 24/7 operations. Include project registry, cross-project resource management, and automated task scheduling using the existing EUFM infrastructure patterns.
+
+Project Context: EUFM (European Union Funds Manager) - AI Agent Orchestration System
+Working Directory: /Users/panda/Desktop/EUFM
+Project Type: TypeScript/Node.js multi-agent coordination system
+
+Safety Guidelines:
+- Preserve existing functionality when modifying files
+- Follow TypeScript best practices and existing code patterns
+- Add proper error handling and logging
+- Test changes before completing
+[2025-09-06T18:35:32] codex
+
+I’ll scan the repo to understand current structure and patterns, then outline MCC components.
+[2025-09-06T18:35:33] exec bash -lc 'ls -la' in /Users/panda/Desktop/EUFM
+[2025-09-06T18:35:33] bash -lc 'ls -la' succeeded in 21ms:
+total 696
+drwxr-xr-x   39 panda  staff   1248 Sep  6 21:34 .
+drwx------+  16 panda  staff    512 Sep  5 20:43 ..
+-rw-r--r--@   1 panda  staff   8196 Sep  4 10:39 .DS_Store
+drwxr-xr-x    3 panda  staff     96 Sep  6 21:14 .claude
+-rw-r--r--    1 panda  staff    370 Sep  5 16:22 .env
+-rw-r--r--    1 panda  staff    123 Sep  3 12:43 .env.example
+drwxr-xr-x   14 panda  staff    448 Sep  6 20:42 .git
+drwxr-xr-x    3 panda  staff     96 Sep  3 11:39 .github
+-rw-r--r--    1 panda  staff     42 Sep  3 12:44 .gitignore
+-rw-r--r--    1 panda  staff   3971 Sep  6 17:40 AGENT_QUICK_REFERENCE.md
+-rw-r--r--    1 panda  staff  11019 Sep  6 20:32 CLAUDE_MISSION_BRIEFING.md
+-rw-r--r--    1 panda  staff  15420 Sep  6 21:26 CLAUDE_SESSION_MEMORY.md
+-rw-r--r--    1 panda  staff   5088 Sep  3 14:08 CODE_OF_CONDUCT.md
+-rw-r--r--@   1 panda  staff    458 Sep  3 11:40 CONTRIBUTING.md
+-rw-r--r--    1 panda  staff  19040 Sep  6 21:02 EUFM_TECHNICAL_ARCHITECTURE_EU_FUNDING.md
+-rw-r--r--    1 panda  staff  10799 Sep  6 21:00 EU_FUNDING_STRATEGY.md
+-rw-r--r--    1 panda  staff  12325 Sep  6 21:04 EU_FUNDING_TIMELINE.md
+-rw-r--r--    1 panda  staff  20690 Sep  6 21:34 MASTER_CONTROL_CENTER.md
+-rw-r--r--    1 panda  staff   9852 Sep  6 21:05 MISSION_ACCOMPLISHED_SUMMARY.md
+[2025-09-06T18:35:33] tokens used: 6055
+[2025-09-06T18:35:34] exec bash -lc "sed -n '1,200p' package.json" in /Users/panda/Desktop/EUFM
+[2025-09-06T18:35:34] bash -lc "sed -n '1,200p' package.json" succeeded in 39ms:
+{
+  "name": "eufm",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "tsc -p .",
+    "start": "node dist/cli/index.js",
+    "dev": "tsx src/cli/index.ts",
+    "lint": "eslint .",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test:integration": "tsx src/tests/eufm_integration_test.ts 'Integration check'",
+    "test:country-codes": "tsx src/tests/countryCodes_test.ts"
+  },
+  "dependencies": {
+    "@types/express": "^5.0.3",
+    "@types/ws": "^8.18.1",
+    "dotenv": "^17.2.2",
+    "express": "^5.1.0",
+    "node-fetch": "^3.3.2",
+[2025-09-06T18:35:34] tokens used: 1242
+[2025-09-06T18:35:36] exec bash -lc "ls -la src && rg --files src | sed -n '1,200p'" in /Users/panda/Desktop/EUFM
+[2025-09-06T18:35:36] bash -lc "ls -la src && rg --files src | sed -n '1,200p'" succeeded in 53ms:
+total 16
+drwxr-xr-x  14 panda  staff   448 Sep  6 21:08 .
+drwxr-xr-x  39 panda  staff  1248 Sep  6 21:34 ..
+-rw-r--r--@  1 panda  staff  6148 Sep  3 12:43 .DS_Store
+drwxr-xr-x   5 panda  staff   160 Sep  3 12:43 adapters
+drwxr-xr-x  16 panda  staff   512 Sep  6 21:12 agents
+drwxr-xr-x   7 panda  staff   224 Sep  3 15:12 analytics
+drwxr-xr-x   3 panda  staff    96 Sep  6 21:26 cli
+drwxr-xr-x   8 panda  staff   256 Sep  6 17:09 dashboard
+drwxr-xr-x   4 panda  staff   128 Sep  3 15:34 intelligence
+drwxr-xr-x   4 panda  staff   128 Sep  3 14:48 memory
+drwxr-xr-x   8 panda  staff   256 Sep  6 20:46 orchestrator
+drwxr-xr-x   5 panda  staff   160 Sep  6 21:12 tests
+drwxr-xr-x   7 panda  staff   224 Sep  6 20:48 tools
+drwxr-xr-x   4 panda  staff   128 Sep  6 21:24 utils
+src/analytics/optimizationEngine.ts
+src/analytics/autoTracker.ts
+src/analytics/usageAnalytics.ts
+src/analytics/subscriptionManager.ts
+src/analytics/toolUsageTracker.ts
+[2025-09-06T18:35:36] tokens used: 509
+
+[2025-09-06T18:35:38] thinking
+
+**Developing Master Control CenterI**
+
+ need to add a Master Control Center system that can manage multiple AI research projects. This involves automated 24/7 scheduling, maintaining a project registry, and managing resources across different projects. Oh, and it should automate task scheduling by utilizing existing patterns. I think it would be a good idea to open the orchestrator files so I can check those patterns and see how everything connects!
+[2025-09-06T18:35:40] exec bash -lc "sed -n '1,200p' src/orchestrator/strategicOrchestrator.ts" in /Users/panda/Desktop/EUFM
+[2025-09-06T18:35:40] bash -lc "sed -n '1,200p' src/orchestrator/strategicOrchestrator.ts" succeeded in 19ms:
+import { promises as fs } from 'fs';
+import path from 'path';
+import { TaskAnalyzer } from './taskAnalyzer.js';
+import { CapabilityMapper } from './capabilityMapper.js';
+import { ExecutionCoordinator } from './executionCoordinator.js';
+import { PatternLearner } from '../intelligence/patternLearner.js';
+import { ProactiveAdvisor } from '../intelligence/proactiveAdvisor.js';
+import { AnalyzedTask, OrchestrationPlan, OrchestrationResult } from './types.js';
+
+export class StrategicOrchestrator {
+  private analyzer = new TaskAnalyzer();
+  private mapper = new CapabilityMapper();
+  private coordinator = new ExecutionCoordinator();
+  private learner = new PatternLearner();
+  private advisor = new ProactiveAdvisor();
+  private baseDir = 'logs/orchestrator';
+
+  private async saveJson(rel: string, data: any) {
+    const out = path.join(this.baseDir, rel);
+    await fs.mkdir(path.dirname(out), { recursive: true });
+[2025-09-06T18:35:40] tokens used: 988
+[2025-09-06T18:35:41] exec bash -lc "sed -n '1,220p' src/orchestrator/types.ts" in /Users/panda/Desktop/EUFM
+[2025-09-06T18:35:41] bash -lc "sed -n '1,220p' src/orchestrator/types.ts" succeeded in 18ms:
+export type Capability = 'coding' | 'research' | 'data' | 'web_automation' | 'memory';
+
+export interface TaskRequirement {
+  id: string;
+  description: string;
+  capabilities: Capability[];
+  dependencies?: string[];
+  priority?: number;
+  estimatedComplexity: 'low' | 'medium' | 'high';
+  estimatedResources: {
+    timeMinutes: number;
+    tokens?: number;
+    concurrency?: number;
+  };
+  optimizations?: string[];
+}
+
+export interface AnalyzedTask {
+  taskId: string;
+  title: string;
+[2025-09-06T18:35:41] tokens used: 1362
+[2025-09-06T18:35:43] exec bash -lc "sed -n '1,220p' src/orchestrator/executionCoordinator.ts" in /Users/panda/Desktop/EUFM
+[2025-09-06T18:35:43] bash -lc "sed -n '1,220p' src/orchestrator/executionCoordinator.ts" succeeded in 11ms:
+import { AgentSpec, AgentResult, OrchestrationPlan } from './types.js';
+import { AgentFactory } from './agentFactory.js';
+
+export interface ExecutionOptions {
+  dryRun?: boolean;
+  timeoutMs?: number;
+  concurrency?: number; // max agents in parallel
+}
+
+export class ExecutionCoordinator {
+  private factory = new AgentFactory();
+
+  async execute(plan: OrchestrationPlan, inputByReq: Record<string, string>, options: ExecutionOptions = {}): Promise<AgentResult[]> {
+    const results: AgentResult[] = [];
+    const ctxShared: Record<string, any> = {};
+    const concurrency = options.concurrency ?? Math.min(4, plan.parallelBatches.flat().length || 1);
+
+    for (const batch of plan.parallelBatches) {
+      // Throttle within batch to configured concurrency
+      const queue = [...batch];
+[2025-09-06T18:35:43] tokens used: 659
+[2025-09-06T18:35:45] exec bash -lc "sed -n '1,220p' src/orchestrator/taskAnalyzer.ts" in /Users/panda/Desktop/EUFM
+[2025-09-06T18:35:45] bash -lc "sed -n '1,220p' src/orchestrator/taskAnalyzer.ts" succeeded in 10ms:
+import { loadKnowledgeBase } from '../memory/memoryLoader.js';
+import { AnalyzedTask, Capability, TaskRequirement } from './types.js';
+
+function detectCapabilities(text: string): Capability[] {
+  const t = text.toLowerCase();
+  const caps = new Set<Capability>();
+  if (/(code|typescript|js|python|bug|refactor|build|test)/.test(t)) caps.add('coding');
+  if (/(research|compare|summarize|investigate|find sources|benchmark)/.test(t)) caps.add('research');
+  if (/(data|csv|json|analy[sz]e|report|chart|metrics)/.test(t)) caps.add('data');
+  if (/(browser|web ui|automation|scrape|navigate|click|form)/.test(t)) caps.add('web_automation');
+  if (/(memory|kb|docs|knowledge base|context)/.test(t)) caps.add('memory');
+  // Defaults: if nothing matched, infer based on verbs
+  if (caps.size === 0) caps.add('research');
+  return Array.from(caps);
+}
+
+function estimateComplexity(text: string): 'low' | 'medium' | 'high' {
+  const len = text.length;
+  const signals = [
+    /(multi[- ]?step|complex|architecture|orchestrator|framework)/i,
+[2025-09-06T18:35:45] tokens used: 720
+[2025-09-06T18:35:48] exec bash -lc "sed -n '1,240p' src/orchestrator/agentFactory.ts" in /Users/panda/Desktop/EUFM
+[2025-09-06T18:35:48] bash -lc "sed -n '1,240p' src/orchestrator/agentFactory.ts" succeeded in 19ms:
+import { AgentSpec } from './types.js';
+import { BaseAgent } from '../agents/baseAgent.js';
+import { CodexAgent } from '../agents/codexAgent.js';
+import { CodexCLIAgent } from '../agents/codexCLIAgent.js';
+import { JulesAgent } from '../agents/julesAgent.js';
+import { AbacusAgent } from '../agents/abacusAgent.js';
+import { BrowserAgent } from '../agents/browserAgent.js';
+import { MemoryAgent } from '../agents/memoryAgent.js';
+import { AgentSummonerAgent } from '../agents/agentSummonerAgent.js';
+import { AgentSummoner } from '../agents/agentSummoner.js';
+import { EnhancedAbacusAgent } from '../agents/enhancedAbacusAgent.js';
+import { EUFMAgentSummoner } from '../agents/eufmAgentSummoner.js';
+import { SmokeTestAgent } from '../agents/smokeTestAgent.js';
+import { TestAgent } from '../agents/testAgent.js';
+import { EUFundingProposalAgent } from '../agents/euFundingProposalAgent.js';
+
+export class AgentFactory {
+  create(spec: AgentSpec): BaseAgent {
+    const { id, type, requirementId } = spec;
+    switch (type) {
+[2025-09-06T18:35:48] tokens used: 1505
+[2025-09-06T18:35:50] exec bash -lc "sed -n '1,240p' src/dashboard/missionControl.ts" in /Users/panda/Desktop/EUFM
+[2025-09-06T18:35:50] bash -lc "sed -n '1,240p' src/dashboard/missionControl.ts" succeeded in 12ms:
+import { promises as fs } from 'fs';
+import { EventEmitter } from 'events';
+import { StrategicOrchestrator } from '../orchestrator/strategicOrchestrator.js';
+import { UsageAnalyticsAgent } from '../analytics/usageAnalytics.js';
+import { loadKnowledgeBase, toContext } from '../memory/memoryLoader.js';
+import { SystemMonitor } from './systemMonitor.js';
+import { FundingOpportunityScanner } from './fundingOpportunityScanner.js';
+
+export interface MissionControlStatus {
+  timestamp: string;
+  system: {
+    agents: { active: number; completed: number; failed: number };
+    tools: { available: number; errors: number };
+    memory: { notes: number; sizeKB: number };
+    costs: { totalUSD: number; todayUSD: number };
+  };
+  eufmProject: {
+    phase: string;
+    progress: number;
+    nextMilestone: string;
+[2025-09-06T18:35:50] tokens used: 723
+[2025-09-06T18:35:52] exec bash -lc "sed -n '1,240p' src/dashboard/enhancedMissionControl.ts" in /Users/panda/Desktop/EUFM
+[2025-09-06T18:35:52] bash -lc "sed -n '1,240p' src/dashboard/enhancedMissionControl.ts" succeeded in 14ms:
+import { promises as fs } from 'fs';
+import { EventEmitter } from 'events';
+import { MissionControl, MissionControlStatus } from './missionControl.js';
+import { AgentSummonerAgent } from '../agents/agentSummonerAgent.js';
+import { EnhancedAbacusAgent } from '../agents/enhancedAbacusAgent.js';
+import { EnhancedPerplexityResearch } from '../tools/enhancedPerplexityResearch.js';
+import { StrategicOrchestrator } from '../orchestrator/strategicOrchestrator.js';
+import path from 'path';
+
+export interface SessionMemory {
+  sessionId: string;
+  startedAt: string;
+  lastActiveAt: string;
+  context: {
+    currentProject?: string;
+    activeObjectives?: string[];
+    completedTasks?: string[];
+    discoveredAgents?: any[];
+    researchCosts?: number;
+  };
+[2025-09-06T18:35:52] tokens used: 2343
+[2025-09-06T18:35:54] exec bash -lc "sed -n '240,520p' src/dashboard/enhancedMissionControl.ts" in /Users/panda/Desktop/EUFM
+[2025-09-06T18:35:54] bash -lc "sed -n '240,520p' src/dashboard/enhancedMissionControl.ts" succeeded in 12ms:
+        monthlyQueries: 0,
+        avgConfidence: 0
+      };
+    }
+  }
+
+  private formatDuration(ms: number): string {
+    const hours = Math.floor(ms / (1000 * 60 * 60));
+    const minutes = Math.floor((ms % (1000 * 60 * 60)) / (1000 * 60));
+    return `${hours}h ${minutes}m`;
+  }
+
+  // Enhanced task execution with Agent Summoner integration
+  async executeEnhancedTask(taskDescription: string, options: { 
+    dryRun?: boolean;
+    useAgentSummoner?: boolean;
+    researchDepth?: 'quick' | 'comprehensive' | 'deep';
+    saveContext?: boolean;
+  } = {}) {
+    await this.addToHistory('user_input', taskDescription);
+[2025-09-06T18:35:54] tokens used: 2172
+
+[2025-09-06T18:35:57] thinking
+
+**Exploring project management needs**
+
+I’m thinking about implementing a new Master Control Center that can handle multiple AI research projects at once. This would involve features like scheduling, project registry, and cross-project resource management. While we currently have a dashboard for mission control, it seems we need this MCC at a larger scale. So, I’m planning to search for existing scheduling or registry patterns to guide the development. Let's see what’s out there!
+[2025-09-06T18:36:02] exec bash -lc "rg -n \"schedule|scheduler|registry|project|resource|Master Control Center|MCC\" -S src | sed -n '1,200p'" in /Users/panda/Desktop/EUFM
+[2025-09-06T18:36:02] bash -lc "rg -n \"schedule|scheduler|registry|project|resource|Master Control Center|MCC\" -S src | sed -n '1,200p'" succeeded in 25ms:
+src/dashboard/missionControl.ts:63:    const projectStatus = await this.getEUFMProjectStatus();
+src/dashboard/missionControl.ts:77:        phase: projectStatus.phase,
+src/dashboard/missionControl.ts:78:        progress: projectStatus.progress,
+src/dashboard/missionControl.ts:79:        nextMilestone: projectStatus.nextMilestone,
+src/dashboard/missionControl.ts:107:    // This would integrate with project management data
+src/dashboard/fundingOpportunityScanner.ts:72:Analyze this funding information and extract opportunities relevant to AI/digital innovation projects like EUFM (European Union Funds Manager):
+src/dashboard/fundingOpportunityScanner.ts:93:- AI/ML projects
+src/dashboard/fundingOpportunityScanner.ts:208:Generate a compelling EU funding proposal for the EUFM (European Union Funds Manager) project targeting this opportunity:
+src/dashboard/fundingOpportunityScanner.ts:221:- Multi-agent coordination for complex project management
+src/dashboard/enhancedMissionControl.ts:406:  // Method to analyze project requirements using enhanced research
+src/dashboard/enhancedMissionControl.ts:407:  async analyzeProjectRequirements(projectDescription: string): Promise<{
+src/dashboard/enhancedMissionControl.ts:413:    // Use Enhanced Abacus to analyze project requirements
+src/dashboard/enhancedMissionControl.ts:414:    const enhancedAbacus = new EnhancedAbacusAgent('analysis_temp', 'project_analysis');
+src/dashboard/enhancedMissionControl.ts:416:    const analysis = await enhancedAbacus.analyzeResearchNeeds(projectDescription);
+src/dashboard/web/dashboard.js:283:    document.getElementById('project-phase').textContent = s.eufmProject.phase;
+src/dashboard/web/dashboard.js:600:    document.getElementById('project-phase').textContent = s.eufmProject.phase;
+src/agents/agentSummonerAgent.ts:108:      'automation': ['automate', 'schedule', 'monitor', 'track']
+src/dashboard/web/dashboard.css:168:.card .project-body, .card .metric-body, .card .activity-list, .card .subscription-list, .card .tool-grid, .card .chat-messages { padding: 16px; }
+src/dashboard/web/dashboard.css:176:.project { grid-column: span 8; }
+src/dashboard/web/dashboard.css:177:.project .phase { font-weight: 600; color: var(--md3-primary); margin-bottom: 8px; }
+[2025-09-06T18:36:02] tokens used: 2363
+
+[2025-09-06T18:36:05] thinking
+
+**Implementing MCC Component**
+
+It seems that MCC hasn't been implemented yet, so I'll create a new component—maybe in src/masterControlCenter, orchestrator, or dashboard. I need features like a project registry, resource management, and automated task scheduling to run 24/7. For scheduling, I can use Node's setInterval or tasks cron-like, with queues that allow continuous operations while managing rate limits and budgets. I'll also integrate logging and error handling and connect with the StrategicOrchestrator for task execution. Lastly, I want to check the CLI index.ts for MCC management.
+[2025-09-06T18:36:08] exec bash -lc "sed -n '1,240p' src/cli/index.ts" in /Users/panda/Desktop/EUFM
+[2025-09-06T18:36:08] bash -lc "sed -n '1,240p' src/cli/index.ts" succeeded in 11ms:
+#!/usr/bin/env node
+import 'dotenv/config';
+import { runPerplexityTest } from '../tools/perplexity_sonar.js';
+import { runGeminiTest } from '../tools/gemini_test.js';
+import { loadKnowledgeBase, toContext, findNotesByQuery } from '../memory/index.js';
+import { UsageAnalyticsAgent } from '../analytics/usageAnalytics.js';
+import { StrategicOrchestrator } from '../orchestrator/strategicOrchestrator.js';
+import { DashboardServer } from '../dashboard/dashboardServer.js';
+import { AgentFactory } from '../orchestrator/agentFactory.js';
+import { FundingOpportunityScanner } from '../dashboard/fundingOpportunityScanner.js';
+import { claudeInterface } from '../tools/claudeAgentInterface.js';
+
+async function main() {
+	const cmd = process.argv[2] || 'help';
+		switch (cmd) {
+		case 'analytics:setup': {
+			const agent = new UsageAnalyticsAgent();
+			await agent.interactiveSetup();
+			const limits = await agent.fetchLimits();
+			console.log('\nFetched plan info (best-effort):');
+[2025-09-06T18:36:08] tokens used: 1827
+[2025-09-06T18:36:11] exec bash -lc "sed -n '240,560p' src/cli/index.ts" in /Users/panda/Desktop/EUFM
+[2025-09-06T18:36:11] bash -lc "sed -n '240,560p' src/cli/index.ts" succeeded in 11ms:
+					console.log(`🤖 Executing Codex task: ${task}`);
+					try {
+						const result = await claudeInterface.executeCodexTask(task);
+						console.log('Codex result:\n', result);
+					} catch (error: any) {
+						console.error('Error:', error.message);
+					}
+					break;
+				}
+
+				case 'codex:status': {
+					try {
+						const available = await claudeInterface.checkCodexAvailable();
+						console.log(`Codex CLI available: ${available}`);
+						if (available) {
+							console.log('✅ Codex CLI is ready for use');
+						} else {
+							console.log('❌ Codex CLI not found. Please install Codex CLI first.');
+							console.log('   Install from: https://github.com/openai/codex');
+						}
+[2025-09-06T18:36:11] tokens used: 3299
+[2025-09-06T18:36:21] exec bash -lc "sed -n '1,200p' tsconfig.json" in /Users/panda/Desktop/EUFM
+[2025-09-06T18:36:21] bash -lc "sed -n '1,200p' tsconfig.json" succeeded in 15ms:
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "outDir": "dist",
+    "rootDir": "src",
+    "strict": true,
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "skipLibCheck": true
+  },
+  "include": ["src/**/*"]
+}
+[2025-09-06T18:36:21] tokens used: 3070
+
+[2025-09-06T18:36:29] thinking
+
+**Implementing storage solutions**
+
+I’m thinking about setting up some environment variables or logs. I can create a storage system with files like logs/mcc/projects.json and logs/mcc/tasks_{projectId}.json, or even just a single tasks.json file. It seems like a good plan to start implementing this structure, as it will help with organization and tracking. Let’s see how it goes once I begin!
+[2025-09-06T18:36:35] apply_patch auto_approved=true:
+A /Users/panda/Desktop/EUFM/src/mcc/types.ts
+import { z } from 'zod';
+
+export const ProjectId = z.string().min(1);
+
+export const ProjectConfigSchema = z.object({
+  id: z.string(),
+  name: z.string(),
+  description: z.string().optional(),
+  priority: z.number().int().min(1).max(10).default(5),
+  maxConcurrency: z.number().int().min(1).max(8).default(2),
+  dailyBudgetUSD: z.number().min(0).default(0),
+  schedule: z.object({
+    enabled: z.boolean().default(true),
+    timezone: z.string().default('UTC'),
+    // hh:mm-hh:mm 24h format windows; empty => always allowed
+    windows: z.array(z.string()).default([]),
+  }).default({ enabled: true, timezone: 'UTC', windows: [] }),
+  metadata: z.record(z.any()).default({}),
+});
+
+export type ProjectConfig = z.infer<typeof ProjectConfigSchema>;
+
+export const ProjectStatusSchema = z.object({
+  id: z.string(),
+  createdAt: z.string(),
+  updatedAt: z.string(),
+  activeTasks: z.number().int().nonnegative().default(0),
+  completedTasks: z.number().int().nonnegative().default(0),
+  failedTasks: z.number().int().nonnegative().default(0),
+  todayCostUSD: z.number().nonnegative().default(0),
+});
+
+export type ProjectStatus = z.infer<typeof ProjectStatusSchema>;
+
+export const ScheduledTaskSchema = z.object({
+  id: z.string(),
+  projectId: z.string(),
+  description: z.string(),
+  priority: z.number().int().min(1).max(10).default(5),
+  notBefore: z.string().optional(), // ISO datetime
+  createdAt: z.string(),
+  state: z.enum(['queued', 'running', 'completed', 'failed', 'canceled']).default('queued'),
+  attempts: z.number().int().nonnegative().default(0),
+  maxAttempts: z.number().int().min(1).max(5).default(2),
+  lastError: z.string().optional(),
+});
+
+export type ScheduledTask = z.infer<typeof ScheduledTaskSchema>;
+
+export interface RunRecord {
+  taskId: string;
+  projectId: string;
+  startedAt: string;
+  finishedAt: string;
+  success: boolean;
+  summary: string;
+  orchestratorRunPath?: string;
+  costUSD?: number;
+}
+
+[2025-09-06T18:36:35] apply_patch(auto_approved=true) exited 0 in 30ms:
+Success. Updated the following files:
+A src/mcc/types.ts
+[2025-09-06T18:36:35] turn diff:
+diff --git a/src/mcc/types.ts b/src/mcc/types.ts
+new file mode 100644
+index 0000000000000000000000000000000000000000..403f95bf64c2cf074d4878088967097c5fbe9f8b
+--- /dev/null
++++ b/src/mcc/types.ts
+@@ -0,0 +1,60 @@
++import { z } from 'zod';
++
++export const ProjectId = z.string().min(1);
++
++export const ProjectConfigSchema = z.object({
++  id: z.string(),
++  name: z.string(),
++  description: z.string().optional(),
++  priority: z.number().int().min(1).max(10).default(5),
++  maxConcurrency: z.number().int().min(1).max(8).default(2),
++  dailyBudgetUSD: z.number().min(0).default(0),
++  schedule: z.object({
++    enabled: z.boolean().default(true),
++    timezone: z.string().default('UTC'),
++    // hh:mm-hh:mm 24h format windows; empty => always allowed
++    windows: z.array(z.string()).default([]),
++  }).default({ enabled: true, timezone: 'UTC', windows: [] }),
++  metadata: z.record(z.any()).default({}),
++});
++
++export type ProjectConfig = z.infer<typeof ProjectConfigSchema>;
++
++export const ProjectStatusSchema = z.object({
++  id: z.string(),
++  createdAt: z.string(),
++  updatedAt: z.string(),
++  activeTasks: z.number().int().nonnegative().default(0),
++  completedTasks: z.number().int().nonnegative().default(0),
++  failedTasks: z.number().int().nonnegative().default(0),
++  todayCostUSD: z.number().nonnegative().default(0),
++});
++
++export type ProjectStatus = z.infer<typeof ProjectStatusSchema>;
++
++export const ScheduledTaskSchema = z.object({
++  id: z.string(),
++  projectId: z.string(),
++  description: z.string(),
++  priority: z.number().int().min(1).max(10).default(5),
++  notBefore: z.string().optional(), // ISO datetime
++  createdAt: z.string(),
++  state: z.enum(['queued', 'running', 'completed', 'failed', 'canceled']).default('queued'),
++  attempts: z.number().int().nonnegative().default(0),
++  maxAttempts: z.number().int().min(1).max(5).default(2),
++  lastError: z.string().optional(),
++});
++
++export type ScheduledTask = z.infer<typeof ScheduledTaskSchema>;
++
++export interface RunRecord {
++  taskId: string;
++  projectId: string;
++  startedAt: string;
++  finishedAt: string;
++  success: boolean;
++  summary: string;
++  orchestratorRunPath?: string;
++  costUSD?: number;
++}
++
+
+[2025-09-06T18:36:35] tokens used: 1426
+[2025-09-06T18:36:35] turn diff:
+diff --git a/src/mcc/types.ts b/src/mcc/types.ts
+new file mode 100644
+index 0000000000000000000000000000000000000000..403f95bf64c2cf074d4878088967097c5fbe9f8b
+--- /dev/null
++++ b/src/mcc/types.ts
+@@ -0,0 +1,60 @@
++import { z } from 'zod';
++
++export const ProjectId = z.string().min(1);
++
++export const ProjectConfigSchema = z.object({
++  id: z.string(),
++  name: z.string(),
++  description: z.string().optional(),
++  priority: z.number().int().min(1).max(10).default(5),
++  maxConcurrency: z.number().int().min(1).max(8).default(2),
++  dailyBudgetUSD: z.number().min(0).default(0),
++  schedule: z.object({
++    enabled: z.boolean().default(true),
++    timezone: z.string().default('UTC'),
++    // hh:mm-hh:mm 24h format windows; empty => always allowed
++    windows: z.array(z.string()).default([]),
++  }).default({ enabled: true, timezone: 'UTC', windows: [] }),
++  metadata: z.record(z.any()).default({}),
++});
++
++export type ProjectConfig = z.infer<typeof ProjectConfigSchema>;
++
++export const ProjectStatusSchema = z.object({
++  id: z.string(),
++  createdAt: z.string(),
++  updatedAt: z.string(),
++  activeTasks: z.number().int().nonnegative().default(0),
++  completedTasks: z.number().int().nonnegative().default(0),
++  failedTasks: z.number().int().nonnegative().default(0),
++  todayCostUSD: z.number().nonnegative().default(0),
++});
++
++export type ProjectStatus = z.infer<typeof ProjectStatusSchema>;
++
++export const ScheduledTaskSchema = z.object({
++  id: z.string(),
++  projectId: z.string(),
++  description: z.string(),
++  priority: z.number().int().min(1).max(10).default(5),
++  notBefore: z.string().optional(), // ISO datetime
++  createdAt: z.string(),
++  state: z.enum(['queued', 'running', 'completed', 'failed', 'canceled']).default('queued'),
++  attempts: z.number().int().nonnegative().default(0),
++  maxAttempts: z.number().int().min(1).max(5).default(2),
++  lastError: z.string().optional(),
++});
++
++export type ScheduledTask = z.infer<typeof ScheduledTaskSchema>;
++
++export interface RunRecord {
++  taskId: string;
++  projectId: string;
++  startedAt: string;
++  finishedAt: string;
++  success: boolean;
++  summary: string;
++  orchestratorRunPath?: string;
++  costUSD?: number;
++}
++
+
+[2025-09-06T18:36:45] apply_patch auto_approved=true:
+A /Users/panda/Desktop/EUFM/src/mcc/projectRegistry.ts
+import { promises as fs } from 'fs';
+import path from 'path';
+import { ProjectConfig, ProjectConfigSchema, ProjectStatus, ScheduledTask, ScheduledTaskSchema } from './types.js';
+
+export class ProjectRegistry {
+  private baseDir = 'logs/mcc';
+  private projectsFile = path.join(this.baseDir, 'projects.json');
+  private tasksFile = path.join(this.baseDir, 'tasks.json');
+  private statusesFile = path.join(this.baseDir, 'statuses.json');
+
+  private async ensureDirs() {
+    await fs.mkdir(this.baseDir, { recursive: true });
+  }
+
+  private async readJson<T>(file: string, fallback: T): Promise<T> {
+    try {
+      const txt = await fs.readFile(file, 'utf8');
+      return JSON.parse(txt) as T;
+    } catch {
+      return fallback;
+    }
+  }
+
+  private async writeJson(file: string, data: any) {
+    await this.ensureDirs();
+    await fs.writeFile(file, JSON.stringify(data, null, 2), 'utf8');
+  }
+
+  async listProjects(): Promise<ProjectConfig[]> {
+    const arr = await this.readJson<ProjectConfig[]>(this.projectsFile, []);
+    return arr.map((p) => ProjectConfigSchema.parse(p));
+  }
+
+  async getProject(id: string): Promise<ProjectConfig | undefined> {
+    const list = await this.listProjects();
+    return list.find((p) => p.id === id);
+  }
+
+  async upsertProject(cfg: ProjectConfig): Promise<void> {
+    const list = await this.listProjects();
+    const i = list.findIndex((p) => p.id === cfg.id);
+    if (i >= 0) list[i] = ProjectConfigSchema.parse(cfg); else list.push(ProjectConfigSchema.parse(cfg));
+    await this.writeJson(this.projectsFile, list);
+    // ensure status exists
+    const s = await this.getStatus(cfg.id);
+    if (!s) await this.updateStatus({ id: cfg.id, createdAt: new Date().toISOString(), updatedAt: new Date().toISOString(), activeTasks: 0, completedTasks: 0, failedTasks: 0, todayCostUSD: 0 });
+  }
+
+  async removeProject(id: string): Promise<void> {
+    const list = await this.listProjects();
+    await this.writeJson(this.projectsFile, list.filter((p) => p.id !== id));
+  }
+
+  async getStatus(id: string): Promise<ProjectStatus | undefined> {
+    const statuses = await this.readJson<Record<string, ProjectStatus>>(this.statusesFile, {});
+    return statuses[id];
+  }
+
+  async updateStatus(status: ProjectStatus): Promise<void> {
+    const statuses = await this.readJson<Record<string, ProjectStatus>>(this.statusesFile, {});
+    statuses[status.id] = { ...status, updatedAt: new Date().toISOString() };
+    await this.writeJson(this.statusesFile, statuses);
+  }
+
+  async listTasks(projectId?: string): Promise<ScheduledTask[]> {
+    const list = await this.readJson<ScheduledTask[]>(this.tasksFile, []);
+    const parsed = list.map((t) => ScheduledTaskSchema.parse(t));
+    return projectId ? parsed.filter((t) => t.projectId === projectId) : parsed;
+  }
+
+  async addTask(task: Omit<ScheduledTask, 'id' | 'createdAt' | 'state' | 'attempts'> & { id?: string }): Promise<ScheduledTask> {
+    const list = await this.listTasks();
+    const id = task.id || `task_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`;
+    const rec: ScheduledTask = ScheduledTaskSchema.parse({
+      ...task,
+      id,
+      createdAt: new Date().toISOString(),
+      state: 'queued',
+      attempts: 0,
+    });
+    list.push(rec);
+    await this.writeJson(this.tasksFile, list);
+    return rec;
+  }
+
+  async updateTask(task: ScheduledTask): Promise<void> {
+    const list = await this.listTasks();
+    const i = list.findIndex((t) => t.id === task.id);
+    if (i === -1) throw new Error(`Task not found: ${task.id}`);
+    list[i] = ScheduledTaskSchema.parse(task);
+    await this.writeJson(this.tasksFile, list);
+  }
+
+  async nextRunnableTask(now: Date = new Date()): Promise<ScheduledTask | undefined> {
+    const list = await this.listTasks();
+    const queued = list.filter((t) => t.state === 'queued');
+    // notBefore constraint
+    const eligible = queued.filter((t) => !t.notBefore || new Date(t.notBefore) <= now);
+    // sort by priority (low number = higher priority) then FIFO
+    eligible.sort((a, b) => a.priority - b.priority || a.createdAt.localeCompare(b.createdAt));
+    return eligible[0];
+  }
+}
+
+[2025-09-06T18:36:46] apply_patch(auto_approved=true) exited 0 in 48ms:
+Success. Updated the following files:
+A src/mcc/projectRegistry.ts
+[2025-09-06T18:36:46] turn diff:
+diff --git a/src/mcc/projectRegistry.ts b/src/mcc/projectRegistry.ts
+new file mode 100644
+index 0000000000000000000000000000000000000000..d13ba47c945098b7f5e8a46bb92f0e4676eaf6ce
+--- /dev/null
++++ b/src/mcc/projectRegistry.ts
+@@ -0,0 +1,104 @@
++import { promises as fs } from 'fs';
++import path from 'path';
++import { ProjectConfig, ProjectConfigSchema, ProjectStatus, ScheduledTask, ScheduledTaskSchema } from './types.js';
++
++export class ProjectRegistry {
++  private baseDir = 'logs/mcc';
++  private projectsFile = path.join(this.baseDir, 'projects.json');
++  private tasksFile = path.join(this.baseDir, 'tasks.json');
++  private statusesFile = path.join(this.baseDir, 'statuses.json');
++
++  private async ensureDirs() {
++    await fs.mkdir(this.baseDir, { recursive: true });
++  }
++
++  private async readJson<T>(file: string, fallback: T): Promise<T> {
++    try {
++      const txt = await fs.readFile(file, 'utf8');
++      return JSON.parse(txt) as T;
++    } catch {
++      return fallback;
++    }
++  }
++
++  private async writeJson(file: string, data: any) {
++    await this.ensureDirs();
++    await fs.writeFile(file, JSON.stringify(data, null, 2), 'utf8');
++  }
++
++  async listProjects(): Promise<ProjectConfig[]> {
++    const arr = await this.readJson<ProjectConfig[]>(this.projectsFile, []);
++    return arr.map((p) => ProjectConfigSchema.parse(p));
++  }
++
++  async getProject(id: string): Promise<ProjectConfig | undefined> {
++    const list = await this.listProjects();
++    return list.find((p) => p.id === id);
++  }
++
++  async upsertProject(cfg: ProjectConfig): Promise<void> {
++    const list = await this.listProjects();
++    const i = list.findIndex((p) => p.id === cfg.id);
++    if (i >= 0) list[i] = ProjectConfigSchema.parse(cfg); else list.push(ProjectConfigSchema.parse(cfg));
++    await this.writeJson(this.projectsFile, list);
++    // ensure status exists
++    const s = await this.getStatus(cfg.id);
++    if (!s) await this.updateStatus({ id: cfg.id, createdAt: new Date().toISOString(), updatedAt: new Date().toISOString(), activeTasks: 0, completedTasks: 0, failedTasks: 0, todayCostUSD: 0 });
++  }
++
++  async removeProject(id: string): Promise<void> {
++    const list = await this.listProjects();
++    await this.writeJson(this.projectsFile, list.filter((p) => p.id !== id));
++  }
++
++  async getStatus(id: string): Promise<ProjectStatus | undefined> {
++    const statuses = await this.readJson<Record<string, ProjectStatus>>(this.statusesFile, {});
++    return statuses[id];
++  }
++
++  async updateStatus(status: ProjectStatus): Promise<void> {
++    const statuses = await this.readJson<Record<string, ProjectStatus>>(this.statusesFile, {});
++    statuses[status.id] = { ...status, updatedAt: new Date().toISOString() };
++    await this.writeJson(this.statusesFile, statuses);
++  }
++
++  async listTasks(projectId?: string): Promise<ScheduledTask[]> {
++    const list = await this.readJson<ScheduledTask[]>(this.tasksFile, []);
++    const parsed = list.map((t) => ScheduledTaskSchema.parse(t));
++    return projectId ? parsed.filter((t) => t.projectId === projectId) : parsed;
++  }
++
++  async addTask(task: Omit<ScheduledTask, 'id' | 'createdAt' | 'state' | 'attempts'> & { id?: string }): Promise<ScheduledTask> {
++    const list = await this.listTasks();
++    const id = task.id || `task_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`;
++    const rec: ScheduledTask = ScheduledTaskSchema.parse({
++      ...task,
++      id,
++      createdAt: new Date().toISOString(),
++      state: 'queued',
++      attempts: 0,
++    });
++    list.push(rec);
++    await this.writeJson(this.tasksFile, list);
++    return rec;
++  }
++
++  async updateTask(task: ScheduledTask): Promise<void> {
++    const list = await this.listTasks();
++    const i = list.findIndex((t) => t.id === task.id);
++    if (i === -1) throw new Error(`Task not found: ${task.id}`);
++    list[i] = ScheduledTaskSchema.parse(task);
++    await this.writeJson(this.tasksFile, list);
++  }
++
++  async nextRunnableTask(now: Date = new Date()): Promise<ScheduledTask | undefined> {
++    const list = await this.listTasks();
++    const queued = list.filter((t) => t.state === 'queued');
++    // notBefore constraint
++    const eligible = queued.filter((t) => !t.notBefore || new Date(t.notBefore) <= now);
++    // sort by priority (low number = higher priority) then FIFO
++    eligible.sort((a, b) => a.priority - b.priority || a.createdAt.localeCompare(b.createdAt));
++    return eligible[0];
++  }
++}
++
+diff --git a/src/mcc/types.ts b/src/mcc/types.ts
+new file mode 100644
+index 0000000000000000000000000000000000000000..403f95bf64c2cf074d4878088967097c5fbe9f8b
+--- /dev/null
++++ b/src/mcc/types.ts
+@@ -0,0 +1,60 @@
++import { z } from 'zod';
++
++export const ProjectId = z.string().min(1);
++
++export const ProjectConfigSchema = z.object({
++  id: z.string(),
++  name: z.string(),
++  description: z.string().optional(),
++  priority: z.number().int().min(1).max(10).default(5),
++  maxConcurrency: z.number().int().min(1).max(8).default(2),
++  dailyBudgetUSD: z.number().min(0).default(0),
++  schedule: z.object({
++    enabled: z.boolean().default(true),
++    timezone: z.string().default('UTC'),
++    // hh:mm-hh:mm 24h format windows; empty => always allowed
++    windows: z.array(z.string()).default([]),
++  }).default({ enabled: true, timezone: 'UTC', windows: [] }),
++  metadata: z.record(z.any()).default({}),
++});
++
++export type ProjectConfig = z.infer<typeof ProjectConfigSchema>;
++
++export const ProjectStatusSchema = z.object({
++  id: z.string(),
++  createdAt: z.string(),
++  updatedAt: z.string(),
++  activeTasks: z.number().int().nonnegative().default(0),
++  completedTasks: z.number().int().nonnegative().default(0),
++  failedTasks: z.number().int().nonnegative().default(0),
++  todayCostUSD: z.number().nonnegative().default(0),
++});
++
++export type ProjectStatus = z.infer<typeof ProjectStatusSchema>;
++
++export const ScheduledTaskSchema = z.object({
++  id: z.string(),
++  projectId: z.string(),
++  description: z.string(),
++  priority: z.number().int().min(1).max(10).default(5),
++  notBefore: z.string().optional(), // ISO datetime
++  createdAt: z.string(),
++  state: z.enum(['queued', 'running', 'completed', 'failed', 'canceled']).default('queued'),
++  attempts: z.number().int().nonnegative().default(0),
++  maxAttempts: z.number().int().min(1).max(5).default(2),
++  lastError: z.string().optional(),
++});
++
++export type ScheduledTask = z.infer<typeof ScheduledTaskSchema>;
++
++export interface RunRecord {
++  taskId: string;
++  projectId: string;
++  startedAt: string;
++  finishedAt: string;
++  success: boolean;
++  summary: string;
++  orchestratorRunPath?: string;
++  costUSD?: number;
++}
++
+
+[2025-09-06T18:36:46] turn diff:
+diff --git a/src/mcc/projectRegistry.ts b/src/mcc/projectRegistry.ts
+new file mode 100644
+index 0000000000000000000000000000000000000000..d13ba47c945098b7f5e8a46bb92f0e4676eaf6ce
+--- /dev/null
++++ b/src/mcc/projectRegistry.ts
+@@ -0,0 +1,104 @@
++import { promises as fs } from 'fs';
++import path from 'path';
++import { ProjectConfig, ProjectConfigSchema, ProjectStatus, ScheduledTask, ScheduledTaskSchema } from './types.js';
++
++export class ProjectRegistry {
++  private baseDir = 'logs/mcc';
++  private projectsFile = path.join(this.baseDir, 'projects.json');
++  private tasksFile = path.join(this.baseDir, 'tasks.json');
++  private statusesFile = path.join(this.baseDir, 'statuses.json');
++
++  private async ensureDirs() {
++    await fs.mkdir(this.baseDir, { recursive: true });
++  }
++
++  private async readJson<T>(file: string, fallback: T): Promise<T> {
++    try {
++      const txt = await fs.readFile(file, 'utf8');
++      return JSON.parse(txt) as T;
++    } catch {
++      return fallback;
++    }
++  }
++
++  private async writeJson(file: string, data: any) {
++    await this.ensureDirs();
++    await fs.writeFile(file, JSON.stringify(data, null, 2), 'utf8');
++  }
++
++  async listProjects(): Promise<ProjectConfig[]> {
++    const arr = await this.readJson<ProjectConfig[]>(this.projectsFile, []);
++    return arr.map((p) => ProjectConfigSchema.parse(p));
++  }
++
++  async getProject(id: string): Promise<ProjectConfig | undefined> {
++    const list = await this.listProjects();
++    return list.find((p) => p.id === id);
++  }
++
++  async upsertProject(cfg: ProjectConfig): Promise<void> {
++    const list = await this.listProjects();
++    const i = list.findIndex((p) => p.id === cfg.id);
++    if (i >= 0) list[i] = ProjectConfigSchema.parse(cfg); else list.push(ProjectConfigSchema.parse(cfg));
++    await this.writeJson(this.projectsFile, list);
++    // ensure status exists
++    const s = await this.getStatus(cfg.id);
++    if (!s) await this.updateStatus({ id: cfg.id, createdAt: new Date().toISOString(), updatedAt: new Date().toISOString(), activeTasks: 0, completedTasks: 0, failedTasks: 0, todayCostUSD: 0 });
++  }
++
++  async removeProject(id: string): Promise<void> {
++    const list = await this.listProjects();
++    await this.writeJson(this.projectsFile, list.filter((p) => p.id !== id));
++  }
++
++  async getStatus(id: string): Promise<ProjectStatus | undefined> {
++    const statuses = await this.readJson<Record<string, ProjectStatus>>(this.statusesFile, {});
++    return statuses[id];
++  }
++
++  async updateStatus(status: ProjectStatus): Promise<void> {
++    const statuses = await this.readJson<Record<string, ProjectStatus>>(this.statusesFile, {});
++    statuses[status.id] = { ...status, updatedAt: new Date().toISOString() };
++    await this.writeJson(this.statusesFile, statuses);
++  }
++
++  async listTasks(projectId?: string): Promise<ScheduledTask[]> {
++    const list = await this.readJson<ScheduledTask[]>(this.tasksFile, []);
++    const parsed = list.map((t) => ScheduledTaskSchema.parse(t));
++    return projectId ? parsed.filter((t) => t.projectId === projectId) : parsed;
++  }
++
++  async addTask(task: Omit<ScheduledTask, 'id' | 'createdAt' | 'state' | 'attempts'> & { id?: string }): Promise<ScheduledTask> {
++    const list = await this.listTasks();
++    const id = task.id || `task_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`;
++    const rec: ScheduledTask = ScheduledTaskSchema.parse({
++      ...task,
++      id,
++      createdAt: new Date().toISOString(),
++      state: 'queued',
++      attempts: 0,
++    });
++    list.push(rec);
++    await this.writeJson(this.tasksFile, list);
++    return rec;
++  }
++
++  async updateTask(task: ScheduledTask): Promise<void> {
++    const list = await this.listTasks();
++    const i = list.findIndex((t) => t.id === task.id);
++    if (i === -1) throw new Error(`Task not found: ${task.id}`);
++    list[i] = ScheduledTaskSchema.parse(task);
++    await this.writeJson(this.tasksFile, list);
++  }
++
++  async nextRunnableTask(now: Date = new Date()): Promise<ScheduledTask | undefined> {
++    const list = await this.listTasks();
++    const queued = list.filter((t) => t.state === 'queued');
++    // notBefore constraint
++    const eligible = queued.filter((t) => !t.notBefore || new Date(t.notBefore) <= now);
++    // sort by priority (low number = higher priority) then FIFO
++    eligible.sort((a, b) => a.priority - b.priority || a.createdAt.localeCompare(b.createdAt));
++    return eligible[0];
++  }
++}
++
+diff --git a/src/mcc/types.ts b/src/mcc/types.ts
+new file mode 100644
+index 0000000000000000000000000000000000000000..403f95bf64c2cf074d4878088967097c5fbe9f8b
+--- /dev/null
++++ b/src/mcc/types.ts
+@@ -0,0 +1,60 @@
++import { z } from 'zod';
++
++export const ProjectId = z.string().min(1);
++
++export const ProjectConfigSchema = z.object({
++  id: z.string(),
++  name: z.string(),
++  description: z.string().optional(),
++  priority: z.number().int().min(1).max(10).default(5),
++  maxConcurrency: z.number().int().min(1).max(8).default(2),
++  dailyBudgetUSD: z.number().min(0).default(0),
++  schedule: z.object({
++    enabled: z.boolean().default(true),
++    timezone: z.string().default('UTC'),
++    // hh:mm-hh:mm 24h format windows; empty => always allowed
++    windows: z.array(z.string()).default([]),
++  }).default({ enabled: true, timezone: 'UTC', windows: [] }),
++  metadata: z.record(z.any()).default({}),
++});
++
++export type ProjectConfig = z.infer<typeof ProjectConfigSchema>;
++
++export const ProjectStatusSchema = z.object({
++  id: z.string(),
++  createdAt: z.string(),
++  updatedAt: z.string(),
++  activeTasks: z.number().int().nonnegative().default(0),
++  completedTasks: z.number().int().nonnegative().default(0),
++  failedTasks: z.number().int().nonnegative().default(0),
++  todayCostUSD: z.number().nonnegative().default(0),
++});
++
++export type ProjectStatus = z.infer<typeof ProjectStatusSchema>;
++
++export const ScheduledTaskSchema = z.object({
++  id: z.string(),
++  projectId: z.string(),
++  description: z.string(),
++  priority: z.number().int().min(1).max(10).default(5),
++  notBefore: z.string().optional(), // ISO datetime
++  createdAt: z.string(),
++  state: z.enum(['queued', 'running', 'completed', 'failed', 'canceled']).default('queued'),
++  attempts: z.number().int().nonnegative().default(0),
++  maxAttempts: z.number().int().min(1).max(5).default(2),
++  lastError: z.string().optional(),
++});
++
++export type ScheduledTask = z.infer<typeof ScheduledTaskSchema>;
++
++export interface RunRecord {
++  taskId: string;
++  projectId: string;
++  startedAt: string;
++  finishedAt: string;
++  success: boolean;
++  summary: string;
++  orchestratorRunPath?: string;
++  costUSD?: number;
++}
++
+
+[2025-09-06T18:36:46] tokens used: 2155
+[2025-09-06T18:36:53] apply_patch auto_approved=true:
+A /Users/panda/Desktop/EUFM/src/mcc/resourceManager.ts
+import { promises as fs } from 'fs';
+import path from 'path';
+
+interface ResourceSnapshot {
+  timestamp: string;
+  totalConcurrency: number;
+  usedConcurrency: number;
+  perProject: Record<string, { active: number; max: number }>;
+  // Soft accounting for daily spend; can be updated by analytics elsewhere
+  todayCostUSD: number;
+  dailyBudgetUSD: number;
+}
+
+export class ResourceManager {
+  private baseDir = 'logs/mcc';
+  private stateFile = path.join(this.baseDir, 'resources.json');
+  private totalConcurrency = Math.max(2, parseInt(process.env.MCC_MAX_CONCURRENCY || '4', 10));
+  private dailyBudgetUSD = Math.max(0, parseFloat(process.env.MCC_DAILY_BUDGET_USD || '0'));
+  private usedConcurrency = 0;
+  private perProject = new Map<string, { active: number; max: number }>();
+
+  private async persist() {
+    await fs.mkdir(this.baseDir, { recursive: true });
+    const snap: ResourceSnapshot = {
+      timestamp: new Date().toISOString(),
+      totalConcurrency: this.totalConcurrency,
+      usedConcurrency: this.usedConcurrency,
+      perProject: Object.fromEntries(this.perProject.entries()),
+      todayCostUSD: 0,
+      dailyBudgetUSD: this.dailyBudgetUSD,
+    };
+    await fs.writeFile(this.stateFile, JSON.stringify(snap, null, 2), 'utf8');
+  }
+
+  configureProject(projectId: string, maxConcurrency: number) {
+    const cur = this.perProject.get(projectId) || { active: 0, max: Math.max(1, Math.min(8, maxConcurrency)) };
+    cur.max = Math.max(1, Math.min(8, maxConcurrency));
+    this.perProject.set(projectId, cur);
+  }
+
+  canRun(projectId: string): boolean {
+    const proj = this.perProject.get(projectId) || { active: 0, max: 1 };
+    if (this.usedConcurrency >= this.totalConcurrency) return false;
+    if (proj.active >= proj.max) return false;
+    return true;
+  }
+
+  async allocate(projectId: string): Promise<boolean> {
+    if (!this.canRun(projectId)) return false;
+    this.usedConcurrency += 1;
+    const proj = this.perProject.get(projectId) || { active: 0, max: 1 };
+    proj.active += 1;
+    this.perProject.set(projectId, proj);
+    await this.persist();
+    return true;
+  }
+
+  async release(projectId: string): Promise<void> {
+    this.usedConcurrency = Math.max(0, this.usedConcurrency - 1);
+    const proj = this.perProject.get(projectId) || { active: 0, max: 1 };
+    proj.active = Math.max(0, proj.active - 1);
+    this.perProject.set(projectId, proj);
+    await this.persist();
+  }
+}
+
+[2025-09-06T18:36:54] apply_patch(auto_approved=true) exited 0 in 65ms:
+Success. Updated the following files:
+A src/mcc/resourceManager.ts
+[2025-09-06T18:36:54] turn diff:
+diff --git a/src/mcc/projectRegistry.ts b/src/mcc/projectRegistry.ts
+new file mode 100644
+index 0000000000000000000000000000000000000000..d13ba47c945098b7f5e8a46bb92f0e4676eaf6ce
+--- /dev/null
++++ b/src/mcc/projectRegistry.ts
+@@ -0,0 +1,104 @@
++import { promises as fs } from 'fs';
++import path from 'path';
++import { ProjectConfig, ProjectConfigSchema, ProjectStatus, ScheduledTask, ScheduledTaskSchema } from './types.js';
++
++export class ProjectRegistry {
++  private baseDir = 'logs/mcc';
++  private projectsFile = path.join(this.baseDir, 'projects.json');
++  private tasksFile = path.join(this.baseDir, 'tasks.json');
++  private statusesFile = path.join(this.baseDir, 'statuses.json');
++
++  private async ensureDirs() {
++    await fs.mkdir(this.baseDir, { recursive: true });
++  }
++
++  private async readJson<T>(file: string, fallback: T): Promise<T> {
++    try {
++      const txt = await fs.readFile(file, 'utf8');
++      return JSON.parse(txt) as T;
++    } catch {
++      return fallback;
++    }
++  }
++
++  private async writeJson(file: string, data: any) {
++    await this.ensureDirs();
++    await fs.writeFile(file, JSON.stringify(data, null, 2), 'utf8');
++  }
++
++  async listProjects(): Promise<ProjectConfig[]> {
++    const arr = await this.readJson<ProjectConfig[]>(this.projectsFile, []);
++    return arr.map((p) => ProjectConfigSchema.parse(p));
++  }
++
++  async getProject(id: string): Promise<ProjectConfig | undefined> {
++    const list = await this.listProjects();
++    return list.find((p) => p.id === id);
++  }
++
++  async upsertProject(cfg: ProjectConfig): Promise<void> {
++    const list = await this.listProjects();
++    const i = list.findIndex((p) => p.id === cfg.id);
++    if (i >= 0) list[i] = ProjectConfigSchema.parse(cfg); else list.push(ProjectConfigSchema.parse(cfg));
++    await this.writeJson(this.projectsFile, list);
++    // ensure status exists
++    const s = await this.getStatus(cfg.id);
++    if (!s) await this.updateStatus({ id: cfg.id, createdAt: new Date().toISOString(), updatedAt: new Date().toISOString(), activeTasks: 0, completedTasks: 0, failedTasks: 0, todayCostUSD: 0 });
++  }
++
++  async removeProject(id: string): Promise<void> {
++    const list = await this.listProjects();
++    await this.writeJson(this.projectsFile, list.filter((p) => p.id !== id));
++  }
++
++  async getStatus(id: string): Promise<ProjectStatus | undefined> {
++    const statuses = await this.readJson<Record<string, ProjectStatus>>(this.statusesFile, {});
++    return statuses[id];
++  }
++
++  async updateStatus(status: ProjectStatus): Promise<void> {
++    const statuses = await this.readJson<Record<string, ProjectStatus>>(this.statusesFile, {});
++    statuses[status.id] = { ...status, updatedAt: new Date().toISOString() };
++    await this.writeJson(this.statusesFile, statuses);
++  }
++
++  async listTasks(projectId?: string): Promise<ScheduledTask[]> {
++    const list = await this.readJson<ScheduledTask[]>(this.tasksFile, []);
++    const parsed = list.map((t) => ScheduledTaskSchema.parse(t));
++    return projectId ? parsed.filter((t) => t.projectId === projectId) : parsed;
++  }
++
++  async addTask(task: Omit<ScheduledTask, 'id' | 'createdAt' | 'state' | 'attempts'> & { id?: string }): Promise<ScheduledTask> {
++    const list = await this.listTasks();
++    const id = task.id || `task_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`;
++    const rec: ScheduledTask = ScheduledTaskSchema.parse({
++      ...task,
++      id,
++      createdAt: new Date().toISOString(),
++      state: 'queued',
++      attempts: 0,
++    });
++    list.push(rec);
++    await this.writeJson(this.tasksFile, list);
++    return rec;
++  }
++
++  async updateTask(task: ScheduledTask): Promise<void> {
++    const list = await this.listTasks();
++    const i = list.findIndex((t) => t.id === task.id);
++    if (i === -1) throw new Error(`Task not found: ${task.id}`);
++    list[i] = ScheduledTaskSchema.parse(task);
++    await this.writeJson(this.tasksFile, list);
++  }
++
++  async nextRunnableTask(now: Date = new Date()): Promise<ScheduledTask | undefined> {
++    const list = await this.listTasks();
++    const queued = list.filter((t) => t.state === 'queued');
++    // notBefore constraint
++    const eligible = queued.filter((t) => !t.notBefore || new Date(t.notBefore) <= now);
++    // sort by priority (low number = higher priority) then FIFO
++    eligible.sort((a, b) => a.priority - b.priority || a.createdAt.localeCompare(b.createdAt));
++    return eligible[0];
++  }
++}
++
+diff --git a/src/mcc/resourceManager.ts b/src/mcc/resourceManager.ts
+new file mode 100644
+index 0000000000000000000000000000000000000000..fd6f0eb7e0ed42e1076da4693ffeb86816319517
+--- /dev/null
++++ b/src/mcc/resourceManager.ts
+@@ -0,0 +1,66 @@
++import { promises as fs } from 'fs';
++import path from 'path';
++
++interface ResourceSnapshot {
++  timestamp: string;
++  totalConcurrency: number;
++  usedConcurrency: number;
++  perProject: Record<string, { active: number; max: number }>;
++  // Soft accounting for daily spend; can be updated by analytics elsewhere
++  todayCostUSD: number;
++  dailyBudgetUSD: number;
++}
++
++export class ResourceManager {
++  private baseDir = 'logs/mcc';
++  private stateFile = path.join(this.baseDir, 'resources.json');
++  private totalConcurrency = Math.max(2, parseInt(process.env.MCC_MAX_CONCURRENCY || '4', 10));
++  private dailyBudgetUSD = Math.max(0, parseFloat(process.env.MCC_DAILY_BUDGET_USD || '0'));
++  private usedConcurrency = 0;
++  private perProject = new Map<string, { active: number; max: number }>();
++
++  private async persist() {
++    await fs.mkdir(this.baseDir, { recursive: true });
++    const snap: ResourceSnapshot = {
++      timestamp: new Date().toISOString(),
++      totalConcurrency: this.totalConcurrency,
++      usedConcurrency: this.usedConcurrency,
++      perProject: Object.fromEntries(this.perProject.entries()),
++      todayCostUSD: 0,
++      dailyBudgetUSD: this.dailyBudgetUSD,
++    };
++    await fs.writeFile(this.stateFile, JSON.stringify(snap, null, 2), 'utf8');
++  }
++
++  configureProject(projectId: string, maxConcurrency: number) {
++    const cur = this.perProject.get(projectId) || { active: 0, max: Math.max(1, Math.min(8, maxConcurrency)) };
++    cur.max = Math.max(1, Math.min(8, maxConcurrency));
++    this.perProject.set(projectId, cur);
++  }
++
++  canRun(projectId: string): boolean {
++    const proj = this.perProject.get(projectId) || { active: 0, max: 1 };
++    if (this.usedConcurrency >= this.totalConcurrency) return false;
++    if (proj.active >= proj.max) return false;
++    return true;
++  }
++
++  async allocate(projectId: string): Promise<boolean> {
++    if (!this.canRun(projectId)) return false;
++    this.usedConcurrency += 1;
++    const proj = this.perProject.get(projectId) || { active: 0, max: 1 };
++    proj.active += 1;
++    this.perProject.set(projectId, proj);
++    await this.persist();
++    return true;
++  }
++
++  async release(projectId: string): Promise<void> {
++    this.usedConcurrency = Math.max(0, this.usedConcurrency - 1);
++    const proj = this.perProject.get(projectId) || { active: 0, max: 1 };
++    proj.active = Math.max(0, proj.active - 1);
++    this.perProject.set(projectId, proj);
++    await this.persist();
++  }
++}
++
+diff --git a/src/mcc/types.ts b/src/mcc/types.ts
+new file mode 100644
+index 0000000000000000000000000000000000000000..403f95bf64c2cf074d4878088967097c5fbe9f8b
+--- /dev/null
++++ b/src/mcc/types.ts
+@@ -0,0 +1,60 @@
++import { z } from 'zod';
++
++export const ProjectId = z.string().min(1);
++
++export const ProjectConfigSchema = z.object({
++  id: z.string(),
++  name: z.string(),
++  description: z.string().optional(),
++  priority: z.number().int().min(1).max(10).default(5),
++  maxConcurrency: z.number().int().min(1).max(8).default(2),
++  dailyBudgetUSD: z.number().min(0).default(0),
++  schedule: z.object({
++    enabled: z.boolean().default(true),
++    timezone: z.string().default('UTC'),
++    // hh:mm-hh:mm 24h format windows; empty => always allowed
++    windows: z.array(z.string()).default([]),
++  }).default({ enabled: true, timezone: 'UTC', windows: [] }),
++  metadata: z.record(z.any()).default({}),
++});
++
++export type ProjectConfig = z.infer<typeof ProjectConfigSchema>;
++
++export const ProjectStatusSchema = z.object({
++  id: z.string(),
++  createdAt: z.string(),
++  updatedAt: z.string(),
++  activeTasks: z.number().int().nonnegative().default(0),
++  completedTasks: z.number().int().nonnegative().default(0),
++  failedTasks: z.number().int().nonnegative().default(0),
++  todayCostUSD: z.number().nonnegative().default(0),
++});
++
++export type ProjectStatus = z.infer<typeof ProjectStatusSchema>;
++
++export const ScheduledTaskSchema = z.object({
++  id: z.string(),
++  projectId: z.string(),
++  description: z.string(),
++  priority: z.number().int().min(1).max(10).default(5),
++  notBefore: z.string().optional(), // ISO datetime
++  createdAt: z.string(),
++  state: z.enum(['queued', 'running', 'completed', 'failed', 'canceled']).default('queued'),
++  attempts: z.number().int().nonnegative().default(0),
++  maxAttempts: z.number().int().min(1).max(5).default(2),
++  lastError: z.string().optional(),
++});
++
++export type ScheduledTask = z.infer<typeof ScheduledTaskSchema>;
++
++export interface RunRecord {
++  taskId: string;
++  projectId: string;
++  startedAt: string;
++  finishedAt: string;
++  success: boolean;
++  summary: string;
++  orchestratorRunPath?: string;
++  costUSD?: number;
++}
++
+
+[2025-09-06T18:36:54] tokens used: 2241
+[2025-09-06T18:36:54] turn diff:
+diff --git a/src/mcc/projectRegistry.ts b/src/mcc/projectRegistry.ts
+new file mode 100644
+index 0000000000000000000000000000000000000000..d13ba47c945098b7f5e8a46bb92f0e4676eaf6ce
+--- /dev/null
++++ b/src/mcc/projectRegistry.ts
+@@ -0,0 +1,104 @@
++import { promises as fs } from 'fs';
++import path from 'path';
++import { ProjectConfig, ProjectConfigSchema, ProjectStatus, ScheduledTask, ScheduledTaskSchema } from './types.js';
++
++export class ProjectRegistry {
++  private baseDir = 'logs/mcc';
++  private projectsFile = path.join(this.baseDir, 'projects.json');
++  private tasksFile = path.join(this.baseDir, 'tasks.json');
++  private statusesFile = path.join(this.baseDir, 'statuses.json');
++
++  private async ensureDirs() {
++    await fs.mkdir(this.baseDir, { recursive: true });
++  }
++
++  private async readJson<T>(file: string, fallback: T): Promise<T> {
++    try {
++      const txt = await fs.readFile(file, 'utf8');
++      return JSON.parse(txt) as T;
++    } catch {
++      return fallback;
++    }
++  }
++
++  private async writeJson(file: string, data: any) {
++    await this.ensureDirs();
++    await fs.writeFile(file, JSON.stringify(data, null, 2), 'utf8');
++  }
++
++  async listProjects(): Promise<ProjectConfig[]> {
++    const arr = await this.readJson<ProjectConfig[]>(this.projectsFile, []);
++    return arr.map((p) => ProjectConfigSchema.parse(p));
++  }
++
++  async getProject(id: string): Promise<ProjectConfig | undefined> {
++    const list = await this.listProjects();
++    return list.find((p) => p.id === id);
++  }
++
++  async upsertProject(cfg: ProjectConfig): Promise<void> {
++    const list = await this.listProjects();
++    const i = list.findIndex((p) => p.id === cfg.id);
++    if (i >= 0) list[i] = ProjectConfigSchema.parse(cfg); else list.push(ProjectConfigSchema.parse(cfg));
++    await this.writeJson(this.projectsFile, list);
++    // ensure status exists
++    const s = await this.getStatus(cfg.id);
++    if (!s) await this.updateStatus({ id: cfg.id, createdAt: new Date().toISOString(), updatedAt: new Date().toISOString(), activeTasks: 0, completedTasks: 0, failedTasks: 0, todayCostUSD: 0 });
++  }
++
++  async removeProject(id: string): Promise<void> {
++    const list = await this.listProjects();
++    await this.writeJson(this.projectsFile, list.filter((p) => p.id !== id));
++  }
++
++  async getStatus(id: string): Promise<ProjectStatus | undefined> {
++    const statuses = await this.readJson<Record<string, ProjectStatus>>(this.statusesFile, {});
++    return statuses[id];
++  }
++
++  async updateStatus(status: ProjectStatus): Promise<void> {
++    const statuses = await this.readJson<Record<string, ProjectStatus>>(this.statusesFile, {});
++    statuses[status.id] = { ...status, updatedAt: new Date().toISOString() };
++    await this.writeJson(this.statusesFile, statuses);
++  }
++
++  async listTasks(projectId?: string): Promise<ScheduledTask[]> {
++    const list = await this.readJson<ScheduledTask[]>(this.tasksFile, []);
++    const parsed = list.map((t) => ScheduledTaskSchema.parse(t));
++    return projectId ? parsed.filter((t) => t.projectId === projectId) : parsed;
++  }
++
++  async addTask(task: Omit<ScheduledTask, 'id' | 'createdAt' | 'state' | 'attempts'> & { id?: string }): Promise<ScheduledTask> {
++    const list = await this.listTasks();
++    const id = task.id || `task_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`;
++    const rec: ScheduledTask = ScheduledTaskSchema.parse({
++      ...task,
++      id,
++      createdAt: new Date().toISOString(),
++      state: 'queued',
++      attempts: 0,
++    });
++    list.push(rec);
++    await this.writeJson(this.tasksFile, list);
++    return rec;
++  }
++
++  async updateTask(task: ScheduledTask): Promise<void> {
++    const list = await this.listTasks();
++    const i = list.findIndex((t) => t.id === task.id);
++    if (i === -1) throw new Error(`Task not found: ${task.id}`);
++    list[i] = ScheduledTaskSchema.parse(task);
++    await this.writeJson(this.tasksFile, list);
++  }
++
++  async nextRunnableTask(now: Date = new Date()): Promise<ScheduledTask | undefined> {
++    const list = await this.listTasks();
++    const queued = list.filter((t) => t.state === 'queued');
++    // notBefore constraint
++    const eligible = queued.filter((t) => !t.notBefore || new Date(t.notBefore) <= now);
++    // sort by priority (low number = higher priority) then FIFO
++    eligible.sort((a, b) => a.priority - b.priority || a.createdAt.localeCompare(b.createdAt));
++    return eligible[0];
++  }
++}
++
+diff --git a/src/mcc/resourceManager.ts b/src/mcc/resourceManager.ts
+new file mode 100644
+index 0000000000000000000000000000000000000000..fd6f0eb7e0ed42e1076da4693ffeb86816319517
+--- /dev/null
++++ b/src/mcc/resourceManager.ts
+@@ -0,0 +1,66 @@
++import { promises as fs } from 'fs';
++import path from 'path';
++
++interface ResourceSnapshot {
++  timestamp: string;
++  totalConcurrency: number;
++  usedConcurrency: number;
++  perProject: Record<string, { active: number; max: number }>;
++  // Soft accounting for daily spend; can be updated by analytics elsewhere
++  todayCostUSD: number;
++  dailyBudgetUSD: number;
++}
++
++export class ResourceManager {
++  private baseDir = 'logs/mcc';
++  private stateFile = path.join(this.baseDir, 'resources.json');
++  private totalConcurrency = Math.max(2, parseInt(process.env.MCC_MAX_CONCURRENCY || '4', 10));
++  private dailyBudgetUSD = Math.max(0, parseFloat(process.env.MCC_DAILY_BUDGET_USD || '0'));
++  private usedConcurrency = 0;
++  private perProject = new Map<string, { active: number; max: number }>();
++
++  private async persist() {
++    await fs.mkdir(this.baseDir, { recursive: true });
++    const snap: ResourceSnapshot = {
++      timestamp: new Date().toISOString(),
++      totalConcurrency: this.totalConcurrency,
++      usedConcurrency: this.usedConcurrency,
++      perProject: Object.fromEntries(this.perProject.entries()),
++      todayCostUSD: 0,
++      dailyBudgetUSD: this.dailyBudgetUSD,
++    };
++    await fs.writeFile(this.stateFile, JSON.stringify(snap, null, 2), 'utf8');
++  }
++
++  configureProject(projectId: string, maxConcurrency: number) {
++    const cur = this.perProject.get(projectId) || { active: 0, max: Math.max(1, Math.min(8, maxConcurrency)) };
++    cur.max = Math.max(1, Math.min(8, maxConcurrency));
++    this.perProject.set(projectId, cur);
++  }
++
++  canRun(projectId: string): boolean {
++    const proj = this.perProject.get(projectId) || { active: 0, max: 1 };
++    if (this.usedConcurrency >= this.totalConcurrency) return false;
++    if (proj.active >= proj.max) return false;
++    return true;
++  }
++
++  async allocate(projectId: string): Promise<boolean> {
++    if (!this.canRun(projectId)) return false;
++    this.usedConcurrency += 1;
++    const proj = this.perProject.get(projectId) || { active: 0, max: 1 };
++    proj.active += 1;
++    this.perProject.set(projectId, proj);
++    await this.persist();
++    return true;
++  }
++
++  async release(projectId: string): Promise<void> {
++    this.usedConcurrency = Math.max(0, this.usedConcurrency - 1);
++    const proj = this.perProject.get(projectId) || { active: 0, max: 1 };
++    proj.active = Math.max(0, proj.active - 1);
++    this.perProject.set(projectId, proj);
++    await this.persist();
++  }
++}
++
+diff --git a/src/mcc/types.ts b/src/mcc/types.ts
+new file mode 100644
+index 0000000000000000000000000000000000000000..403f95bf64c2cf074d4878088967097c5fbe9f8b
+--- /dev/null
++++ b/src/mcc/types.ts
+@@ -0,0 +1,60 @@
++import { z } from 'zod';
++
++export const ProjectId = z.string().min(1);
++
++export const ProjectConfigSchema = z.object({
++  id: z.string(),
++  name: z.string(),
++  description: z.string().optional(),
++  priority: z.number().int().min(1).max(10).default(5),
++  maxConcurrency: z.number().int().min(1).max(8).default(2),
++  dailyBudgetUSD: z.number().min(0).default(0),
++  schedule: z.object({
++    enabled: z.boolean().default(true),
++    timezone: z.string().default('UTC'),
++    // hh:mm-hh:mm 24h format windows; empty => always allowed
++    windows: z.array(z.string()).default([]),
++  }).default({ enabled: true, timezone: 'UTC', windows: [] }),
++  metadata: z.record(z.any()).default({}),
++});
++
++export type ProjectConfig = z.infer<typeof ProjectConfigSchema>;
++
++export const ProjectStatusSchema = z.object({
++  id: z.string(),
++  createdAt: z.string(),
++  updatedAt: z.string(),
++  activeTasks: z.number().int().nonnegative().default(0),
++  completedTasks: z.number().int().nonnegative().default(0),
++  failedTasks: z.number().int().nonnegative().default(0),
++  todayCostUSD: z.number().nonnegative().default(0),
++});
++
++export type ProjectStatus = z.infer<typeof ProjectStatusSchema>;
++
++export const ScheduledTaskSchema = z.object({
++  id: z.string(),
++  projectId: z.string(),
++  description: z.string(),
++  priority: z.number().int().min(1).max(10).default(5),
++  notBefore: z.string().optional(), // ISO datetime
++  createdAt: z.string(),
++  state: z.enum(['queued', 'running', 'completed', 'failed', 'canceled']).default('queued'),
++  attempts: z.number().int().nonnegative().default(0),
++  maxAttempts: z.number().int().min(1).max(5).default(2),
++  lastError: z.string().optional(),
++});
++
++export type ScheduledTask = z.infer<typeof ScheduledTaskSchema>;
++
++export interface RunRecord {
++  taskId: string;
++  projectId: string;
++  startedAt: string;
++  finishedAt: string;
++  success: boolean;
++  summary: string;
++  orchestratorRunPath?: string;
++  costUSD?: number;
++}
++
+
+[2025-09-06T18:37:09] apply_patch auto_approved=true:
+A /Users/panda/Desktop/EUFM/src/mcc/scheduler.ts
+import { ProjectRegistry } from './projectRegistry.js';
+import { ResourceManager } from './resourceManager.js';
+import { ScheduledTask } from './types.js';
+import { StrategicOrchestrator } from '../orchestrator/strategicOrchestrator.js';
+import { promises as fs } from 'fs';
+import path from 'path';
+
+export interface SchedulerOptions {
+  tickMs?: number;
+  dryRun?: boolean;
+}
+
+export class AutomatedScheduler {
+  private running = false;
+  private timer?: NodeJS.Timeout;
+  private registry = new ProjectRegistry();
+  private resources = new ResourceManager();
+  private orchestrator = new StrategicOrchestrator();
+  private baseDir = 'logs/mcc';
+
+  constructor(private opts: SchedulerOptions = {}) {}
+
+  private async log(evt: any) {
+    await fs.mkdir(this.baseDir, { recursive: true });
+    const file = path.join(this.baseDir, `scheduler_${new Date().toISOString().slice(0, 10)}.log`);
+    await fs.appendFile(file, JSON.stringify({ ts: new Date().toISOString(), ...evt }) + '\n', 'utf8');
+  }
+
+  private withinWindow(project: any, now: Date): boolean {
+    const { schedule } = project;
+    if (!schedule?.enabled) return false;
+    if (!schedule?.windows?.length) return true;
+    // Interpret windows in project timezone as HH:MM-HH:MM
+    const fmt = (d: Date) => d.toLocaleTimeString('en-GB', { hour12: false, timeZone: schedule.timezone || 'UTC', hour: '2-digit', minute: '2-digit' });
+    const cur = fmt(now);
+    return schedule.windows.some((w: string) => {
+      const [start, end] = w.split('-');
+      return start <= cur && cur <= end;
+    });
+  }
+
+  private async runTask(task: ScheduledTask, project: any) {
+    const allocated = await this.resources.allocate(task.projectId);
+    if (!allocated) return; // Someone else took the slot
+
+    try {
+      // Mark task running
+      task.state = 'running';
+      task.attempts += 1;
+      await this.registry.updateTask(task);
+      await this.log({ level: 'info', msg: `Running task ${task.id} for ${task.projectId}` });
+    try {
+      const now = new Date();
+      const projects = await this.registry.listProjects();
+
+      // configure per-project limits
+      for (const p of projects) this.resources.configureProject(p.id, p.maxConcurrency || 1);
+
+      // fetch next eligible task by project scheduling windows and global resources
+      const next = await this.registry.nextRunnableTask(now);
+      if (!next) return;
+      const project = projects.find((p) => p.id === next.projectId);
+      if (!project) return;
+      if (!this.withinWindow(project, now)) return;
+      if (!this.resources.canRun(project.id)) return;
+
+      // Fire and forget; allow parallelism up to resource limits
+      void this.runTask(next, project);
+
+      // Augment task with project context
+      const contextPrefix = project.description ? `Project ${project.name} Context: ${project.description}\n` : `Project ${project.name}\n`;
+      const description = contextPrefix + task.description;
+      const run = await this.orchestrator.execute(description, { dryRun: this.opts.dryRun });
+
+      // Persist run mapping for traceability
+      const mapPath = path.join(this.baseDir, 'runs', `${task.id}.json`);
+      await fs.mkdir(path.dirname(mapPath), { recursive: true });
+      await fs.writeFile(mapPath, JSON.stringify({ taskId: task.id, projectId: task.projectId, orchestratorRun: `logs/orchestrator/run_${run.taskId}.json` }, null, 2));
+
+      // Mark done
+    } catch (e: any) {
+      await this.log({ level: 'error', msg: 'Scheduler tick error', error: e?.message || String(e) });
+    }
+  }
+
+  start() {
+    if (this.running) return;
+    this.running = true;
+    const interval = Math.max(1000, this.opts.tickMs ?? 5000);
+    this.timer = setInterval(() => this.tick(), interval);
+  }
+
+  stop() {
+    this.running = false;
+    if (this.timer) clearInterval(this.timer);
+  }
+}
+      task.state = run.success ? 'completed' : 'failed';
+      task.lastError = run.success ? undefined : run.summary;
+      await this.registry.updateTask(task);
+      await this.log({ level: run.success ? 'info' : 'error', msg: `Task ${task.id} ${task.state}` });
+    } catch (err: any) {
+      task.state = task.attempts < task.maxAttempts ? 'queued' : 'failed';
+      task.lastError = err?.message || String(err);
+      // backoff: notBefore in 10 minutes for retry
+      if (task.state === 'queued') {
+        const t = new Date(Date.now() + 10 * 60 * 1000).toISOString();
+        task.notBefore = t;
+      }
+      await this.registry.updateTask(task);
+      await this.log({ level: 'error', msg: `Task ${task.id} failed`, error: task.lastError });
+    } finally {
+      await this.resources.release(task.projectId);
+    }
+  }
+
+  private async tick() {
+    if (!this.running) return;
+
+[2025-09-06T18:37:09] apply_patch(auto_approved=true) exited 0 in 79ms:
+Success. Updated the following files:
+A src/mcc/scheduler.ts
+[2025-09-06T18:37:09] turn diff:
+diff --git a/src/mcc/projectRegistry.ts b/src/mcc/projectRegistry.ts
+new file mode 100644
+index 0000000000000000000000000000000000000000..d13ba47c945098b7f5e8a46bb92f0e4676eaf6ce
+--- /dev/null
++++ b/src/mcc/projectRegistry.ts
+@@ -0,0 +1,104 @@
++import { promises as fs } from 'fs';
++import path from 'path';
++import { ProjectConfig, ProjectConfigSchema, ProjectStatus, ScheduledTask, ScheduledTaskSchema } from './types.js';
++
++export class ProjectRegistry {
++  private baseDir = 'logs/mcc';
++  private projectsFile = path.join(this.baseDir, 'projects.json');
++  private tasksFile = path.join(this.baseDir, 'tasks.json');
++  private statusesFile = path.join(this.baseDir, 'statuses.json');
++
++  private async ensureDirs() {
++    await fs.mkdir(this.baseDir, { recursive: true });
++  }
++
++  private async readJson<T>(file: string, fallback: T): Promise<T> {
++    try {
++      const txt = await fs.readFile(file, 'utf8');
++      return JSON.parse(txt) as T;
++    } catch {
++      return fallback;
++    }
++  }
++
++  private async writeJson(file: string, data: any) {
++    await this.ensureDirs();
++    await fs.writeFile(file, JSON.stringify(data, null, 2), 'utf8');
++  }
++
++  async listProjects(): Promise<ProjectConfig[]> {
++    const arr = await this.readJson<ProjectConfig[]>(this.projectsFile, []);
++    return arr.map((p) => ProjectConfigSchema.parse(p));
++  }
++
++  async getProject(id: string): Promise<ProjectConfig | undefined> {
++    const list = await this.listProjects();
++    return list.find((p) => p.id === id);
++  }
++
++  async upsertProject(cfg: ProjectConfig): Promise<void> {
++    const list = await this.listProjects();
++    const i = list.findIndex((p) => p.id === cfg.id);
++    if (i >= 0) list[i] = ProjectConfigSchema.parse(cfg); else list.push(ProjectConfigSchema.parse(cfg));
++    await this.writeJson(this.projectsFile, list);
++    // ensure status exists
++    const s = await this.getStatus(cfg.id);
++    if (!s) await this.updateStatus({ id: cfg.id, createdAt: new Date().toISOString(), updatedAt: new Date().toISOString(), activeTasks: 0, completedTasks: 0, failedTasks: 0, todayCostUSD: 0 });
++  }
++
++  async removeProject(id: string): Promise<void> {
++    const list = await this.listProjects();
++    await this.writeJson(this.projectsFile, list.filter((p) => p.id !== id));
++  }
++
++  async getStatus(id: string): Promise<ProjectStatus | undefined> {
++    const statuses = await this.readJson<Record<string, ProjectStatus>>(this.statusesFile, {});
++    return statuses[id];
++  }
++
++  async updateStatus(status: ProjectStatus): Promise<void> {
++    const statuses = await this.readJson<Record<string, ProjectStatus>>(this.statusesFile, {});
++    statuses[status.id] = { ...status, updatedAt: new Date().toISOString() };
++    await this.writeJson(this.statusesFile, statuses);
++  }
++
++  async listTasks(projectId?: string): Promise<ScheduledTask[]> {
++    const list = await this.readJson<ScheduledTask[]>(this.tasksFile, []);
++    const parsed = list.map((t) => ScheduledTaskSchema.parse(t));
++    return projectId ? parsed.filter((t) => t.projectId === projectId) : parsed;
++  }
++
++  async addTask(task: Omit<ScheduledTask, 'id' | 'createdAt' | 'state' | 'attempts'> & { id?: string }): Promise<ScheduledTask> {
++    const list = await this.listTasks();
++    const id = task.id || `task_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`;
++    const rec: ScheduledTask = ScheduledTaskSchema.parse({
++      ...task,
++      id,
++      createdAt: new Date().toISOString(),
++      state: 'queued',
++      attempts: 0,
++    });
++    list.push(rec);
++    await this.writeJson(this.tasksFile, list);
++    return rec;
++  }
++
++  async updateTask(task: ScheduledTask): Promise<void> {
++    const list = await this.listTasks();
++    const i = list.findIndex((t) => t.id === task.id);
++    if (i === -1) throw new Error(`Task not found: ${task.id}`);
++    list[i] = ScheduledTaskSchema.parse(task);
++    await this.writeJson(this.tasksFile, list);
++  }
++
++  async nextRunnableTask(now: Date = new Date()): Promise<ScheduledTask | undefined> {
++    const list = await this.listTasks();
++    const queued = list.filter((t) => t.state === 'queued');
++    // notBefore constraint
++    const eligible = queued.filter((t) => !t.notBefore || new Date(t.notBefore) <= now);
++    // sort by priority (low number = higher priority) then FIFO
++    eligible.sort((a, b) => a.priority - b.priority || a.createdAt.localeCompare(b.createdAt));
++    return eligible[0];
++  }
++}
++
+diff --git a/src/mcc/resourceManager.ts b/src/mcc/resourceManager.ts
+new file mode 100644
+index 0000000000000000000000000000000000000000..fd6f0eb7e0ed42e1076da4693ffeb86816319517
+--- /dev/null
++++ b/src/mcc/resourceManager.ts
+@@ -0,0 +1,66 @@
++import { promises as fs } from 'fs';
++import path from 'path';
++
++interface ResourceSnapshot {
++  timestamp: string;
++  totalConcurrency: number;
++  usedConcurrency: number;
++  perProject: Record<string, { active: number; max: number }>;
++  // Soft accounting for daily spend; can be updated by analytics elsewhere
++  todayCostUSD: number;
++  dailyBudgetUSD: number;
++}
++
++export class ResourceManager {
++  private baseDir = 'logs/mcc';
++  private stateFile = path.join(this.baseDir, 'resources.json');
++  private totalConcurrency = Math.max(2, parseInt(process.env.MCC_MAX_CONCURRENCY || '4', 10));
++  private dailyBudgetUSD = Math.max(0, parseFloat(process.env.MCC_DAILY_BUDGET_USD || '0'));
++  private usedConcurrency = 0;
++  private perProject = new Map<string, { active: number; max: number }>();
++
++  private async persist() {
++    await fs.mkdir(this.baseDir, { recursive: true });
++    const snap: ResourceSnapshot = {
++      timestamp: new Date().toISOString(),
++      totalConcurrency: this.totalConcurrency,
++      usedConcurrency: this.usedConcurrency,
++      perProject: Object.fromEntries(this.perProject.entries()),
++      todayCostUSD: 0,
++      dailyBudgetUSD: this.dailyBudgetUSD,
++    };
++    await fs.writeFile(this.stateFile, JSON.stringify(snap, null, 2), 'utf8');
++  }
++
++  configureProject(projectId: string, maxConcurrency: number) {
++    const cur = this.perProject.get(projectId) || { active: 0, max: Math.max(1, Math.min(8, maxConcurrency)) };
++    cur.max = Math.max(1, Math.min(8, maxConcurrency));
++    this.perProject.set(projectId, cur);
++  }
++
++  canRun(projectId: string): boolean {
++    const proj = this.perProject.get(projectId) || { active: 0, max: 1 };
++    if (this.usedConcurrency >= this.totalConcurrency) return false;
++    if (proj.active >= proj.max) return false;
++    return true;
++  }
++
++  async allocate(projectId: string): Promise<boolean> {
++    if (!this.canRun(projectId)) return false;
++    this.usedConcurrency += 1;
++    const proj = this.perProject.get(projectId) || { active: 0, max: 1 };
++    proj.active += 1;
++    this.perProject.set(projectId, proj);
++    await this.persist();
++    return true;
++  }
++
++  async release(projectId: string): Promise<void> {
++    this.usedConcurrency = Math.max(0, this.usedConcurrency - 1);
++    const proj = this.perProject.get(projectId) || { active: 0, max: 1 };
++    proj.active = Math.max(0, proj.active - 1);
++    this.perProject.set(projectId, proj);
++    await this.persist();
++  }
++}
++
+diff --git a/src/mcc/scheduler.ts b/src/mcc/scheduler.ts
+new file mode 100644
+index 0000000000000000000000000000000000000000..5331f49ec89ab875b79e16f703b0521fc38b39cf
+--- /dev/null
++++ b/src/mcc/scheduler.ts
+@@ -0,0 +1,119 @@
++import { ProjectRegistry } from './projectRegistry.js';
++import { ResourceManager } from './resourceManager.js';
++import { ScheduledTask } from './types.js';
++import { StrategicOrchestrator } from '../orchestrator/strategicOrchestrator.js';
++import { promises as fs } from 'fs';
++import path from 'path';
++
++export interface SchedulerOptions {
++  tickMs?: number;
++  dryRun?: boolean;
++}
++
++export class AutomatedScheduler {
++  private running = false;
++  private timer?: NodeJS.Timeout;
++  private registry = new ProjectRegistry();
++  private resources = new ResourceManager();
++  private orchestrator = new StrategicOrchestrator();
++  private baseDir = 'logs/mcc';
++
++  constructor(private opts: SchedulerOptions = {}) {}
++
++  private async log(evt: any) {
++    await fs.mkdir(this.baseDir, { recursive: true });
++    const file = path.join(this.baseDir, `scheduler_${new Date().toISOString().slice(0, 10)}.log`);
++    await fs.appendFile(file, JSON.stringify({ ts: new Date().toISOString(), ...evt }) + '\n', 'utf8');
++  }
++
++  private withinWindow(project: any, now: Date): boolean {
++    const { schedule } = project;
++    if (!schedule?.enabled) return false;
++    if (!schedule?.windows?.length) return true;
++    // Interpret windows in project timezone as HH:MM-HH:MM
++    const fmt = (d: Date) => d.toLocaleTimeString('en-GB', { hour12: false, timeZone: schedule.timezone || 'UTC', hour: '2-digit', minute: '2-digit' });
++    const cur = fmt(now);
++    return schedule.windows.some((w: string) => {
++      const [start, end] = w.split('-');
++      return start <= cur && cur <= end;
++    });
++  }
++
++  private async runTask(task: ScheduledTask, project: any) {
++    const allocated = await this.resources.allocate(task.projectId);
++    if (!allocated) return; // Someone else took the slot
++
++    try {
++      // Mark task running
++      task.state = 'running';
++      task.attempts += 1;
++      await this.registry.updateTask(task);
++      await this.log({ level: 'info', msg: `Running task ${task.id} for ${task.projectId}` });
++
++      // Augment task with project context
++      const contextPrefix = project.description ? `Project ${project.name} Context: ${project.description}\n` : `Project ${project.name}\n`;
++      const description = contextPrefix + task.description;
++      const run = await this.orchestrator.execute(description, { dryRun: this.opts.dryRun });
++
++      // Persist run mapping for traceability
++      const mapPath = path.join(this.baseDir, 'runs', `${task.id}.json`);
++      await fs.mkdir(path.dirname(mapPath), { recursive: true });
++      await fs.writeFile(mapPath, JSON.stringify({ taskId: task.id, projectId: task.projectId, orchestratorRun: `logs/orchestrator/run_${run.taskId}.json` }, null, 2));
++
++      // Mark done
++      task.state = run.success ? 'completed' : 'failed';
++      task.lastError = run.success ? undefined : run.summary;
++      await this.registry.updateTask(task);
++      await this.log({ level: run.success ? 'info' : 'error', msg: `Task ${task.id} ${task.state}` });
++    } catch (err: any) {
++      task.state = task.attempts < task.maxAttempts ? 'queued' : 'failed';
++      task.lastError = err?.message || String(err);
++      // backoff: notBefore in 10 minutes for retry
++      if (task.state === 'queued') {
++        const t = new Date(Date.now() + 10 * 60 * 1000).toISOString();
++        task.notBefore = t;
++      }
++      await this.registry.updateTask(task);
++      await this.log({ level: 'error', msg: `Task ${task.id} failed`, error: task.lastError });
++    } finally {
++      await this.resources.release(task.projectId);
++    }
++  }
++
++  private async tick() {
++    if (!this.running) return;
++    try {
++      const now = new Date();
++      const projects = await this.registry.listProjects();
++
++      // configure per-project limits
++      for (const p of projects) this.resources.configureProject(p.id, p.maxConcurrency || 1);
++
++      // fetch next eligible task by project scheduling windows and global resources
++      const next = await this.registry.nextRunnableTask(now);
++      if (!next) return;
++      const project = projects.find((p) => p.id === next.projectId);
++      if (!project) return;
++      if (!this.withinWindow(project, now)) return;
++      if (!this.resources.canRun(project.id)) return;
++
++      // Fire and forget; allow parallelism up to resource limits
++      void this.runTask(next, project);
++    } catch (e: any) {
++      await this.log({ level: 'error', msg: 'Scheduler tick error', error: e?.message || String(e) });
++    }
++  }
++
++  start() {
++    if (this.running) return;
++    this.running = true;
++    const interval = Math.max(1000, this.opts.tickMs ?? 5000);
++    this.timer = setInterval(() => this.tick(), interval);
++  }
++
++  stop() {
++    this.running = false;
++    if (this.timer) clearInterval(this.timer);
++  }
++}
++
+diff --git a/src/mcc/types.ts b/src/mcc/types.ts
+new file mode 100644
+index 0000000000000000000000000000000000000000..403f95bf64c2cf074d4878088967097c5fbe9f8b
+--- /dev/null
++++ b/src/mcc/types.ts
+@@ -0,0 +1,60 @@
++import { z } from 'zod';
++
++export const ProjectId = z.string().min(1);
++
++export const ProjectConfigSchema = z.object({
++  id: z.string(),
++  name: z.string(),
++  description: z.string().optional(),
++  priority: z.number().int().min(1).max(10).default(5),
++  maxConcurrency: z.number().int().min(1).max(8).default(2),
++  dailyBudgetUSD: z.number().min(0).default(0),
++  schedule: z.object({
++    enabled: z.boolean().default(true),
++    timezone: z.string().default('UTC'),
++    // hh:mm-hh:mm 24h format windows; empty => always allowed
++    windows: z.array(z.string()).default([]),
++  }).default({ enabled: true, timezone: 'UTC', windows: [] }),
++  metadata: z.record(z.any()).default({}),
++});
++
++export type ProjectConfig = z.infer<typeof ProjectConfigSchema>;
++
++export const ProjectStatusSchema = z.object({
++  id: z.string(),
++  createdAt: z.string(),
++  updatedAt: z.string(),
++  activeTasks: z.number().int().nonnegative().default(0),
++  completedTasks: z.number().int().nonnegative().default(0),
++  failedTasks: z.number().int().nonnegative().default(0),
++  todayCostUSD: z.number().nonnegative().default(0),
++});
++
++export type ProjectStatus = z.infer<typeof ProjectStatusSchema>;
++
++export const ScheduledTaskSchema = z.object({
++  id: z.string(),
++  projectId: z.string(),
++  description: z.string(),
++  priority: z.number().int().min(1).max(10).default(5),
++  notBefore: z.string().optional(), // ISO datetime
++  createdAt: z.string(),
++  state: z.enum(['queued', 'running', 'completed', 'failed', 'canceled']).default('queued'),
++  attempts: z.number().int().nonnegative().default(0),
++  maxAttempts: z.number().int().min(1).max(5).default(2),
++  lastError: z.string().optional(),
++});
++
++export type ScheduledTask = z.infer<typeof ScheduledTaskSchema>;
++
++export interface RunRecord {
++  taskId: string;
++  projectId: string;
++  startedAt: string;
++  finishedAt: string;
++  success: boolean;
++  summary: string;
++  orchestratorRunPath?: string;
++  costUSD?: number;
++}
++
+
+[2025-09-06T18:37:09] tokens used: 2333
+[2025-09-06T18:37:09] turn diff:
+diff --git a/src/mcc/projectRegistry.ts b/src/mcc/projectRegistry.ts
+new file mode 100644
+index 0000000000000000000000000000000000000000..d13ba47c945098b7f5e8a46bb92f0e4676eaf6ce
+--- /dev/null
++++ b/src/mcc/projectRegistry.ts
+@@ -0,0 +1,104 @@
++import { promises as fs } from 'fs';
++import path from 'path';
++import { ProjectConfig, ProjectConfigSchema, ProjectStatus, ScheduledTask, ScheduledTaskSchema } from './types.js';
++
++export class ProjectRegistry {
++  private baseDir = 'logs/mcc';
++  private projectsFile = path.join(this.baseDir, 'projects.json');
++  private tasksFile = path.join(this.baseDir, 'tasks.json');
++  private statusesFile = path.join(this.baseDir, 'statuses.json');
++
++  private async ensureDirs() {
++    await fs.mkdir(this.baseDir, { recursive: true });
++  }
++
++  private async readJson<T>(file: string, fallback: T): Promise<T> {
++    try {
++      const txt = await fs.readFile(file, 'utf8');
++      return JSON.parse(txt) as T;
++    } catch {
++      return fallback;
++    }
++  }
++
++  private async writeJson(file: string, data: any) {
++    await this.ensureDirs();
++    await fs.writeFile(file, JSON.stringify(data, null, 2), 'utf8');
++  }
++
++  async listProjects(): Promise<ProjectConfig[]> {
++    const arr = await this.readJson<ProjectConfig[]>(this.projectsFile, []);
++    return arr.map((p) => ProjectConfigSchema.parse(p));
++  }
++
++  async getProject(id: string): Promise<ProjectConfig | undefined> {
++    const list = await this.listProjects();
++    return list.find((p) => p.id === id);
++  }
++
++  async upsertProject(cfg: ProjectConfig): Promise<void> {
++    const list = await this.listProjects();
++    const i = list.findIndex((p) => p.id === cfg.id);
++    if (i >= 0) list[i] = ProjectConfigSchema.parse(cfg); else list.push(ProjectConfigSchema.parse(cfg));
++    await this.writeJson(this.projectsFile, list);
++    // ensure status exists
++    const s = await this.getStatus(cfg.id);
++    if (!s) await this.updateStatus({ id: cfg.id, createdAt: new Date().toISOString(), updatedAt: new Date().toISOString(), activeTasks: 0, completedTasks: 0, failedTasks: 0, todayCostUSD: 0 });
++  }
++
++  async removeProject(id: string): Promise<void> {
++    const list = await this.listProjects();
++    await this.writeJson(this.projectsFile, list.filter((p) => p.id !== id));
++  }
++
++  async getStatus(id: string): Promise<ProjectStatus | undefined> {
++    const statuses = await this.readJson<Record<string, ProjectStatus>>(this.statusesFile, {});
++    return statuses[id];
++  }
++
++  async updateStatus(status: ProjectStatus): Promise<void> {
++    const statuses = await this.readJson<Record<string, ProjectStatus>>(this.statusesFile, {});
++    statuses[status.id] = { ...status, updatedAt: new Date().toISOString() };
++    await this.writeJson(this.statusesFile, statuses);
++  }
++
++  async listTasks(projectId?: string): Promise<ScheduledTask[]> {
++    const list = await this.readJson<ScheduledTask[]>(this.tasksFile, []);
++    const parsed = list.map((t) => ScheduledTaskSchema.parse(t));
++    return projectId ? parsed.filter((t) => t.projectId === projectId) : parsed;
++  }
++
++  async addTask(task: Omit<ScheduledTask, 'id' | 'createdAt' | 'state' | 'attempts'> & { id?: string }): Promise<ScheduledTask> {
++    const list = await this.listTasks();
++    const id = task.id || `task_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`;
++    const rec: ScheduledTask = ScheduledTaskSchema.parse({
++      ...task,
++      id,
++      createdAt: new Date().toISOString(),
++      state: 'queued',
++      attempts: 0,
++    });
++    list.push(rec);
++    await this.writeJson(this.tasksFile, list);
++    return rec;
++  }
++
++  async updateTask(task: ScheduledTask): Promise<void> {
++    const list = await this.listTasks();
++    const i = list.findIndex((t) => t.id === task.id);
++    if (i === -1) throw new Error(`Task not found: ${task.id}`);
++    list[i] = ScheduledTaskSchema.parse(task);
++    await this.writeJson(this.tasksFile, list);
++  }
++
++  async nextRunnableTask(now: Date = new Date()): Promise<ScheduledTask | undefined> {
++    const list = await this.listTasks();
++    const queued = list.filter((t) => t.state === 'queued');
++    // notBefore constraint
++    const eligible = queued.filter((t) => !t.notBefore || new Date(t.notBefore) <= now);
++    // sort by priority (low number = higher priority) then FIFO
++    eligible.sort((a, b) => a.priority - b.priority || a.createdAt.localeCompare(b.createdAt));
++    return eligible[0];
++  }
++}
++
+diff --git a/src/mcc/resourceManager.ts b/src/mcc/resourceManager.ts
+new file mode 100644
+index 0000000000000000000000000000000000000000..fd6f0eb7e0ed42e1076da4693ffeb86816319517
+--- /dev/null
++++ b/src/mcc/resourceManager.ts
+@@ -0,0 +1,66 @@
++import { promises as fs } from 'fs';
++import path from 'path';
++
++interface ResourceSnapshot {
++  timestamp: string;
++  totalConcurrency: number;
++  usedConcurrency: number;
++  perProject: Record<string, { active: number; max: number }>;
++  // Soft accounting for daily spend; can be updated by analytics elsewhere
++  todayCostUSD: number;
++  dailyBudgetUSD: number;
++}
++
++export class ResourceManager {
++  private baseDir = 'logs/mcc';
++  private stateFile = path.join(this.baseDir, 'resources.json');
++  private totalConcurrency = Math.max(2, parseInt(process.env.MCC_MAX_CONCURRENCY || '4', 10));
++  private dailyBudgetUSD = Math.max(0, parseFloat(process.env.MCC_DAILY_BUDGET_USD || '0'));
++  private usedConcurrency = 0;
++  private perProject = new Map<string, { active: number; max: number }>();
++
++  private async persist() {
++    await fs.mkdir(this.baseDir, { recursive: true });
++    const snap: ResourceSnapshot = {
++      timestamp: new Date().toISOString(),
++      totalConcurrency: this.totalConcurrency,
++      usedConcurrency: this.usedConcurrency,
++      perProject: Object.fromEntries(this.perProject.entries()),
++      todayCostUSD: 0,
++      dailyBudgetUSD: this.dailyBudgetUSD,
++    };
++    await fs.writeFile(this.stateFile, JSON.stringify(snap, null, 2), 'utf8');
++  }
++
++  configureProject(projectId: string, maxConcurrency: number) {
++    const cur = this.perProject.get(projectId) || { active: 0, max: Math.max(1, Math.min(8, maxConcurrency)) };
++    cur.max = Math.max(1, Math.min(8, maxConcurrency));
++    this.perProject.set(projectId, cur);
++  }
++
++  canRun(projectId: string): boolean {
++    const proj = this.perProject.get(projectId) || { active: 0, max: 1 };
++    if (this.usedConcurrency >= this.totalConcurrency) return false;
++    if (proj.active >= proj.max) return false;
++    return true;
++  }
++
++  async allocate(projectId: string): Promise<boolean> {
++    if (!this.canRun(projectId)) return false;
++    this.usedConcurrency += 1;
++    const proj = this.perProject.get(projectId) || { active: 0, max: 1 };
++    proj.active += 1;
++    this.perProject.set(projectId, proj);
++    await this.persist();
++    return true;
++  }
++
++  async release(projectId: string): Promise<void> {
++    this.usedConcurrency = Math.max(0, this.usedConcurrency - 1);
++    const proj = this.perProject.get(projectId) || { active: 0, max: 1 };
++    proj.active = Math.max(0, proj.active - 1);
++    this.perProject.set(projectId, proj);
++    await this.persist();
++  }
++}
++
+diff --git a/src/mcc/scheduler.ts b/src/mcc/scheduler.ts
+new file mode 100644
+index 0000000000000000000000000000000000000000..5331f49ec89ab875b79e16f703b0521fc38b39cf
+--- /dev/null
++++ b/src/mcc/scheduler.ts
+@@ -0,0 +1,119 @@
++import { ProjectRegistry } from './projectRegistry.js';
++import { ResourceManager } from './resourceManager.js';
++import { ScheduledTask } from './types.js';
++import { StrategicOrchestrator } from '../orchestrator/strategicOrchestrator.js';
++import { promises as fs } from 'fs';
++import path from 'path';
++
++export interface SchedulerOptions {
++  tickMs?: number;
++  dryRun?: boolean;
++}
++
++export class AutomatedScheduler {
++  private running = false;
++  private timer?: NodeJS.Timeout;
++  private registry = new ProjectRegistry();
++  private resources = new ResourceManager();
++  private orchestrator = new StrategicOrchestrator();
++  private baseDir = 'logs/mcc';
++
++  constructor(private opts: SchedulerOptions = {}) {}
++
++  private async log(evt: any) {
++    await fs.mkdir(this.baseDir, { recursive: true });
++    const file = path.join(this.baseDir, `scheduler_${new Date().toISOString().slice(0, 10)}.log`);
++    await fs.appendFile(file, JSON.stringify({ ts: new Date().toISOString(), ...evt }) + '\n', 'utf8');
++  }
++
++  private withinWindow(project: any, now: Date): boolean {
++    const { schedule } = project;
++    if (!schedule?.enabled) return false;
++    if (!schedule?.windows?.length) return true;
++    // Interpret windows in project timezone as HH:MM-HH:MM
++    const fmt = (d: Date) => d.toLocaleTimeString('en-GB', { hour12: false, timeZone: schedule.timezone || 'UTC', hour: '2-digit', minute: '2-digit' });
++    const cur = fmt(now);
++    return schedule.windows.some((w: string) => {
++      const [start, end] = w.split('-');
++      return start <= cur && cur <= end;
++    });
++  }
++
++  private async runTask(task: ScheduledTask, project: any) {
++    const allocated = await this.resources.allocate(task.projectId);
++    if (!allocated) return; // Someone else took the slot
++
++    try {
++      // Mark task running
++      task.state = 'running';
++      task.attempts += 1;
++      await this.registry.updateTask(task);
++      await this.log({ level: 'info', msg: `Running task ${task.id} for ${task.projectId}` });
++
++      // Augment task with project context
++      const contextPrefix = project.description ? `Project ${project.name} Context: ${project.description}\n` : `Project ${project.name}\n`;
++      const description = contextPrefix + task.description;
++      const run = await this.orchestrator.execute(description, { dryRun: this.opts.dryRun });
++
++      // Persist run mapping for traceability
++      const mapPath = path.join(this.baseDir, 'runs', `${task.id}.json`);
++      await fs.mkdir(path.dirname(mapPath), { recursive: true });
++      await fs.writeFile(mapPath, JSON.stringify({ taskId: task.id, projectId: task.projectId, orchestratorRun: `logs/orchestrator/run_${run.taskId}.json` }, null, 2));
++
++      // Mark done
++      task.state = run.success ? 'completed' : 'failed';
++      task.lastError = run.success ? undefined : run.summary;
++      await this.registry.updateTask(task);
++      await this.log({ level: run.success ? 'info' : 'error', msg: `Task ${task.id} ${task.state}` });
++    } catch (err: any) {
++      task.state = task.attempts < task.maxAttempts ? 'queued' : 'failed';
++      task.lastError = err?.message || String(err);
++      // backoff: notBefore in 10 minutes for retry
++      if (task.state === 'queued') {
++        const t = new Date(Date.now() + 10 * 60 * 1000).toISOString();
++        task.notBefore = t;
++      }
++      await this.registry.updateTask(task);
++      await this.log({ level: 'error', msg: `Task ${task.id} failed`, error: task.lastError });
++    } finally {
++      await this.resources.release(task.projectId);
++    }
++  }
++
++  private async tick() {
++    if (!this.running) return;
++    try {
++      const now = new Date();
++      const projects = await this.registry.listProjects();
++
++      // configure per-project limits
++      for (const p of projects) this.resources.configureProject(p.id, p.maxConcurrency || 1);
++
++      // fetch next eligible task by project scheduling windows and global resources
++      const next = await this.registry.nextRunnableTask(now);
++      if (!next) return;
++      const project = projects.find((p) => p.id === next.projectId);
++      if (!project) return;
++      if (!this.withinWindow(project, now)) return;
++      if (!this.resources.canRun(project.id)) return;
++
++      // Fire and forget; allow parallelism up to resource limits
++      void this.runTask(next, project);
++    } catch (e: any) {
++      await this.log({ level: 'error', msg: 'Scheduler tick error', error: e?.message || String(e) });
++    }
++  }
++
++  start() {
++    if (this.running) return;
++    this.running = true;
++    const interval = Math.max(1000, this.opts.tickMs ?? 5000);
++    this.timer = setInterval(() => this.tick(), interval);
++  }
++
++  stop() {
++    this.running = false;
++    if (this.timer) clearInterval(this.timer);
++  }
++}
++
+diff --git a/src/mcc/types.ts b/src/mcc/types.ts
+new file mode 100644
+index 0000000000000000000000000000000000000000..403f95bf64c2cf074d4878088967097c5fbe9f8b
+--- /dev/null
++++ b/src/mcc/types.ts
+@@ -0,0 +1,60 @@
++import { z } from 'zod';
++
++export const ProjectId = z.string().min(1);
++
++export const ProjectConfigSchema = z.object({
++  id: z.string(),
++  name: z.string(),
++  description: z.string().optional(),
++  priority: z.number().int().min(1).max(10).default(5),
++  maxConcurrency: z.number().int().min(1).max(8).default(2),
++  dailyBudgetUSD: z.number().min(0).default(0),
++  schedule: z.object({
++    enabled: z.boolean().default(true),
++    timezone: z.string().default('UTC'),
++    // hh:mm-hh:mm 24h format windows; empty => always allowed
++    windows: z.array(z.string()).default([]),
++  }).default({ enabled: true, timezone: 'UTC', windows: [] }),
++  metadata: z.record(z.any()).default({}),
++});
++
++export type ProjectConfig = z.infer<typeof ProjectConfigSchema>;
++
++export const ProjectStatusSchema = z.object({
++  id: z.string(),
++  createdAt: z.string(),
++  updatedAt: z.string(),
++  activeTasks: z.number().int().nonnegative().default(0),
++  completedTasks: z.number().int().nonnegative().default(0),
++  failedTasks: z.number().int().nonnegative().default(0),
++  todayCostUSD: z.number().nonnegative().default(0),
++});
++
++export type ProjectStatus = z.infer<typeof ProjectStatusSchema>;
++
++export const ScheduledTaskSchema = z.object({
++  id: z.string(),
++  projectId: z.string(),
++  description: z.string(),
++  priority: z.number().int().min(1).max(10).default(5),
++  notBefore: z.string().optional(), // ISO datetime
++  createdAt: z.string(),
++  state: z.enum(['queued', 'running', 'completed', 'failed', 'canceled']).default('queued'),
++  attempts: z.number().int().nonnegative().default(0),
++  maxAttempts: z.number().int().min(1).max(5).default(2),
++  lastError: z.string().optional(),
++});
++
++export type ScheduledTask = z.infer<typeof ScheduledTaskSchema>;
++
++export interface RunRecord {
++  taskId: string;
++  projectId: string;
++  startedAt: string;
++  finishedAt: string;
++  success: boolean;
++  summary: string;
++  orchestratorRunPath?: string;
++  costUSD?: number;
++}
++
+
+
+[2025-09-06T18:37:11] thinking
+
+**Implementing master control**
+
+I’m thinking about adding a file named masterControlCenter.ts. This file should expose some important features, like registry management and scheduler control. I want to include methods that help check the status as well. This way, I can ensure everything runs smoothly and users can easily
+ERROR: Codex task timed out after 120000ms
+
+Process exited with code: 0

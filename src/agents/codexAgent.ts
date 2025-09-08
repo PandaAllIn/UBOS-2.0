@@ -25,7 +25,7 @@ export class CodexAgent extends BaseAgent {
       const prompt = `You are CodexAgent. Task: ${opts.input}\n\nReturn a concise plan and code diffs if applicable.`;
       if (provider === 'openai') out = await openaiComplete(prompt, { model, temperature: 0.2 });
       else if (provider === 'anthropic') out = await anthropicComplete(prompt, model);
-      else out = await geminiComplete(prompt, 'gemini-1.5-pro');
+      else out = await geminiComplete(prompt, 'gemini-2.0-flash-exp');
 
       return { agentId: this.id, requirementId: this.requirementId, success: true, output: out, startedAt, finishedAt: this.now() };
     } catch (e: any) {

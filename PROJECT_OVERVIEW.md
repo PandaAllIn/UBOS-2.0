@@ -126,11 +126,15 @@ Example CLI flows (current)
 
 ## Repository Map (Key Files)
 - README: project one‑liner and purpose — `README.md`.
+- **LATEST SYSTEM CAPABILITIES**: Complete implementation reference — `SYSTEM_LATEST_IMPLEMENTATIONS.md`.
+- **AGENT QUICK REFERENCE**: Essential commands and capabilities — `AGENT_QUICK_REFERENCE.md`.
 - Docs index and architecture — `docs/README.md`, `docs/architecture.md`.
+- **Claude session memory**: Context preservation — `docs/CLAUDE_SESSION_MEMORY.md`.
 - Adapter contracts and tool specs — `docs/integration_adapters.md`.
 - Browser agent design — `docs/agent_browser_access.md`.
 - EU funding framing — `docs/funding_eu.md`.
 - CLI and runtime code — `src/cli/index.ts`, `src/adapters/*`, `src/tools/*`.
+- **Enhanced agent implementations** — `src/agents/`, `src/tools/`.
 - Project config — `package.json`, `tsconfig.json`, `.env.example`.
 
 ## Working Agreements

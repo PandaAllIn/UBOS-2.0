@@ -1,0 +1,296 @@
+{
+  "xf_production": {
+    "id": "xf_production",
+    "name": "XF Production System",
+    "description": "Proven AI agent system with €6M track record",
+    "status": "active",
+    "priority": "P1",
+    "budget": {
+      "allocated": 6000000,
+      "spent": 6000000,
+      "currency": "EUR"
+    },
+    "timeline": {
+      "startDate": "2024-01-01",
+      "milestones": [
+        {
+          "name": "System Deployment",
+          "date": "2024-06-01",
+          "status": "completed"
+        },
+        {
+          "name": "Production Validation",
+          "date": "2024-12-01",
+          "status": "completed"
+        }
+      ]
+    },
+    "resources": {
+      "agents": [
+        "AgentSummoner",
+        "MissionControl",
+        "ResearchAgent"
+      ],
+      "computeAllocation": 40,
+      "apiCredits": 50000,
+      "teamMembers": [
+        "Core Team"
+      ]
+    },
+    "metrics": {
+      "healthScore": 98,
+      "progressPercentage": 100,
+      "riskLevel": "low",
+      "lastUpdated": "2025-09-07T14:09:16.649Z"
+    },
+    "dependencies": {
+      "dependsOn": [],
+      "blockedBy": [],
+      "synergiesWith": [
+        "eufm_funding"
+      ]
+    },
+    "automatedTasks": [
+      {
+        "id": "xf_health_check",
+        "description": "Daily system health monitoring",
+        "schedule": "0 6 * * *",
+        "agent": "SystemMonitor",
+        "nextRun": "2025-09-08T03:00:00.000Z",
+        "status": "active"
+      }
+    ],
+    "location": {
+      "baseDirectory": "/Users/panda/Desktop/Claude Code/eufm XF",
+      "configFile": "mission_control.py",
+      "logsDirectory": "/Users/panda/Desktop/Claude Code/eufm XF/logs"
+    }
+  },
+  "eufm_funding": {
+    "id": "eufm_funding",
+    "name": "EUFM EU Funding Acquisition",
+    "description": "Secure €2M+ EU funding for EUFM infrastructure scaling",
+    "status": "active",
+    "priority": "P0",
+    "budget": {
+      "allocated": 100000,
+      "spent": 27000,
+      "currency": "EUR",
+      "target": 2000000
+    },
+    "timeline": {
+      "startDate": "2025-09-01",
+      "endDate": "2025-12-31",
+      "milestones": [
+        {
+          "name": "Agent Summoner Deployment",
+          "date": "2025-09-06",
+          "status": "completed"
+        },
+        {
+          "name": "EU Funding Strategy",
+          "date": "2025-09-06",
+          "status": "completed"
+        },
+        {
+          "name": "Horizon Europe Application",
+          "date": "2025-09-18",
+          "status": "in_progress"
+        },
+        {
+          "name": "Funding Decision",
+          "date": "2025-12-15",
+          "status": "pending"
+        }
+      ]
+    },
+    "resources": {
+      "agents": [
+        "AgentSummoner",
+        "EUFundingProposal",
+        "EnhancedAbacus",
+        "CodexCLI"
+      ],
+      "computeAllocation": 50,
+      "apiCredits": 25000,
+      "teamMembers": [
+        "Core Team",
+        "EU Consortium"
+      ]
+    },
+    "metrics": {
+      "healthScore": 92,
+      "progressPercentage": 65,
+      "riskLevel": "medium",
+      "lastUpdated": "2025-09-07T14:09:16.651Z"
+    },
+    "dependencies": {
+      "dependsOn": [],
+      "blockedBy": [],
+      "synergiesWith": [
+        "xf_production"
+      ]
+    },
+    "automatedTasks": [
+      {
+        "id": "eu_funding_scan",
+        "description": "Daily EU funding opportunity scan",
+        "schedule": "0 4 * * *",
+        "agent": "AgentSummoner",
+        "nextRun": "2025-09-08T01:00:00.000Z",
+        "status": "active"
+      },
+      {
+        "id": "deadline_monitor",
+        "description": "Critical deadline monitoring",
+        "schedule": "0 8 * * *",
+        "agent": "ProjectMonitor",
+        "nextRun": "2025-09-08T05:00:00.000Z",
+        "status": "active"
+      }
+    ],
+    "location": {
+      "baseDirectory": "/Users/panda/Desktop/EUFM",
+      "configFile": "CLAUDE_SESSION_MEMORY.md",
+      "logsDirectory": "/Users/panda/Desktop/EUFM/logs"
+    }
+  },
+  "geo_data_center": {
+    "id": "geo_data_center",
+    "name": "GeoDataCenter",
+    "description": "Geothermal-powered AI Data Center initiative with EU funding focus",
+    "status": "active",
+    "priority": "P1",
+    "budget": {
+      "allocated": 10000000,
+      "spent": 0,
+      "currency": "EUR",
+      "target": 50000000
+    },
+    "timeline": {
+      "startDate": "2025-09-07",
+      "endDate": "2025-09-30",
+      "milestones": [
+        {
+          "name": "Project Registration in Registry",
+          "date": "2025-09-07",
+          "status": "completed"
+        },
+        {
+          "name": "EU Funding Application Window",
+          "date": "2025-09-01",
+          "status": "in_progress"
+        },
+        {
+          "name": "Funding Decision Expected",
+          "date": "2025-09-30",
+          "status": "pending"
+        }
+      ]
+    },
+    "resources": {
+      "agents": [
+        "AgentSummoner",
+        "EUFundingProposal",
+        "EnhancedAbacus",
+        "CodexCLI",
+        "ProjectMonitor"
+      ],
+      "computeAllocation": 30,
+      "apiCredits": 10000,
+      "teamMembers": [
+        "Core Team"
+      ]
+    },
+    "metrics": {
+      "healthScore": 80,
+      "progressPercentage": 5,
+      "riskLevel": "medium",
+      "lastUpdated": "2025-09-07T15:34:18.435Z"
+    },
+    "dependencies": {
+      "dependsOn": [],
+      "blockedBy": [],
+      "synergiesWith": [
+        "eufm_funding"
+      ]
+    },
+    "automatedTasks": [
+      {
+        "id": "geo_funding_deadline_monitor",
+        "description": "Monitor September 2025 deadline and reminders",
+        "schedule": "0 9 * * *",
+        "agent": "ProjectMonitor",
+        "nextRun": "2025-09-07T15:34:18.435Z",
+        "status": "active"
+      }
+    ],
+    "location": {
+      "baseDirectory": "/Users/panda/Desktop/EUFM/PROJECTS/GeoDataCenter",
+      "configFile": "Claude Geo.md",
+      "logsDirectory": "/Users/panda/Desktop/EUFM/logs/GeoDataCenter"
+    }
+  },
+  "portal_oradea": {
+    "id": "portal_oradea",
+    "name": "Portal Oradea",
+    "description": "Regional business & investment attraction platform for Oradea/Bihor",
+    "status": "planned",
+    "priority": "P2",
+    "budget": {
+      "allocated": 5000000,
+      "spent": 0,
+      "currency": "EUR",
+      "target": 15000000
+    },
+    "timeline": {
+      "startDate": "2025-01-01",
+      "endDate": "2025-12-31",
+      "milestones": [
+        {
+          "name": "Q1 2025: Foundation",
+          "date": "2025-03-31",
+          "status": "pending"
+        },
+        {
+          "name": "Q2 2025: Development",
+          "date": "2025-06-30",
+          "status": "pending"
+        },
+        {
+          "name": "Q3 2025: Pilot",
+          "date": "2025-09-30",
+          "status": "pending"
+        },
+        {
+          "name": "Q4 2025: Rollout",
+          "date": "2025-12-31",
+          "status": "pending"
+        }
+      ]
+    },
+    "resources": {
+      "agents": [],
+      "computeAllocation": 0,
+      "apiCredits": 0,
+      "teamMembers": []
+    },
+    "metrics": {
+      "healthScore": 0,
+      "progressPercentage": 0,
+      "riskLevel": "medium",
+      "lastUpdated": "2025-09-07T15:37:23.252Z"
+    },
+    "dependencies": {
+      "dependsOn": [],
+      "blockedBy": [],
+      "synergiesWith": []
+    },
+    "automatedTasks": [],
+    "location": {
+      "baseDirectory": "/Users/panda/Desktop/EUFM/PROJECTS/Portal Oradea",
+      "configFile": "PROJECT_BRIEF.md",
+      "logsDirectory": "/Users/panda/Desktop/EUFM/logs/Portal Oradea"
+    }
+  }
+}

@@ -12,7 +12,7 @@ export class JulesAgent extends BaseAgent {
       }
       const role = ctx?.shared?.role || 'review';
       const prompt = `You are Jules (Gemini Code Assist). Role: ${role}. Task: ${opts.input}. Provide succinct guidance and actionable steps.`;
-      const out = await geminiComplete(prompt, 'gemini-1.5-pro');
+      const out = await geminiComplete(prompt, 'gemini-2.0-flash-exp');
       return { agentId: this.id, requirementId: this.requirementId, success: true, output: out, startedAt, finishedAt: this.now() };
     } catch (e: any) {
       return { agentId: this.id, requirementId: this.requirementId, success: false, output: '', error: e?.message || String(e), startedAt, finishedAt: this.now() };

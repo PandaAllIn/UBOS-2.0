@@ -1,1 +1,50 @@
-[]
+[
+  {
+    "id": "eufm_core_funding_2025-09-18",
+    "title": "EUFM Core Funding — EUFM Program",
+    "program": "EUFM",
+    "deadline": "2025-09-18",
+    "budget": "€2M",
+    "description": "Core funding deadline for EUFM EU Funding project.",
+    "eligibility": [
+      "SME/startup support",
+      "Digital innovation"
+    ],
+    "relevanceScore": 95,
+    "url": "",
+    "status": "closing_soon",
+    "scannedAt": "2025-09-08T11:28:40.098Z"
+  },
+  {
+    "id": "cetpartnership_geodatacenter_2025-10-09",
+    "title": "CETPartnership — GeoDataCenter Track",
+    "program": "CETPartnership",
+    "deadline": "2025-10-09",
+    "budget": "€12M",
+    "description": "Clean Energy Transition partnership call relevant to GeoDataCenter.",
+    "eligibility": [
+      "Consortium",
+      "Clean energy transition"
+    ],
+    "relevanceScore": 85,
+    "url": "",
+    "status": "open",
+    "scannedAt": "2025-09-08T11:28:40.098Z"
+  },
+  {
+    "id": "horizon_europe_geodatacenter_2025-09-02",
+    "title": "Horizon Europe — GeoDataCenter Call",
+    "program": "Horizon Europe",
+    "deadline": "2025-09-02",
+    "budget": "€20M",
+    "description": "High-impact research and innovation funding relevant to GeoDataCenter project.",
+    "eligibility": [
+      "Consortium (3+ countries)",
+      "Research & Innovation"
+    ],
+    "relevanceScore": 90,
+    "url": "",
+    "status": "closed",
+    "scannedAt": "2025-09-08T11:48:11.669Z"
+  }
+]

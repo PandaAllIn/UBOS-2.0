@@ -1,0 +1,198 @@
+FIX DASHBOARD ISSUES FROM SCREENSHOTS
+
+## CRITICAL ISSUES TO FIX:
+
+### 1. ACTIVITY LOG FONT INCONSISTENCY
+- Activity log shows different font (monospace) vs rest of UI
+- Should use consistent Roboto Flex throughout
+- Fix typography hierarchy and spacing
+
+### 2. CHAT NOT RESPONDING
+- User types messages but system doesn't respond
+- Chat input should process commands and show results
+- Need better command parsing and response logic
+
+### 3. KEYBOARD SHORTCUTS INTERFERING
+- Pressing E/D in chat input activates global shortcuts (export/dark mode)
+- Should only work when NOT focused on input fields
+- Fix event handling to respect input focus
+
+### 4. ELEMENT ALIGNMENT ISSUES
+- Cards not properly aligned in grid
+- Inconsistent spacing between elements
+- Text alignment issues in activity log and chat
+
+### 5. TASK EXECUTION UNCLEAR
+- When executing tasks, no clear progress shown
+- Results don't appear in obvious place
+- Need better visual flow from task → execution → results
+
+## SPECIFIC FIXES NEEDED:
+
+### A. FIX FONT CONSISTENCY
+```css
+/* Ensure all text uses consistent font family */
+.activity-list, .chat-messages, .activity-item {
+  font-family: var(--font-sans);
+  font-size: var(--fs-body);
+}
+
+/* Remove any monospace overrides */
+.activity-content, .message-content {
+  font-family: inherit;
+}
+```
+
+### B. FIX KEYBOARD SHORTCUTS
+```javascript
+// Only activate shortcuts when NOT in input fields
+document.addEventListener('keydown', (e) => {
+  // Skip if user is typing in input/textarea
+  if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+  
+  if (e.key === 'e') { e.preventDefault(); this.exportStatus(); }
+  // ... other shortcuts
+});
+```
+
+### C. IMPROVE CHAT RESPONSES
+```javascript
+async sendChatMessage() {
+  const input = document.getElementById('chat-input');
+  const msg = input.value.trim();
+  if (!msg) return;
+  
+  this.addChatMessage('user', msg);
+  input.value = '';
+  
+  // Better command processing
+  if (msg.toLowerCase().includes('funding')) {
+    this.addChatMessage('system', '🔍 Searching funding opportunities...');
+    await this.updateOpportunities();
+    this.addChatMessage('system', `Found ${this.counts.opportunities} active opportunities`);
+  } else if (msg.toLowerCase().includes('status')) {
+    this.addChatMessage('system', '📊 Refreshing system status...');
+    await this.updateStatus();
+    this.addChatMessage('system', 'System status updated');
+  } else {
+    // Default response
+    this.addChatMessage('system', `Processing: ${msg}`);
+  }
+}
+```
+
+### D. IMPROVE TASK EXECUTION VISIBILITY
+```javascript
+async submitTask(dryRun) {
+  const task = document.getElementById('task-input').value.trim();
+  if (!task) return;
+  
+  // Show task in chat immediately
+  this.addChatMessage('user', `${dryRun ? 'Analyzing' : 'Executing'}: ${task}`);
+  this.addChatMessage('system', '⚡ Starting task execution...');
+  
+  try {
+    const result = await this.api('/api/execute', { 
+      method: 'POST', 
+      headers: { 'Content-Type': 'application/json' }, 
+      body: JSON.stringify({ task, dryRun }) 
+    });
+    
+    // Show results clearly in chat
+    this.addChatMessage('system', `✅ Task ${dryRun ? 'analyzed' : 'completed'}`);
+    if (result.summary) {
+      this.addChatMessage('system', `📋 Result: ${result.summary}`);
+    }
+    
+    // Close modal and refresh
+    document.getElementById('task-modal').classList.remove('open');
+    document.getElementById('task-input').value = '';
+    await this.refresh();
+    
+  } catch (e) {
+    this.addChatMessage('system', '❌ Task execution failed');
+  }
+}
+```
+
+### E. FIX GRID ALIGNMENT
+```css
+/* Ensure consistent grid alignment */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 16px;
+  align-items: start; /* Fix vertical alignment */
+}
+
+.card {
+  grid-column: span 4;
+  height: fit-content; /* Don't stretch unnecessarily */
+}
+
+/* Fix activity log alignment */
+.activity-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: stretch;
+}
+
+.activity-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 8px 12px;
+  background: var(--md3-surface-variant);
+  border-radius: 8px;
+}
+```
+
+### F. IMPROVE VISUAL FEEDBACK
+```javascript
+// Add visual indicators for active processes
+showTaskProgress(taskName) {
+  const indicator = document.createElement('div');
+  indicator.className = 'task-indicator';
+  indicator.innerHTML = `
+    <div class="spinner"></div>
+    <span>Executing: ${taskName}</span>
+  `;
+  document.body.appendChild(indicator);
+  return indicator;
+}
+
+// Remove indicator when done
+hideTaskProgress(indicator) {
+  if (indicator) indicator.remove();
+}
+```
+
+## SPECIFIC CHANGES TO MAKE:
+
+### 1. Fix dashboard.css
+- Consistent font family throughout
+- Better grid alignment
+- Proper spacing for activity log
+- Remove font inconsistencies
+
+### 2. Fix dashboard.js
+- Keyboard shortcuts only when not typing
+- Better chat command processing
+- Clear task execution flow
+- Visual progress indicators
+
+### 3. Improve User Experience
+- Show where task results appear
+- Better command examples
+- Clear visual feedback for all actions
+- Consistent typography and spacing
+
+## SUCCESS CRITERIA:
+✅ All text uses same font (Roboto Flex)
+✅ Chat responds intelligently to messages
+✅ Keyboard shortcuts don't interfere with typing
+✅ Elements are properly aligned in grid
+✅ Task execution shows clear progress and results
+✅ User always knows what's happening and where to look
+

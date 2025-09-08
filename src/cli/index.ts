@@ -1,15 +1,122 @@
 #!/usr/bin/env node
+import 'dotenv/config';
 import { runPerplexityTest } from '../tools/perplexity_sonar.js';
 import { runGeminiTest } from '../tools/gemini_test.js';
 import { loadKnowledgeBase, toContext, findNotesByQuery } from '../memory/index.js';
 import { UsageAnalyticsAgent } from '../analytics/usageAnalytics.js';
 import { StrategicOrchestrator } from '../orchestrator/strategicOrchestrator.js';
 import { DashboardServer } from '../dashboard/dashboardServer.js';
+import { AgentFactory } from '../orchestrator/agentFactory.js';
 import { FundingOpportunityScanner } from '../dashboard/fundingOpportunityScanner.js';
+import { claudeInterface } from '../tools/claudeAgentInterface.js';
+import { projectRegistry } from '../masterControl/projectRegistry.js';
+import { agentActionLogger } from '../masterControl/agentActionLogger.js';
+import { NotionSyncService } from '../integrations/notionSyncService.js';
+import { notionSyncAgent } from '../agents/notionSyncAgent.js';
 
 async function main() {
 	const cmd = process.argv[2] || 'help';
 		switch (cmd) {
+        case 'notion:sync-projects': {
+            try {
+                console.log('🔄 Syncing projects to Notion...');
+                const svc = new NotionSyncService();
+                await svc.syncProjects();
+                console.log('✅ Projects sync complete.');
+            } catch (e: any) {
+                console.error('❌ Notion projects sync failed:', e.message);
+                process.exit(1);
+            }
+            break;
+        }
+
+        case 'notion:sync-agents': {
+            try {
+                console.log('🔄 Syncing agent activity to Notion...');
+                const svc = new NotionSyncService();
+                await svc.syncAgents();
+                console.log('✅ Agent activity sync complete.');
+            } catch (e: any) {
+                console.error('❌ Notion agents sync failed:', e.message);
+                process.exit(1);
+            }
+            break;
+        }
+
+        case 'notion:sync-funding': {
+            try {
+                console.log('🔄 Syncing funding opportunities to Notion...');
+                const svc = new NotionSyncService();
+                await svc.syncFunding();
+                await svc.syncCriticalDeadlines();
+                console.log('✅ Funding sync complete.');
+            } catch (e: any) {
+                console.error('❌ Notion funding sync failed:', e.message);
+                process.exit(1);
+            }
+            break;
+        }
+
+        case 'notion:daily-update': {
+            try {
+                console.log('🗓️ Running Notion daily update...');
+                const svc = new NotionSyncService();
+                await svc.syncProjects();
+                await svc.syncAgents();
+                await svc.syncFunding();
+                await svc.syncCriticalDeadlines();
+                await svc.syncDailyBriefing();
+                console.log('✅ Daily update complete.');
+            } catch (e: any) {
+                console.error('❌ Notion daily update failed:', e.message);
+                process.exit(1);
+            }
+            break;
+        }
+
+        case 'notion:start-scheduler': {
+            try {
+                const result = await notionSyncAgent.execute('start-scheduler');
+                console.log(result);
+            } catch (e: any) {
+                console.error('❌ Scheduler start failed:', e.message);
+                process.exit(1);
+            }
+            break;
+        }
+
+        case 'notion:stop-scheduler': {
+            try {
+                const result = await notionSyncAgent.execute('stop-scheduler');
+                console.log(result);
+            } catch (e: any) {
+                console.error('❌ Scheduler stop failed:', e.message);
+                process.exit(1);
+            }
+            break;
+        }
+
+        case 'notion:status': {
+            try {
+                const result = await notionSyncAgent.execute('status');
+                console.log(result);
+            } catch (e: any) {
+                console.error('❌ Status check failed:', e.message);
+                process.exit(1);
+            }
+            break;
+        }
+
+        case 'notion:sync-all': {
+            try {
+                const result = await notionSyncAgent.execute('sync-all');
+                console.log(result);
+            } catch (e: any) {
+                console.error('❌ Full sync failed:', e.message);
+                process.exit(1);
+            }
+            break;
+        }
 		case 'analytics:setup': {
 			const agent = new UsageAnalyticsAgent();
 			await agent.interactiveSetup();
@@ -165,6 +272,20 @@ async function main() {
 					break;
 				}
 
+				case 'smoke:basic': {
+					console.log('🔧 Running basic smoke test...');
+					try {
+						const factory = new AgentFactory();
+						const test = factory.create({ id: 'smoke_test', type: 'SmokeTestAgent', requirementId: 'smoke', capabilities: [], params: {} } as any);
+						const result = await test.run({ input: 'Smoke run' });
+						console.log('Agent result:', result.success ? 'OK' : 'FAIL', result.output || result.error);
+					} catch (e: any) {
+						console.error('Smoke test error:', e.message);
+						process.exit(1);
+					}
+					break;
+				}
+
 				case 'funding:scan': {
 					console.log('🔍 Scanning EU funding opportunities...');
 					const scanner = new FundingOpportunityScanner();
@@ -202,21 +323,357 @@ async function main() {
 					break;
 				}
 
+				// Master Control CLI commands
+				case 'master:status': {
+					try {
+						console.log('=== Master Control: Portfolio Overview ===');
+						const health = await projectRegistry.getPortfolioHealth();
+						console.log(`Projects: ${health.projectCount} total, ${health.activeProjects} active`);
+						console.log(`Overall Health: ${health.overallHealth}%`);
+						console.log(`Critical Issues: ${health.criticalIssues}`);
+						console.log(`Budget Utilization: ${health.budgetUtilization}%`);
+					} catch (error: any) {
+						console.error('Error showing portfolio overview:', error.message);
+					}
+					break;
+				}
+
+				case 'master:health': {
+					try {
+						console.log('=== Master Control: Health Scores ===');
+						const health = await projectRegistry.getPortfolioHealth();
+						console.log(`Overall Health Score: ${health.overallHealth}%`);
+						console.log(`Active Projects: ${health.activeProjects}`);
+						console.log(`Critical Items: ${health.criticalIssues}`);
+					} catch (error: any) {
+						console.error('Error showing health scores:', error.message);
+					}
+					break;
+				}
+
+				case 'master:projects': {
+					try {
+						console.log('=== Master Control: Active Projects ===');
+						const active = await projectRegistry.getActiveProjects();
+						if (!active.length) {
+							console.log('No active projects found.');
+						} else {
+							active.forEach(p => {
+								console.log(`- ${p.name} (${p.id})`);
+							});
+						}
+					} catch (error: any) {
+						console.error('Error listing active projects:', error.message);
+					}
+					break;
+				}
+
+				case 'master:urgent': {
+					try {
+						console.log('=== Master Control: Critical Items ===');
+						const critical = await projectRegistry.getCriticalProjects();
+						if (!critical.length) {
+							console.log('No critical items at this time.');
+						} else {
+							critical.forEach(p => {
+								console.log(`- ${p.name} [risk=${p.metrics.riskLevel}, priority=${p.priority}]`);
+							});
+						}
+					} catch (error: any) {
+						console.error('Error showing critical items:', error.message);
+					}
+					break;
+				}
+
+				case 'system:timeline': {
+					try {
+						const hours = parseInt(process.argv[3]) || 24;
+						console.log(`=== System Timeline (Last ${hours} hours) ===`);
+						const timeline = await agentActionLogger.getCoordinationTimeline(hours);
+						if (!timeline.length) {
+							console.log('No recent activity.');
+						} else {
+							timeline.forEach(action => {
+								const time = new Date(action.timestamp).toLocaleTimeString();
+								const status = action.status === 'completed' ? '✅' : 
+									action.status === 'failed' ? '❌' : 
+									action.status === 'in_progress' ? '🔄' : '⏳';
+								console.log(`${time} ${status} ${action.agent}: ${action.action}`);
+								if (action.output?.summary) {
+									console.log(`    └─ ${action.output.summary}`);
+								}
+							});
+						}
+					} catch (error: any) {
+						console.error('Error showing system timeline:', error.message);
+					}
+					break;
+				}
+
+				case 'system:snapshot': {
+					try {
+						console.log('=== System Snapshot ===');
+						const snapshot = await agentActionLogger.generateSystemSnapshot();
+						console.log(`System Health: ${snapshot.system_health}%`);
+						console.log(`Active Agents: ${snapshot.active_agents.join(', ')}`);
+						console.log(`Total Actions: ${snapshot.system_metrics.total_actions}`);
+						console.log(`Success Rate: ${snapshot.system_metrics.success_rate}%`);
+						console.log(`Active Projects: ${snapshot.system_metrics.active_projects}`);
+						
+						const activeActions = await agentActionLogger.getActiveActions();
+						if (activeActions.length) {
+							console.log('\n🔄 Currently Running:');
+							activeActions.forEach(action => {
+								console.log(`- ${action.agent}: ${action.action}`);
+							});
+						}
+					} catch (error: any) {
+						console.error('Error generating system snapshot:', error.message);
+					}
+					break;
+				}
+
+				case 'system:agents': {
+					try {
+						const agent = process.argv[3];
+						if (agent) {
+							console.log(`=== ${agent} Recent Actions ===`);
+							const actions = await agentActionLogger.getActionsByAgent(agent);
+							if (!actions.length) {
+								console.log(`No recent actions for ${agent}.`);
+							} else {
+								actions.forEach(action => {
+									const time = new Date(action.timestamp).toLocaleString();
+									const status = action.status === 'completed' ? '✅' : 
+										action.status === 'failed' ? '❌' : 
+										action.status === 'in_progress' ? '🔄' : '⏳';
+									console.log(`${time} ${status} ${action.action}`);
+									if (action.details) console.log(`    Details: ${action.details}`);
+									if (action.duration) console.log(`    Duration: ${action.duration}s`);
+								});
+							}
+						} else {
+							console.log('Usage: npm run dev -- system:agents <agent_name>');
+						}
+					} catch (error: any) {
+						console.error('Error showing agent actions:', error.message);
+					}
+					break;
+				}
+
+				case 'smoke:research': {
+					const prompt = 'Say hello from EUFM smoke test.';
+					try {
+						const out = await runPerplexityTest(prompt);
+						console.log('Perplexity OK:', out.slice(0, 120).replace(/\n/g, ' '), '...');
+					} catch (e: any) {
+						console.error('Perplexity smoke failed:', e.message);
+						process.exit(1);
+					}
+					break;
+				}
+
+				case 'codex:exec': {
+					const task = process.argv.slice(3).join(' ');
+					if (!task) {
+						console.log('Usage: npm run dev -- codex:exec "task description"');
+						break;
+					}
+					console.log(`🤖 Executing Codex task: ${task}`);
+					try {
+						const result = await claudeInterface.executeCodexTask(task);
+						console.log('Codex result:\n', result);
+					} catch (error: any) {
+						console.error('Error:', error.message);
+					}
+					break;
+				}
+
+				case 'codex:status': {
+					try {
+						const available = await claudeInterface.checkCodexAvailable();
+						console.log(`Codex CLI available: ${available}`);
+						if (available) {
+							console.log('✅ Codex CLI is ready for use');
+						} else {
+							console.log('❌ Codex CLI not found. Please install Codex CLI first.');
+							console.log('   Install from: https://github.com/openai/codex');
+						}
+					} catch (error: any) {
+						console.error('Error checking Codex:', error.message);
+					}
+					break;
+				}
+
+				case 'research:query': {
+					const query = process.argv.slice(3).join(' ');
+					if (!query) {
+						console.log('Usage: npm run dev -- research:query "your research question"');
+						break;
+					}
+					console.log(`🔍 Conducting research: ${query}`);
+					try {
+						const result = await claudeInterface.conductResearch(query);
+						console.log('Research result:\n', result);
+					} catch (error: any) {
+						console.error('Error:', error.message);
+					}
+					break;
+				}
+
+				case 'agent:summon': {
+					const task = process.argv.slice(3).join(' ');
+					if (!task) {
+						console.log('Usage: npm run dev -- agent:summon "task description"');
+						break;
+					}
+					console.log(`🎯 Finding optimal agent for: ${task}`);
+					try {
+						const result = await claudeInterface.findOptimalAgent(task);
+						console.log('Agent recommendation:\n', result);
+					} catch (error: any) {
+						console.error('Error:', error.message);
+					}
+					break;
+				}
+				case 'agent:discover': {
+					const task = process.argv.slice(3).join(' ');
+					if (!task) {
+						console.log('Usage: npm run dev -- agent:discover "task description"');
+						break;
+					}
+					console.log(`🧙‍♂️ Discovering external agents for: ${task}`);
+					console.log('Using proven 3-step research methodology...');
+					try {
+						const result = await claudeInterface.discoverExternalAgents(task);
+						console.log('Comprehensive agent discovery:\n', result);
+					} catch (error: any) {
+						console.error('Error:', error.message);
+					}
+					break;
+				}
+
+				case 'session:update': {
+					const summary = process.argv.slice(3).join(' ');
+					if (!summary) {
+						console.log('Usage: npm run dev -- session:update "session summary and key achievements"');
+						break;
+					}
+					try {
+						const { updateSessionAtEnd } = await import('../utils/sessionMemoryUpdater.js');
+						
+						// Parse summary for achievements and next focus
+						const achievements = [
+							'Session completed successfully',
+							'System status: operational',
+							summary
+						];
+						const nextFocus = 'Continue with EU funding activities or development tasks';
+						
+						await updateSessionAtEnd(summary, achievements, nextFocus);
+						console.log('✅ Session memory updated for next Claude session');
+						console.log('📝 Future sessions will have complete context restoration');
+					} catch (error: any) {
+						console.error('❌ Session update failed:', error.message);
+					}
+					break;
+				}
+				case 'claude:status': {
+					try {
+						console.log('📊 Claude Agent Interface Status:');
+						const status = await claudeInterface.getSystemStatus();
+						console.log(`Session: ${status.session.sessionId}`);
+						console.log(`Tasks completed: ${status.session.tasksCompleted}`);
+						console.log(`Total cost: $${status.session.totalCost.toFixed(4)}`);
+						console.log(`Codex available: ${status.codexAvailable ? '✅' : '❌'}`);
+						console.log(`Agents ready: ${status.agentsReady.join(', ')}`);
+						if (status.recentTasks.length > 0) {
+							console.log('Recent tasks:');
+							status.recentTasks.forEach(task => console.log(`  - ${task}`));
+						}
+					} catch (error: any) {
+						console.error('Error:', error.message);
+					}
+					break;
+				}
+
+				case 'claude:ready': {
+					try {
+						const ready = await claudeInterface.checkCodexAvailable();
+						if (ready) {
+							console.log('🎯 Claude Agent Interface is READY!');
+							console.log('Available capabilities:');
+							console.log('  - Codex CLI execution');
+							console.log('  - Enhanced research');
+							console.log('  - Agent summoning');
+							console.log('  - System coordination');
+						} else {
+							console.log('⚠️  Claude Agent Interface needs Codex CLI setup');
+							console.log('   Install Codex CLI to enable full functionality');
+						}
+					} catch (error: any) {
+						console.error('Error:', error.message);
+					}
+					break;
+				}
+
 		default:
 			console.log('Usage:');
+			console.log('Master Control:');
+			console.log('  npm run dev -- master:status                   - Portfolio overview');
+			console.log('  npm run dev -- master:health                   - System health score');
+			console.log('  npm run dev -- master:projects                 - List all projects');
+			console.log('  npm run dev -- master:urgent                   - Show critical items');
+			console.log('');
+			console.log('System Coordination:');
+			console.log('  npm run dev -- system:timeline [hours]         - Agent activity timeline');
+			console.log('  npm run dev -- system:snapshot                 - Current system state');
+			console.log('  npm run dev -- system:agents <agent_name>      - Agent-specific actions');
+			console.log('');
+			console.log('Basic Tests:');
 			console.log('  npm run dev -- perplexity:test "your prompt"');
 			console.log('  npm run dev -- gemini:test "your prompt"');
+			console.log('');
+			console.log('Claude Agent Interface:');
+			console.log('  npm run dev -- claude:ready                    - Check if Claude interface is ready');
+			console.log('  npm run dev -- claude:status                   - Show Claude session status');
+			console.log('  npm run dev -- codex:exec "task"               - Execute Codex CLI task');
+			console.log('  npm run dev -- codex:status                    - Check Codex availability');
+			console.log('  npm run dev -- research:query "question"       - Conduct enhanced research');
+			console.log('  npm run dev -- agent:summon "task"             - Find optimal agent for task');
+			console.log('  npm run dev -- agent:discover "task"           - Discover external agents (comprehensive)');
+			console.log('  npm run dev -- session:update "summary"        - Update session memory for next Claude session');
+			console.log('');
+			console.log('Memory & Knowledge:');
 			console.log('  npm run dev -- memory:load');
 			console.log('  npm run dev -- memory:context');
 			console.log('  npm run dev -- memory:search "query"');
+			console.log('');
+			console.log('Task Orchestration:');
 			console.log('  npm run dev -- orchestrator:analyze "task"');
 			console.log('  npm run dev -- orchestrator:execute "task"');
 			console.log('  npm run dev -- orchestrator:optimize');
 			console.log('  npm run dev -- orchestrator:history');
+			console.log('');
+			console.log('Dashboard & Monitoring:');
 			console.log('  npm run dev -- dashboard:start');
 			console.log('  npm run dev -- dashboard:status');
+			console.log('');
+			console.log('Master Control:');
+			console.log('  npm run dev -- master:status                   - Show portfolio overview');
+			console.log('  npm run dev -- master:health                   - Show portfolio health scores');
+			console.log('  npm run dev -- master:projects                 - List active projects');
+			console.log('  npm run dev -- master:urgent                   - Show critical items');
+			console.log('');
+			console.log('EU Funding:');
 			console.log('  npm run dev -- funding:scan');
 			console.log('  npm run dev -- funding:opportunities');
+			console.log('');
+			console.log('Analytics:');
+			console.log('  npm run dev -- analytics:setup');
+			console.log('  npm run dev -- analytics:track');
+			console.log('  npm run dev -- analytics:optimize');
+			console.log('  npm run dev -- analytics:report');
 	}
 }
 

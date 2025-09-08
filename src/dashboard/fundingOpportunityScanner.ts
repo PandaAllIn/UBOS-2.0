@@ -28,7 +28,7 @@ export class FundingOpportunityScanner {
     await fs.mkdir(this.baseDir, { recursive: true }).catch(() => {});
   }
 
-  async scanAll(): Promise<FundingOpportunity[]> {
+  async scanAll(progressCb?: (evt: { stage: string; message: string; percent?: number }) => void): Promise<FundingOpportunity[]> {
     const sources = [
       'Horizon Europe',
       'Digital Europe Programme', 
@@ -38,11 +38,15 @@ export class FundingOpportunityScanner {
     ];
 
     const opportunities: FundingOpportunity[] = [];
-    
-    for (const source of sources) {
+    const total = sources.length;
+    progressCb?.({ stage: 'start', message: 'Starting funding scan…', percent: 2 });
+    for (let i = 0; i < sources.length; i++) {
+      const source = sources[i];
       try {
+        progressCb?.({ stage: 'source', message: `Scanning ${source}…`, percent: Math.round(((i) / total) * 100) });
         const sourceOpportunities = await this.scanSource(source);
         opportunities.push(...sourceOpportunities);
+        progressCb?.({ stage: 'parsed', message: `Analyzing ${source} results…`, percent: Math.round(((i + 0.6) / total) * 100) });
       } catch (error) {
         console.warn(`Failed to scan ${source}:`, error);
       }
@@ -50,8 +54,11 @@ export class FundingOpportunityScanner {
 
     // Save results
     await this.saveOpportunities(opportunities);
+    progressCb?.({ stage: 'save', message: 'Saving results…', percent: 96 });
     
-    return opportunities.sort((a, b) => b.relevanceScore - a.relevanceScore);
+    const sorted = opportunities.sort((a, b) => b.relevanceScore - a.relevanceScore);
+    progressCb?.({ stage: 'done', message: `Scan complete — ${sorted.length} opportunities found`, percent: 100 });
+    return sorted;
   }
 
   private async scanSource(program: string): Promise<FundingOpportunity[]> {
@@ -92,7 +99,7 @@ Focus on opportunities that match:
 Return only valid JSON.`;
 
     try {
-      const analysis = await geminiComplete(analysisPrompt, 'gemini-1.5-pro');
+      const analysis = await geminiComplete(analysisPrompt, 'gemini-2.0-flash-exp');
       const parsed = this.parseOpportunities(analysis, program);
       return parsed;
     } catch (error) {
@@ -230,6 +237,62 @@ Generate a structured proposal including:
 Focus on how EUFM addresses European digital sovereignty, SME support, and innovation ecosystem development.
 `;
 
-    return await geminiComplete(proposalPrompt, 'gemini-1.5-pro');
+    return await geminiComplete(proposalPrompt, 'gemini-2.0-flash-exp');
+  }
+
+  // Seed the three critical deadlines so they appear immediately in the dashboard
+  async seedCriticalDeadlines(): Promise<void> {
+    const existing = await this.getActiveOpportunities();
+    const byKey = new Map(existing.map(o => [o.id, o]));
+
+    const seeds: FundingOpportunity[] = [
+      {
+        id: 'horizon_europe_geodatacenter_2025-09-02',
+        title: 'Horizon Europe — GeoDataCenter Call',
+        program: 'Horizon Europe',
+        deadline: '2025-09-02',
+        budget: '€20M',
+        description: 'High-impact research and innovation funding relevant to GeoDataCenter project.',
+        eligibility: ['Consortium (3+ countries)', 'Research & Innovation'],
+        relevanceScore: 90,
+        url: '',
+        status: this.determineStatus('2025-09-02'),
+        scannedAt: new Date().toISOString(),
+      },
+      {
+        id: 'eufm_core_funding_2025-09-18',
+        title: 'EUFM Core Funding — EUFM Program',
+        program: 'EUFM',
+        deadline: '2025-09-18',
+        budget: '€2M',
+        description: 'Core funding deadline for EUFM EU Funding project.',
+        eligibility: ['SME/startup support', 'Digital innovation'],
+        relevanceScore: 95,
+        url: '',
+        status: this.determineStatus('2025-09-18'),
+        scannedAt: new Date().toISOString(),
+      },
+      {
+        id: 'cetpartnership_geodatacenter_2025-10-09',
+        title: 'CETPartnership — GeoDataCenter Track',
+        program: 'CETPartnership',
+        deadline: '2025-10-09',
+        budget: '€12M',
+        description: 'Clean Energy Transition partnership call relevant to GeoDataCenter.',
+        eligibility: ['Consortium', 'Clean energy transition'],
+        relevanceScore: 85,
+        url: '',
+        status: this.determineStatus('2025-10-09'),
+        scannedAt: new Date().toISOString(),
+      },
+    ];
+
+    // Merge
+    for (const s of seeds) {
+      if (!byKey.has(s.id)) byKey.set(s.id, s);
+    }
+
+    const merged = Array.from(byKey.values());
+    await this.saveOpportunities(merged);
   }
 }

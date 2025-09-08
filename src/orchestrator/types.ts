@@ -26,7 +26,18 @@ export interface AnalyzedTask {
 
 export interface AgentSpec {
   id: string;
-  type: 'CodexAgent' | 'JulesAgent' | 'AbacusAgent' | 'BrowserAgent' | 'MemoryAgent';
+  type:
+    | 'CodexAgent'
+    | 'CodexCLIAgent'
+    | 'JulesAgent'
+    | 'AbacusAgent'
+    | 'EnhancedAbacusAgent'
+    | 'AgentSummonerAgent'
+    | 'EUFMAgentSummoner'
+    | 'EUFundingProposalAgent'
+    | 'BrowserAgent'
+    | 'MemoryAgent'
+    | 'TestAgent';
   requirementId: string;
   capabilities: Capability[];
   params?: Record<string, any>;
@@ -61,4 +72,3 @@ export interface OrchestrationResult {
   success: boolean;
   summary: string;
 }
-

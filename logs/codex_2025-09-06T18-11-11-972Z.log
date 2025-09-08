@@ -1,0 +1,2925 @@
+Executing: codex exec --dangerously-bypass-approvals-and-sandbox Create a TypeScript function that integrates with our Agent Summoner system to generate EU funding proposal templates, using the existing EUFM infrastructure and logging patterns
+
+Project Context: EUFM (European Union Funds Manager) - AI Agent Orchestration System
+Working Directory: /Users/panda/Desktop/EUFM
+Project Type: TypeScript/Node.js multi-agent coordination system
+Note: Follow the BaseAgent pattern in src/agents/ and register in AgentFactory
+
+Safety Guidelines:
+- Preserve existing functionality when modifying files
+- Follow TypeScript best practices and existing code patterns
+- Add proper error handling and logging
+- Test changes before completing
+Working Directory: /Users/panda/Desktop/EUFM
+
+[2025-09-06T18:11:12] OpenAI Codex v0.28.0 (research preview)
+--------
+workdir: /Users/panda/Desktop/EUFM
+model: gpt-5
+provider: openai
+approval: never
+sandbox: danger-full-access
+reasoning effort: medium
+reasoning summaries: auto
+--------
+[2025-09-06T18:11:12] User instructions:
+Create a TypeScript function that integrates with our Agent Summoner system to generate EU funding proposal templates, using the existing EUFM infrastructure and logging patterns
+
+Project Context: EUFM (European Union Funds Manager) - AI Agent Orchestration System
+Working Directory: /Users/panda/Desktop/EUFM
+Project Type: TypeScript/Node.js multi-agent coordination system
+Note: Follow the BaseAgent pattern in src/agents/ and register in AgentFactory
+
+Safety Guidelines:
+- Preserve existing functionality when modifying files
+- Follow TypeScript best practices and existing code patterns
+- Add proper error handling and logging
+- Test changes before completing
+
+[2025-09-06T18:11:14] thinking
+
+**Modifying TypeScript Project**
+
+I'm focusing on modifying a TypeScript Node.js project located at /Users/panda/Desktop/EUFM. The goal is to create a function that works with the Agent Summoner system to generate EU funding proposal templates, using the existing infrastructure and logging patterns. I need to follow the BaseAgent pattern and register it in the AgentFactory. Plus, I'll include error handling and logging. Before wrapping up, I'll test everything to ensure it works correctly. I'll check the repository for relevant files too.
+[2025-09-06T18:11:16] codex
+
+I’m going to scan the repository to find utilities, the agent patterns, Agent Summoner, logging and where AgentFactory is defined so I can add a new proposal-template agent and register it.
+[2025-09-06T18:11:16] exec bash -lc 'ls -la' in /Users/panda/Desktop/EUFM
+[2025-09-06T18:11:16] bash -lc 'ls -la' succeeded in 19ms:
+total 568
+drwxr-xr-x   35 panda  staff   1120 Sep  6 21:05 .
+drwx------+  16 panda  staff    512 Sep  5 20:43 ..
+-rw-r--r--@   1 panda  staff   8196 Sep  4 10:39 .DS_Store
+drwxr-xr-x    3 panda  staff     96 Sep  6 21:11 .claude
+-rw-r--r--    1 panda  staff    370 Sep  5 16:22 .env
+-rw-r--r--    1 panda  staff    123 Sep  3 12:43 .env.example
+drwxr-xr-x   14 panda  staff    448 Sep  6 20:42 .git
+drwxr-xr-x    3 panda  staff     96 Sep  3 11:39 .github
+-rw-r--r--    1 panda  staff     42 Sep  3 12:44 .gitignore
+-rw-r--r--    1 panda  staff   3971 Sep  6 17:40 AGENT_QUICK_REFERENCE.md
+-rw-r--r--    1 panda  staff  11019 Sep  6 20:32 CLAUDE_MISSION_BRIEFING.md
+-rw-r--r--    1 panda  staff   5088 Sep  3 14:08 CODE_OF_CONDUCT.md
+-rw-r--r--@   1 panda  staff    458 Sep  3 11:40 CONTRIBUTING.md
+-rw-r--r--    1 panda  staff  19040 Sep  6 21:02 EUFM_TECHNICAL_ARCHITECTURE_EU_FUNDING.md
+-rw-r--r--    1 panda  staff  10799 Sep  6 21:00 EU_FUNDING_STRATEGY.md
+-rw-r--r--    1 panda  staff  12325 Sep  6 21:04 EU_FUNDING_TIMELINE.md
+-rw-r--r--    1 panda  staff   9852 Sep  6 21:05 MISSION_ACCOMPLISHED_SUMMARY.md
+-rw-r--r--    1 panda  staff   8256 Sep  6 17:40 PROJECT_OVERVIEW.md
+-rw-r--r--@   1 panda  staff    313 Sep  3 14:48 README.md
+[2025-09-06T18:11:16] tokens used: 5950
+[2025-09-06T18:11:18] exec bash -lc "ls -la src && rg --files src | sed -n '1,200p'" in /Users/panda/Desktop/EUFM
+[2025-09-06T18:11:18] bash -lc "ls -la src && rg --files src | sed -n '1,200p'" succeeded in 59ms:
+total 16
+drwxr-xr-x  14 panda  staff   448 Sep  6 21:08 .
+drwxr-xr-x  35 panda  staff  1120 Sep  6 21:05 ..
+-rw-r--r--@  1 panda  staff  6148 Sep  3 12:43 .DS_Store
+drwxr-xr-x   5 panda  staff   160 Sep  3 12:43 adapters
+drwxr-xr-x  15 panda  staff   480 Sep  6 20:53 agents
+drwxr-xr-x   7 panda  staff   224 Sep  3 15:12 analytics
+drwxr-xr-x   3 panda  staff    96 Sep  6 20:49 cli
+drwxr-xr-x   8 panda  staff   256 Sep  6 17:09 dashboard
+drwxr-xr-x   4 panda  staff   128 Sep  3 15:34 intelligence
+drwxr-xr-x   4 panda  staff   128 Sep  3 14:48 memory
+drwxr-xr-x   8 panda  staff   256 Sep  6 20:46 orchestrator
+drwxr-xr-x   4 panda  staff   128 Sep  6 21:08 tests
+drwxr-xr-x   7 panda  staff   224 Sep  6 20:48 tools
+drwxr-xr-x   3 panda  staff    96 Sep  6 21:08 utils
+src/analytics/optimizationEngine.ts
+src/analytics/autoTracker.ts
+src/analytics/usageAnalytics.ts
+src/analytics/subscriptionManager.ts
+src/analytics/toolUsageTracker.ts
+[2025-09-06T18:11:18] tokens used: 1190
+[2025-09-06T18:11:19] exec bash -lc "sed -n '1,200p' src/agents/baseAgent.ts" in /Users/panda/Desktop/EUFM
+[2025-09-06T18:11:19] bash -lc "sed -n '1,200p' src/agents/baseAgent.ts" succeeded in 14ms:
+import { AgentResult } from '../orchestrator/types.js';
+
+export interface AgentContext {
+  workingDir?: string;
+  shared?: Record<string, any>;
+}
+
+export interface AgentRunOptions {
+  input: string;
+  timeoutMs?: number;
+  dryRun?: boolean;
+}
+
+export abstract class BaseAgent {
+  constructor(public id: string, public requirementId: string) {}
+
+  abstract get type(): string;
+  abstract run(opts: AgentRunOptions, ctx?: AgentContext): Promise<AgentResult>;
+
+  protected now() { return new Date().toISOString(); }
+[2025-09-06T18:11:19] tokens used: 868
+[2025-09-06T18:11:22] exec bash -lc "sed -n '1,200p' src/agents/agentSummoner.ts" in /Users/panda/Desktop/EUFM
+[2025-09-06T18:11:22] bash -lc "sed -n '1,200p' src/agents/agentSummoner.ts" succeeded in 12ms:
+import { BaseAgent, AgentRunOptions, AgentContext } from './baseAgent.js';
+import { AgentResult } from '../orchestrator/types.js';
+import { EnhancedPerplexityResearch } from '../tools/enhancedPerplexityResearch.js';
+import { EnhancedAbacusAgent } from './enhancedAbacusAgent.js';
+import { promises as fs } from 'fs';
+import path from 'path';
+
+interface TaskAnalysis {
+  originalRequest: string;
+  domain: string;
+  taskType: string;
+  complexity: string;
+  capabilities: string;
+  resources: string;
+  constraints: string;
+  successCriteria: string;
+  analysisContent: string;
+  timestamp: string;
+}
+
+[2025-09-06T18:11:22] tokens used: 321
+[2025-09-06T18:11:24] exec bash -lc "sed -n '200,500p' src/agents/agentSummoner.ts" in /Users/panda/Desktop/EUFM
+[2025-09-06T18:11:24] bash -lc "sed -n '200,500p' src/agents/agentSummoner.ts" succeeded in 13ms:
+   */
+  async analyzeTask(userRequest: string): Promise<TaskAnalysis | { error: string }> {
+    console.log(`📋 Analyzing task: ${userRequest.substring(0, 100)}...`);
+
+    const analysisQuery = `
+Analyze this task request and provide structured information:
+
+TASK: "${userRequest}"
+
+Please provide:
+1. DOMAIN: What field/industry does this belong to?
+2. TASK_TYPE: What category of work is this? (research, analysis, development, monitoring, etc.)
+3. COMPLEXITY: Rate complexity 1-10 and explain why
+4. REQUIRED_CAPABILITIES: What specific capabilities are needed?
+5. ESTIMATED_RESOURCES: Time, computational, and expertise requirements
+6. CONSTRAINTS: Any specific limitations or requirements
+7. SUCCESS_CRITERIA: How to measure successful completion
+
+Format as structured analysis with clear categories.
+`;
+[2025-09-06T18:11:24] tokens used: 1774
+[2025-09-06T18:11:26] exec bash -lc "sed -n '500,999p' src/agents/agentSummoner.ts" in /Users/panda/Desktop/EUFM
+[2025-09-06T18:11:26] bash -lc "sed -n '500,999p' src/agents/agentSummoner.ts" succeeded in 36ms:
+            .filter(line => line.trim())
+            .join(' ')
+            .substring(0, 200) + '...';
+        }
+      }
+    }
+    return "Review full evaluation for recommendations";
+  }
+}
+[2025-09-06T18:11:26] tokens used: 2429
+[2025-09-06T18:11:28] exec bash -lc "sed -n '1,220p' src/orchestrator/agentFactory.ts" in /Users/panda/Desktop/EUFM
+[2025-09-06T18:11:28] bash -lc "sed -n '1,220p' src/orchestrator/agentFactory.ts" succeeded in 72ms:
+import { AgentSpec } from './types.js';
+import { BaseAgent } from '../agents/baseAgent.js';
+import { CodexAgent } from '../agents/codexAgent.js';
+import { CodexCLIAgent } from '../agents/codexCLIAgent.js';
+import { JulesAgent } from '../agents/julesAgent.js';
+import { AbacusAgent } from '../agents/abacusAgent.js';
+import { BrowserAgent } from '../agents/browserAgent.js';
+import { MemoryAgent } from '../agents/memoryAgent.js';
+import { AgentSummonerAgent } from '../agents/agentSummonerAgent.js';
+import { AgentSummoner } from '../agents/agentSummoner.js';
+import { EnhancedAbacusAgent } from '../agents/enhancedAbacusAgent.js';
+import { EUFMAgentSummoner } from '../agents/eufmAgentSummoner.js';
+import { SmokeTestAgent } from '../agents/smokeTestAgent.js';
+import { TestAgent } from '../agents/testAgent.js';
+
+export class AgentFactory {
+  create(spec: AgentSpec): BaseAgent {
+    const { id, type, requirementId } = spec;
+    switch (type) {
+      case 'CodexAgent': return new CodexAgent(id, requirementId);
+[2025-09-06T18:11:28] tokens used: 247
+[2025-09-06T18:11:29] exec bash -lc "sed -n '1,220p' src/agents/eufmAgentSummoner.ts" in /Users/panda/Desktop/EUFM
+[2025-09-06T18:11:29] bash -lc "sed -n '1,220p' src/agents/eufmAgentSummoner.ts" succeeded in 14ms:
+import { BaseAgent, AgentRunOptions, AgentContext } from './baseAgent.js';
+import { AgentResult } from '../orchestrator/types.js';
+import { EnhancedPerplexityResearch, ResearchQuery } from '../tools/enhancedPerplexityResearch.js';
+import { codexCLI } from '../tools/codexCLI.js';
+import { promises as fs } from 'fs';
+import path from 'path';
+
+interface EUFMTaskAnalysis {
+  taskType: 'development' | 'research' | 'architecture' | 'integration' | 'documentation' | 'testing';
+  complexity: 'simple' | 'moderate' | 'complex';
+  requiredCapabilities: string[];
+  suggestedAgents: string[];
+  executionStrategy: string;
+  estimatedTime: string;
+  prerequisites: string[];
+}
+
+interface AgentRecommendation {
+  agentType: string;
+  suitabilityScore: number;
+[2025-09-06T18:11:29] tokens used: 718
+[2025-09-06T18:11:32] exec bash -lc "sed -n '220,520p' src/agents/eufmAgentSummoner.ts" in /Users/panda/Desktop/EUFM
+[2025-09-06T18:11:32] bash -lc "sed -n '220,520p' src/agents/eufmAgentSummoner.ts" succeeded in 16ms:
+        info.capabilities.includes(cap)
+      ).length;
+      
+      const capabilityScore = (capabilityMatches / Math.max(analysis.requiredCapabilities.length, 1)) * 100;
+      suitabilityScore += capabilityScore * 0.6; // 60% weight for capabilities
+
+      // Task type specific scoring
+      switch (analysis.taskType) {
+        case 'development':
+          if (agentType === 'CodexCLIAgent') suitabilityScore += 30;
+          else if (agentType === 'CodexAgent') suitabilityScore += 20;
+          break;
+        case 'research':
+          if (agentType === 'EnhancedAbacusAgent') suitabilityScore += 30;
+          else if (agentType === 'AgentSummonerAgent') suitabilityScore += 25;
+          break;
+        case 'architecture':
+          if (agentType === 'CodexAgent') suitabilityScore += 25;
+          else if (agentType === 'AgentSummonerAgent') suitabilityScore += 20;
+          break;
+[2025-09-06T18:11:32] tokens used: 2209
+[2025-09-06T18:11:37] exec bash -lc "sed -n '1,220p' src/orchestrator/types.ts" in /Users/panda/Desktop/EUFM
+[2025-09-06T18:11:37] bash -lc "sed -n '1,220p' src/orchestrator/types.ts" succeeded in 14ms:
+export type Capability = 'coding' | 'research' | 'data' | 'web_automation' | 'memory';
+
+export interface TaskRequirement {
+  id: string;
+  description: string;
+  capabilities: Capability[];
+  dependencies?: string[];
+  priority?: number;
+  estimatedComplexity: 'low' | 'medium' | 'high';
+  estimatedResources: {
+    timeMinutes: number;
+    tokens?: number;
+    concurrency?: number;
+  };
+  optimizations?: string[];
+}
+
+export interface AnalyzedTask {
+  taskId: string;
+  title: string;
+[2025-09-06T18:11:37] tokens used: 2948
+
+[2025-09-06T18:11:41] thinking
+
+**Considering new type for integration**
+
+I think we need to add a new type to the AgentSpec types union when introducing a new agent. The request involves creating a TypeScript function for the Agent Summoner system to generate EU funding proposal templates. I could implement this as an "EUFundingProposalAgent" class. It would analyze and generate proposal sections like Abstract, Objectives, and Budget, while adhering to existing logging patterns. Additionally, I’d ensure it integrates smoothly with the Agent Summoner system.
+**Integrating template**
+
+For generating a generation template, it seems like we don't necessarily need an external LLM. Instead, the requirement states that it integrates with Agent Summoner. I could instantiate AgentSummoner and call either analyzeTask or perform a full summon for TaskAnalysis, which would then allow me to create the template. We also need to register in the AgentFactory and update the AgentSpec union. Lastly, I’ll need to add a test in `src/tests` to ensure the agent runs correctly.
+[2025-09-06T18:11:45] codex
+**Integrating template generation**
+
+For generating a template, it seems like we don't necessarily need an external LLM. Instead, the requirement states that it integrates with Agent Summoner. I could instantiate AgentSummoner and call either analyzeTask or perform a full summon for TaskAnalysis, which would then allow me to create the template. We also need to register in the AgentFactory and update the AgentSpec union. Lastly, I’ll need to add a test in `src/tests` to ensure the agent runs correctly.
+[2025-09-06T18:11:45] exec bash -lc "sed -n '1,220p' src/tests/eufm_integration_test.ts" in /Users/panda/Desktop/EUFM
+[2025-09-06T18:11:45] bash -lc "sed -n '1,220p' src/tests/eufm_integration_test.ts" succeeded in 14ms:
+import { AgentFactory } from '../orchestrator/agentFactory.js';
+import type { AgentSpec, AgentResult } from '../orchestrator/types.js';
+
+/**
+ * Simple integration demo: constructs a TestAgent via AgentFactory and runs it.
+ * Safe to run without external APIs or network.
+ */
+export async function runAgentIntegrationDemo(input: string): Promise<AgentResult> {
+  const factory = new AgentFactory();
+
+  const spec: AgentSpec = {
+    id: 'agent-test-1',
+    type: 'TestAgent',
+    requirementId: 'req-demo-1',
+    capabilities: ['memory'],
+    params: { note: 'integration-smoke' },
+  };
+
+  const agent = factory.create(spec);
+  const ctx = { workingDir: process.cwd(), shared: { demo: true } };
+[2025-09-06T18:11:45] tokens used: 881
+[2025-09-06T18:11:47] exec bash -lc "sed -n '1,200p' src/agents/testAgent.ts" in /Users/panda/Desktop/EUFM
+[2025-09-06T18:11:47] bash -lc "sed -n '1,200p' src/agents/testAgent.ts" succeeded in 12ms:
+import { BaseAgent, AgentRunOptions, AgentContext } from './baseAgent.js';
+import { AgentResult } from '../orchestrator/types.js';
+
+/**
+ * TestAgent: a minimal agent used to validate integration.
+ * - Echoes the input and context
+ * - Never calls external services
+ */
+export class TestAgent extends BaseAgent {
+  get type() { return 'TestAgent'; }
+
+  async run(opts: AgentRunOptions, ctx?: AgentContext): Promise<AgentResult> {
+    const startedAt = this.now();
+    try {
+      if (!opts?.input || typeof opts.input !== 'string') {
+        throw new Error('Invalid input: expected non-empty string');
+      }
+
+      if (opts.dryRun) {
+        return {
+[2025-09-06T18:11:47] tokens used: 608
+
+[2025-09-06T18:11:52] thinking
+
+**Considering agent patterns**
+
+I want to look at how other agents log their activities since I noticed AgentSummoner uses console.log with emojis. It seems they don't have a separate logger. I'll create a new file for the EUFundingProposalAgent that extends BaseAgent. This agent will take input about funding programs and work with AgentSummoner, perhaps analyzing a request to generate proposal templates. I'll need to make sure to follow safety guidelines while keeping changes minimal—just adding a new agent file and updating necessary components.
+**Planning the proposal generator**
+
+I’m considering that we can both export a helper function and a class to use it. I should search for logging patterns or propose saving outputs in logs/proposals. Using the fs module, I'll create a markdown template with a timestamp. The EUFundingProposalTemplate generator will structure the proposal with sections like Cover Page, Executive Summary, and others, including Impact, Implementation, Ethics, and Budget. I plan to integrate this with AgentSummoner by receiving input and calling it to generate a tailored template with an action snippet in the "Strategy" section.
+**Designing testing for the agent**
+
+I'm thinking about using AgentSummoner.analyzeTask to set the domain, so I'll need to import it. I should implement tests, maybe starting with a simple test that runs the EUFundingProposalAgent in dryRun mode to avoid external calls. In dryRun, the agent will return quickly. For testing, I’ll set the dryRun parameter to true, avoiding reliance on external networks for testers. The class could also have an option to skip summoning during tests by using ctx.shared, running the agent with dryRun as true while still testing template writing without actually writing files.
+**Examining testing scenarios**
+
+I’m considering running tests in real mode but using ctx.shared.testing set to true and offline. However, it seems like AgentSummoner might try to run EnhancedAbacusAgent, which could call external resources. Since EnhancedAbacusAgent likely uses Perplexity, I want to avoid that in tests. I can make my agent catch any failures from AgentSummoner and proceed with a generic template while logging warnings, which seems acceptable. I’ll look into EnhancedAbacusAgent to understand its patterns better.
+[2025-09-06T18:12:05] codex
+**Planning the proposal generator**
+
+I’m considering that we can both export a helper function and a class to use it. I should search for logging patterns or propose saving outputs in logs/proposals. Using the fs module, I'll create a markdown template with a timestamp. The EUFundingProposalTemplate generator will structure the proposal with sections like Cover Page, Executive Summary, and others, including Impact, Implementation, Ethics, and Budget. I plan to integrate this with AgentSummoner by receiving input and calling it to generate a tailored template with an action snippet in the "Strategy" section.
+[2025-09-06T18:12:05] codex
+**Designing testing for the agent**
+
+I'm thinking about using AgentSummoner.analyzeTask to set the domain, so I'll need to import it. I should implement tests, maybe starting with a simple test that runs the EUFundingProposalAgent in dryRun mode to avoid external calls. In dryRun, the agent will return quickly. For testing, I’ll set the dryRun parameter to true, avoiding reliance on external networks for testers. The class could also have an option to skip summoning during tests by using ctx.shared, running the agent with dryRun as true while still testing template writing without actually writing files.
+[2025-09-06T18:12:05] codex
+**Examining testing scenarios**
+
+I’m considering running tests in real mode but using ctx.shared.testing set to true and offline. However, it seems like AgentSummoner might try to run EnhancedAbacusAgent, which could call external resources. Since EnhancedAbacusAgent likely uses Perplexity, I want to avoid that in tests. I can make my agent catch any failures from AgentSummoner and proceed with a generic template while logging warnings, which seems acceptable. I’ll look into EnhancedAbacusAgent to understand its patterns better.
+[2025-09-06T18:12:05] exec bash -lc "sed -n '1,200p' src/agents/enhancedAbacusAgent.ts" in /Users/panda/Desktop/EUFM
+[2025-09-06T18:12:05] bash -lc "sed -n '1,200p' src/agents/enhancedAbacusAgent.ts" succeeded in 16ms:
+import { BaseAgent, AgentRunOptions, AgentContext } from './baseAgent.js';
+import { AgentResult } from '../orchestrator/types.js';
+import { 
+  EnhancedPerplexityResearch, 
+  ResearchQuery, 
+  runEnhancedPerplexityResearch,
+  conductDeepResearch 
+} from '../tools/enhancedPerplexityResearch.js';
+
+interface ResearchTaskOptions {
+  depth?: 'quick' | 'comprehensive' | 'deep';
+  domain?: string;
+  sources?: 'academic' | 'commercial' | 'mixed';
+  followUp?: boolean;
+  saveResults?: boolean;
+}
+
+export class EnhancedAbacusAgent extends BaseAgent {
+  private researcher: EnhancedPerplexityResearch;
+
+[2025-09-06T18:12:05] tokens used: 1305
+
+[2025-09-06T18:12:08] thinking
+
+**Implementing EUFundingProposalAgent**
+
+I'm working on implementing the EUFundingProposalAgent and thinking about how to edit the AgentFactory to include it. It seems like I should also update the orchestrator/types for the AgentSpec union. I’m pondering whether adding CLI integration is necessary, but that might be overkill. Before I finalize anything, I definitely need to test the changes. I’ll run `npm test` or build, but wait, it looks like there isn't an explicit test runner package in package.json. It’s time to check that out!
+[2025-09-06T18:12:10] exec bash -lc 'cat package.json' in /Users/panda/Desktop/EUFM
+[2025-09-06T18:12:10] bash -lc 'cat package.json' succeeded in 17ms:
+{
+  "name": "eufm",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "tsc -p .",
+    "start": "node dist/cli/index.js",
+    "dev": "tsx src/cli/index.ts",
+    "lint": "eslint .",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test:integration": "tsx src/tests/eufm_integration_test.ts 'Integration check'",
+    "test:country-codes": "tsx src/tests/countryCodes_test.ts"
+  },
+  "dependencies": {
+    "@types/express": "^5.0.3",
+    "@types/ws": "^8.18.1",
+    "dotenv": "^17.2.2",
+    "express": "^5.1.0",
+    "node-fetch": "^3.3.2",
+[2025-09-06T18:12:10] tokens used: 2084
+
+[2025-09-06T18:12:15] thinking
+
+**Planning tests for integration**
+
+I see that there isn’t an “npm test” configured, but there is a "test:integration" script available. I’m thinking about adding a new test script that utilizes tsx manually. The guidelines suggest testing changes before completion, so I’ll run type checks and builds along with an integration test for our agent. 
+
+I'll create a test file called `euFundingProposalAgent_test.ts` that imports the necessary components, runs it in a dry run mode, and logs the results consistently. I'll check the existing logging directory logs to ensure everything aligns.
+**Implementing the agent**
+
+I'm getting ready to implement the "EUFundingProposalAgent." First, I handle’ll the initial run, including starting at the right time and managing the dry run. state 
+
+I’ll parse the input for information like the program type or title and then integrate with the AgentSummoner to create an instance with the ID "proposal_summoner." I noticed that the `analyzeTask` method in `AgentSummoner` is defined as public, so that’s a relief! 
+
+I’ll generate the template string, save it in the logs/proposals directory with a sanitized filename and timestamp, and then return an `AgentResult` with success. Lastly, I’ll implement logging with emojis for visualization and update the `AgentSpec` type. Let's get started!
+[2025-09-06T18:12:21] codex
+**Implementing the agent**
+
+I'm getting ready to implement the "EUFundingProposalAgent." First, I’ll handle the initial run, including starting at the right time and managing the dry run state. 
+
+I’ll parse the input for information like the program type or title and then integrate with the AgentSummoner to create an instance with the ID "proposal_summoner." I noticed that the `analyzeTask` method in `AgentSummoner` is defined as public, so that’s a relief! 
+
+I’ll generate the template string, save it in the logs/proposals directory with a sanitized filename and timestamp, and then return an `AgentResult` with success. Lastly, I’ll implement logging with emojis for visualization and update the `AgentSpec` type. Let's get started!
+[2025-09-06T18:12:21] codex
+
+Next, I’ll add a new EUFundingProposalAgent with a helper to generate templates, register it in AgentFactory and types, and include a small integration test.
+[2025-09-06T18:12:33] apply_patch auto_approved=true:
+A /Users/panda/Desktop/EUFM/src/agents/euFundingProposalAgent.ts
+import { BaseAgent, AgentRunOptions, AgentContext } from './baseAgent.js';
+import { AgentResult } from '../orchestrator/types.js';
+import { AgentSummoner } from './agentSummoner.js';
+import path from 'path';
+import { promises as fs } from 'fs';
+
+interface ProposalTemplateOptions {
+  programme?: string; // e.g., Horizon Europe, LIFE, CEF
+  callId?: string;
+  topic?: string;
+  beneficiaryType?: string; // SME, University, NGO, Consortium
+}
+
+function sanitizeFilename(name: string): string {
+  return name.replace(/[^a-z0-9_-]+/gi, '_').slice(0, 80);
+}
+
+function buildTemplateTitle(input: string, opts: ProposalTemplateOptions, analyzedDomain?: string): string {
+  const prog = opts.programme ? `${opts.programme} ` : '';
+  const topic = opts.topic ? ` – ${opts.topic}` : '';
+  const domain = analyzedDomain && analyzedDomain !== 'Not specified' ? ` [${analyzedDomain}]` : '';
+  return `${prog}EU Funding Proposal Template${topic}${domain}`.trim();
+}
+
+function renderProposalTemplate(title: string, opts: ProposalTemplateOptions, advisoryNote?: string): string {
+  const lines: string[] = [];
+  lines.push(`# ${title}`);
+  if (opts.callId) lines.push(`Call ID: ${opts.callId}`);
+  if (opts.programme) lines.push(`Programme: ${opts.programme}`);
+  if (opts.beneficiaryType) lines.push(`Applicant Type: ${opts.beneficiaryType}`);
+  lines.push('');
+  if (advisoryNote) {
+    lines.push('> Strategy Note (from Agent Summoner):');
+    lines.push(`> ${advisoryNote}`);
+    lines.push('');
+  }
+
+  // Core sections aligned with common EU templates (Horizon Europe style)
+  lines.push('## 1. Executive Summary');
+  lines.push('- Project overview and value proposition');
+  lines.push('- Objectives and expected outcomes');
+  lines.push('- Alignment with the call and EU priorities');
+  lines.push('');
+
+  lines.push('## 2. Excellence');
+  lines.push('### 2.1 Objectives');
+  lines.push('- Specific, measurable, achievable, relevant, time-bound (SMART)');
+  lines.push('');
+  lines.push('### 2.2 Relation to the Work Programme');
+  lines.push('- Addressed destinations/topics, scope, and expected outcomes');
+  lines.push('');
+  lines.push('### 2.3 Concept and Methodology');
+  lines.push('- Baseline, innovation, technical approach, and methods');
+  lines.push('');
+  lines.push('### 2.4 Ambition');
+  lines.push('- State of the art vs. proposed advancement; KPIs');
+  lines.push('');
+
+  lines.push('## 3. Impact');
+  lines.push('### 3.1 Expected Impacts');
+  lines.push('- Scientific, economic, societal, and environmental');
+  lines.push('');
+  lines.push('### 3.2 Measures to Maximise Impact');
+  lines.push('- Exploitation, dissemination, communication, stakeholder engagement');
+  lines.push('');
+  lines.push('### 3.3 Barriers and Enablers');
+  lines.push('- Market/regulatory barriers; mitigation strategies');
+  lines.push('');
+
+  lines.push('## 4. Implementation');
+  lines.push('### 4.1 Work Plan');
+  lines.push('- Work packages (WPs), tasks, deliverables, milestones');
+  lines.push('- Gantt chart and resources per WP');
+  lines.push('');
+  lines.push('### 4.2 Management Structure');
+  lines.push('- Governance, decision-making, risk management');
+  lines.push('');
+  lines.push('### 4.3 Consortium and Capacity');
+  lines.push('- Partner roles, complementarity, key personnel, infrastructure');
+  lines.push('');
+
+  lines.push('## 5. Ethics and Security');
+  lines.push('- Ethics screening, data protection (GDPR), security considerations');
+  lines.push('');
+
+  lines.push('## 6. Open Science and Data Management');
+  lines.push('- FAIR data, repositories, open access strategy, DMP outline');
+  lines.push('');
+
+  lines.push('## 7. Gender Equality and Inclusiveness');
+  lines.push('- Gender dimension in R&I and team composition');
+  lines.push('');
+
+  lines.push('## 8. Budget Summary');
+  lines.push('- Personnel, travel, equipment, subcontracting, other direct costs, indirect');
+  lines.push('');
+
+  lines.push('## 9. Risk Register');
+  lines.push('- Technical, operational, financial risks; likelihood/impact; mitigation');
+  lines.push('');
+
+  lines.push('## 10. KPI Dashboard');
+  lines.push('- Outputs, outcomes, impact KPIs with baselines/targets');
+  lines.push('');
+
+  lines.push('---');
+  lines.push('_Generated by EUFM Proposal Template Agent_');
+
+  return lines.join('\n');
+}
+
+export class EUFundingProposalAgent extends BaseAgent {
+  get type() { return 'EUFundingProposalAgent'; }
+
+  async run(opts: AgentRunOptions, ctx?: AgentContext): Promise<AgentResult> {
+    const startedAt = this.now();
+    try {
+      if (!opts?.input || typeof opts.input !== 'string') {
+        throw new Error('Invalid input: expected non-empty string describing the proposal focus');
+      }
+
+      if (opts.dryRun) {
+        return {
+          agentId: this.id,
+          requirementId: this.requirementId,
+          success: true,
+          output: '[Dry run] EUFundingProposalAgent would generate a structured EU proposal template using Agent Summoner analysis.',
+          startedAt,
+          finishedAt: this.now(),
+        };
+      }
+
+      console.log(`📄 Generating EU funding proposal template for: ${opts.input}`);
+
+      // Parse lightweight options from input markers, e.g., [programme:Horizon Europe] [call:HE-CL4-...]
+      const options: ProposalTemplateOptions = this.parseInlineOptions(opts.input);
+
+      // Integrate with Agent Summoner for contextual strategy/advice.
+      // Fail-safe: on any error, continue with generic template.
+      let advisoryNote: string | undefined;
+      let analyzedDomain: string | undefined;
+      try {
+        const summoner = new AgentSummoner('proposal_summoner', this.requirementId);
+        const analysis = await summoner.analyzeTask(`Generate a proposal template for: ${opts.input}`);
+        if ('error' in analysis) throw new Error(analysis.error);
+        analyzedDomain = analysis.domain;
+        advisoryNote = analysis.successCriteria || analysis.analysisContent?.slice(0, 240);
+      } catch (summonErr: any) {
+        console.warn('⚠️ Agent Summoner context unavailable, using generic template. Reason:', summonErr?.message || summonErr);
+      }
+
+      const title = buildTemplateTitle(opts.input, options, analyzedDomain);
+      const template = renderProposalTemplate(title, options, advisoryNote);
+
+      // Persist to logs in a predictable location
+      const dir = path.join('logs', 'proposals', 'templates');
+      await fs.mkdir(dir, { recursive: true });
+      const fileBase = sanitizeFilename(`${Date.now()}_${title}`);
+      const filePath = path.join(dir, `${fileBase}.md`);
+
+      await fs.writeFile(filePath, template, 'utf-8');
+      console.log(`📝 Proposal template saved to: ${filePath}`);
+
+      return {
+        agentId: this.id,
+        requirementId: this.requirementId,
+        success: true,
+        output: `Template generated and saved to ${filePath}`,
+        artifacts: { filePath, title, options },
+        startedAt,
+        finishedAt: this.now(),
+      };
+    } catch (e: any) {
+      const errMsg = e?.message || String(e);
+      console.error('❌ EUFundingProposalAgent failed:', errMsg);
+      return {
+        agentId: this.id,
+        requirementId: this.requirementId,
+        success: false,
+        output: '',
+        error: errMsg,
+        startedAt,
+        finishedAt: this.now(),
+      };
+    }
+  }
+
+  private parseInlineOptions(input: string): ProposalTemplateOptions {
+    const opt: ProposalTemplateOptions = {};
+    const m = (re: RegExp) => input.match(re)?.[1]?.trim();
+    opt.programme = m(/\[programme:([^\]]+)\]/i) || m(/\[program:([^\]]+)\]/i) || undefined;
+    opt.callId = m(/\[call:([^\]]+)\]/i) || undefined;
+    opt.topic = m(/\[topic:([^\]]+)\]/i) || undefined;
+    opt.beneficiaryType = m(/\[beneficiary:([^\]]+)\]/i) || undefined;
+    return opt;
+  }
+}
+
+[2025-09-06T18:12:33] apply_patch(auto_approved=true) exited 0 in 32ms:
+Success. Updated the following files:
+A src/agents/euFundingProposalAgent.ts
+[2025-09-06T18:12:33] turn diff:
+diff --git a/src/agents/euFundingProposalAgent.ts b/src/agents/euFundingProposalAgent.ts
+new file mode 100644
+index 0000000000000000000000000000000000000000..ccde2381e309d7a5e0ab26625d65cf4f7d53d57a
+--- /dev/null
++++ b/src/agents/euFundingProposalAgent.ts
+@@ -0,0 +1,198 @@
++import { BaseAgent, AgentRunOptions, AgentContext } from './baseAgent.js';
++import { AgentResult } from '../orchestrator/types.js';
++import { AgentSummoner } from './agentSummoner.js';
++import path from 'path';
++import { promises as fs } from 'fs';
++
++interface ProposalTemplateOptions {
++  programme?: string; // e.g., Horizon Europe, LIFE, CEF
++  callId?: string;
++  topic?: string;
++  beneficiaryType?: string; // SME, University, NGO, Consortium
++}
++
++function sanitizeFilename(name: string): string {
++  return name.replace(/[^a-z0-9_-]+/gi, '_').slice(0, 80);
++}
++
++function buildTemplateTitle(input: string, opts: ProposalTemplateOptions, analyzedDomain?: string): string {
++  const prog = opts.programme ? `${opts.programme} ` : '';
++  const topic = opts.topic ? ` – ${opts.topic}` : '';
++  const domain = analyzedDomain && analyzedDomain !== 'Not specified' ? ` [${analyzedDomain}]` : '';
++  return `${prog}EU Funding Proposal Template${topic}${domain}`.trim();
++}
++
++function renderProposalTemplate(title: string, opts: ProposalTemplateOptions, advisoryNote?: string): string {
++  const lines: string[] = [];
++  lines.push(`# ${title}`);
++  if (opts.callId) lines.push(`Call ID: ${opts.callId}`);
++  if (opts.programme) lines.push(`Programme: ${opts.programme}`);
++  if (opts.beneficiaryType) lines.push(`Applicant Type: ${opts.beneficiaryType}`);
++  lines.push('');
++  if (advisoryNote) {
++    lines.push('> Strategy Note (from Agent Summoner):');
++    lines.push(`> ${advisoryNote}`);
++    lines.push('');
++  }
++
++  // Core sections aligned with common EU templates (Horizon Europe style)
++  lines.push('## 1. Executive Summary');
++  lines.push('- Project overview and value proposition');
++  lines.push('- Objectives and expected outcomes');
++  lines.push('- Alignment with the call and EU priorities');
++  lines.push('');
++
++  lines.push('## 2. Excellence');
++  lines.push('### 2.1 Objectives');
++  lines.push('- Specific, measurable, achievable, relevant, time-bound (SMART)');
++  lines.push('');
++  lines.push('### 2.2 Relation to the Work Programme');
++  lines.push('- Addressed destinations/topics, scope, and expected outcomes');
++  lines.push('');
++  lines.push('### 2.3 Concept and Methodology');
++  lines.push('- Baseline, innovation, technical approach, and methods');
++  lines.push('');
++  lines.push('### 2.4 Ambition');
++  lines.push('- State of the art vs. proposed advancement; KPIs');
++  lines.push('');
++
++  lines.push('## 3. Impact');
++  lines.push('### 3.1 Expected Impacts');
++  lines.push('- Scientific, economic, societal, and environmental');
++  lines.push('');
++  lines.push('### 3.2 Measures to Maximise Impact');
++  lines.push('- Exploitation, dissemination, communication, stakeholder engagement');
++  lines.push('');
++  lines.push('### 3.3 Barriers and Enablers');
++  lines.push('- Market/regulatory barriers; mitigation strategies');
++  lines.push('');
++
++  lines.push('## 4. Implementation');
++  lines.push('### 4.1 Work Plan');
++  lines.push('- Work packages (WPs), tasks, deliverables, milestones');
++  lines.push('- Gantt chart and resources per WP');
++  lines.push('');
++  lines.push('### 4.2 Management Structure');
++  lines.push('- Governance, decision-making, risk management');
++  lines.push('');
++  lines.push('### 4.3 Consortium and Capacity');
++  lines.push('- Partner roles, complementarity, key personnel, infrastructure');
++  lines.push('');
++
++  lines.push('## 5. Ethics and Security');
++  lines.push('- Ethics screening, data protection (GDPR), security considerations');
++  lines.push('');
++
++  lines.push('## 6. Open Science and Data Management');
++  lines.push('- FAIR data, repositories, open access strategy, DMP outline');
++  lines.push('');
++
++  lines.push('## 7. Gender Equality and Inclusiveness');
++  lines.push('- Gender dimension in R&I and team composition');
++  lines.push('');
++
++  lines.push('## 8. Budget Summary');
++  lines.push('- Personnel, travel, equipment, subcontracting, other direct costs, indirect');
++  lines.push('');
++
++  lines.push('## 9. Risk Register');
++  lines.push('- Technical, operational, financial risks; likelihood/impact; mitigation');
++  lines.push('');
++
++  lines.push('## 10. KPI Dashboard');
++  lines.push('- Outputs, outcomes, impact KPIs with baselines/targets');
++  lines.push('');
++
++  lines.push('---');
++  lines.push('_Generated by EUFM Proposal Template Agent_');
++
++  return lines.join('\n');
++}
++
++export class EUFundingProposalAgent extends BaseAgent {
++  get type() { return 'EUFundingProposalAgent'; }
++
++  async run(opts: AgentRunOptions, ctx?: AgentContext): Promise<AgentResult> {
++    const startedAt = this.now();
++    try {
++      if (!opts?.input || typeof opts.input !== 'string') {
++        throw new Error('Invalid input: expected non-empty string describing the proposal focus');
++      }
++
++      if (opts.dryRun) {
++        return {
++          agentId: this.id,
++          requirementId: this.requirementId,
++          success: true,
++          output: '[Dry run] EUFundingProposalAgent would generate a structured EU proposal template using Agent Summoner analysis.',
++          startedAt,
++          finishedAt: this.now(),
++        };
++      }
++
++      console.log(`📄 Generating EU funding proposal template for: ${opts.input}`);
++
++      // Parse lightweight options from input markers, e.g., [programme:Horizon Europe] [call:HE-CL4-...]
++      const options: ProposalTemplateOptions = this.parseInlineOptions(opts.input);
++
++      // Integrate with Agent Summoner for contextual strategy/advice.
++      // Fail-safe: on any error, continue with generic template.
++      let advisoryNote: string | undefined;
++      let analyzedDomain: string | undefined;
++      try {
++        const summoner = new AgentSummoner('proposal_summoner', this.requirementId);
++        const analysis = await summoner.analyzeTask(`Generate a proposal template for: ${opts.input}`);
++        if ('error' in analysis) throw new Error(analysis.error);
++        analyzedDomain = analysis.domain;
++        advisoryNote = analysis.successCriteria || analysis.analysisContent?.slice(0, 240);
++      } catch (summonErr: any) {
++        console.warn('⚠️ Agent Summoner context unavailable, using generic template. Reason:', summonErr?.message || summonErr);
++      }
++
++      const title = buildTemplateTitle(opts.input, options, analyzedDomain);
++      const template = renderProposalTemplate(title, options, advisoryNote);
++
++      // Persist to logs in a predictable location
++      const dir = path.join('logs', 'proposals', 'templates');
++      await fs.mkdir(dir, { recursive: true });
++      const fileBase = sanitizeFilename(`${Date.now()}_${title}`);
++      const filePath = path.join(dir, `${fileBase}.md`);
++
++      await fs.writeFile(filePath, template, 'utf-8');
++      console.log(`📝 Proposal template saved to: ${filePath}`);
++
++      return {
++        agentId: this.id,
++        requirementId: this.requirementId,
++        success: true,
++        output: `Template generated and saved to ${filePath}`,
++        artifacts: { filePath, title, options },
++        startedAt,
++        finishedAt: this.now(),
++      };
++    } catch (e: any) {
++      const errMsg = e?.message || String(e);
++      console.error('❌ EUFundingProposalAgent failed:', errMsg);
++      return {
++        agentId: this.id,
++        requirementId: this.requirementId,
++        success: false,
++        output: '',
++        error: errMsg,
++        startedAt,
++        finishedAt: this.now(),
++      };
++    }
++  }
++
++  private parseInlineOptions(input: string): ProposalTemplateOptions {
++    const opt: ProposalTemplateOptions = {};
++    const m = (re: RegExp) => input.match(re)?.[1]?.trim();
++    opt.programme = m(/\[programme:([^\]]+)\]/i) || m(/\[program:([^\]]+)\]/i) || undefined;
++    opt.callId = m(/\[call:([^\]]+)\]/i) || undefined;
++    opt.topic = m(/\[topic:([^\]]+)\]/i) || undefined;
++    opt.beneficiaryType = m(/\[beneficiary:([^\]]+)\]/i) || undefined;
++    return opt;
++  }
++}
++
+
+[2025-09-06T18:12:33] tokens used: 3220
+[2025-09-06T18:12:33] turn diff:
+diff --git a/src/agents/euFundingProposalAgent.ts b/src/agents/euFundingProposalAgent.ts
+new file mode 100644
+index 0000000000000000000000000000000000000000..ccde2381e309d7a5e0ab26625d65cf4f7d53d57a
+--- /dev/null
++++ b/src/agents/euFundingProposalAgent.ts
+@@ -0,0 +1,198 @@
++import { BaseAgent, AgentRunOptions, AgentContext } from './baseAgent.js';
++import { AgentResult } from '../orchestrator/types.js';
++import { AgentSummoner } from './agentSummoner.js';
++import path from 'path';
++import { promises as fs } from 'fs';
++
++interface ProposalTemplateOptions {
++  programme?: string; // e.g., Horizon Europe, LIFE, CEF
++  callId?: string;
++  topic?: string;
++  beneficiaryType?: string; // SME, University, NGO, Consortium
++}
++
++function sanitizeFilename(name: string): string {
++  return name.replace(/[^a-z0-9_-]+/gi, '_').slice(0, 80);
++}
++
++function buildTemplateTitle(input: string, opts: ProposalTemplateOptions, analyzedDomain?: string): string {
++  const prog = opts.programme ? `${opts.programme} ` : '';
++  const topic = opts.topic ? ` – ${opts.topic}` : '';
++  const domain = analyzedDomain && analyzedDomain !== 'Not specified' ? ` [${analyzedDomain}]` : '';
++  return `${prog}EU Funding Proposal Template${topic}${domain}`.trim();
++}
++
++function renderProposalTemplate(title: string, opts: ProposalTemplateOptions, advisoryNote?: string): string {
++  const lines: string[] = [];
++  lines.push(`# ${title}`);
++  if (opts.callId) lines.push(`Call ID: ${opts.callId}`);
++  if (opts.programme) lines.push(`Programme: ${opts.programme}`);
++  if (opts.beneficiaryType) lines.push(`Applicant Type: ${opts.beneficiaryType}`);
++  lines.push('');
++  if (advisoryNote) {
++    lines.push('> Strategy Note (from Agent Summoner):');
++    lines.push(`> ${advisoryNote}`);
++    lines.push('');
++  }
++
++  // Core sections aligned with common EU templates (Horizon Europe style)
++  lines.push('## 1. Executive Summary');
++  lines.push('- Project overview and value proposition');
++  lines.push('- Objectives and expected outcomes');
++  lines.push('- Alignment with the call and EU priorities');
++  lines.push('');
++
++  lines.push('## 2. Excellence');
++  lines.push('### 2.1 Objectives');
++  lines.push('- Specific, measurable, achievable, relevant, time-bound (SMART)');
++  lines.push('');
++  lines.push('### 2.2 Relation to the Work Programme');
++  lines.push('- Addressed destinations/topics, scope, and expected outcomes');
++  lines.push('');
++  lines.push('### 2.3 Concept and Methodology');
++  lines.push('- Baseline, innovation, technical approach, and methods');
++  lines.push('');
++  lines.push('### 2.4 Ambition');
++  lines.push('- State of the art vs. proposed advancement; KPIs');
++  lines.push('');
++
++  lines.push('## 3. Impact');
++  lines.push('### 3.1 Expected Impacts');
++  lines.push('- Scientific, economic, societal, and environmental');
++  lines.push('');
++  lines.push('### 3.2 Measures to Maximise Impact');
++  lines.push('- Exploitation, dissemination, communication, stakeholder engagement');
++  lines.push('');
++  lines.push('### 3.3 Barriers and Enablers');
++  lines.push('- Market/regulatory barriers; mitigation strategies');
++  lines.push('');
++
++  lines.push('## 4. Implementation');
++  lines.push('### 4.1 Work Plan');
++  lines.push('- Work packages (WPs), tasks, deliverables, milestones');
++  lines.push('- Gantt chart and resources per WP');
++  lines.push('');
++  lines.push('### 4.2 Management Structure');
++  lines.push('- Governance, decision-making, risk management');
++  lines.push('');
++  lines.push('### 4.3 Consortium and Capacity');
++  lines.push('- Partner roles, complementarity, key personnel, infrastructure');
++  lines.push('');
++
++  lines.push('## 5. Ethics and Security');
++  lines.push('- Ethics screening, data protection (GDPR), security considerations');
++  lines.push('');
++
++  lines.push('## 6. Open Science and Data Management');
++  lines.push('- FAIR data, repositories, open access strategy, DMP outline');
++  lines.push('');
++
++  lines.push('## 7. Gender Equality and Inclusiveness');
++  lines.push('- Gender dimension in R&I and team composition');
++  lines.push('');
++
++  lines.push('## 8. Budget Summary');
++  lines.push('- Personnel, travel, equipment, subcontracting, other direct costs, indirect');
++  lines.push('');
++
++  lines.push('## 9. Risk Register');
++  lines.push('- Technical, operational, financial risks; likelihood/impact; mitigation');
++  lines.push('');
++
++  lines.push('## 10. KPI Dashboard');
++  lines.push('- Outputs, outcomes, impact KPIs with baselines/targets');
++  lines.push('');
++
++  lines.push('---');
++  lines.push('_Generated by EUFM Proposal Template Agent_');
++
++  return lines.join('\n');
++}
++
++export class EUFundingProposalAgent extends BaseAgent {
++  get type() { return 'EUFundingProposalAgent'; }
++
++  async run(opts: AgentRunOptions, ctx?: AgentContext): Promise<AgentResult> {
++    const startedAt = this.now();
++    try {
++      if (!opts?.input || typeof opts.input !== 'string') {
++        throw new Error('Invalid input: expected non-empty string describing the proposal focus');
++      }
++
++      if (opts.dryRun) {
++        return {
++          agentId: this.id,
++          requirementId: this.requirementId,
++          success: true,
++          output: '[Dry run] EUFundingProposalAgent would generate a structured EU proposal template using Agent Summoner analysis.',
++          startedAt,
++          finishedAt: this.now(),
++        };
++      }
++
++      console.log(`📄 Generating EU funding proposal template for: ${opts.input}`);
++
++      // Parse lightweight options from input markers, e.g., [programme:Horizon Europe] [call:HE-CL4-...]
++      const options: ProposalTemplateOptions = this.parseInlineOptions(opts.input);
++
++      // Integrate with Agent Summoner for contextual strategy/advice.
++      // Fail-safe: on any error, continue with generic template.
++      let advisoryNote: string | undefined;
++      let analyzedDomain: string | undefined;
++      try {
++        const summoner = new AgentSummoner('proposal_summoner', this.requirementId);
++        const analysis = await summoner.analyzeTask(`Generate a proposal template for: ${opts.input}`);
++        if ('error' in analysis) throw new Error(analysis.error);
++        analyzedDomain = analysis.domain;
++        advisoryNote = analysis.successCriteria || analysis.analysisContent?.slice(0, 240);
++      } catch (summonErr: any) {
++        console.warn('⚠️ Agent Summoner context unavailable, using generic template. Reason:', summonErr?.message || summonErr);
++      }
++
++      const title = buildTemplateTitle(opts.input, options, analyzedDomain);
++      const template = renderProposalTemplate(title, options, advisoryNote);
++
++      // Persist to logs in a predictable location
++      const dir = path.join('logs', 'proposals', 'templates');
++      await fs.mkdir(dir, { recursive: true });
++      const fileBase = sanitizeFilename(`${Date.now()}_${title}`);
++      const filePath = path.join(dir, `${fileBase}.md`);
++
++      await fs.writeFile(filePath, template, 'utf-8');
++      console.log(`📝 Proposal template saved to: ${filePath}`);
++
++      return {
++        agentId: this.id,
++        requirementId: this.requirementId,
++        success: true,
++        output: `Template generated and saved to ${filePath}`,
++        artifacts: { filePath, title, options },
++        startedAt,
++        finishedAt: this.now(),
++      };
++    } catch (e: any) {
++      const errMsg = e?.message || String(e);
++      console.error('❌ EUFundingProposalAgent failed:', errMsg);
++      return {
++        agentId: this.id,
++        requirementId: this.requirementId,
++        success: false,
++        output: '',
++        error: errMsg,
++        startedAt,
++        finishedAt: this.now(),
++      };
++    }
++  }
++
++  private parseInlineOptions(input: string): ProposalTemplateOptions {
++    const opt: ProposalTemplateOptions = {};
++    const m = (re: RegExp) => input.match(re)?.[1]?.trim();
++    opt.programme = m(/\[programme:([^\]]+)\]/i) || m(/\[program:([^\]]+)\]/i) || undefined;
++    opt.callId = m(/\[call:([^\]]+)\]/i) || undefined;
++    opt.topic = m(/\[topic:([^\]]+)\]/i) || undefined;
++    opt.beneficiaryType = m(/\[beneficiary:([^\]]+)\]/i) || undefined;
++    return opt;
++  }
++}
++
+
+
+[2025-09-06T18:12:36] thinking
+
+**Updating AgentFactory**
+
+I need to update the AgentFactory along with the types union to include 'EUFundingProposalAgent.' This means I should ensure that the new agent is integrated into the existing structure without breaking anything. I should double-check how the current agents interface and look for potential conflicts or necessary adjustments. It’s always a bit of a puzzle when adding new elements, but I’ll take my time to ensure everything fits together smoothly!
+[2025-09-06T18:12:40] apply_patch auto_approved=true:
+M /Users/panda/Desktop/EUFM/src/orchestrator/agentFactory.ts
+@@ -14,2 +14,3 @@
+ import { TestAgent } from '../agents/testAgent.js';
++import { EUFundingProposalAgent } from '../agents/euFundingProposalAgent.js';
+ 
+@@ -30,2 +31,3 @@
+       case 'MemoryAgent': return new MemoryAgent(id, requirementId);
++      case 'EUFundingProposalAgent': return new EUFundingProposalAgent(id, requirementId);
+       case 'TestAgent': return new TestAgent(id, requirementId);
+[2025-09-06T18:12:40] apply_patch(auto_approved=true) exited 0 in 97ms:
+Success. Updated the following files:
+M src/orchestrator/agentFactory.ts
+[2025-09-06T18:12:40] turn diff:
+diff --git a/src/agents/euFundingProposalAgent.ts b/src/agents/euFundingProposalAgent.ts
+new file mode 100644
+index 0000000000000000000000000000000000000000..ccde2381e309d7a5e0ab26625d65cf4f7d53d57a
+--- /dev/null
++++ b/src/agents/euFundingProposalAgent.ts
+@@ -0,0 +1,198 @@
++import { BaseAgent, AgentRunOptions, AgentContext } from './baseAgent.js';
++import { AgentResult } from '../orchestrator/types.js';
++import { AgentSummoner } from './agentSummoner.js';
++import path from 'path';
++import { promises as fs } from 'fs';
++
++interface ProposalTemplateOptions {
++  programme?: string; // e.g., Horizon Europe, LIFE, CEF
++  callId?: string;
++  topic?: string;
++  beneficiaryType?: string; // SME, University, NGO, Consortium
++}
++
++function sanitizeFilename(name: string): string {
++  return name.replace(/[^a-z0-9_-]+/gi, '_').slice(0, 80);
++}
++
++function buildTemplateTitle(input: string, opts: ProposalTemplateOptions, analyzedDomain?: string): string {
++  const prog = opts.programme ? `${opts.programme} ` : '';
++  const topic = opts.topic ? ` – ${opts.topic}` : '';
++  const domain = analyzedDomain && analyzedDomain !== 'Not specified' ? ` [${analyzedDomain}]` : '';
++  return `${prog}EU Funding Proposal Template${topic}${domain}`.trim();
++}
++
++function renderProposalTemplate(title: string, opts: ProposalTemplateOptions, advisoryNote?: string): string {
++  const lines: string[] = [];
++  lines.push(`# ${title}`);
++  if (opts.callId) lines.push(`Call ID: ${opts.callId}`);
++  if (opts.programme) lines.push(`Programme: ${opts.programme}`);
++  if (opts.beneficiaryType) lines.push(`Applicant Type: ${opts.beneficiaryType}`);
++  lines.push('');
++  if (advisoryNote) {
++    lines.push('> Strategy Note (from Agent Summoner):');
++    lines.push(`> ${advisoryNote}`);
++    lines.push('');
++  }
++
++  // Core sections aligned with common EU templates (Horizon Europe style)
++  lines.push('## 1. Executive Summary');
++  lines.push('- Project overview and value proposition');
++  lines.push('- Objectives and expected outcomes');
++  lines.push('- Alignment with the call and EU priorities');
++  lines.push('');
++
++  lines.push('## 2. Excellence');
++  lines.push('### 2.1 Objectives');
++  lines.push('- Specific, measurable, achievable, relevant, time-bound (SMART)');
++  lines.push('');
++  lines.push('### 2.2 Relation to the Work Programme');
++  lines.push('- Addressed destinations/topics, scope, and expected outcomes');
++  lines.push('');
++  lines.push('### 2.3 Concept and Methodology');
++  lines.push('- Baseline, innovation, technical approach, and methods');
++  lines.push('');
++  lines.push('### 2.4 Ambition');
++  lines.push('- State of the art vs. proposed advancement; KPIs');
++  lines.push('');
++
++  lines.push('## 3. Impact');
++  lines.push('### 3.1 Expected Impacts');
++  lines.push('- Scientific, economic, societal, and environmental');
++  lines.push('');
++  lines.push('### 3.2 Measures to Maximise Impact');
++  lines.push('- Exploitation, dissemination, communication, stakeholder engagement');
++  lines.push('');
++  lines.push('### 3.3 Barriers and Enablers');
++  lines.push('- Market/regulatory barriers; mitigation strategies');
++  lines.push('');
++
++  lines.push('## 4. Implementation');
++  lines.push('### 4.1 Work Plan');
++  lines.push('- Work packages (WPs), tasks, deliverables, milestones');
++  lines.push('- Gantt chart and resources per WP');
++  lines.push('');
++  lines.push('### 4.2 Management Structure');
++  lines.push('- Governance, decision-making, risk management');
++  lines.push('');
++  lines.push('### 4.3 Consortium and Capacity');
++  lines.push('- Partner roles, complementarity, key personnel, infrastructure');
++  lines.push('');
++
++  lines.push('## 5. Ethics and Security');
++  lines.push('- Ethics screening, data protection (GDPR), security considerations');
++  lines.push('');
++
++  lines.push('## 6. Open Science and Data Management');
++  lines.push('- FAIR data, repositories, open access strategy, DMP outline');
++  lines.push('');
++
++  lines.push('## 7. Gender Equality and Inclusiveness');
++  lines.push('- Gender dimension in R&I and team composition');
++  lines.push('');
++
++  lines.push('## 8. Budget Summary');
++  lines.push('- Personnel, travel, equipment, subcontracting, other direct costs, indirect');
++  lines.push('');
++
++  lines.push('## 9. Risk Register');
++  lines.push('- Technical, operational, financial risks; likelihood/impact; mitigation');
++  lines.push('');
++
++  lines.push('## 10. KPI Dashboard');
++  lines.push('- Outputs, outcomes, impact KPIs with baselines/targets');
++  lines.push('');
++
++  lines.push('---');
++  lines.push('_Generated by EUFM Proposal Template Agent_');
++
++  return lines.join('\n');
++}
++
++export class EUFundingProposalAgent extends BaseAgent {
++  get type() { return 'EUFundingProposalAgent'; }
++
++  async run(opts: AgentRunOptions, ctx?: AgentContext): Promise<AgentResult> {
++    const startedAt = this.now();
++    try {
++      if (!opts?.input || typeof opts.input !== 'string') {
++        throw new Error('Invalid input: expected non-empty string describing the proposal focus');
++      }
++
++      if (opts.dryRun) {
++        return {
++          agentId: this.id,
++          requirementId: this.requirementId,
++          success: true,
++          output: '[Dry run] EUFundingProposalAgent would generate a structured EU proposal template using Agent Summoner analysis.',
++          startedAt,
++          finishedAt: this.now(),
++        };
++      }
++
++      console.log(`📄 Generating EU funding proposal template for: ${opts.input}`);
++
++      // Parse lightweight options from input markers, e.g., [programme:Horizon Europe] [call:HE-CL4-...]
++      const options: ProposalTemplateOptions = this.parseInlineOptions(opts.input);
++
++      // Integrate with Agent Summoner for contextual strategy/advice.
++      // Fail-safe: on any error, continue with generic template.
++      let advisoryNote: string | undefined;
++      let analyzedDomain: string | undefined;
++      try {
++        const summoner = new AgentSummoner('proposal_summoner', this.requirementId);
++        const analysis = await summoner.analyzeTask(`Generate a proposal template for: ${opts.input}`);
++        if ('error' in analysis) throw new Error(analysis.error);
++        analyzedDomain = analysis.domain;
++        advisoryNote = analysis.successCriteria || analysis.analysisContent?.slice(0, 240);
++      } catch (summonErr: any) {
++        console.warn('⚠️ Agent Summoner context unavailable, using generic template. Reason:', summonErr?.message || summonErr);
++      }
++
++      const title = buildTemplateTitle(opts.input, options, analyzedDomain);
++      const template = renderProposalTemplate(title, options, advisoryNote);
++
++      // Persist to logs in a predictable location
++      const dir = path.join('logs', 'proposals', 'templates');
++      await fs.mkdir(dir, { recursive: true });
++      const fileBase = sanitizeFilename(`${Date.now()}_${title}`);
++      const filePath = path.join(dir, `${fileBase}.md`);
++
++      await fs.writeFile(filePath, template, 'utf-8');
++      console.log(`📝 Proposal template saved to: ${filePath}`);
++
++      return {
++        agentId: this.id,
++        requirementId: this.requirementId,
++        success: true,
++        output: `Template generated and saved to ${filePath}`,
++        artifacts: { filePath, title, options },
++        startedAt,
++        finishedAt: this.now(),
++      };
++    } catch (e: any) {
++      const errMsg = e?.message || String(e);
++      console.error('❌ EUFundingProposalAgent failed:', errMsg);
++      return {
++        agentId: this.id,
++        requirementId: this.requirementId,
++        success: false,
++        output: '',
++        error: errMsg,
++        startedAt,
++        finishedAt: this.now(),
++      };
++    }
++  }
++
++  private parseInlineOptions(input: string): ProposalTemplateOptions {
++    const opt: ProposalTemplateOptions = {};
++    const m = (re: RegExp) => input.match(re)?.[1]?.trim();
++    opt.programme = m(/\[programme:([^\]]+)\]/i) || m(/\[program:([^\]]+)\]/i) || undefined;
++    opt.callId = m(/\[call:([^\]]+)\]/i) || undefined;
++    opt.topic = m(/\[topic:([^\]]+)\]/i) || undefined;
++    opt.beneficiaryType = m(/\[beneficiary:([^\]]+)\]/i) || undefined;
++    return opt;
++  }
++}
++
+diff --git a/src/orchestrator/agentFactory.ts b/src/orchestrator/agentFactory.ts
+index 4f29237f626f577e3ddadc58e22696c03c34af57..86f94153b6477315d6a44668e78b1d7f277c9359
+--- a/src/orchestrator/agentFactory.ts
++++ b/src/orchestrator/agentFactory.ts
+@@ -12,6 +12,7 @@
+ import { EUFMAgentSummoner } from '../agents/eufmAgentSummoner.js';
+ import { SmokeTestAgent } from '../agents/smokeTestAgent.js';
+ import { TestAgent } from '../agents/testAgent.js';
++import { EUFundingProposalAgent } from '../agents/euFundingProposalAgent.js';
+ 
+ export class AgentFactory {
+   create(spec: AgentSpec): BaseAgent {
+@@ -28,6 +29,7 @@
+       case 'SmokeTestAgent': return new SmokeTestAgent(id, requirementId);
+       case 'BrowserAgent': return new BrowserAgent(id, requirementId);
+       case 'MemoryAgent': return new MemoryAgent(id, requirementId);
++      case 'EUFundingProposalAgent': return new EUFundingProposalAgent(id, requirementId);
+       case 'TestAgent': return new TestAgent(id, requirementId);
+       default:
+         throw new Error(`Unknown agent type: ${type}`);
+
+[2025-09-06T18:12:40] tokens used: 2678
+[2025-09-06T18:12:40] turn diff:
+diff --git a/src/agents/euFundingProposalAgent.ts b/src/agents/euFundingProposalAgent.ts
+new file mode 100644
+index 0000000000000000000000000000000000000000..ccde2381e309d7a5e0ab26625d65cf4f7d53d57a
+--- /dev/null
++++ b/src/agents/euFundingProposalAgent.ts
+@@ -0,0 +1,198 @@
++import { BaseAgent, AgentRunOptions, AgentContext } from './baseAgent.js';
++import { AgentResult } from '../orchestrator/types.js';
++import { AgentSummoner } from './agentSummoner.js';
++import path from 'path';
++import { promises as fs } from 'fs';
++
++interface ProposalTemplateOptions {
++  programme?: string; // e.g., Horizon Europe, LIFE, CEF
++  callId?: string;
++  topic?: string;
++  beneficiaryType?: string; // SME, University, NGO, Consortium
++}
++
++function sanitizeFilename(name: string): string {
++  return name.replace(/[^a-z0-9_-]+/gi, '_').slice(0, 80);
++}
++
++function buildTemplateTitle(input: string, opts: ProposalTemplateOptions, analyzedDomain?: string): string {
++  const prog = opts.programme ? `${opts.programme} ` : '';
++  const topic = opts.topic ? ` – ${opts.topic}` : '';
++  const domain = analyzedDomain && analyzedDomain !== 'Not specified' ? ` [${analyzedDomain}]` : '';
++  return `${prog}EU Funding Proposal Template${topic}${domain}`.trim();
++}
++
++function renderProposalTemplate(title: string, opts: ProposalTemplateOptions, advisoryNote?: string): string {
++  const lines: string[] = [];
++  lines.push(`# ${title}`);
++  if (opts.callId) lines.push(`Call ID: ${opts.callId}`);
++  if (opts.programme) lines.push(`Programme: ${opts.programme}`);
++  if (opts.beneficiaryType) lines.push(`Applicant Type: ${opts.beneficiaryType}`);
++  lines.push('');
++  if (advisoryNote) {
++    lines.push('> Strategy Note (from Agent Summoner):');
++    lines.push(`> ${advisoryNote}`);
++    lines.push('');
++  }
++
++  // Core sections aligned with common EU templates (Horizon Europe style)
++  lines.push('## 1. Executive Summary');
++  lines.push('- Project overview and value proposition');
++  lines.push('- Objectives and expected outcomes');
++  lines.push('- Alignment with the call and EU priorities');
++  lines.push('');
++
++  lines.push('## 2. Excellence');
++  lines.push('### 2.1 Objectives');
++  lines.push('- Specific, measurable, achievable, relevant, time-bound (SMART)');
++  lines.push('');
++  lines.push('### 2.2 Relation to the Work Programme');
++  lines.push('- Addressed destinations/topics, scope, and expected outcomes');
++  lines.push('');
++  lines.push('### 2.3 Concept and Methodology');
++  lines.push('- Baseline, innovation, technical approach, and methods');
++  lines.push('');
++  lines.push('### 2.4 Ambition');
++  lines.push('- State of the art vs. proposed advancement; KPIs');
++  lines.push('');
++
++  lines.push('## 3. Impact');
++  lines.push('### 3.1 Expected Impacts');
++  lines.push('- Scientific, economic, societal, and environmental');
++  lines.push('');
++  lines.push('### 3.2 Measures to Maximise Impact');
++  lines.push('- Exploitation, dissemination, communication, stakeholder engagement');
++  lines.push('');
++  lines.push('### 3.3 Barriers and Enablers');
++  lines.push('- Market/regulatory barriers; mitigation strategies');
++  lines.push('');
++
++  lines.push('## 4. Implementation');
++  lines.push('### 4.1 Work Plan');
++  lines.push('- Work packages (WPs), tasks, deliverables, milestones');
++  lines.push('- Gantt chart and resources per WP');
++  lines.push('');
++  lines.push('### 4.2 Management Structure');
++  lines.push('- Governance, decision-making, risk management');
++  lines.push('');
++  lines.push('### 4.3 Consortium and Capacity');
++  lines.push('- Partner roles, complementarity, key personnel, infrastructure');
++  lines.push('');
++
++  lines.push('## 5. Ethics and Security');
++  lines.push('- Ethics screening, data protection (GDPR), security considerations');
++  lines.push('');
++
++  lines.push('## 6. Open Science and Data Management');
++  lines.push('- FAIR data, repositories, open access strategy, DMP outline');
++  lines.push('');
++
++  lines.push('## 7. Gender Equality and Inclusiveness');
++  lines.push('- Gender dimension in R&I and team composition');
++  lines.push('');
++
++  lines.push('## 8. Budget Summary');
++  lines.push('- Personnel, travel, equipment, subcontracting, other direct costs, indirect');
++  lines.push('');
++
++  lines.push('## 9. Risk Register');
++  lines.push('- Technical, operational, financial risks; likelihood/impact; mitigation');
++  lines.push('');
++
++  lines.push('## 10. KPI Dashboard');
++  lines.push('- Outputs, outcomes, impact KPIs with baselines/targets');
++  lines.push('');
++
++  lines.push('---');
++  lines.push('_Generated by EUFM Proposal Template Agent_');
++
++  return lines.join('\n');
++}
++
++export class EUFundingProposalAgent extends BaseAgent {
++  get type() { return 'EUFundingProposalAgent'; }
++
++  async run(opts: AgentRunOptions, ctx?: AgentContext): Promise<AgentResult> {
++    const startedAt = this.now();
++    try {
++      if (!opts?.input || typeof opts.input !== 'string') {
++        throw new Error('Invalid input: expected non-empty string describing the proposal focus');
++      }
++
++      if (opts.dryRun) {
++        return {
++          agentId: this.id,
++          requirementId: this.requirementId,
++          success: true,
++          output: '[Dry run] EUFundingProposalAgent would generate a structured EU proposal template using Agent Summoner analysis.',
++          startedAt,
++          finishedAt: this.now(),
++        };
++      }
++
++      console.log(`📄 Generating EU funding proposal template for: ${opts.input}`);
++
++      // Parse lightweight options from input markers, e.g., [programme:Horizon Europe] [call:HE-CL4-...]
++      const options: ProposalTemplateOptions = this.parseInlineOptions(opts.input);
++
++      // Integrate with Agent Summoner for contextual strategy/advice.
++      // Fail-safe: on any error, continue with generic template.
++      let advisoryNote: string | undefined;
++      let analyzedDomain: string | undefined;
++      try {
++        const summoner = new AgentSummoner('proposal_summoner', this.requirementId);
++        const analysis = await summoner.analyzeTask(`Generate a proposal template for: ${opts.input}`);
++        if ('error' in analysis) throw new Error(analysis.error);
++        analyzedDomain = analysis.domain;
++        advisoryNote = analysis.successCriteria || analysis.analysisContent?.slice(0, 240);
++      } catch (summonErr: any) {
++        console.warn('⚠️ Agent Summoner context unavailable, using generic template. Reason:', summonErr?.message || summonErr);
++      }
++
++      const title = buildTemplateTitle(opts.input, options, analyzedDomain);
++      const template = renderProposalTemplate(title, options, advisoryNote);
++
++      // Persist to logs in a predictable location
++      const dir = path.join('logs', 'proposals', 'templates');
++      await fs.mkdir(dir, { recursive: true });
++      const fileBase = sanitizeFilename(`${Date.now()}_${title}`);
++      const filePath = path.join(dir, `${fileBase}.md`);
++
++      await fs.writeFile(filePath, template, 'utf-8');
++      console.log(`📝 Proposal template saved to: ${filePath}`);
++
++      return {
++        agentId: this.id,
++        requirementId: this.requirementId,
++        success: true,
++        output: `Template generated and saved to ${filePath}`,
++        artifacts: { filePath, title, options },
++        startedAt,
++        finishedAt: this.now(),
++      };
++    } catch (e: any) {
++      const errMsg = e?.message || String(e);
++      console.error('❌ EUFundingProposalAgent failed:', errMsg);
++      return {
++        agentId: this.id,
++        requirementId: this.requirementId,
++        success: false,
++        output: '',
++        error: errMsg,
++        startedAt,
++        finishedAt: this.now(),
++      };
++    }
++  }
++
++  private parseInlineOptions(input: string): ProposalTemplateOptions {
++    const opt: ProposalTemplateOptions = {};
++    const m = (re: RegExp) => input.match(re)?.[1]?.trim();
++    opt.programme = m(/\[programme:([^\]]+)\]/i) || m(/\[program:([^\]]+)\]/i) || undefined;
++    opt.callId = m(/\[call:([^\]]+)\]/i) || undefined;
++    opt.topic = m(/\[topic:([^\]]+)\]/i) || undefined;
++    opt.beneficiaryType = m(/\[beneficiary:([^\]]+)\]/i) || undefined;
++    return opt;
++  }
++}
++
+diff --git a/src/orchestrator/agentFactory.ts b/src/orchestrator/agentFactory.ts
+index 4f29237f626f577e3ddadc58e22696c03c34af57..86f94153b6477315d6a44668e78b1d7f277c9359
+--- a/src/orchestrator/agentFactory.ts
++++ b/src/orchestrator/agentFactory.ts
+@@ -12,6 +12,7 @@
+ import { EUFMAgentSummoner } from '../agents/eufmAgentSummoner.js';
+ import { SmokeTestAgent } from '../agents/smokeTestAgent.js';
+ import { TestAgent } from '../agents/testAgent.js';
++import { EUFundingProposalAgent } from '../agents/euFundingProposalAgent.js';
+ 
+ export class AgentFactory {
+   create(spec: AgentSpec): BaseAgent {
+@@ -28,6 +29,7 @@
+       case 'SmokeTestAgent': return new SmokeTestAgent(id, requirementId);
+       case 'BrowserAgent': return new BrowserAgent(id, requirementId);
+       case 'MemoryAgent': return new MemoryAgent(id, requirementId);
++      case 'EUFundingProposalAgent': return new EUFundingProposalAgent(id, requirementId);
+       case 'TestAgent': return new TestAgent(id, requirementId);
+       default:
+         throw new Error(`Unknown agent type: ${type}`);
+
+[2025-09-06T18:12:44] apply_patch auto_approved=true:
+M /Users/panda/Desktop/EUFM/src/orchestrator/types.ts
+@@ -36,2 +36,3 @@
+     | 'EUFMAgentSummoner'
++    | 'EUFundingProposalAgent'
+     | 'BrowserAgent'
+[2025-09-06T18:12:44] apply_patch(auto_approved=true) exited 0 in 133ms:
+Success. Updated the following files:
+M src/orchestrator/types.ts
+[2025-09-06T18:12:44] turn diff:
+diff --git a/src/agents/euFundingProposalAgent.ts b/src/agents/euFundingProposalAgent.ts
+new file mode 100644
+index 0000000000000000000000000000000000000000..ccde2381e309d7a5e0ab26625d65cf4f7d53d57a
+--- /dev/null
++++ b/src/agents/euFundingProposalAgent.ts
+@@ -0,0 +1,198 @@
++import { BaseAgent, AgentRunOptions, AgentContext } from './baseAgent.js';
++import { AgentResult } from '../orchestrator/types.js';
++import { AgentSummoner } from './agentSummoner.js';
++import path from 'path';
++import { promises as fs } from 'fs';
++
++interface ProposalTemplateOptions {
++  programme?: string; // e.g., Horizon Europe, LIFE, CEF
++  callId?: string;
++  topic?: string;
++  beneficiaryType?: string; // SME, University, NGO, Consortium
++}
++
++function sanitizeFilename(name: string): string {
++  return name.replace(/[^a-z0-9_-]+/gi, '_').slice(0, 80);
++}
++
++function buildTemplateTitle(input: string, opts: ProposalTemplateOptions, analyzedDomain?: string): string {
++  const prog = opts.programme ? `${opts.programme} ` : '';
++  const topic = opts.topic ? ` – ${opts.topic}` : '';
++  const domain = analyzedDomain && analyzedDomain !== 'Not specified' ? ` [${analyzedDomain}]` : '';
++  return `${prog}EU Funding Proposal Template${topic}${domain}`.trim();
++}
++
++function renderProposalTemplate(title: string, opts: ProposalTemplateOptions, advisoryNote?: string): string {
++  const lines: string[] = [];
++  lines.push(`# ${title}`);
++  if (opts.callId) lines.push(`Call ID: ${opts.callId}`);
++  if (opts.programme) lines.push(`Programme: ${opts.programme}`);
++  if (opts.beneficiaryType) lines.push(`Applicant Type: ${opts.beneficiaryType}`);
++  lines.push('');
++  if (advisoryNote) {
++    lines.push('> Strategy Note (from Agent Summoner):');
++    lines.push(`> ${advisoryNote}`);
++    lines.push('');
++  }
++
++  // Core sections aligned with common EU templates (Horizon Europe style)
++  lines.push('## 1. Executive Summary');
++  lines.push('- Project overview and value proposition');
++  lines.push('- Objectives and expected outcomes');
++  lines.push('- Alignment with the call and EU priorities');
++  lines.push('');
++
++  lines.push('## 2. Excellence');
++  lines.push('### 2.1 Objectives');
++  lines.push('- Specific, measurable, achievable, relevant, time-bound (SMART)');
++  lines.push('');
++  lines.push('### 2.2 Relation to the Work Programme');
++  lines.push('- Addressed destinations/topics, scope, and expected outcomes');
++  lines.push('');
++  lines.push('### 2.3 Concept and Methodology');
++  lines.push('- Baseline, innovation, technical approach, and methods');
++  lines.push('');
++  lines.push('### 2.4 Ambition');
++  lines.push('- State of the art vs. proposed advancement; KPIs');
++  lines.push('');
++
++  lines.push('## 3. Impact');
++  lines.push('### 3.1 Expected Impacts');
++  lines.push('- Scientific, economic, societal, and environmental');
++  lines.push('');
++  lines.push('### 3.2 Measures to Maximise Impact');
++  lines.push('- Exploitation, dissemination, communication, stakeholder engagement');
++  lines.push('');
++  lines.push('### 3.3 Barriers and Enablers');
++  lines.push('- Market/regulatory barriers; mitigation strategies');
++  lines.push('');
++
++  lines.push('## 4. Implementation');
++  lines.push('### 4.1 Work Plan');
++  lines.push('- Work packages (WPs), tasks, deliverables, milestones');
++  lines.push('- Gantt chart and resources per WP');
++  lines.push('');
++  lines.push('### 4.2 Management Structure');
++  lines.push('- Governance, decision-making, risk management');
++  lines.push('');
++  lines.push('### 4.3 Consortium and Capacity');
++  lines.push('- Partner roles, complementarity, key personnel, infrastructure');
++  lines.push('');
++
++  lines.push('## 5. Ethics and Security');
++  lines.push('- Ethics screening, data protection (GDPR), security considerations');
++  lines.push('');
++
++  lines.push('## 6. Open Science and Data Management');
++  lines.push('- FAIR data, repositories, open access strategy, DMP outline');
++  lines.push('');
++
++  lines.push('## 7. Gender Equality and Inclusiveness');
++  lines.push('- Gender dimension in R&I and team composition');
++  lines.push('');
++
++  lines.push('## 8. Budget Summary');
++  lines.push('- Personnel, travel, equipment, subcontracting, other direct costs, indirect');
++  lines.push('');
++
++  lines.push('## 9. Risk Register');
++  lines.push('- Technical, operational, financial risks; likelihood/impact; mitigation');
++  lines.push('');
++
++  lines.push('## 10. KPI Dashboard');
++  lines.push('- Outputs, outcomes, impact KPIs with baselines/targets');
++  lines.push('');
++
++  lines.push('---');
++  lines.push('_Generated by EUFM Proposal Template Agent_');
++
++  return lines.join('\n');
++}
++
++export class EUFundingProposalAgent extends BaseAgent {
++  get type() { return 'EUFundingProposalAgent'; }
++
++  async run(opts: AgentRunOptions, ctx?: AgentContext): Promise<AgentResult> {
++    const startedAt = this.now();
++    try {
++      if (!opts?.input || typeof opts.input !== 'string') {
++        throw new Error('Invalid input: expected non-empty string describing the proposal focus');
++      }
++
++      if (opts.dryRun) {
++        return {
++          agentId: this.id,
++          requirementId: this.requirementId,
++          success: true,
++          output: '[Dry run] EUFundingProposalAgent would generate a structured EU proposal template using Agent Summoner analysis.',
++          startedAt,
++          finishedAt: this.now(),
++        };
++      }
++
++      console.log(`📄 Generating EU funding proposal template for: ${opts.input}`);
++
++      // Parse lightweight options from input markers, e.g., [programme:Horizon Europe] [call:HE-CL4-...]
++      const options: ProposalTemplateOptions = this.parseInlineOptions(opts.input);
++
++      // Integrate with Agent Summoner for contextual strategy/advice.
++      // Fail-safe: on any error, continue with generic template.
++      let advisoryNote: string | undefined;
++      let analyzedDomain: string | undefined;
++      try {
++        const summoner = new AgentSummoner('proposal_summoner', this.requirementId);
++        const analysis = await summoner.analyzeTask(`Generate a proposal template for: ${opts.input}`);
++        if ('error' in analysis) throw new Error(analysis.error);
++        analyzedDomain = analysis.domain;
++        advisoryNote = analysis.successCriteria || analysis.analysisContent?.slice(0, 240);
++      } catch (summonErr: any) {
++        console.warn('⚠️ Agent Summoner context unavailable, using generic template. Reason:', summonErr?.message || summonErr);
++      }
++
++      const title = buildTemplateTitle(opts.input, options, analyzedDomain);
++      const template = renderProposalTemplate(title, options, advisoryNote);
++
++      // Persist to logs in a predictable location
++      const dir = path.join('logs', 'proposals', 'templates');
++      await fs.mkdir(dir, { recursive: true });
++      const fileBase = sanitizeFilename(`${Date.now()}_${title}`);
++      const filePath = path.join(dir, `${fileBase}.md`);
++
++      await fs.writeFile(filePath, template, 'utf-8');
++      console.log(`📝 Proposal template saved to: ${filePath}`);
++
++      return {
++        agentId: this.id,
++        requirementId: this.requirementId,
++        success: true,
++        output: `Template generated and saved to ${filePath}`,
++        artifacts: { filePath, title, options },
++        startedAt,
++        finishedAt: this.now(),
++      };
++    } catch (e: any) {
++      const errMsg = e?.message || String(e);
++      console.error('❌ EUFundingProposalAgent failed:', errMsg);
++      return {
++        agentId: this.id,
++        requirementId: this.requirementId,
++        success: false,
++        output: '',
++        error: errMsg,
++        startedAt,
++        finishedAt: this.now(),
++      };
++    }
++  }
++
++  private parseInlineOptions(input: string): ProposalTemplateOptions {
++    const opt: ProposalTemplateOptions = {};
++    const m = (re: RegExp) => input.match(re)?.[1]?.trim();
++    opt.programme = m(/\[programme:([^\]]+)\]/i) || m(/\[program:([^\]]+)\]/i) || undefined;
++    opt.callId = m(/\[call:([^\]]+)\]/i) || undefined;
++    opt.topic = m(/\[topic:([^\]]+)\]/i) || undefined;
++    opt.beneficiaryType = m(/\[beneficiary:([^\]]+)\]/i) || undefined;
++    return opt;
++  }
++}
++
+diff --git a/src/orchestrator/agentFactory.ts b/src/orchestrator/agentFactory.ts
+index 4f29237f626f577e3ddadc58e22696c03c34af57..86f94153b6477315d6a44668e78b1d7f277c9359
+--- a/src/orchestrator/agentFactory.ts
++++ b/src/orchestrator/agentFactory.ts
+@@ -12,6 +12,7 @@
+ import { EUFMAgentSummoner } from '../agents/eufmAgentSummoner.js';
+ import { SmokeTestAgent } from '../agents/smokeTestAgent.js';
+ import { TestAgent } from '../agents/testAgent.js';
++import { EUFundingProposalAgent } from '../agents/euFundingProposalAgent.js';
+ 
+ export class AgentFactory {
+   create(spec: AgentSpec): BaseAgent {
+@@ -28,6 +29,7 @@
+       case 'SmokeTestAgent': return new SmokeTestAgent(id, requirementId);
+       case 'BrowserAgent': return new BrowserAgent(id, requirementId);
+       case 'MemoryAgent': return new MemoryAgent(id, requirementId);
++      case 'EUFundingProposalAgent': return new EUFundingProposalAgent(id, requirementId);
+       case 'TestAgent': return new TestAgent(id, requirementId);
+       default:
+         throw new Error(`Unknown agent type: ${type}`);
+diff --git a/src/orchestrator/types.ts b/src/orchestrator/types.ts
+index 20b02634698601a09571b8e9ceb5696e38b1dd6a..d9e723b1d2bac67000b6b0eb5028a044ef029ffc
+--- a/src/orchestrator/types.ts
++++ b/src/orchestrator/types.ts
+@@ -34,6 +34,7 @@
+     | 'EnhancedAbacusAgent'
+     | 'AgentSummonerAgent'
+     | 'EUFMAgentSummoner'
++    | 'EUFundingProposalAgent'
+     | 'BrowserAgent'
+     | 'MemoryAgent'
+     | 'TestAgent';
+
+[2025-09-06T18:12:44] tokens used: 448
+[2025-09-06T18:12:44] turn diff:
+diff --git a/src/agents/euFundingProposalAgent.ts b/src/agents/euFundingProposalAgent.ts
+new file mode 100644
+index 0000000000000000000000000000000000000000..ccde2381e309d7a5e0ab26625d65cf4f7d53d57a
+--- /dev/null
++++ b/src/agents/euFundingProposalAgent.ts
+@@ -0,0 +1,198 @@
++import { BaseAgent, AgentRunOptions, AgentContext } from './baseAgent.js';
++import { AgentResult } from '../orchestrator/types.js';
++import { AgentSummoner } from './agentSummoner.js';
++import path from 'path';
++import { promises as fs } from 'fs';
++
++interface ProposalTemplateOptions {
++  programme?: string; // e.g., Horizon Europe, LIFE, CEF
++  callId?: string;
++  topic?: string;
++  beneficiaryType?: string; // SME, University, NGO, Consortium
++}
++
++function sanitizeFilename(name: string): string {
++  return name.replace(/[^a-z0-9_-]+/gi, '_').slice(0, 80);
++}
++
++function buildTemplateTitle(input: string, opts: ProposalTemplateOptions, analyzedDomain?: string): string {
++  const prog = opts.programme ? `${opts.programme} ` : '';
++  const topic = opts.topic ? ` – ${opts.topic}` : '';
++  const domain = analyzedDomain && analyzedDomain !== 'Not specified' ? ` [${analyzedDomain}]` : '';
++  return `${prog}EU Funding Proposal Template${topic}${domain}`.trim();
++}
++
++function renderProposalTemplate(title: string, opts: ProposalTemplateOptions, advisoryNote?: string): string {
++  const lines: string[] = [];
++  lines.push(`# ${title}`);
++  if (opts.callId) lines.push(`Call ID: ${opts.callId}`);
++  if (opts.programme) lines.push(`Programme: ${opts.programme}`);
++  if (opts.beneficiaryType) lines.push(`Applicant Type: ${opts.beneficiaryType}`);
++  lines.push('');
++  if (advisoryNote) {
++    lines.push('> Strategy Note (from Agent Summoner):');
++    lines.push(`> ${advisoryNote}`);
++    lines.push('');
++  }
++
++  // Core sections aligned with common EU templates (Horizon Europe style)
++  lines.push('## 1. Executive Summary');
++  lines.push('- Project overview and value proposition');
++  lines.push('- Objectives and expected outcomes');
++  lines.push('- Alignment with the call and EU priorities');
++  lines.push('');
++
++  lines.push('## 2. Excellence');
++  lines.push('### 2.1 Objectives');
++  lines.push('- Specific, measurable, achievable, relevant, time-bound (SMART)');
++  lines.push('');
++  lines.push('### 2.2 Relation to the Work Programme');
++  lines.push('- Addressed destinations/topics, scope, and expected outcomes');
++  lines.push('');
++  lines.push('### 2.3 Concept and Methodology');
++  lines.push('- Baseline, innovation, technical approach, and methods');
++  lines.push('');
++  lines.push('### 2.4 Ambition');
++  lines.push('- State of the art vs. proposed advancement; KPIs');
++  lines.push('');
++
++  lines.push('## 3. Impact');
++  lines.push('### 3.1 Expected Impacts');
++  lines.push('- Scientific, economic, societal, and environmental');
++  lines.push('');
++  lines.push('### 3.2 Measures to Maximise Impact');
++  lines.push('- Exploitation, dissemination, communication, stakeholder engagement');
++  lines.push('');
++  lines.push('### 3.3 Barriers and Enablers');
++  lines.push('- Market/regulatory barriers; mitigation strategies');
++  lines.push('');
++
++  lines.push('## 4. Implementation');
++  lines.push('### 4.1 Work Plan');
++  lines.push('- Work packages (WPs), tasks, deliverables, milestones');
++  lines.push('- Gantt chart and resources per WP');
++  lines.push('');
++  lines.push('### 4.2 Management Structure');
++  lines.push('- Governance, decision-making, risk management');
++  lines.push('');
++  lines.push('### 4.3 Consortium and Capacity');
++  lines.push('- Partner roles, complementarity, key personnel, infrastructure');
++  lines.push('');
++
++  lines.push('## 5. Ethics and Security');
++  lines.push('- Ethics screening, data protection (GDPR), security considerations');
++  lines.push('');
++
++  lines.push('## 6. Open Science and Data Management');
++  lines.push('- FAIR data, repositories, open access strategy, DMP outline');
++  lines.push('');
++
++  lines.push('## 7. Gender Equality and Inclusiveness');
++  lines.push('- Gender dimension in R&I and team composition');
++  lines.push('');
++
++  lines.push('## 8. Budget Summary');
++  lines.push('- Personnel, travel, equipment, subcontracting, other direct costs, indirect');
++  lines.push('');
++
++  lines.push('## 9. Risk Register');
++  lines.push('- Technical, operational, financial risks; likelihood/impact; mitigation');
++  lines.push('');
++
++  lines.push('## 10. KPI Dashboard');
++  lines.push('- Outputs, outcomes, impact KPIs with baselines/targets');
++  lines.push('');
++
++  lines.push('---');
++  lines.push('_Generated by EUFM Proposal Template Agent_');
++
++  return lines.join('\n');
++}
++
++export class EUFundingProposalAgent extends BaseAgent {
++  get type() { return 'EUFundingProposalAgent'; }
++
++  async run(opts: AgentRunOptions, ctx?: AgentContext): Promise<AgentResult> {
++    const startedAt = this.now();
++    try {
++      if (!opts?.input || typeof opts.input !== 'string') {
++        throw new Error('Invalid input: expected non-empty string describing the proposal focus');
++      }
++
++      if (opts.dryRun) {
++        return {
++          agentId: this.id,
++          requirementId: this.requirementId,
++          success: true,
++          output: '[Dry run] EUFundingProposalAgent would generate a structured EU proposal template using Agent Summoner analysis.',
++          startedAt,
++          finishedAt: this.now(),
++        };
++      }
++
++      console.log(`📄 Generating EU funding proposal template for: ${opts.input}`);
++
++      // Parse lightweight options from input markers, e.g., [programme:Horizon Europe] [call:HE-CL4-...]
++      const options: ProposalTemplateOptions = this.parseInlineOptions(opts.input);
++
++      // Integrate with Agent Summoner for contextual strategy/advice.
++      // Fail-safe: on any error, continue with generic template.
++      let advisoryNote: string | undefined;
++      let analyzedDomain: string | undefined;
++      try {
++        const summoner = new AgentSummoner('proposal_summoner', this.requirementId);
++        const analysis = await summoner.analyzeTask(`Generate a proposal template for: ${opts.input}`);
++        if ('error' in analysis) throw new Error(analysis.error);
++        analyzedDomain = analysis.domain;
++        advisoryNote = analysis.successCriteria || analysis.analysisContent?.slice(0, 240);
++      } catch (summonErr: any) {
++        console.warn('⚠️ Agent Summoner context unavailable, using generic template. Reason:', summonErr?.message || summonErr);
++      }
++
++      const title = buildTemplateTitle(opts.input, options, analyzedDomain);
++      const template = renderProposalTemplate(title, options, advisoryNote);
++
++      // Persist to logs in a predictable location
++      const dir = path.join('logs', 'proposals', 'templates');
++      await fs.mkdir(dir, { recursive: true });
++      const fileBase = sanitizeFilename(`${Date.now()}_${title}`);
++      const filePath = path.join(dir, `${fileBase}.md`);
++
++      await fs.writeFile(filePath, template, 'utf-8');
++      console.log(`📝 Proposal template saved to: ${filePath}`);
++
++      return {
++        agentId: this.id,
++        requirementId: this.requirementId,
++        success: true,
++        output: `Template generated and saved to ${filePath}`,
++        artifacts: { filePath, title, options },
++        startedAt,
++        finishedAt: this.now(),
++      };
++    } catch (e: any) {
++      const errMsg = e?.message || String(e);
++      console.error('❌ EUFundingProposalAgent failed:', errMsg);
++      return {
++        agentId: this.id,
++        requirementId: this.requirementId,
++        success: false,
++        output: '',
++        error: errMsg,
++        startedAt,
++        finishedAt: this.now(),
++      };
++    }
++  }
++
++  private parseInlineOptions(input: string): ProposalTemplateOptions {
++    const opt: ProposalTemplateOptions = {};
++    const m = (re: RegExp) => input.match(re)?.[1]?.trim();
++    opt.programme = m(/\[programme:([^\]]+)\]/i) || m(/\[program:([^\]]+)\]/i) || undefined;
++    opt.callId = m(/\[call:([^\]]+)\]/i) || undefined;
++    opt.topic = m(/\[topic:([^\]]+)\]/i) || undefined;
++    opt.beneficiaryType = m(/\[beneficiary:([^\]]+)\]/i) || undefined;
++    return opt;
++  }
++}
++
+diff --git a/src/orchestrator/agentFactory.ts b/src/orchestrator/agentFactory.ts
+index 4f29237f626f577e3ddadc58e22696c03c34af57..86f94153b6477315d6a44668e78b1d7f277c9359
+--- a/src/orchestrator/agentFactory.ts
++++ b/src/orchestrator/agentFactory.ts
+@@ -12,6 +12,7 @@
+ import { EUFMAgentSummoner } from '../agents/eufmAgentSummoner.js';
+ import { SmokeTestAgent } from '../agents/smokeTestAgent.js';
+ import { TestAgent } from '../agents/testAgent.js';
++import { EUFundingProposalAgent } from '../agents/euFundingProposalAgent.js';
+ 
+ export class AgentFactory {
+   create(spec: AgentSpec): BaseAgent {
+@@ -28,6 +29,7 @@
+       case 'SmokeTestAgent': return new SmokeTestAgent(id, requirementId);
+       case 'BrowserAgent': return new BrowserAgent(id, requirementId);
+       case 'MemoryAgent': return new MemoryAgent(id, requirementId);
++      case 'EUFundingProposalAgent': return new EUFundingProposalAgent(id, requirementId);
+       case 'TestAgent': return new TestAgent(id, requirementId);
+       default:
+         throw new Error(`Unknown agent type: ${type}`);
+diff --git a/src/orchestrator/types.ts b/src/orchestrator/types.ts
+index 20b02634698601a09571b8e9ceb5696e38b1dd6a..d9e723b1d2bac67000b6b0eb5028a044ef029ffc
+--- a/src/orchestrator/types.ts
++++ b/src/orchestrator/types.ts
+@@ -34,6 +34,7 @@
+     | 'EnhancedAbacusAgent'
+     | 'AgentSummonerAgent'
+     | 'EUFMAgentSummoner'
++    | 'EUFundingProposalAgent'
+     | 'BrowserAgent'
+     | 'MemoryAgent'
+     | 'TestAgent';
+
+
+[2025-09-06T18:12:49] thinking
+
+**Implementing a test**
+
+I need to check our code, which includes a function call that analyzes a task. If there's an error, it throws a new Error, while the catch block logs a warning and lets the process continue. So it seems everything is in place for error handling. Now, I should implement a test to ensure that this functionality works smoothly. I want to be to thorough confirm it behaves as expected. Let's get started on that!
+[2025-09-06T18:12:52] apply_patch auto_approved=true:
+A /Users/panda/Desktop/EUFM/src/tests/euFundingProposalAgent_test.ts
+import { AgentFactory } from '../orchestrator/agentFactory.js';
+import type { AgentSpec, AgentResult } from '../orchestrator/types.js';
+
+async function runOnce(input: string, dryRun: boolean): Promise<AgentResult> {
+  const factory = new AgentFactory();
+  const spec: AgentSpec = {
+    id: `agent-proposal-${dryRun ? 'dry' : 'run'}`,
+    type: 'EUFundingProposalAgent',
+    requirementId: 'req-proposal-1',
+    capabilities: ['memory'],
+  };
+  const agent = factory.create(spec);
+  const ctx = { workingDir: process.cwd(), shared: { test: true } };
+  return agent.run({ input, timeoutMs: 15_000, dryRun }, ctx);
+}
+
+export async function runEUProposalAgentDemo(): Promise<void> {
+  const input = 'Horizon Europe green hydrogen pilot [programme:Horizon Europe] [beneficiary:Consortium]';
+  console.info('[EUFM] EUFundingProposalAgent demo starting...');
+  const dry = await runOnce(input, true);
+  console.info('[EUFM] Dry run result:', dry.success ? 'ok' : 'failed');
+  const real = await runOnce(input, false);
+  console.info('[EUFM] Real run success:', real.success);
+  console.log(JSON.stringify({ dry, real }, null, 2));
+  if (!dry.success || !real.success) process.exitCode = 1;
+}
+
+// Allow running directly with `tsx src/tests/euFundingProposalAgent_test.ts`
+if (import.meta.url === `file://${process.argv[1]}`) {
+  runEUProposalAgentDemo().catch((err) => {
+    console.error('[EUFM] EUFundingProposalAgent demo error:', err?.message || err);
+    process.exitCode = 1;
+  });
+}
+
+[2025-09-06T18:12:52] apply_patch(auto_approved=true) exited 0 in 113ms:
+Success. Updated the following files:
+A src/tests/euFundingProposalAgent_test.ts
+[2025-09-06T18:12:52] turn diff:
+diff --git a/src/agents/euFundingProposalAgent.ts b/src/agents/euFundingProposalAgent.ts
+new file mode 100644
+index 0000000000000000000000000000000000000000..ccde2381e309d7a5e0ab26625d65cf4f7d53d57a
+--- /dev/null
++++ b/src/agents/euFundingProposalAgent.ts
+@@ -0,0 +1,198 @@
++import { BaseAgent, AgentRunOptions, AgentContext } from './baseAgent.js';
++import { AgentResult } from '../orchestrator/types.js';
++import { AgentSummoner } from './agentSummoner.js';
++import path from 'path';
++import { promises as fs } from 'fs';
++
++interface ProposalTemplateOptions {
++  programme?: string; // e.g., Horizon Europe, LIFE, CEF
++  callId?: string;
++  topic?: string;
++  beneficiaryType?: string; // SME, University, NGO, Consortium
++}
++
++function sanitizeFilename(name: string): string {
++  return name.replace(/[^a-z0-9_-]+/gi, '_').slice(0, 80);
++}
++
++function buildTemplateTitle(input: string, opts: ProposalTemplateOptions, analyzedDomain?: string): string {
++  const prog = opts.programme ? `${opts.programme} ` : '';
++  const topic = opts.topic ? ` – ${opts.topic}` : '';
++  const domain = analyzedDomain && analyzedDomain !== 'Not specified' ? ` [${analyzedDomain}]` : '';
++  return `${prog}EU Funding Proposal Template${topic}${domain}`.trim();
++}
++
++function renderProposalTemplate(title: string, opts: ProposalTemplateOptions, advisoryNote?: string): string {
++  const lines: string[] = [];
++  lines.push(`# ${title}`);
++  if (opts.callId) lines.push(`Call ID: ${opts.callId}`);
++  if (opts.programme) lines.push(`Programme: ${opts.programme}`);
++  if (opts.beneficiaryType) lines.push(`Applicant Type: ${opts.beneficiaryType}`);
++  lines.push('');
++  if (advisoryNote) {
++    lines.push('> Strategy Note (from Agent Summoner):');
++    lines.push(`> ${advisoryNote}`);
++    lines.push('');
++  }
++
++  // Core sections aligned with common EU templates (Horizon Europe style)
++  lines.push('## 1. Executive Summary');
++  lines.push('- Project overview and value proposition');
++  lines.push('- Objectives and expected outcomes');
++  lines.push('- Alignment with the call and EU priorities');
++  lines.push('');
++
++  lines.push('## 2. Excellence');
++  lines.push('### 2.1 Objectives');
++  lines.push('- Specific, measurable, achievable, relevant, time-bound (SMART)');
++  lines.push('');
++  lines.push('### 2.2 Relation to the Work Programme');
++  lines.push('- Addressed destinations/topics, scope, and expected outcomes');
++  lines.push('');
++  lines.push('### 2.3 Concept and Methodology');
++  lines.push('- Baseline, innovation, technical approach, and methods');
++  lines.push('');
++  lines.push('### 2.4 Ambition');
++  lines.push('- State of the art vs. proposed advancement; KPIs');
++  lines.push('');
++
++  lines.push('## 3. Impact');
++  lines.push('### 3.1 Expected Impacts');
++  lines.push('- Scientific, economic, societal, and environmental');
++  lines.push('');
++  lines.push('### 3.2 Measures to Maximise Impact');
++  lines.push('- Exploitation, dissemination, communication, stakeholder engagement');
++  lines.push('');
++  lines.push('### 3.3 Barriers and Enablers');
++  lines.push('- Market/regulatory barriers; mitigation strategies');
++  lines.push('');
++
++  lines.push('## 4. Implementation');
++  lines.push('### 4.1 Work Plan');
++  lines.push('- Work packages (WPs), tasks, deliverables, milestones');
++  lines.push('- Gantt chart and resources per WP');
++  lines.push('');
++  lines.push('### 4.2 Management Structure');
++  lines.push('- Governance, decision-making, risk management');
++  lines.push('');
++  lines.push('### 4.3 Consortium and Capacity');
++  lines.push('- Partner roles, complementarity, key personnel, infrastructure');
++  lines.push('');
++
++  lines.push('## 5. Ethics and Security');
++  lines.push('- Ethics screening, data protection (GDPR), security considerations');
++  lines.push('');
++
++  lines.push('## 6. Open Science and Data Management');
++  lines.push('- FAIR data, repositories, open access strategy, DMP outline');
++  lines.push('');
++
++  lines.push('## 7. Gender Equality and Inclusiveness');
++  lines.push('- Gender dimension in R&I and team composition');
++  lines.push('');
++
++  lines.push('## 8. Budget Summary');
++  lines.push('- Personnel, travel, equipment, subcontracting, other direct costs, indirect');
++  lines.push('');
++
++  lines.push('## 9. Risk Register');
++  lines.push('- Technical, operational, financial risks; likelihood/impact; mitigation');
++  lines.push('');
++
++  lines.push('## 10. KPI Dashboard');
++  lines.push('- Outputs, outcomes, impact KPIs with baselines/targets');
++  lines.push('');
++
++  lines.push('---');
++  lines.push('_Generated by EUFM Proposal Template Agent_');
++
++  return lines.join('\n');
++}
++
++export class EUFundingProposalAgent extends BaseAgent {
++  get type() { return 'EUFundingProposalAgent'; }
++
++  async run(opts: AgentRunOptions, ctx?: AgentContext): Promise<AgentResult> {
++    const startedAt = this.now();
++    try {
++      if (!opts?.input || typeof opts.input !== 'string') {
++        throw new Error('Invalid input: expected non-empty string describing the proposal focus');
++      }
++
++      if (opts.dryRun) {
++        return {
++          agentId: this.id,
++          requirementId: this.requirementId,
++          success: true,
++          output: '[Dry run] EUFundingProposalAgent would generate a structured EU proposal template using Agent Summoner analysis.',
++          startedAt,
++          finishedAt: this.now(),
++        };
++      }
++
++      console.log(`📄 Generating EU funding proposal template for: ${opts.input}`);
++
++      // Parse lightweight options from input markers, e.g., [programme:Horizon Europe] [call:HE-CL4-...]
++      const options: ProposalTemplateOptions = this.parseInlineOptions(opts.input);
++
++      // Integrate with Agent Summoner for contextual strategy/advice.
++      // Fail-safe: on any error, continue with generic template.
++      let advisoryNote: string | undefined;
++      let analyzedDomain: string | undefined;
++      try {
++        const summoner = new AgentSummoner('proposal_summoner', this.requirementId);
++        const analysis = await summoner.analyzeTask(`Generate a proposal template for: ${opts.input}`);
++        if ('error' in analysis) throw new Error(analysis.error);
++        analyzedDomain = analysis.domain;
++        advisoryNote = analysis.successCriteria || analysis.analysisContent?.slice(0, 240);
++      } catch (summonErr: any) {
++        console.warn('⚠️ Agent Summoner context unavailable, using generic template. Reason:', summonErr?.message || summonErr);
++      }
++
++      const title = buildTemplateTitle(opts.input, options, analyzedDomain);
++      const template = renderProposalTemplate(title, options, advisoryNote);
++
++      // Persist to logs in a predictable location
++      const dir = path.join('logs', 'proposals', 'templates');
++      await fs.mkdir(dir, { recursive: true });
++      const fileBase = sanitizeFilename(`${Date.now()}_${title}`);
++      const filePath = path.join(dir, `${fileBase}.md`);
++
++      await fs.writeFile(filePath, template, 'utf-8');
++      console.log(`📝 Proposal template saved to: ${filePath}`);
++
++      return {
++        agentId: this.id,
++        requirementId: this.requirementId,
++        success: true,
++        output: `Template generated and saved to ${filePath}`,
++        artifacts: { filePath, title, options },
++        startedAt,
++        finishedAt: this.now(),
++      };
++    } catch (e: any) {
++      const errMsg = e?.message || String(e);
++      console.error('❌ EUFundingProposalAgent failed:', errMsg);
++      return {
++        agentId: this.id,
++        requirementId: this.requirementId,
++        success: false,
++        output: '',
++        error: errMsg,
++        startedAt,
++        finishedAt: this.now(),
++      };
++    }
++  }
++
++  private parseInlineOptions(input: string): ProposalTemplateOptions {
++    const opt: ProposalTemplateOptions = {};
++    const m = (re: RegExp) => input.match(re)?.[1]?.trim();
++    opt.programme = m(/\[programme:([^\]]+)\]/i) || m(/\[program:([^\]]+)\]/i) || undefined;
++    opt.callId = m(/\[call:([^\]]+)\]/i) || undefined;
++    opt.topic = m(/\[topic:([^\]]+)\]/i) || undefined;
++    opt.beneficiaryType = m(/\[beneficiary:([^\]]+)\]/i) || undefined;
++    return opt;
++  }
++}
++
+diff --git a/src/orchestrator/agentFactory.ts b/src/orchestrator/agentFactory.ts
+index 4f29237f626f577e3ddadc58e22696c03c34af57..86f94153b6477315d6a44668e78b1d7f277c9359
+--- a/src/orchestrator/agentFactory.ts
++++ b/src/orchestrator/agentFactory.ts
+@@ -12,6 +12,7 @@
+ import { EUFMAgentSummoner } from '../agents/eufmAgentSummoner.js';
+ import { SmokeTestAgent } from '../agents/smokeTestAgent.js';
+ import { TestAgent } from '../agents/testAgent.js';
++import { EUFundingProposalAgent } from '../agents/euFundingProposalAgent.js';
+ 
+ export class AgentFactory {
+   create(spec: AgentSpec): BaseAgent {
+@@ -28,6 +29,7 @@
+       case 'SmokeTestAgent': return new SmokeTestAgent(id, requirementId);
+       case 'BrowserAgent': return new BrowserAgent(id, requirementId);
+       case 'MemoryAgent': return new MemoryAgent(id, requirementId);
++      case 'EUFundingProposalAgent': return new EUFundingProposalAgent(id, requirementId);
+       case 'TestAgent': return new TestAgent(id, requirementId);
+       default:
+         throw new Error(`Unknown agent type: ${type}`);
+diff --git a/src/orchestrator/types.ts b/src/orchestrator/types.ts
+index 20b02634698601a09571b8e9ceb5696e38b1dd6a..d9e723b1d2bac67000b6b0eb5028a044ef029ffc
+--- a/src/orchestrator/types.ts
++++ b/src/orchestrator/types.ts
+@@ -34,6 +34,7 @@
+     | 'EnhancedAbacusAgent'
+     | 'AgentSummonerAgent'
+     | 'EUFMAgentSummoner'
++    | 'EUFundingProposalAgent'
+     | 'BrowserAgent'
+     | 'MemoryAgent'
+     | 'TestAgent';
+diff --git a/src/tests/euFundingProposalAgent_test.ts b/src/tests/euFundingProposalAgent_test.ts
+new file mode 100644
+index 0000000000000000000000000000000000000000..bdb6a8039205f4e45196d8692f4c89acff3ae2b7
+--- /dev/null
++++ b/src/tests/euFundingProposalAgent_test.ts
+@@ -0,0 +1,35 @@
++import { AgentFactory } from '../orchestrator/agentFactory.js';
++import type { AgentSpec, AgentResult } from '../orchestrator/types.js';
++
++async function runOnce(input: string, dryRun: boolean): Promise<AgentResult> {
++  const factory = new AgentFactory();
++  const spec: AgentSpec = {
++    id: `agent-proposal-${dryRun ? 'dry' : 'run'}`,
++    type: 'EUFundingProposalAgent',
++    requirementId: 'req-proposal-1',
++    capabilities: ['memory'],
++  };
++  const agent = factory.create(spec);
++  const ctx = { workingDir: process.cwd(), shared: { test: true } };
++  return agent.run({ input, timeoutMs: 15_000, dryRun }, ctx);
++}
++
++export async function runEUProposalAgentDemo(): Promise<void> {
++  const input = 'Horizon Europe green hydrogen pilot [programme:Horizon Europe] [beneficiary:Consortium]';
++  console.info('[EUFM] EUFundingProposalAgent demo starting...');
++  const dry = await runOnce(input, true);
++  console.info('[EUFM] Dry run result:', dry.success ? 'ok' : 'failed');
++  const real = await runOnce(input, false);
++  console.info('[EUFM] Real run success:', real.success);
++  console.log(JSON.stringify({ dry, real }, null, 2));
++  if (!dry.success || !real.success) process.exitCode = 1;
++}
++
++// Allow running directly with `tsx src/tests/euFundingProposalAgent_test.ts`
++if (import.meta.url === `file://${process.argv[1]}`) {
++  runEUProposalAgentDemo().catch((err) => {
++    console.error('[EUFM] EUFundingProposalAgent demo error:', err?.message || err);
++    process.exitCode = 1;
++  });
++}
++
+
+[2025-09-06T18:12:52] tokens used: 935
+[2025-09-06T18:12:52] turn diff:
+diff --git a/src/agents/euFundingProposalAgent.ts b/src/agents/euFundingProposalAgent.ts
+new file mode 100644
+index 0000000000000000000000000000000000000000..ccde2381e309d7a5e0ab26625d65cf4f7d53d57a
+--- /dev/null
++++ b/src/agents/euFundingProposalAgent.ts
+@@ -0,0 +1,198 @@
++import { BaseAgent, AgentRunOptions, AgentContext } from './baseAgent.js';
++import { AgentResult } from '../orchestrator/types.js';
++import { AgentSummoner } from './agentSummoner.js';
++import path from 'path';
++import { promises as fs } from 'fs';
++
++interface ProposalTemplateOptions {
++  programme?: string; // e.g., Horizon Europe, LIFE, CEF
++  callId?: string;
++  topic?: string;
++  beneficiaryType?: string; // SME, University, NGO, Consortium
++}
++
++function sanitizeFilename(name: string): string {
++  return name.replace(/[^a-z0-9_-]+/gi, '_').slice(0, 80);
++}
++
++function buildTemplateTitle(input: string, opts: ProposalTemplateOptions, analyzedDomain?: string): string {
++  const prog = opts.programme ? `${opts.programme} ` : '';
++  const topic = opts.topic ? ` – ${opts.topic}` : '';
++  const domain = analyzedDomain && analyzedDomain !== 'Not specified' ? ` [${analyzedDomain}]` : '';
++  return `${prog}EU Funding Proposal Template${topic}${domain}`.trim();
++}
++
++function renderProposalTemplate(title: string, opts: ProposalTemplateOptions, advisoryNote?: string): string {
++  const lines: string[] = [];
++  lines.push(`# ${title}`);
++  if (opts.callId) lines.push(`Call ID: ${opts.callId}`);
++  if (opts.programme) lines.push(`Programme: ${opts.programme}`);
++  if (opts.beneficiaryType) lines.push(`Applicant Type: ${opts.beneficiaryType}`);
++  lines.push('');
++  if (advisoryNote) {
++    lines.push('> Strategy Note (from Agent Summoner):');
++    lines.push(`> ${advisoryNote}`);
++    lines.push('');
++  }
++
++  // Core sections aligned with common EU templates (Horizon Europe style)
++  lines.push('## 1. Executive Summary');
++  lines.push('- Project overview and value proposition');
++  lines.push('- Objectives and expected outcomes');
++  lines.push('- Alignment with the call and EU priorities');
++  lines.push('');
++
++  lines.push('## 2. Excellence');
++  lines.push('### 2.1 Objectives');
++  lines.push('- Specific, measurable, achievable, relevant, time-bound (SMART)');
++  lines.push('');
++  lines.push('### 2.2 Relation to the Work Programme');
++  lines.push('- Addressed destinations/topics, scope, and expected outcomes');
++  lines.push('');
++  lines.push('### 2.3 Concept and Methodology');
++  lines.push('- Baseline, innovation, technical approach, and methods');
++  lines.push('');
++  lines.push('### 2.4 Ambition');
++  lines.push('- State of the art vs. proposed advancement; KPIs');
++  lines.push('');
++
++  lines.push('## 3. Impact');
++  lines.push('### 3.1 Expected Impacts');
++  lines.push('- Scientific, economic, societal, and environmental');
++  lines.push('');
++  lines.push('### 3.2 Measures to Maximise Impact');
++  lines.push('- Exploitation, dissemination, communication, stakeholder engagement');
++  lines.push('');
++  lines.push('### 3.3 Barriers and Enablers');
++  lines.push('- Market/regulatory barriers; mitigation strategies');
++  lines.push('');
++
++  lines.push('## 4. Implementation');
++  lines.push('### 4.1 Work Plan');
++  lines.push('- Work packages (WPs), tasks, deliverables, milestones');
++  lines.push('- Gantt chart and resources per WP');
++  lines.push('');
++  lines.push('### 4.2 Management Structure');
++  lines.push('- Governance, decision-making, risk management');
++  lines.push('');
++  lines.push('### 4.3 Consortium and Capacity');
++  lines.push('- Partner roles, complementarity, key personnel, infrastructure');
++  lines.push('');
++
++  lines.push('## 5. Ethics and Security');
++  lines.push('- Ethics screening, data protection (GDPR), security considerations');
++  lines.push('');
++
++  lines.push('## 6. Open Science and Data Management');
++  lines.push('- FAIR data, repositories, open access strategy, DMP outline');
++  lines.push('');
++
++  lines.push('## 7. Gender Equality and Inclusiveness');
++  lines.push('- Gender dimension in R&I and team composition');
++  lines.push('');
++
++  lines.push('## 8. Budget Summary');
++  lines.push('- Personnel, travel, equipment, subcontracting, other direct costs, indirect');
++  lines.push('');
++
++  lines.push('## 9. Risk Register');
++  lines.push('- Technical, operational, financial risks; likelihood/impact; mitigation');
++  lines.push('');
++
++  lines.push('## 10. KPI Dashboard');
++  lines.push('- Outputs, outcomes, impact KPIs with baselines/targets');
++  lines.push('');
++
++  lines.push('---');
++  lines.push('_Generated by EUFM Proposal Template Agent_');
++
++  return lines.join('\n');
++}
++
++export class EUFundingProposalAgent extends BaseAgent {
++  get type() { return 'EUFundingProposalAgent'; }
++
++  async run(opts: AgentRunOptions, ctx?: AgentContext): Promise<AgentResult> {
++    const startedAt = this.now();
++    try {
++      if (!opts?.input || typeof opts.input !== 'string') {
++        throw new Error('Invalid input: expected non-empty string describing the proposal focus');
++      }
++
++      if (opts.dryRun) {
++        return {
++          agentId: this.id,
++          requirementId: this.requirementId,
++          success: true,
++          output: '[Dry run] EUFundingProposalAgent would generate a structured EU proposal template using Agent Summoner analysis.',
++          startedAt,
++          finishedAt: this.now(),
++        };
++      }
++
++      console.log(`📄 Generating EU funding proposal template for: ${opts.input}`);
++
++      // Parse lightweight options from input markers, e.g., [programme:Horizon Europe] [call:HE-CL4-...]
++      const options: ProposalTemplateOptions = this.parseInlineOptions(opts.input);
++
++      // Integrate with Agent Summoner for contextual strategy/advice.
++      // Fail-safe: on any error, continue with generic template.
++      let advisoryNote: string | undefined;
++      let analyzedDomain: string | undefined;
++      try {
++        const summoner = new AgentSummoner('proposal_summoner', this.requirementId);
++        const analysis = await summoner.analyzeTask(`Generate a proposal template for: ${opts.input}`);
++        if ('error' in analysis) throw new Error(analysis.error);
++        analyzedDomain = analysis.domain;
++        advisoryNote = analysis.successCriteria || analysis.analysisContent?.slice(0, 240);
++      } catch (summonErr: any) {
++        console.warn('⚠️ Agent Summoner context unavailable, using generic template. Reason:', summonErr?.message || summonErr);
++      }
++
++      const title = buildTemplateTitle(opts.input, options, analyzedDomain);
++      const template = renderProposalTemplate(title, options, advisoryNote);
++
++      // Persist to logs in a predictable location
++      const dir = path.join('logs', 'proposals', 'templates');
++      await fs.mkdir(dir, { recursive: true });
++      const fileBase = sanitizeFilename(`${Date.now()}_${title}`);
++      const filePath = path.join(dir, `${fileBase}.md`);
++
++      await fs.writeFile(filePath, template, 'utf-8');
++      console.log(`📝 Proposal template saved to: ${filePath}`);
++
++      return {
++        agentId: this.id,
++        requirementId: this.requirementId,
++        success: true,
++        output: `Template generated and saved to ${filePath}`,
++        artifacts: { filePath, title, options },
++        startedAt,
++        finishedAt: this.now(),
++      };
++    } catch (e: any) {
++      const errMsg = e?.message || String(e);
++      console.error('❌ EUFundingProposalAgent failed:', errMsg);
++      return {
++        agentId: this.id,
++        requirementId: this.requirementId,
++        success: false,
++        output: '',
++        error: errMsg,
++        startedAt,
++        finishedAt: this.now(),
++      };
++    }
++  }
++
++  private parseInlineOptions(input: string): ProposalTemplateOptions {
++    const opt: ProposalTemplateOptions = {};
++    const m = (re: RegExp) => input.match(re)?.[1]?.trim();
++    opt.programme = m(/\[programme:([^\]]+)\]/i) || m(/\[program:([^\]]+)\]/i) || undefined;
++    opt.callId = m(/\[call:([^\]]+)\]/i) || undefined;
++    opt.topic = m(/\[topic:([^\]]+)\]/i) || undefined;
++    opt.beneficiaryType = m(/\[beneficiary:([^\]]+)\]/i) || undefined;
++    return opt;
++  }
++}
++
+diff --git a/src/orchestrator/agentFactory.ts b/src/orchestrator/agentFactory.ts
+index 4f29237f626f577e3ddadc58e22696c03c34af57..86f94153b6477315d6a44668e78b1d7f277c9359
+--- a/src/orchestrator/agentFactory.ts
++++ b/src/orchestrator/agentFactory.ts
+@@ -12,6 +12,7 @@
+ import { EUFMAgentSummoner } from '../agents/eufmAgentSummoner.js';
+ import { SmokeTestAgent } from '../agents/smokeTestAgent.js';
+ import { TestAgent } from '../agents/testAgent.js';
++import { EUFundingProposalAgent } from '../agents/euFundingProposalAgent.js';
+ 
+ export class AgentFactory {
+   create(spec: AgentSpec): BaseAgent {
+@@ -28,6 +29,7 @@
+       case 'SmokeTestAgent': return new SmokeTestAgent(id, requirementId);
+       case 'BrowserAgent': return new BrowserAgent(id, requirementId);
+       case 'MemoryAgent': return new MemoryAgent(id, requirementId);
++      case 'EUFundingProposalAgent': return new EUFundingProposalAgent(id, requirementId);
+       case 'TestAgent': return new TestAgent(id, requirementId);
+       default:
+         throw new Error(`Unknown agent type: ${type}`);
+diff --git a/src/orchestrator/types.ts b/src/orchestrator/types.ts
+index 20b02634698601a09571b8e9ceb5696e38b1dd6a..d9e723b1d2bac67000b6b0eb5028a044ef029ffc
+--- a/src/orchestrator/types.ts
++++ b/src/orchestrator/types.ts
+@@ -34,6 +34,7 @@
+     | 'EnhancedAbacusAgent'
+     | 'AgentSummonerAgent'
+     | 'EUFMAgentSummoner'
++    | 'EUFundingProposalAgent'
+     | 'BrowserAgent'
+     | 'MemoryAgent'
+     | 'TestAgent';
+diff --git a/src/tests/euFundingProposalAgent_test.ts b/src/tests/euFundingProposalAgent_test.ts
+new file mode 100644
+index 0000000000000000000000000000000000000000..bdb6a8039205f4e45196d8692f4c89acff3ae2b7
+--- /dev/null
++++ b/src/tests/euFundingProposalAgent_test.ts
+@@ -0,0 +1,35 @@
++import { AgentFactory } from '../orchestrator/agentFactory.js';
++import type { AgentSpec, AgentResult } from '../orchestrator/types.js';
++
++async function runOnce(input: string, dryRun: boolean): Promise<AgentResult> {
++  const factory = new AgentFactory();
++  const spec: AgentSpec = {
++    id: `agent-proposal-${dryRun ? 'dry' : 'run'}`,
++    type: 'EUFundingProposalAgent',
++    requirementId: 'req-proposal-1',
++    capabilities: ['memory'],
++  };
++  const agent = factory.create(spec);
++  const ctx = { workingDir: process.cwd(), shared: { test: true } };
++  return agent.run({ input, timeoutMs: 15_000, dryRun }, ctx);
++}
++
++export async function runEUProposalAgentDemo(): Promise<void> {
++  const input = 'Horizon Europe green hydrogen pilot [programme:Horizon Europe] [beneficiary:Consortium]';
++  console.info('[EUFM] EUFundingProposalAgent demo starting...');
++  const dry = await runOnce(input, true);
++  console.info('[EUFM] Dry run result:', dry.success ? 'ok' : 'failed');
++  const real = await runOnce(input, false);
++  console.info('[EUFM] Real run success:', real.success);
++  console.log(JSON.stringify({ dry, real }, null, 2));
++  if (!dry.success || !real.success) process.exitCode = 1;
++}
++
++// Allow running directly with `tsx src/tests/euFundingProposalAgent_test.ts`
++if (import.meta.url === `file://${process.argv[1]}`) {
++  runEUProposalAgentDemo().catch((err) => {
++    console.error('[EUFM] EUFundingProposalAgent demo error:', err?.message || err);
++    process.exitCode = 1;
++  });
++}
++
+
+
+[2025-09-06T18:12:55] thinking
+
+I need to run a type check first to ensure everything is in order. After that, I’ll move on to building the project. Once that’s done running the tests is, the next step. This approach helps catch any potential issues early and makes sure everything functions as expected. It feels like a solid plan for maintaining quality, and I'm eager to get started! Let's make sure everything is running smoothly before proceeding.
+[2025-09-06T18:12:57] exec bash -lc 'npm run typecheck' in /Users/panda/Desktop/EUFM
+[2025-09-06T18:13:00] bash -lc 'npm run typecheck' exited 2 in 3.67s:
+
+> eufm@0.1.0 typecheck
+> tsc -p tsconfig.json --noEmit
+
+src/agents/agentSummoner.ts(115,9): error TS2353: Object literal may only specify known properties, and 'metadata' does not exist in type 'AgentResult'.
+src/agents/agentSummonerAgent.ts(77,9): error TS2353: Object literal may only specify known properties, and 'metadata' does not exist in type 'AgentResult'.
+src/agents/codexCLIAgent.ts(74,11): error TS2353: Object literal may only specify known properties, and 'metadata' does not exist in type 'AgentResult'.
+src/agents/codexCLIAgent.ts(90,11): error TS2353: Object literal may only specify known properties, and 'metadata' does not exist in type 'AgentResult'.
+src/agents/enhancedAbacusAgent.ts(53,9): error TS2353: Object literal may only specify known properties, and 'metadata' does not exist in type 'AgentResult'.
+src/agents/eufmAgentSummoner.ts(129,9): error TS2353: Object literal may only specify known properties, and 'metadata' does not exist in type 'AgentResult'.
+src/dashboard/enhancedMissionControl.ts(53,11): error TS2564: Property 'sessionMemory' has no initializer and is not definitely assigned in the constructor.
+src/dashboard/enhancedMissionControl.ts(279,54): error TS2339: Property 'metadata' does not exist on type 'AgentResult'.
+src/dashboard/enhancedMissionControl.ts(281,79): error TS2339: Property 'metadata' does not exist on type 'AgentResult'.
+src/dashboard/enhancedMissionControl.ts(285,31): error TS2341: Property 'orchestrator' is private and only accessible within class 'MissionControl'.
+src/dashboard/enhancedMissionControl.ts(289,32): error TS2339: Property 'metadata' does not exist on type 'AgentResult'.
+src/dashboard/enhancedMissionControl.ts(290,38): error TS2339: Property 'metadata' does not exist on type 'AgentResult'.
+src/dashboard/enhancedMissionControl.ts(296,29): error TS2341: Property 'orchestrator' is private and only accessible within class 'MissionControl'.
+src/dashboard/enhancedMissionControl.ts(360,23): error TS2341: Property 'orchestrator' is private and only accessible within class 'MissionControl'.
+src/dashboard/enhancedMissionControl.ts(369,52): error TS2345: Argument of type '{ taskDescription: string; taskId: any; success: any; completedAt: any; }' is not assignable to parameter of type 'string'.
+src/orchestrator/agentFactory.ts(27,12): error TS2678: Type '"AgentSummoner"' is not comparable to type '"CodexAgent" | "CodexCLIAgent" | "JulesAgent" | "AbacusAgent" | "EnhancedAbacusAgent" | "AgentSummonerAgent" | "EUFMAgentSummoner" | "EUFundingProposalAgent" | "BrowserAgent" | "MemoryAgent" | "TestAgent"'.
+[2025-09-06T18:13:00] tokens used: 687
+[2025-09-06T18:13:00] turn diff:
+diff --git a/src/agents/euFundingProposalAgent.ts b/src/agents/euFundingProposalAgent.ts
+new file mode 100644
+index 0000000000000000000000000000000000000000..ccde2381e309d7a5e0ab26625d65cf4f7d53d57a
+--- /dev/null
++++ b/src/agents/euFundingProposalAgent.ts
+@@ -0,0 +1,198 @@
++import { BaseAgent, AgentRunOptions, AgentContext } from './baseAgent.js';
++import { AgentResult } from '../orchestrator/types.js';
++import { AgentSummoner } from './agentSummoner.js';
++import path from 'path';
++import { promises as fs } from 'fs';
++
++interface ProposalTemplateOptions {
++  programme?: string; // e.g., Horizon Europe, LIFE, CEF
++  callId?: string;
++  topic?: string;
++  beneficiaryType?: string; // SME, University, NGO, Consortium
++}
++
++function sanitizeFilename(name: string): string {
++  return name.replace(/[^a-z0-9_-]+/gi, '_').slice(0, 80);
++}
++
++function buildTemplateTitle(input: string, opts: ProposalTemplateOptions, analyzedDomain?: string): string {
++  const prog = opts.programme ? `${opts.programme} ` : '';
++  const topic = opts.topic ? ` – ${opts.topic}` : '';
++  const domain = analyzedDomain && analyzedDomain !== 'Not specified' ? ` [${analyzedDomain}]` : '';
++  return `${prog}EU Funding Proposal Template${topic}${domain}`.trim();
++}
++
++function renderProposalTemplate(title: string, opts: ProposalTemplateOptions, advisoryNote?: string): string {
++  const lines: string[] = [];
++  lines.push(`# ${title}`);
++  if (opts.callId) lines.push(`Call ID: ${opts.callId}`);
++  if (opts.programme) lines.push(`Programme: ${opts.programme}`);
++  if (opts.beneficiaryType) lines.push(`Applicant Type: ${opts.beneficiaryType}`);
++  lines.push('');
++  if (advisoryNote) {
++    lines.push('> Strategy Note (from Agent Summoner):');
++    lines.push(`> ${advisoryNote}`);
++    lines.push('');
++  }
++
++  // Core sections aligned with common EU templates (Horizon Europe style)
++  lines.push('## 1. Executive Summary');
++  lines.push('- Project overview and value proposition');
++  lines.push('- Objectives and expected outcomes');
++  lines.push('- Alignment with the call and EU priorities');
++  lines.push('');
++
++  lines.push('## 2. Excellence');
++  lines.push('### 2.1 Objectives');
++  lines.push('- Specific, measurable, achievable, relevant, time-bound (SMART)');
++  lines.push('');
++  lines.push('### 2.2 Relation to the Work Programme');
++  lines.push('- Addressed destinations/topics, scope, and expected outcomes');
++  lines.push('');
++  lines.push('### 2.3 Concept and Methodology');
++  lines.push('- Baseline, innovation, technical approach, and methods');
++  lines.push('');
++  lines.push('### 2.4 Ambition');
++  lines.push('- State of the art vs. proposed advancement; KPIs');
++  lines.push('');
++
++  lines.push('## 3. Impact');
++  lines.push('### 3.1 Expected Impacts');
++  lines.push('- Scientific, economic, societal, and environmental');
++  lines.push('');
++  lines.push('### 3.2 Measures to Maximise Impact');
++  lines.push('- Exploitation, dissemination, communication, stakeholder engagement');
++  lines.push('');
++  lines.push('### 3.3 Barriers and Enablers');
++  lines.push('- Market/regulatory barriers; mitigation strategies');
++  lines.push('');
++
++  lines.push('## 4. Implementation');
++  lines.push('### 4.1 Work Plan');
++  lines.push('- Work packages (WPs), tasks, deliverables, milestones');
++  lines.push('- Gantt chart and resources per WP');
++  lines.push('');
++  lines.push('### 4.2 Management Structure');
++  lines.push('- Governance, decision-making, risk management');
++  lines.push('');
++  lines.push('### 4.3 Consortium and Capacity');
++  lines.push('- Partner roles, complementarity, key personnel, infrastructure');
++  lines.push('');
++
++  lines.push('## 5. Ethics and Security');
++  lines.push('- Ethics screening, data protection (GDPR), security considerations');
++  lines.push('');
++
++  lines.push('## 6. Open Science and Data Management');
++  lines.push('- FAIR data, repositories, open access strategy, DMP outline');
++  lines.push('');
++
++  lines.push('## 7. Gender Equality and Inclusiveness');
++  lines.push('- Gender dimension in R&I and team composition');
++  lines.push('');
++
++  lines.push('## 8. Budget Summary');
++  lines.push('- Personnel, travel, equipment, subcontracting, other direct costs, indirect');
++  lines.push('');
++
++  lines.push('## 9. Risk Register');
++  lines.push('- Technical, operational, financial risks; likelihood/impact; mitigation');
++  lines.push('');
++
++  lines.push('## 10. KPI Dashboard');
++  lines.push('- Outputs, outcomes, impact KPIs with baselines/targets');
++  lines.push('');
++
++  lines.push('---');
++  lines.push('_Generated by EUFM Proposal Template Agent_');
++
++  return lines.join('\n');
++}
++
++export class EUFundingProposalAgent extends BaseAgent {
++  get type() { return 'EUFundingProposalAgent'; }
++
++  async run(opts: AgentRunOptions, ctx?: AgentContext): Promise<AgentResult> {
++    const startedAt = this.now();
++    try {
++      if (!opts?.input || typeof opts.input !== 'string') {
++        throw new Error('Invalid input: expected non-empty string describing the proposal focus');
++      }
++
++      if (opts.dryRun) {
++        return {
++          agentId: this.id,
++          requirementId: this.requirementId,
++          success: true,
++          output: '[Dry run] EUFundingProposalAgent would generate a structured EU proposal template using Agent Summoner analysis.',
++          startedAt,
++          finishedAt: this.now(),
++        };
++      }
++
++      console.log(`📄 Generating EU funding proposal template for: ${opts.input}`);
++
++      // Parse lightweight options from input markers, e.g., [programme:Horizon Europe] [call:HE-CL4-...]
++      const options: ProposalTemplateOptions = this.parseInlineOptions(opts.input);
++
++      // Integrate with Agent Summoner for contextual strategy/advice.
++      // Fail-safe: on any error, continue with generic template.
++      let advisoryNote: string | undefined;
++      let analyzedDomain: string | undefined;
++      try {
++        const summoner = new AgentSummoner('proposal_summoner', this.requirementId);
++        const analysis = await summoner.analyzeTask(`Generate a proposal template for: ${opts.input}`);
++        if ('error' in analysis) throw new Error(analysis.error);
++        analyzedDomain = analysis.domain;
++        advisoryNote = analysis.successCriteria || analysis.analysisContent?.slice(0, 240);
++      } catch (summonErr: any) {
++        console.warn('⚠️ Agent Summoner context unavailable, using generic template. Reason:', summonErr?.message || summonErr);
++      }
++
++      const title = buildTemplateTitle(opts.input, options, analyzedDomain);
++      const template = renderProposalTemplate(title, options, advisoryNote);
++
++      // Persist to logs in a predictable location
++      const dir = path.join('logs', 'proposals', 'templates');
++      await fs.mkdir(dir, { recursive: true });
++      const fileBase = sanitizeFilename(`${Date.now()}_${title}`);
++      const filePath = path.join(dir, `${fileBase}.md`);
++
++      await fs.writeFile(filePath, template, 'utf-8');
++      console.log(`📝 Proposal template saved to: ${filePath}`);
++
++      return {
++        agentId: this.id,
++        requirementId: this.requirementId,
++        success: true,
++        output: `Template generated and saved to ${filePath}`,
++        artifacts: { filePath, title, options },
++        startedAt,
++        finishedAt: this.now(),
++      };
++    } catch (e: any) {
++      const errMsg = e?.message || String(e);
++      console.error('❌ EUFundingProposalAgent failed:', errMsg);
++      return {
++        agentId: this.id,
++        requirementId: this.requirementId,
++        success: false,
++        output: '',
++        error: errMsg,
++        startedAt,
++        finishedAt: this.now(),
++      };
++    }
++  }
++
++  private parseInlineOptions(input: string): ProposalTemplateOptions {
++    const opt: ProposalTemplateOptions = {};
++    const m = (re: RegExp) => input.match(re)?.[1]?.trim();
++    opt.programme = m(/\[programme:([^\]]+)\]/i) || m(/\[program:([^\]]+)\]/i) || undefined;
++    opt.callId = m(/\[call:([^\]]+)\]/i) || undefined;
++    opt.topic = m(/\[topic:([^\]]+)\]/i) || undefined;
++    opt.beneficiaryType = m(/\[beneficiary:([^\]]+)\]/i) || undefined;
++    return opt;
++  }
++}
++
+diff --git a/src/orchestrator/agentFactory.ts b/src/orchestrator/agentFactory.ts
+index 4f29237f626f577e3ddadc58e22696c03c34af57..86f94153b6477315d6a44668e78b1d7f277c9359
+--- a/src/orchestrator/agentFactory.ts
++++ b/src/orchestrator/agentFactory.ts
+@@ -12,6 +12,7 @@
+ import { EUFMAgentSummoner } from '../agents/eufmAgentSummoner.js';
+ import { SmokeTestAgent } from '../agents/smokeTestAgent.js';
+ import { TestAgent } from '../agents/testAgent.js';
++import { EUFundingProposalAgent } from '../agents/euFundingProposalAgent.js';
+ 
+ export class AgentFactory {
+   create(spec: AgentSpec): BaseAgent {
+@@ -28,6 +29,7 @@
+       case 'SmokeTestAgent': return new SmokeTestAgent(id, requirementId);
+       case 'BrowserAgent': return new BrowserAgent(id, requirementId);
+       case 'MemoryAgent': return new MemoryAgent(id, requirementId);
++      case 'EUFundingProposalAgent': return new EUFundingProposalAgent(id, requirementId);
+       case 'TestAgent': return new TestAgent(id, requirementId);
+       default:
+         throw new Error(`Unknown agent type: ${type}`);
+diff --git a/src/orchestrator/types.ts b/src/orchestrator/types.ts
+index 20b02634698601a09571b8e9ceb5696e38b1dd6a..d9e723b1d2bac67000b6b0eb5028a044ef029ffc
+--- a/src/orchestrator/types.ts
++++ b/src/orchestrator/types.ts
+@@ -34,6 +34,7 @@
+     | 'EnhancedAbacusAgent'
+     | 'AgentSummonerAgent'
+     | 'EUFMAgentSummoner'
++    | 'EUFundingProposalAgent'
+     | 'BrowserAgent'
+     | 'MemoryAgent'
+     | 'TestAgent';
+diff --git a/src/tests/euFundingProposalAgent_test.ts b/src/tests/euFundingProposalAgent_test.ts
+new file mode 100644
+index 0000000000000000000000000000000000000000..bdb6a8039205f4e45196d8692f4c89acff3ae2b7
+--- /dev/null
++++ b/src/tests/euFundingProposalAgent_test.ts
+@@ -0,0 +1,35 @@
++import { AgentFactory } from '../orchestrator/agentFactory.js';
++import type { AgentSpec, AgentResult } from '../orchestrator/types.js';
++
++async function runOnce(input: string, dryRun: boolean): Promise<AgentResult> {
++  const factory = new AgentFactory();
++  const spec: AgentSpec = {
++    id: `agent-proposal-${dryRun ? 'dry' : 'run'}`,
++    type: 'EUFundingProposalAgent',
++    requirementId: 'req-proposal-1',
++    capabilities: ['memory'],
++  };
++  const agent = factory.create(spec);
++  const ctx = { workingDir: process.cwd(), shared: { test: true } };
++  return agent.run({ input, timeoutMs: 15_000, dryRun }, ctx);
++}
++
++export async function runEUProposalAgentDemo(): Promise<void> {
++  const input = 'Horizon Europe green hydrogen pilot [programme:Horizon Europe] [beneficiary:Consortium]';
++  console.info('[EUFM] EUFundingProposalAgent demo starting...');
++  const dry = await runOnce(input, true);
++  console.info('[EUFM] Dry run result:', dry.success ? 'ok' : 'failed');
++  const real = await runOnce(input, false);
++  console.info('[EUFM] Real run success:', real.success);
++  console.log(JSON.stringify({ dry, real }, null, 2));
++  if (!dry.success || !real.success) process.exitCode = 1;
++}
++
++// Allow running directly with `tsx src/tests/euFundingProposalAgent_test.ts`
++if (import.meta.url === `file://${process.argv[1]}`) {
++  runEUProposalAgentDemo().catch((err) => {
++    console.error('[EUFM] EUFundingProposalAgent demo error:', err?.message || err);
++    process.exitCode = 1;
++  });
++}
++
+
+
+[2025-09-06T18:13:08] thinking
+
+**Running tests safely**
+
+I can run my test script using tsx. Earlier definitions already call for tsx, so that should work smoothly. Ideally, running tsx won't trigger tsc, but the code needs to compile too. The new file imports AgentSummoner and other components, which should compile properly. Regarding type mismatches, it seems they won’t stop the runtime since compile will ignore type errors. Esbuild strips and doesn’t check types, but I still want to be cautious. Let's go ahead and run that test!
+[2025-09-06T18:13:10] exec bash -lc 'node -v && npm -v && npx tsx --version && npx tsx src/tests/euFundingProposalAgent_test.ts' in /Users/panda/Desktop/EUFM
+
+ERROR: Codex task timed out after 120000ms
+
+Process exited with code: 0

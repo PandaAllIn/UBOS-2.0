@@ -1,0 +1,865 @@
+Executing: codex exec --dangerously-bypass-approvals-and-sandbox Open browser tool, load http://localhost:3000, audit dashboard UX for clutter, hierarchy, role-based views, and propose specific diffs for src/dashboard/web/index.html, dashboard.css, and dashboard.js to implement progressive disclosure and a role switcher (Executive, Compliance).
+
+Project Context: EUFM (European Union Funds Manager) - AI Agent Orchestration System
+Working Directory: /Users/panda/Desktop/EUFM
+Project Type: TypeScript/Node.js multi-agent coordination system
+Note: Tools should be in src/tools/ with proper TypeScript interfaces
+
+Safety Guidelines:
+- Preserve existing functionality when modifying files
+- Follow TypeScript best practices and existing code patterns
+- Add proper error handling and logging
+- Test changes before completing
+Working Directory: /Users/panda/Desktop/EUFM
+
+[2025-09-06T15:14:28] OpenAI Codex v0.28.0 (research preview)
+--------
+workdir: /Users/panda/Desktop/EUFM
+model: gpt-5
+provider: openai
+approval: never
+sandbox: danger-full-access
+reasoning effort: medium
+reasoning summaries: auto
+--------
+[2025-09-06T15:14:28] User instructions:
+Open browser tool, load http://localhost:3000, audit dashboard UX for clutter, hierarchy, role-based views, and propose specific diffs for src/dashboard/web/index.html, dashboard.css, and dashboard.js to implement progressive disclosure and a role switcher (Executive, Compliance).
+
+Project Context: EUFM (European Union Funds Manager) - AI Agent Orchestration System
+Working Directory: /Users/panda/Desktop/EUFM
+Project Type: TypeScript/Node.js multi-agent coordination system
+Note: Tools should be in src/tools/ with proper TypeScript interfaces
+
+Safety Guidelines:
+- Preserve existing functionality when modifying files
+- Follow TypeScript best practices and existing code patterns
+- Add proper error handling and logging
+- Test changes before completing
+[2025-09-06T15:14:33] codex
+
+I’ll scan the repo for dashboard web files, try loading the local app via curl to inspect current markup, then propose and patch HTML/CSS/JS for progressive disclosure and a role switcher.
+[2025-09-06T15:14:34] exec bash -lc 'ls -la' in /Users/panda/Desktop/EUFM
+[2025-09-06T15:14:34] bash -lc 'ls -la' succeeded in 32ms:
+total 424
+drwxr-xr-x   29 panda  staff    928 Sep  6 18:05 .
+drwx------+  16 panda  staff    512 Sep  5 20:43 ..
+-rw-r--r--@   1 panda  staff   8196 Sep  4 10:39 .DS_Store
+-rw-r--r--    1 panda  staff    370 Sep  5 16:22 .env
+-rw-r--r--    1 panda  staff    123 Sep  3 12:43 .env.example
+drwxr-xr-x   14 panda  staff    448 Sep  6 17:51 .git
+drwxr-xr-x    3 panda  staff     96 Sep  3 11:39 .github
+-rw-r--r--    1 panda  staff     42 Sep  3 12:44 .gitignore
+-rw-r--r--    1 panda  staff   3971 Sep  6 17:40 AGENT_QUICK_REFERENCE.md
+-rw-r--r--    1 panda  staff   5088 Sep  3 14:08 CODE_OF_CONDUCT.md
+-rw-r--r--@   1 panda  staff    458 Sep  3 11:40 CONTRIBUTING.md
+-rw-r--r--    1 panda  staff   8256 Sep  6 17:40 PROJECT_OVERVIEW.md
+-rw-r--r--@   1 panda  staff    313 Sep  3 14:48 README.md
+-rw-r--r--@   1 panda  staff    425 Sep  3 11:40 SECURITY.md
+-rw-r--r--    1 panda  staff  16870 Sep  6 17:40 SYSTEM_LATEST_IMPLEMENTATIONS.md
+drwxr-xr-x    3 panda  staff     96 Sep  6 18:05 _external
+-rw-r--r--    1 panda  staff   6195 Sep  5 20:12 codex_comprehensive_dashboard_analysis.txt
+-rw-r--r--    1 panda  staff   2094 Sep  5 19:48 codex_dashboard_task.txt
+-rw-r--r--    1 panda  staff   5507 Sep  5 20:55 codex_fix_dashboard_issues.txt
+[2025-09-06T15:14:34] tokens used: 534
+[2025-09-06T15:14:36] exec bash -lc "rg --files src | rg -i \"dashboard|web|index\\.html|\\.css"'$|'"\\.js"'$"' in /Users/panda/Desktop/EUFM
+[2025-09-06T15:14:36] bash -lc "rg --files src | rg -i \"dashboard|web|index\\.html|\\.css"'$|'"\\.js"'$"' succeeded in 69ms:
+src/dashboard/dashboardServer.ts
+src/dashboard/missionControl.ts
+src/dashboard/systemMonitor.ts
+src/dashboard/web/dashboard.js
+src/dashboard/web/dashboard.css
+src/dashboard/web/index.html
+src/dashboard/fundingOpportunityScanner.ts
+src/dashboard/enhancedMissionControl.ts
+[2025-09-06T15:14:36] tokens used: 1050
+
+[2025-09-06T15:14:38] thinking
+
+**Auditing web files**
+
+I'm getting ready to open the web files to check for any clutter or issues with the hierarchy. It's important to ensure that everything is organized properly. A clear structure can really improve navigation and usability, so I'm curious about what I might find. This process might take some time, it’s but crucial to keep things tidy and efficient. Let's see how it goes!
+[2025-09-06T15:14:39] exec bash -lc "sed -n '1,200p' src/dashboard/web/index.html" in /Users/panda/Desktop/EUFM
+[2025-09-06T15:14:39] bash -lc "sed -n '1,200p' src/dashboard/web/index.html" succeeded in 25ms:
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EUFM Mission Control</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,wght@8..144,300..800&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet" />
+  <link rel="stylesheet" href="dashboard.css" />
+</head>
+<body>
+  <div class="app-shell" data-theme="light">
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar" aria-label="Primary navigation">
+      <div class="brand">
+        <span class="material-symbols-rounded">rocket_launch</span>
+        <span class="brand-name">EUFM Mission Control</span>
+      </div>
+[2025-09-06T15:14:39] tokens used: 281
+[2025-09-06T15:14:42] exec bash -lc "sed -n '200,500p' src/dashboard/web/index.html" in /Users/panda/Desktop/EUFM
+[2025-09-06T15:14:42] bash -lc "sed -n '200,500p' src/dashboard/web/index.html" succeeded in 17ms:
+              </div>
+            </div>
+            <div class="chat-messages" id="chat-messages" aria-live="polite">
+              <div class="chat-message system">
+                <div class="message-content">EUFM Mission Control initialized successfully</div>
+                <div class="message-time" id="init-time"></div>
+              </div>
+            </div>
+            <div class="chat-input">
+              <input id="chat-input" type="text" placeholder="Try: analyze funding opportunities; generate proposal outline; system status" aria-label="Chat input" />
+              <button class="icon-btn" id="send-chat-btn" aria-label="Send">
+                <span class="material-symbols-rounded">send</span>
+              </button>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section id="section-funding" class="section" aria-labelledby="funding-title" role="region">
+        <h2 id="funding-title" class="section-title">Funding Opportunities</h2>
+[2025-09-06T15:14:42] tokens used: 2631
+[2025-09-06T15:14:44] exec bash -lc "sed -n '1,250p' src/dashboard/web/dashboard.css" in /Users/panda/Desktop/EUFM
+[2025-09-06T15:14:44] bash -lc "sed -n '1,250p' src/dashboard/web/dashboard.css" succeeded in 26ms:
+ :root {
+  --md3-primary: #1a73e8;
+  --md3-on-primary: #ffffff;
+  --md3-primary-container: #d7e3ff;
+  --md3-on-primary-container: #001a40;
+  --md3-secondary: #5f6368;
+  --md3-on-secondary: #ffffff;
+  --md3-surface: #ffffff;
+  --md3-surface-variant: #f2f4f7;
+  --md3-on-surface: #0b0f1a;
+  --md3-outline: #e3e8ef;
+  --md3-outline-variant: #d6dae1;
+  --md3-success: #34a853;
+  --md3-warning: #fbbc05;
+  --md3-error: #ea4335;
+  --md3-on-error: #ffffff;
+  /* elevations */
+  --elev-0: 0 0 0 rgba(0,0,0,0);
+  --elev-2: 0 2px 6px rgba(15,23,42,0.1);
+  --elev-3: 0 4px 12px rgba(15,23,42,0.12);
+[2025-09-06T15:14:44] tokens used: 11072
+[2025-09-06T15:14:45] exec bash -lc "sed -n '250,650p' src/dashboard/web/dashboard.css" in /Users/panda/Desktop/EUFM
+[2025-09-06T15:14:45] bash -lc "sed -n '250,650p' src/dashboard/web/dashboard.css" succeeded in 19ms:
+  .card { grid-column: 1; }
+  .opportunity-list { grid-template-columns: 1fr; }
+  .search-panel { left: 20px; }
+}
+[2025-09-06T15:14:45] tokens used: 3650
+
+[2025-09-06T15:14:49] thinking
+
+**Checking CSS output**
+
+I noticed that the CSS output earlier had an elision note, indicating that part of the file was omitted. It seems we should focus on getting the full file, especially around the missed lines that relate to the sidebar and other elements. I'll aim to print the sections from just after the .app-shell so that I can include the sidebar definitions properly. This should help us understand everything clearly.
+[2025-09-06T15:14:50] exec bash -lc "nl -ba src/dashboard/web/dashboard.css | sed -n '1,180p'" in /Users/panda/Desktop/EUFM
+[2025-09-06T15:14:50] bash -lc "nl -ba src/dashboard/web/dashboard.css | sed -n '1,180p'" succeeded in 30ms:
+     1	 :root {
+     2	  --md3-primary: #1a73e8;
+     3	  --md3-on-primary: #ffffff;
+     4	  --md3-primary-container: #d7e3ff;
+     5	  --md3-on-primary-container: #001a40;
+     6	  --md3-secondary: #5f6368;
+     7	  --md3-on-secondary: #ffffff;
+     8	  --md3-surface: #ffffff;
+     9	  --md3-surface-variant: #f2f4f7;
+    10	  --md3-on-surface: #0b0f1a;
+    11	  --md3-outline: #e3e8ef;
+    12	  --md3-outline-variant: #d6dae1;
+    13	  --md3-success: #34a853;
+    14	  --md3-warning: #fbbc05;
+    15	  --md3-error: #ea4335;
+    16	  --md3-on-error: #ffffff;
+    17	  /* elevations */
+    18	  --elev-0: 0 0 0 rgba(0,0,0,0);
+    19	  --elev-2: 0 2px 6px rgba(15,23,42,0.1);
+    20	  --elev-3: 0 4px 12px rgba(15,23,42,0.12);
+[2025-09-06T15:14:50] tokens used: 176
+[2025-09-06T15:14:53] exec bash -lc "nl -ba src/dashboard/web/dashboard.css | sed -n '180,360p'" in /Users/panda/Desktop/EUFM
+[2025-09-06T15:14:53] bash -lc "nl -ba src/dashboard/web/dashboard.css | sed -n '180,360p'" succeeded in 37ms:
+   180	.status-offline { background: color-mix(in srgb, var(--md3-error) 12%, transparent); color: #7f1d1d; }
+   181	.status-limited { background: color-mix(in srgb, var(--md3-warning) 16%, transparent); color: #7a5200; }
+   182	
+   183	.subscriptions { grid-column: span 8; }
+   184	.subscription-item { padding: 12px; border: 1px solid var(--md3-outline); border-radius: 12px; background: var(--md3-surface-variant); }
+   185	.subscription-header { display: flex; justify-content: space-between; margin-bottom: 8px; }
+   186	.subscription-name { font-weight: 600; }
+   187	.usage-bar { width: 100%; height: 6px; border-radius: 999px; background: #e5e7eb; overflow: hidden; }
+   188	.usage-fill { height: 100%; transition: width 200ms ease; }
+   189	.usage-ok { background: var(--md3-success); }
+   190	.usage-warning { background: var(--md3-warning); }
+   191	.usage-critical { background: var(--md3-error); }
+   192	
+   193	.opportunities { grid-column: 1 / -1; }
+   194	.opportunity-list { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+   195	.opportunity-item { border: 1px solid var(--md3-outline); background: var(--md3-surface-variant); border-radius: 12px; padding: 12px; display: grid; gap: 6px; }
+   196	.opportunity-title { font-weight: 600; }
+   197	.opportunity-meta { display: flex; gap: 8px; color: #475467; font-size: 12px; }
+   198	.opportunity-deadline { font-size: 12px; color: #646f7a; }
+   199	.badge { display: inline-flex; align-items: center; gap: 6px; padding: 4px 8px; border-radius: 999px; border: 1px solid var(--md3-outline); font-size: 12px; }
+[2025-09-06T15:14:53] tokens used: 3794
+[2025-09-06T15:14:56] exec bash -lc 'rg -n "''^'"\\.sidebar|"'^'"\\.app-bar|"'^'"\\.nav-item|"'^'"\\.main|"'^'"\\.brand|"'^'"\\.status-chip\" src/dashboard/web/dashboard.css" in /Users/panda/Desktop/EUFM
+[2025-09-06T15:14:56] bash -lc 'rg -n "''^'"\\.sidebar|"'^'"\\.app-bar|"'^'"\\.nav-item|"'^'"\\.main|"'^'"\\.brand|"'^'"\\.status-chip\" src/dashboard/web/dashboard.css" succeeded in 36ms:
+100:.sidebar {
+106:.brand { display: flex; align-items: center; gap: 10px; padding: 8px 10px; }
+107:.brand .material-symbols-rounded { color: var(--md3-primary); }
+108:.brand-name { font-weight: 700; letter-spacing: .2px; }
+110:.nav-item {
+115:.nav-item:hover { background: var(--md3-surface-variant); }
+116:.nav-item.active { background: color-mix(in srgb, var(--md3-primary) 8%, transparent); color: inherit; border-color: var(--md3-outline); }
+117:.sidebar-footer { margin-top: auto; border-top: 1px solid var(--md3-outline); padding-top: 8px; }
+119:.main { display: flex; flex-direction: column; height: 100%; }
+120:.app-bar {
+126:.app-bar .left { display: flex; align-items: center; gap: 12px; }
+127:.status-chip { display: inline-flex; align-items: center; gap: 8px; padding: 6px 10px; border-radius: 999px; background: var(--md3-surface-variant); border: 1px solid var(--md3-outline); }
+128:.status-chip .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--md3-success); box-shadow: 0 0 0 4px color-mix(in srgb, var(--md3-success) 20%, transparent); }
+133:.app-bar .right { display: flex; align-items: center; gap: 8px; }
+[2025-09-06T15:14:56] tokens used: 2305
+[2025-09-06T15:15:00] exec bash -lc "sed -n '96,140p' src/dashboard/web/dashboard.css" in /Users/panda/Desktop/EUFM
+[2025-09-06T15:15:00] bash -lc "sed -n '96,140p' src/dashboard/web/dashboard.css" succeeded in 36ms:
+.visually-hidden { position: absolute; left: -9999px; }
+
+.app-shell { display: grid; grid-template-columns: 264px 1fr; height: 100%; }
+
+.sidebar {
+  background: var(--md3-surface);
+  border-right: 1px solid var(--md3-outline);
+  padding: 16px 12px;
+  display: flex; flex-direction: column; gap: 12px;
+}
+.brand { display: flex; align-items: center; gap: 10px; padding: 8px 10px; }
+.brand .material-symbols-rounded { color: var(--md3-primary); }
+.brand-name { font-weight: 700; letter-spacing: .2px; }
+.nav { display: grid; gap: 4px; margin-top: 8px; }
+.nav-item {
+  display: flex; align-items: center; gap: 12px;
+  padding: 10px 12px; border-radius: 12px; border: 1px solid transparent;
+  background: transparent; color: inherit; cursor: pointer;
+}
+.nav-item:hover { background: var(--md3-surface-variant); }
+[2025-09-06T15:15:00] tokens used: 583
+[2025-09-06T15:15:02] thinking
+
+**Implementing logic
+ features**
+
+I'm looking at the structure and it seems solid. I need to dive into the JavaScript code to understand the logic for sections and data. I should focus on implementing progressive disclosure and a role switcher between Executive and Compliance. This switch will control what information is visible based on the user's role. It sounds like there’s probably existing code in place to manage navigation and other related events, which could be helpful.
+[2025-09-06T15:15:04] exec bash -lc "sed -n '1,220p' src/dashboard/web/dashboard.js" in /Users/panda/Desktop/EUFM
+[2025-09-06T15:15:04] bash -lc "sed -n '1,220p' src/dashboard/web/dashboard.js" succeeded in 22ms:
+// EUFM Mission Control Dashboard (NotebookLM-inspired)
+class MissionControlDashboard {
+  constructor() {
+    this.ws = null;
+    this.reconnectInterval = 5000;
+    this.initTime = new Date();
+    this.theme = localStorage.getItem('eufm-theme') || 'light';
+    this.sections = ['overview', 'funding', 'activity', 'analytics', 'settings'];
+    this.counts = { opportunities: 0, notes: 0, tools: 0 };
+    this.state = { scanning: false };
+    this.init();
+  }
+
+  init() {
+    document.querySelector('.app-shell').dataset.theme = this.theme;
+    this.cacheEls();
+    this.bindUI();
+    this.updateTimestamp();
+    this.updateInitTime();
+    this.loadAll();
+[2025-09-06T15:15:04] tokens used: 1088
+[2025-09-06T15:15:06] exec bash -lc "sed -n '220,520p' src/dashboard/web/dashboard.js" in /Users/panda/Desktop/EUFM
+[2025-09-06T15:15:06] bash -lc "sed -n '220,520p' src/dashboard/web/dashboard.js" succeeded in 35ms:
+      document.body.appendChild(b);
+      hints.push(b);
+    };
+    makeBubble(chip, 'System Health', 'Live status of agents, uptime and time.');
+    makeBubble(scan, 'Scan for Funding', 'Click to scan EU portals for AI/tech calls.');
+    // Seed helpful chat and search suggestion
+    this.addChatMessage('system', 'Tip: Use the search bar to quickly find opportunities, notes, or alerts.');
+    if (this.$globalSearch && !this.$globalSearch.value) this.$globalSearch.value = 'AI funding';
+    const dismiss = () => { hints.forEach(h => h.remove()); localStorage.setItem(key, '1'); };
+    setTimeout(dismiss, 6000);
+    document.addEventListener('click', dismiss, { once: true });
+  }
+
+  async updateStatus() {
+    const s = await this.api('/api/status');
+    // Agents
+    document.getElementById('active-agents').textContent = s.system.agents.active;
+    document.getElementById('completed-tasks').textContent = s.system.agents.completed;
+    document.getElementById('failed-tasks').textContent = s.system.agents.failed;
+    // Memory
+[2025-09-06T15:15:06] tokens used: 2755
+[2025-09-06T15:15:08] exec bash -lc "sed -n '520,940p' src/dashboard/web/dashboard.js" in /Users/panda/Desktop/EUFM
+[2025-09-06T15:15:08] bash -lc "sed -n '520,940p' src/dashboard/web/dashboard.js" succeeded in 25ms:
+    indicator.className = 'task-indicator';
+    indicator.innerHTML = `
+      <div class="spinner"></div>
+      <span>Executing: ${taskName}</span>
+    `;
+    document.body.appendChild(indicator);
+    return indicator;
+  }
+
+  hideTaskProgress(indicator) {
+    if (indicator) indicator.remove();
+  }
+
+  connectWS() {
+    try {
+      const proto = location.protocol === 'https:' ? 'wss' : 'ws';
+      this.ws = new WebSocket(`${proto}://${location.host}`);
+      this.ws.onopen = () => this.addChatMessage('system', 'WebSocket connected');
+      this.ws.onclose = () => setTimeout(() => this.connectWS(), this.reconnectInterval);
+      this.ws.onmessage = (evt) => {
+[2025-09-06T15:15:08] tokens used: 3030
+
+[2025-09-06T15:15:13] thinking
+
+**Proposing UX improvements**
+
+I need to propose specific changes for implementing progressive disclosure and a role switcher for Executive and Compliance. The dashboard currently feels complex yet clean—audit UX for clutter and hierarchy. A good approach for progressive disclosure could be to collapse sections by default, like Tools details and Subscriptions, with “Show Details” toggles for each card. For the role switcher, adding a top app bar control could let users switch roles and update views accordingly, showing relevant information for each role. I'll include implementation details too, such as updating index.html.
+**Implementing UI enhancements**
+
+I need to add detail toggles to the, cards which might involve using "data-collapsible" wrappers and an "Expand" button in the card headers, or keeping sections like Tools and Subscriptions collapsed by default. I could even use HTML `<details>` and `<summary>` elements for simplicity. We must preserve existing functionality while respecting TypeScript best practices, even though the frontend is plain JS. I’ll implement a role control UI, starting with a dropdown for Executive and Compliance, and ensure logic for showing or hiding elements based on their data-roles attributes.
+**Implementing role change functionality**
+
+I need to toggle the visibility of elements based on the role change by looping through elements with the [data-roles] attribute and adjusting their 'hidden' property or applying the 'is-hidden' class. For the Overview section, I notice that cards like "Tools," "Subscriptions," "Recent Activity," and "EU Funding Opportunities" may feel heavy. To manage this, I could collapse the "opportunity-list" beyond the top three entries with a "Show all" button. Also, I can convert the Tools grid to be collapsed when it's large. Since I can't open the GUI directly, I’ll try using curl to fetch the HTML served by the running app on localhost.
+[2025-09-06T15:15:20] codex
+**Implementing UI enhancements**
+
+I need to add detail toggles to the cards, which might involve using "data-collapsible" wrappers and an "Expand" button in the card headers, or keeping sections like Tools and Subscriptions collapsed by default. I could even use HTML `<details>` and `<summary>` elements for simplicity. We must preserve existing functionality while respecting TypeScript best practices, even though the frontend is plain JS. I’ll implement a role control UI, starting with a dropdown for Executive and Compliance, and ensure logic for showing or hiding elements based on their data-roles attributes.
+[2025-09-06T15:15:20] codex
+**Implementing role change functionality**
+
+I need to toggle the visibility of elements based on the role change by looping through elements with the [data-roles] attribute and adjusting their 'hidden' property or applying the 'is-hidden' class. For the Overview section, I notice that cards like "Tools," "Subscriptions," "Recent Activity," and "EU Funding Opportunities" may feel heavy. To manage this, I could collapse the "opportunity-list" beyond the top three entries with a "Show all" button. Also, I can convert the Tools grid to be collapsed when it's large. Since I can't open the GUI directly, I’ll try using curl to fetch the HTML served by the running app on localhost.
+[2025-09-06T15:15:20] exec bash -lc 'curl -sS http://localhost:3000 | head -n 40' in /Users/panda/Desktop/EUFM
+[2025-09-06T15:15:21] bash -lc 'curl -sS http://localhost:3000 | head -n 40' succeeded in 267ms:
+curl: (7) Failed to connect to localhost port 3000 after 14 ms: Couldn't connect to server
+[2025-09-06T15:15:21] tokens used: 1429
+
+[2025-09-06T15:15:23] thinking
+
+**Checking server status**
+
+It looks like the server isn't running, but that’s okay! I can still perform an audit directly from the code. First, I’ll open the dashboard server so I can check the path mapping for static files. Hopefully, that will give me the information I need to troubleshoot or identify any potential issues. Let's see what I can uncover from there!
+[2025-09-06T15:15:24] exec bash -lc "sed -n '1,220p' src/dashboard/dashboardServer.ts" in /Users/panda/Desktop/EUFM
+[2025-09-06T15:15:24] bash -lc "sed -n '1,220p' src/dashboard/dashboardServer.ts" succeeded in 28ms:
+import express from 'express';
+import { createServer } from 'http';
+import { WebSocketServer } from 'ws';
+import path from 'path';
+import { fileURLToPath } from 'url';
+import { MissionControl } from './missionControl.js';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+export class DashboardServer {
+  private app = express();
+  private server = createServer(this.app);
+  private wss = new WebSocketServer({ server: this.server });
+  private missionControl = new MissionControl();
+  private port = process.env.DASHBOARD_PORT || 3000;
+
+  constructor() {
+    this.setupExpress();
+    this.setupWebSocket();
+[2025-09-06T15:15:24] tokens used: 153
+[2025-09-06T15:15:27] exec bash -lc "sed -n '220,520p' src/dashboard/dashboardServer.ts" in /Users/panda/Desktop/EUFM
+[2025-09-06T15:15:27] bash -lc "sed -n '220,520p' src/dashboard/dashboardServer.ts" succeeded in 19ms:
+      this.broadcastStatusUpdate();
+    }, 30000);
+  }
+
+  private async handleWebSocketMessage(ws: any, data: any) {
+    switch (data.type) {
+      case 'execute_task':
+        try {
+          const result = await this.missionControl.executeTask(data.task, data.options);
+          ws.send(JSON.stringify({ type: 'task_result', data: result }));
+        } catch (error) {
+          ws.send(JSON.stringify({ type: 'error', message: 'Task execution failed' }));
+        }
+        break;
+
+      case 'scan_funding':
+        try {
+          const opportunities = await this.missionControl.scanFundingOpportunities();
+          ws.send(JSON.stringify({ type: 'funding_opportunities', data: opportunities }));
+        } catch (error) {
+[2025-09-06T15:15:27] tokens used: 2241
+: patch HTML to[2025-09-06T15:15:49] codex
+
+Next, I’ll implement a role switcher and progressive disclosure add the switcher and data-roles, add CSS for the control and “show more” toggle, and update JS to apply role visibility and list truncation with expanders.
+[2025-09-06T15:15:55] apply_patch auto_approved=true:
+M /Users/panda/Desktop/EUFM/src/dashboard/web/index.html
+@@ -67,2 +67,6 @@
+         <div class="right">
++          <div class="role-switcher" role="group" aria-label="Role view">
++            <button class="seg-btn active" id="role-executive" data-role="executive" aria-pressed="true" title="Executive overview">Executive</button>
++            <button class="seg-btn" id="role-compliance" data-role="compliance" aria-pressed="false" title="Compliance and audit view">Compliance</button>
++          </div>
+           <div class="search" data-help="Search through opportunities, notes, tools.\nTry: AI funding, Horizon Europe, EIC Accelerator">
+@@ -151,3 +155,3 @@
+           <!-- Subscriptions -->
+-          <article class="card subscriptions" aria-label="Subscriptions">
++          <article class="card subscriptions" aria-label="Subscriptions" data-roles="compliance">
+             <div class="card-head">
+@@ -181,3 +185,3 @@
+           <!-- Activity Feed -->
+-          <article class="card activity" aria-label="Recent Activity">
++          <article class="card activity" aria-label="Recent Activity" data-roles="compliance">
+             <div class="card-head">
+@@ -190,3 +194,3 @@
+           <!-- Chat & Actions -->
+-          <article class="card chat" aria-label="System Chat">
++          <article class="card chat" aria-label="System Chat" data-roles="executive">
+             <div class="card-head">
+[2025-09-06T15:15:56] apply_patch(auto_approved=true) exited 0 in 76ms:
+Success. Updated the following files:
+M src/dashboard/web/index.html
+[2025-09-06T15:15:56] turn diff:
+diff --git a/src/dashboard/web/index.html b/src/dashboard/web/index.html
+index a198345f17ddc65bfab84345163aef7be07c8efc..4c6a55e260de7f47efe5d71ce085e0ba86dae6ae
+--- a/src/dashboard/web/index.html
++++ b/src/dashboard/web/index.html
+@@ -65,6 +65,10 @@
+           </div>
+         </div>
+         <div class="right">
++          <div class="role-switcher" role="group" aria-label="Role view">
++            <button class="seg-btn active" id="role-executive" data-role="executive" aria-pressed="true" title="Executive overview">Executive</button>
++            <button class="seg-btn" id="role-compliance" data-role="compliance" aria-pressed="false" title="Compliance and audit view">Compliance</button>
++          </div>
+           <div class="search" data-help="Search through opportunities, notes, tools.\nTry: AI funding, Horizon Europe, EIC Accelerator">
+             <span class="material-symbols-rounded">search</span>
+             <input id="global-search" type="search" placeholder="Search 29 opportunities, 21 notes, 8 tools — Try: AI funding, Horizon Europe, EIC Accelerator" aria-label="Global search" autocomplete="off" />
+@@ -149,7 +153,7 @@
+           </article>
+ 
+           <!-- Subscriptions -->
+-          <article class="card subscriptions" aria-label="Subscriptions">
++          <article class="card subscriptions" aria-label="Subscriptions" data-roles="compliance">
+             <div class="card-head">
+               <span class="material-symbols-rounded">credit_card</span>
+               <h3>Subscriptions</h3>
+@@ -179,7 +183,7 @@
+           </article>
+ 
+           <!-- Activity Feed -->
+-          <article class="card activity" aria-label="Recent Activity">
++          <article class="card activity" aria-label="Recent Activity" data-roles="compliance">
+             <div class="card-head">
+               <span class="material-symbols-rounded">activity_log</span>
+               <h3>Recent Activity</h3>
+@@ -188,7 +192,7 @@
+           </article>
+ 
+           <!-- Chat & Actions -->
+-          <article class="card chat" aria-label="System Chat">
++          <article class="card chat" aria-label="System Chat" data-roles="executive">
+             <div class="card-head">
+               <span class="material-symbols-rounded">chat</span>
+               <h3>System Chat</h3>
+
+[2025-09-06T15:15:56] tokens used: 3502
+[2025-09-06T15:15:56] turn diff:
+diff --git a/src/dashboard/web/index.html b/src/dashboard/web/index.html
+index a198345f17ddc65bfab84345163aef7be07c8efc..4c6a55e260de7f47efe5d71ce085e0ba86dae6ae
+--- a/src/dashboard/web/index.html
++++ b/src/dashboard/web/index.html
+@@ -65,6 +65,10 @@
+           </div>
+         </div>
+         <div class="right">
++          <div class="role-switcher" role="group" aria-label="Role view">
++            <button class="seg-btn active" id="role-executive" data-role="executive" aria-pressed="true" title="Executive overview">Executive</button>
++            <button class="seg-btn" id="role-compliance" data-role="compliance" aria-pressed="false" title="Compliance and audit view">Compliance</button>
++          </div>
+           <div class="search" data-help="Search through opportunities, notes, tools.\nTry: AI funding, Horizon Europe, EIC Accelerator">
+             <span class="material-symbols-rounded">search</span>
+             <input id="global-search" type="search" placeholder="Search 29 opportunities, 21 notes, 8 tools — Try: AI funding, Horizon Europe, EIC Accelerator" aria-label="Global search" autocomplete="off" />
+@@ -149,7 +153,7 @@
+           </article>
+ 
+           <!-- Subscriptions -->
+-          <article class="card subscriptions" aria-label="Subscriptions">
++          <article class="card subscriptions" aria-label="Subscriptions" data-roles="compliance">
+             <div class="card-head">
+               <span class="material-symbols-rounded">credit_card</span>
+               <h3>Subscriptions</h3>
+@@ -179,7 +183,7 @@
+           </article>
+ 
+           <!-- Activity Feed -->
+-          <article class="card activity" aria-label="Recent Activity">
++          <article class="card activity" aria-label="Recent Activity" data-roles="compliance">
+             <div class="card-head">
+               <span class="material-symbols-rounded">activity_log</span>
+               <h3>Recent Activity</h3>
+@@ -188,7 +192,7 @@
+           </article>
+ 
+           <!-- Chat & Actions -->
+-          <article class="card chat" aria-label="System Chat">
++          <article class="card chat" aria-label="System Chat" data-roles="executive">
+             <div class="card-head">
+               <span class="material-symbols-rounded">chat</span>
+               <h3>System Chat</h3>
+
+
+[2025-09-06T15:16:00] thinking
+
+**Adding CSS for UI components**
+
+I need to add CSS for the role-switcher segmented buttons and a show-more toggle. This involves creating styles that visually differentiate the buttons to make them user-friendly. I also want to include minor utilities to enhance the overall design. It’s important that everything looks cohesive while providing clarity in navigation. I'll ensure these elements are properly styled for a smooth user experience while keeping in mind responsiveness and accessibility.
+[2025-09-06T15:16:03] apply_patch auto_approved=true:
+M /Users/panda/Desktop/EUFM/src/dashboard/web/dashboard.css
+@@ -142,2 +142,12 @@
+ 
++/* Role switcher (segmented) */
++.role-switcher { display: inline-flex; align-items: center; gap: 0; border: 1px solid var(--md3-outline); border-radius: 10px; overflow: hidden; background: var(--md3-surface); margin-right: 8px; }
++.role-switcher .seg-btn { appearance: none; background: transparent; color: inherit; border: none; padding: 8px 10px; cursor: pointer; font-weight: 600; font-size: 13px; }
++.role-switcher .seg-btn + .seg-btn { border-left: 1px solid var(--md3-outline); }
++.role-switcher .seg-btn.active { background: var(--md3-primary-container); color: var(--md3-on-primary-container); }
++
++/* Progressive disclosure toggle */
++.more-toggle { display: inline-flex; align-items: center; gap: 6px; padding: 6px 10px; border-radius: 999px; border: 1px solid var(--md3-outline); background: var(--md3-surface); color: inherit; cursor: pointer; font-size: 12px; margin: 8px 16px 16px; }
++.more-toggle:hover { background: var(--md3-surface-variant); }
++
+ /* Button states */
+[2025-09-06T15:16:03] apply_patch(auto_approved=true) exited 0 in 183ms:
+Success. Updated the following files:
+M src/dashboard/web/dashboard.css
+[2025-09-06T15:16:03] turn diff:
+diff --git a/src/dashboard/web/dashboard.css b/src/dashboard/web/dashboard.css
+index 3326b6a8c3ac12a3cf9f7c401e2d15611783e137..85b65684771930a40f3644236f6dc7f37adb5625
+--- a/src/dashboard/web/dashboard.css
++++ b/src/dashboard/web/dashboard.css
+@@ -140,6 +140,16 @@
+ .btn:hover { background: var(--md3-surface-variant); }
+ .btn.primary:hover { filter: brightness(0.98); }
+ 
++/* Role switcher (segmented) */
++.role-switcher { display: inline-flex; align-items: center; gap: 0; border: 1px solid var(--md3-outline); border-radius: 10px; overflow: hidden; background: var(--md3-surface); margin-right: 8px; }
++.role-switcher .seg-btn { appearance: none; background: transparent; color: inherit; border: none; padding: 8px 10px; cursor: pointer; font-weight: 600; font-size: 13px; }
++.role-switcher .seg-btn + .seg-btn { border-left: 1px solid var(--md3-outline); }
++.role-switcher .seg-btn.active { background: var(--md3-primary-container); color: var(--md3-on-primary-container); }
++
++/* Progressive disclosure toggle */
++.more-toggle { display: inline-flex; align-items: center; gap: 6px; padding: 6px 10px; border-radius: 999px; border: 1px solid var(--md3-outline); background: var(--md3-surface); color: inherit; cursor: pointer; font-size: 12px; margin: 8px 16px 16px; }
++.more-toggle:hover { background: var(--md3-surface-variant); }
++
+ /* Button states */
+ .btn.success { background: color-mix(in srgb, var(--md3-success) 16%, var(--md3-surface)); border-color: color-mix(in srgb, var(--md3-success) 40%, var(--md3-outline)); color: #166534; }
+ .btn.error { background: color-mix(in srgb, var(--md3-error) 12%, var(--md3-surface)); border-color: color-mix(in srgb, var(--md3-error) 40%, var(--md3-outline)); color: #7f1d1d; }
+diff --git a/src/dashboard/web/index.html b/src/dashboard/web/index.html
+index a198345f17ddc65bfab84345163aef7be07c8efc..4c6a55e260de7f47efe5d71ce085e0ba86dae6ae
+--- a/src/dashboard/web/index.html
++++ b/src/dashboard/web/index.html
+@@ -65,6 +65,10 @@
+           </div>
+         </div>
+         <div class="right">
++          <div class="role-switcher" role="group" aria-label="Role view">
++            <button class="seg-btn active" id="role-executive" data-role="executive" aria-pressed="true" title="Executive overview">Executive</button>
++            <button class="seg-btn" id="role-compliance" data-role="compliance" aria-pressed="false" title="Compliance and audit view">Compliance</button>
++          </div>
+           <div class="search" data-help="Search through opportunities, notes, tools.\nTry: AI funding, Horizon Europe, EIC Accelerator">
+             <span class="material-symbols-rounded">search</span>
+             <input id="global-search" type="search" placeholder="Search 29 opportunities, 21 notes, 8 tools — Try: AI funding, Horizon Europe, EIC Accelerator" aria-label="Global search" autocomplete="off" />
+@@ -149,7 +153,7 @@
+           </article>
+ 
+           <!-- Subscriptions -->
+-          <article class="card subscriptions" aria-label="Subscriptions">
++          <article class="card subscriptions" aria-label="Subscriptions" data-roles="compliance">
+             <div class="card-head">
+               <span class="material-symbols-rounded">credit_card</span>
+               <h3>Subscriptions</h3>
+@@ -179,7 +183,7 @@
+           </article>
+ 
+           <!-- Activity Feed -->
+-          <article class="card activity" aria-label="Recent Activity">
++          <article class="card activity" aria-label="Recent Activity" data-roles="compliance">
+             <div class="card-head">
+               <span class="material-symbols-rounded">activity_log</span>
+               <h3>Recent Activity</h3>
+@@ -188,7 +192,7 @@
+           </article>
+ 
+           <!-- Chat & Actions -->
+-          <article class="card chat" aria-label="System Chat">
++          <article class="card chat" aria-label="System Chat" data-roles="executive">
+             <div class="card-head">
+               <span class="material-symbols-rounded">chat</span>
+               <h3>System Chat</h3>
+
+[2025-09-06T15:16:03] tokens used: 1951
+[2025-09-06T15:16:03] turn diff:
+diff --git a/src/dashboard/web/dashboard.css b/src/dashboard/web/dashboard.css
+index 3326b6a8c3ac12a3cf9f7c401e2d15611783e137..85b65684771930a40f3644236f6dc7f37adb5625
+--- a/src/dashboard/web/dashboard.css
++++ b/src/dashboard/web/dashboard.css
+@@ -140,6 +140,16 @@
+ .btn:hover { background: var(--md3-surface-variant); }
+ .btn.primary:hover { filter: brightness(0.98); }
+ 
++/* Role switcher (segmented) */
++.role-switcher { display: inline-flex; align-items: center; gap: 0; border: 1px solid var(--md3-outline); border-radius: 10px; overflow: hidden; background: var(--md3-surface); margin-right: 8px; }
++.role-switcher .seg-btn { appearance: none; background: transparent; color: inherit; border: none; padding: 8px 10px; cursor: pointer; font-weight: 600; font-size: 13px; }
++.role-switcher .seg-btn + .seg-btn { border-left: 1px solid var(--md3-outline); }
++.role-switcher .seg-btn.active { background: var(--md3-primary-container); color: var(--md3-on-primary-container); }
++
++/* Progressive disclosure toggle */
++.more-toggle { display: inline-flex; align-items: center; gap: 6px; padding: 6px 10px; border-radius: 999px; border: 1px solid var(--md3-outline); background: var(--md3-surface); color: inherit; cursor: pointer; font-size: 12px; margin: 8px 16px 16px; }
++.more-toggle:hover { background: var(--md3-surface-variant); }
++
+ /* Button states */
+ .btn.success { background: color-mix(in srgb, var(--md3-success) 16%, var(--md3-surface)); border-color: color-mix(in srgb, var(--md3-success) 40%, var(--md3-outline)); color: #166534; }
+ .btn.error { background: color-mix(in srgb, var(--md3-error) 12%, var(--md3-surface)); border-color: color-mix(in srgb, var(--md3-error) 40%, var(--md3-outline)); color: #7f1d1d; }
+diff --git a/src/dashboard/web/index.html b/src/dashboard/web/index.html
+index a198345f17ddc65bfab84345163aef7be07c8efc..4c6a55e260de7f47efe5d71ce085e0ba86dae6ae
+--- a/src/dashboard/web/index.html
++++ b/src/dashboard/web/index.html
+@@ -65,6 +65,10 @@
+           </div>
+         </div>
+         <div class="right">
++          <div class="role-switcher" role="group" aria-label="Role view">
++            <button class="seg-btn active" id="role-executive" data-role="executive" aria-pressed="true" title="Executive overview">Executive</button>
++            <button class="seg-btn" id="role-compliance" data-role="compliance" aria-pressed="false" title="Compliance and audit view">Compliance</button>
++          </div>
+           <div class="search" data-help="Search through opportunities, notes, tools.\nTry: AI funding, Horizon Europe, EIC Accelerator">
+             <span class="material-symbols-rounded">search</span>
+             <input id="global-search" type="search" placeholder="Search 29 opportunities, 21 notes, 8 tools — Try: AI funding, Horizon Europe, EIC Accelerator" aria-label="Global search" autocomplete="off" />
+@@ -149,7 +153,7 @@
+           </article>
+ 
+           <!-- Subscriptions -->
+-          <article class="card subscriptions" aria-label="Subscriptions">
++          <article class="card subscriptions" aria-label="Subscriptions" data-roles="compliance">
+             <div class="card-head">
+               <span class="material-symbols-rounded">credit_card</span>
+               <h3>Subscriptions</h3>
+@@ -179,7 +183,7 @@
+           </article>
+ 
+           <!-- Activity Feed -->
+-          <article class="card activity" aria-label="Recent Activity">
++          <article class="card activity" aria-label="Recent Activity" data-roles="compliance">
+             <div class="card-head">
+               <span class="material-symbols-rounded">activity_log</span>
+               <h3>Recent Activity</h3>
+@@ -188,7 +192,7 @@
+           </article>
+ 
+           <!-- Chat & Actions -->
+-          <article class="card chat" aria-label="System Chat">
++          <article class="card chat" aria-label="System Chat" data-roles="executive">
+             <div class="card-head">
+               <span class="material-symbols-rounded">chat</span>
+               <h3>System Chat</h3>
+
+[2025-09-06T15:16:09] exec bash -lc "rg -n \"renderActivity\\(\" -n src/dashboard/web/dashboard.js && sed -n '1,940p' src/dashboard/web/dashboard.js | sed -n '1,220p'" in /Users/panda/Desktop/EUFM
+[2025-09-06T15:16:09] bash -lc "rg -n \"renderActivity\\(\" -n src/dashboard/web/dashboard.js && sed -n '1,940p' src/dashboard/web/dashboard.js | sed -n '1,220p'" succeeded in 71ms:
+259:    this.renderActivity(s.alerts, 'activity-list');
+327:    this.renderActivity(s.alerts, 'alerts-list');
+330:  renderActivity(alerts, elId) {
+570:    this.renderActivity(s.alerts, 'activity-list');
+// EUFM Mission Control Dashboard (NotebookLM-inspired)
+class MissionControlDashboard {
+  constructor() {
+    this.ws = null;
+    this.reconnectInterval = 5000;
+    this.initTime = new Date();
+    this.theme = localStorage.getItem('eufm-theme') || 'light';
+    this.sections = ['overview', 'funding', 'activity', 'analytics', 'settings'];
+    this.counts = { opportunities: 0, notes: 0, tools: 0 };
+    this.state = { scanning: false };
+    this.init();
+  }
+
+  init() {
+    document.querySelector('.app-shell').dataset.theme = this.theme;
+    this.cacheEls();
+[2025-09-06T15:16:09] tokens used: 866
+[2025-09-06T15:16:09] turn diff:
+diff --git a/src/dashboard/web/dashboard.css b/src/dashboard/web/dashboard.css
+index 3326b6a8c3ac12a3cf9f7c401e2d15611783e137..85b65684771930a40f3644236f6dc7f37adb5625
+--- a/src/dashboard/web/dashboard.css
++++ b/src/dashboard/web/dashboard.css
+@@ -140,6 +140,16 @@
+ .btn:hover { background: var(--md3-surface-variant); }
+ .btn.primary:hover { filter: brightness(0.98); }
+ 
++/* Role switcher (segmented) */
++.role-switcher { display: inline-flex; align-items: center; gap: 0; border: 1px solid var(--md3-outline); border-radius: 10px; overflow: hidden; background: var(--md3-surface); margin-right: 8px; }
++.role-switcher .seg-btn { appearance: none; background: transparent; color: inherit; border: none; padding: 8px 10px; cursor: pointer; font-weight: 600; font-size: 13px; }
++.role-switcher .seg-btn + .seg-btn { border-left: 1px solid var(--md3-outline); }
++.role-switcher .seg-btn.active { background: var(--md3-primary-container); color: var(--md3-on-primary-container); }
++
++/* Progressive disclosure toggle */
++.more-toggle { display: inline-flex; align-items: center; gap: 6px; padding: 6px 10px; border-radius: 999px; border: 1px solid var(--md3-outline); background: var(--md3-surface); color: inherit; cursor: pointer; font-size: 12px; margin: 8px 16px 16px; }
++.more-toggle:hover { background: var(--md3-surface-variant); }
++
+ /* Button states */
+ .btn.success { background: color-mix(in srgb, var(--md3-success) 16%, var(--md3-surface)); border-color: color-mix(in srgb, var(--md3-success) 40%, var(--md3-outline)); color: #166534; }
+ .btn.error { background: color-mix(in srgb, var(--md3-error) 12%, var(--md3-surface)); border-color: color-mix(in srgb, var(--md3-error) 40%, var(--md3-outline)); color: #7f1d1d; }
+diff --git a/src/dashboard/web/index.html b/src/dashboard/web/index.html
+index a198345f17ddc65bfab84345163aef7be07c8efc..4c6a55e260de7f47efe5d71ce085e0ba86dae6ae
+--- a/src/dashboard/web/index.html
++++ b/src/dashboard/web/index.html
+@@ -65,6 +65,10 @@
+           </div>
+         </div>
+         <div class="right">
++          <div class="role-switcher" role="group" aria-label="Role view">
++            <button class="seg-btn active" id="role-executive" data-role="executive" aria-pressed="true" title="Executive overview">Executive</button>
++            <button class="seg-btn" id="role-compliance" data-role="compliance" aria-pressed="false" title="Compliance and audit view">Compliance</button>
++          </div>
+           <div class="search" data-help="Search through opportunities, notes, tools.\nTry: AI funding, Horizon Europe, EIC Accelerator">
+             <span class="material-symbols-rounded">search</span>
+             <input id="global-search" type="search" placeholder="Search 29 opportunities, 21 notes, 8 tools — Try: AI funding, Horizon Europe, EIC Accelerator" aria-label="Global search" autocomplete="off" />
+@@ -149,7 +153,7 @@
+           </article>
+ 
+           <!-- Subscriptions -->
+-          <article class="card subscriptions" aria-label="Subscriptions">
++          <article class="card subscriptions" aria-label="Subscriptions" data-roles="compliance">
+             <div class="card-head">
+               <span class="material-symbols-rounded">credit_card</span>
+               <h3>Subscriptions</h3>
+@@ -179,7 +183,7 @@
+           </article>
+ 
+           <!-- Activity Feed -->
+-          <article class="card activity" aria-label="Recent Activity">
++          <article class="card activity" aria-label="Recent Activity" data-roles="compliance">
+             <div class="card-head">
+               <span class="material-symbols-rounded">activity_log</span>
+               <h3>Recent Activity</h3>
+@@ -188,7 +192,7 @@
+           </article>
+ 
+           <!-- Chat & Actions -->
+-          <article class="card chat" aria-label="System Chat">
++          <article class="card chat" aria-label="System Chat" data-roles="executive">
+             <div class="card-head">
+               <span class="material-symbols-rounded">chat</span>
+               <h3>System Chat</h3>
+
+
+[2025-09-06T15:16:12] thinking
+
+**Integrating limitList**
+
+I noticed there's a reference to renderActivity around 330. I need think I to explore that more to see how I can integrate limitList. It seems like a critical step to make things work better. I'll take a closer look and determine what changes need to be made. By understanding the context of renderActivity, I can ensure that the integration of limitList goes smoothly. Let's see what insights I can gather that from!
+[2025-09-06T15:16:14] exec bash -lc "sed -n '300,380p' src/dashboard/web/dashboard.js" in /Users/panda/Desktop/EUFM
+[2025-09-06T15:16:14] bash -lc "sed -n '300,380p' src/dashboard/web/dashboard.js" succeeded in 21ms:
+  async updateOpportunities() {
+    const opps = await this.api('/api/opportunities');
+    const renderOpps = (el) => {
+      el.innerHTML = opps.map(opp => `
+        <div class="opportunity-item" role="listitem">
+          <div class="opportunity-title">${opp.title}</div>
+          <div class="opportunity-meta">
+            <span class="badge ${opp.status === 'closing_soon' ? 'closing' : 'open'}">${opp.program}</span>
+            <span class="opportunity-deadline">Deadline: ${opp.deadline}</span>
+          </div>
+        </div>
+      `).join('');
+    };
+    renderOpps(document.getElementById('opportunity-list'));
+    const el2 = document.getElementById('opportunity-list-2');
+    if (el2) renderOpps(el2);
+    // Update last scan helper and smart notifications
+    const last = opps.reduce((acc, o) => Math.max(acc, new Date(o.scannedAt || 0).getTime()), 0);
+    if (this.$scanHelp) this.$scanHelp.textContent = last ? `Last scan: ${new Date(last).toLocaleString()} • Found ${opps.length} opportunities` : 'Last scan: —';
+    const closingSoon = opps.filter(o => o.status === 'closing_soon').slice(0, 1);
+[2025-09-06T15:16:14] tokens used: 2801
+[2025-09-06T15:16:14] turn diff:
+diff --git a/src/dashboard/web/dashboard.css b/src/dashboard/web/dashboard.css
+index 3326b6a8c3ac12a3cf9f7c401e2d15611783e137..85b65684771930a40f3644236f6dc7f37adb5625
+--- a/src/dashboard/web/dashboard.css
++++ b/src/dashboard/web/dashboard.css
+@@ -140,6 +140,16 @@
+ .btn:hover { background: var(--md3-surface-variant); }
+ .btn.primary:hover { filter: brightness(0.98); }
+ 
++/* Role switcher (segmented) */
++.role-switcher { display: inline-flex; align-items: center; gap: 0; border: 1px solid var(--md3-outline); border-radius: 10px; overflow: hidden; background: var(--md3-surface); margin-right: 8px; }
++.role-switcher .seg-btn { appearance: none; background: transparent; color: inherit; border: none; padding: 8px 10px; cursor: pointer; font-weight: 600; font-size: 13px; }
++.role-switcher .seg-btn + .seg-btn { border-left: 1px solid var(--md3-outline); }
++.role-switcher .seg-btn.active { background: var(--md3-primary-container); color: var(--md3-on-primary-container); }
++
++/* Progressive disclosure toggle */
++.more-toggle { display: inline-flex; align-items: center; gap: 6px; padding: 6px 10px; border-radius: 999px; border: 1px solid var(--md3-outline); background: var(--md3-surface); color: inherit; cursor: pointer; font-size: 12px; margin: 8px 16px 16px; }
++.more-toggle:hover { background: var(--md3-surface-variant); }
++
+ /* Button states */
+ .btn.success { background: color-mix(in srgb, var(--md3-success) 16%, var(--md3-surface)); border-color: color-mix(in srgb, var(--md3-success) 40%, var(--md3-outline)); color: #166534; }
+ .btn.error { background: color-mix(in srgb, var(--md3-error) 12%, var(--md3-surface)); border-color: color-mix(in srgb, var(--md3-error) 40%, var(--md3-outline)); color: #7f1d1d; }
+diff --git a/src/dashboard/web/index.html b/src/dashboard/web/index.html
+index a198345f17ddc65bfab84345163aef7be07c8efc..4c6a55e260de7f47efe5d71ce085e0ba86dae6ae
+--- a/src/dashboard/web/index.html
++++ b/src/dashboard/web/index.html
+@@ -65,6 +65,10 @@
+           </div>
+         </div>
+         <div class="right">
++          <div class="role-switcher" role="group" aria-label="Role view">
++            <button class="seg-btn active" id="role-executive" data-role="executive" aria-pressed="true" title="Executive overview">Executive</button>
++            <button class="seg-btn" id="role-compliance" data-role="compliance" aria-pressed="false" title="Compliance and audit view">Compliance</button>
++          </div>
+           <div class="search" data-help="Search through opportunities, notes, tools.\nTry: AI funding, Horizon Europe, EIC Accelerator">
+             <span class="material-symbols-rounded">search</span>
+             <input id="global-search" type="search" placeholder="Search 29 opportunities, 21 notes, 8 tools — Try: AI funding, Horizon Europe, EIC Accelerator" aria-label="Global search" autocomplete="off" />
+@@ -149,7 +153,7 @@
+           </article>
+ 
+           <!-- Subscriptions -->
+-          <article class="card subscriptions" aria-label="Subscriptions">
++          <article class="card subscriptions" aria-label="Subscriptions" data-roles="compliance">
+             <div class="card-head">
+               <span class="material-symbols-rounded">credit_card</span>
+               <h3>Subscriptions</h3>
+@@ -179,7 +183,7 @@
+           </article>
+ 
+           <!-- Activity Feed -->
+-          <article class="card activity" aria-label="Recent Activity">
++          <article class="card activity" aria-label="Recent Activity" data-roles="compliance">
+             <div class="card-head">
+               <span class="material-symbols-rounded">activity_log</span>
+               <h3>Recent Activity</h3>
+@@ -188,7 +192,7 @@
+           </article>
+ 
+           <!-- Chat & Actions -->
+-          <article class="card chat" aria-label="System Chat">
++          <article class="card chat" aria-label="System Chat" data-roles="executive">
+             <div class="card-head">
+               <span class="material-symbols-rounded">chat</span>
+               <h3>System Chat</h3>
+
+
+[2025-09-06T15:16:18] thinking
+
+**Modifying rendering behavior**
+
+I’m deciding to the adjust `renderActivity` function to apply truncation specifically for the overview list identified as 'activity-list', while leaving the 'alerts-list untouched' since it’s used in the Activity section. I’ll implement a check for `elId=='activity-list'` and set a limit based on the user role. This means I need to introduce some new methods. Alright, time to patch the JavaScript to get everything working smoothly!
+
+ERROR: Codex task timed out after 120000ms
+
+Process exited with code: 0

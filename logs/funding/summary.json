@@ -1,7 +1,15 @@
 {
-  "totalOpportunities": 0,
-  "byProgram": {},
-  "byStatus": {},
-  "highRelevance": 0,
-  "lastScanned": "2025-09-03T14:22:25.769Z"
+  "totalOpportunities": 3,
+  "byProgram": {
+    "EUFM": 1,
+    "CETPartnership": 1,
+    "Horizon Europe": 1
+  },
+  "byStatus": {
+    "closing_soon": 1,
+    "open": 1,
+    "closed": 1
+  },
+  "highRelevance": 3,
+  "lastScanned": "2025-09-08T11:48:11.670Z"
 }

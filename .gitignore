@@ -3,3 +3,5 @@ dist/
 .env
 .env.*
 .DS_Store
+google-cloud-sdk/
+_external/
