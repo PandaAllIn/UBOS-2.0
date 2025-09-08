@@ -88,3 +88,248 @@ drwxr-xr-x   4 panda  staff   128 Sep  6 21:24 utils
 src/adapters/openai.ts:10:	if (!apiKey) throw new Error('Missing OPENAI_API_KEY');
 src/adapters/openai.ts:30:	if (!res.ok) throw new Error(`OpenAI error ${res.status}: ${await res.text()}`);
 [2025-09-08T12:13:19] tokens used: 8119
+
+[2025-09-08T12:13:22] thinking
+
+**Considering TypeScript utility function at creating a Type**
+
+I'm lookingScript utility function for optimizing EU project budgets, ensuring that it includes proper error handling and Zod validation. I’ll need to decide whether to place this new utility under src/utils or analytics. It seems inspect the logical to utils folder first, as that might fit better for a utility function. Let's clarify the structure and options for implementing this effectively!
+[2025-09-08T12:13:23] exec bash -lc "ls -la src/utils && rg -n \"zod|validation|schema|budget|optimi|logger|error\" -S src/utils | sed -n '1,200p'" in /Users/panda/Desktop/EUFM
+[2025-09-08T12:13:23] bash -lc "ls -la src/utils && rg -n \"zod|validation|schema|budget|optimi|logger|error\" -S src/utils | sed -n '1,200p'" succeeded in 249ms:
+total 32
+drwxr-xr-x   4 panda  staff   128 Sep  6 21:24 .
+drwxr-xr-x  17 panda  staff   544 Sep  8 13:14 ..
+-rw-r--r--   1 panda  staff  2366 Sep  6 21:08 countryCodes.ts
+-rw-r--r--   1 panda  staff  8355 Sep  6 21:24 sessionMemoryUpdater.ts
+src/utils/countryCodes.ts:67: * Throws an Error if invalid. Logs the reason before throwing.
+src/utils/countryCodes.ts:72:    console.error('[EUFM] Country code must be a 2-letter ISO 3166-1 alpha-2 string:', value);
+src/utils/countryCodes.ts:73:    throw new Error('Country code must be a 2-letter ISO alpha-2 string');
+src/utils/countryCodes.ts:76:    console.error('[EUFM] Country is not an EU member (ISO alpha-2):', code);
+src/utils/countryCodes.ts:77:    throw new Error('Country is not an EU member (ISO alpha-2)');
+src/utils/sessionMemoryUpdater.ts:40:    } catch (error) {
+src/utils/sessionMemoryUpdater.ts:41:      console.error('❌ Failed to update session memory:', error);
+src/utils/sessionMemoryUpdater.ts:42:      throw error;
+src/utils/sessionMemoryUpdater.ts:208:    } catch (error) {
+src/utils/sessionMemoryUpdater.ts:209:      console.error('❌ Failed to add performance metrics:', error);
+src/utils/sessionMemoryUpdater.ts:255:  } catch (error) {
+src/utils/sessionMemoryUpdater.ts:257:    console.warn('⚠️ Could not track command metrics:', error);
+[2025-09-08T12:13:23] tokens used: 3057
+[2025-09-08T12:13:27] exec bash -lc "rg -n \"\\bzod\\b|ZodSchema|ZodObject\" -S src || true" in /Users/panda/Desktop/EUFM
+[2025-09-08T12:13:27] bash -lc "rg -n \"\\bzod\\b|ZodSchema|ZodObject\" -S src || true" succeeded in 187ms:
+src/mcc/types.ts:1:import { z } from 'zod';
+[2025-09-08T12:13:27] tokens used: 639
+[2025-09-08T12:13:30] exec bash -lc "sed -n '1,220p' src/mcc/types.ts" in /Users/panda/Desktop/EUFM
+[2025-09-08T12:13:30] bash -lc "sed -n '1,220p' src/mcc/types.ts" succeeded in 98ms:
+import { z } from 'zod';
+
+export const ProjectId = z.string().min(1);
+
+export const ProjectConfigSchema = z.object({
+  id: z.string(),
+  name: z.string(),
+  description: z.string().optional(),
+  priority: z.number().int().min(1).max(10).default(5),
+  maxConcurrency: z.number().int().min(1).max(8).default(2),
+  dailyBudgetUSD: z.number().min(0).default(0),
+  schedule: z.object({
+    enabled: z.boolean().default(true),
+    timezone: z.string().default('UTC'),
+    // hh:mm-hh:mm 24h format windows; empty => always allowed
+    windows: z.array(z.string()).default([]),
+  }).default({ enabled: true, timezone: 'UTC', windows: [] }),
+  metadata: z.record(z.any()).default({}),
+});
+
+[2025-09-08T12:13:30] tokens used: 222
+
+[2025-09-08T12:13:32] thinking
+
+**Considering project optimization**
+
+Great, I've installed Zod! This project is using Zod within MCC types. Now, I'll need to add a utility for "EU project budget optimization" with proper validation and error handling. It seems this utility will work by taking budgets from different projects and providing optimized allocation suggestions. I see we already have a masterControl/projectRegistry with the necessary budget information, so let’s inspect that to make sure the types align correctly.
+[2025-09-08T12:13:34] exec bash -lc "sed -n '1,240p' src/masterControl/projectRegistry.ts" in /Users/panda/Desktop/EUFM
+[2025-09-08T12:13:34] bash -lc "sed -n '1,240p' src/masterControl/projectRegistry.ts" succeeded in 76ms:
+import { promises as fs } from 'fs';
+import path from 'path';
+
+export interface ProjectMetadata {
+  id: string;
+  name: string;
+  description: string;
+  status: 'active' | 'paused' | 'completed' | 'planned';
+  priority: 'P0' | 'P1' | 'P2' | 'P3';
+  budget: {
+    allocated: number;
+    spent: number;
+    currency: string;
+    target?: number;
+  };
+  timeline: {
+    startDate: string;
+    endDate?: string;
+    milestones: Array<{
+      name: string;
+[2025-09-08T12:13:34] tokens used: 833
+[2025-09-08T12:13:38] exec bash -lc "sed -n '240,560p' src/masterControl/projectRegistry.ts" in /Users/panda/Desktop/EUFM
+[2025-09-08T12:13:38] bash -lc "sed -n '240,560p' src/masterControl/projectRegistry.ts" succeeded in 588ms:
+  private async ensureInitialized(): Promise<void> {
+    if (this.isInitialized && this.projectsData.size > 0) return;
+    try {
+      if (this.initializationPromise) {
+        await this.initializationPromise;
+      }
+      // If still not initialized (e.g., previous failure), retry once
+      if (!this.isInitialized || this.projectsData.size === 0) {
+        this.initializationPromise = this.initializeRegistry();
+        await this.initializationPromise;
+      }
+    } catch (err) {
+      console.error('❌ ProjectRegistry initialization failed:', err);
+      throw err;
+    }
+  }
+
+  async registerProject(project: ProjectMetadata): Promise<void> {
+    await this.ensureInitialized();
+    this.projectsData.set(project.id, project);
+[2025-09-08T12:13:38] tokens used: 2117
+
+[2025-09-08T12:13:43] thinking
+
+**Planning the budget optimizer**
+
+I need to create a utility function that optimizes budgets based on project data. This function should accept an array of projects and return allocation recommendations while sticking to constraints like currency, risk, priority, and timeline. The request also involves validating inputs and outputs using Zod, so I'll set up the appropriate schema. I’ll create a new file budgetOptimizer.ts in src/utils and ensure there’s error handling with logging that includes emojis. Lastly, I'll check for tests under src/tests and see how they’re organized.
+[2025-09-08T12:13:48] exec bash -lc "ls -la src/tests && rg -n \"describe\\(|vitest|jest|mocha|ts-node|ts-jest|ava|node:test\" -S src | sed -n '1,200p'" in /Users/panda/Desktop/EUFM
+[2025-09-08T12:13:48] bash -lc "ls -la src/tests && rg -n \"describe\\(|vitest|jest|mocha|ts-node|ts-jest|ava|node:test\" -S src | sed -n '1,200p'" succeeded in 593ms:
+total 24
+drwxr-xr-x   5 panda  staff   160 Sep  6 21:12 .
+drwxr-xr-x  17 panda  staff   544 Sep  8 13:14 ..
+-rw-r--r--   1 panda  staff  1477 Sep  6 21:08 countryCodes_test.ts
+-rw-r--r--   1 panda  staff  1483 Sep  6 21:12 euFundingProposalAgent_test.ts
+-rw-r--r--   1 panda  staff  1416 Sep  6 17:22 eufm_integration_test.ts
+src/analytics/subscriptionManager.ts:71:      { name: 'Vision/Browse/Upload', description: 'Feature availability varies' },
+src/analytics/subscriptionManager.ts:79:    features: [ { name: 'Claude 3.x access', description: 'As available' } ],
+src/orchestrator/capabilityMapper.ts:43:      // Secondary advisor using Gemini for code review if available
+src/cli/index.ts:268:					console.log('Agents: 5 available');
+src/cli/index.ts:494:						const available = await claudeInterface.checkCodexAvailable();
+src/cli/index.ts:495:						console.log(`Codex CLI available: ${available}`);
+src/cli/index.ts:496:						if (available) {
+src/cli/index.ts:588:						console.log(`Codex available: ${status.codexAvailable ? '✅' : '❌'}`);
+src/cli/index.ts:602:						const ready = await claudeInterface.checkCodexAvailable();
+src/cli/index.ts:605:							console.log('Available capabilities:');
+src/cli/index.ts:641:			console.log('  npm run dev -- codex:status                    - Check Codex availability');
+src/dashboard/missionControl.ts:15:    tools: { available: number; errors: number };
+src/dashboard/missionControl.ts:74:        tools: { available: 8, errors: 0 }, // CodexAgent, JulesAgent, etc.
+src/dashboard/web/dashboard.js:134:      this.showToast('❌', 'Assistant unavailable', 'error');
+[2025-09-08T12:13:48] tokens used: 1696
+
+[2025-09-08T12:13:51] thinking
+
+**Examining test framework**
+
+I think tests exist in TypeScript, probably using Node's assert or something similar. To verify that, I'll open of up one the tests to check the details of the testing framework in use. There could be helpful insights regarding the structure and specifics of how the tests are set up. This should give me a clearer picture of what's going on in the testing environment. Let's see what I find!
+[2025-09-08T12:13:53] exec bash -lc "sed -n '1,220p' src/tests/countryCodes_test.ts" in /Users/panda/Desktop/EUFM
+[2025-09-08T12:13:53] bash -lc "sed -n '1,220p' src/tests/countryCodes_test.ts" succeeded in 60ms:
+import { isValidEUCountryCode, assertEUCountryCode, EU_COUNTRY_CODES } from '../utils/countryCodes.js';
+
+function expect(condition: boolean, message: string) {
+  if (!condition) throw new Error(message);
+}
+
+async function run() {
+  console.log('Running country code validation tests...');
+
+  // Valid cases
+  for (const code of EU_COUNTRY_CODES) {
+    expect(isValidEUCountryCode(code), `Expected ${code} to be valid`);
+    expect(isValidEUCountryCode(code.toLowerCase()), `Expected lowercase ${code} to be valid`);
+    expect(isValidEUCountryCode(` ${code} `), `Expected spaced ${code} to be valid`);
+    expect(assertEUCountryCode(code) === code, `assert should return ${code}`);
+  }
+
+  // Invalid cases
+  const invalid = [
+    'GB', // United Kingdom (not EU)
+[2025-09-08T12:13:53] tokens used: 1626
+
+[2025-09-08T12:13:56] thinking
+
+**Clarifying test setup**
+
+I need to figure out how tests work here. They should utilize basic functions and can be run with either ts-node or ts-node/register. It looks like the tsconfig file is already set up, but what about package.json? I might need to ensure that both are correctly aligned to run the tests smoothly. Let’s make sure everything is in order before running any tests. It’s all about making the process seamless!
+[2025-09-08T12:13:58] exec bash -lc 'cat package.json' in /Users/panda/Desktop/EUFM
+[2025-09-08T12:13:58] bash -lc 'cat package.json' succeeded in 56ms:
+{
+  "name": "eufm",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "tsc -p .",
+    "start": "node dist/cli/index.js",
+    "dev": "tsx src/cli/index.ts",
+    "lint": "eslint .",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test:integration": "tsx src/tests/eufm_integration_test.ts 'Integration check'",
+    "test:country-codes": "tsx src/tests/countryCodes_test.ts",
+    "dev:oradea": "tsx src/tools/oradea_business_cli.ts",
+    "dev:dashboard": "tsx src/dashboard/dashboardServer.ts"
+  },
+  "dependencies": {
+    "@notionhq/client": "^5.0.0",
+    "@types/express": "^5.0.3",
+    "@types/ws": "^8.18.1",
+[2025-09-08T12:13:58] tokens used: 612
+
+[2025-09-08T12:14:03] thinking
+
+**Creating budget optimizer utility**
+
+I’m setting up a new utility file for the budget optimizer. It seems like we should integrate with the analytics or optimization engine since it’s all about cost optimization. But specifically, I’ll focus on the EU project budget. I’m creating `src/utils/budgetOptimizer.ts` and will use Zod schema for inputs, which will include an array of ProjectBudget entries. These will have fields like id, name, priority, risk, allocated, spent, currency, and timeline. We'll also need to ensure currencies are uniform or handled properly.
+**Adding budget optimization functions**
+
+I’ll provide additional functions for optimizing budget allocation, specifically `optimizeBudgetAllocation`, which will return an AllocationPlan along with recommended adjustments and warnings. I’ll set up a Zod schema to validate the input structure. There will also be a custom error class, `BudgetOptimizationError`, which I'll guard using try/catch and log appropriately, following a specific style like in `countryCodes.ts`. 
+
+The implementation will involve computing project scores based on priority, risk, and available budget, while proposing to redistribute flexible budget from lower priority projects. We'll add constraints like a total reallocation limit percentage and a minimum reserve per project.
+**Defining optional constraints**
+
+I’m going to define some optional constraints for the budget optimizer. First, there’s `maxReallocationPercent`, which defaults to 20% of the total allocated budget for reallocation, and `minProjectReservePercent`, set at 10%. I’ll also need an array, `lockProjects`, for project IDs that shouldn’t change, plus a `targetCurrency`, defaulting to EUR and ensuring errors with mixed currencies unless `allowMixedCurrency` is true. 
+
+I plan to implement minimal code for defining schemas like ProjectInputSchema and ConstraintsSchema. Validating input with Zod will be key, and I’ll establish scoring based on priority and risk weights, with a focus on allocating to medium or low-risk projects. I'll make sure to provide configuration for a these settings.
+**Setting scoring and reallocation metrics**
+
+For the budget optimizer, I'm setting priority weights where P0 is 1.5, P1 is 1.2, P2 is 1.0, and P3 is 0.8. I'll also implement risk penalties: low at 1.0, medium at 0.9, high at 0.8, and critical at 0.7. To factor in urgency, I'll compute the days remaining factor too.
+
+Next, I’ll define "need" based on the target and allocated budgets, and calculate "runway shortfall" as well as "room for capital." The reallocation pool will come from unlocked donor projects, ensuring we maximize the budget for those in need while minimizing overspending.
+**Finalizing donation and adjustment processes**
+
+I’m going to sum the donor budgets and cap them by the maxReallocationPercent multiplied by the total allocated amount. From there, I’ll distribute funds to recipients based on their scores, focusing on those lacking a buffer defined by their target. If a target is missing, I'll skip the need calculation, instead prioritizing runway index, which takes into account the buffer, days remaining, and daily burn rate.
+
+I’ll handle edge cases, such as throwing an error for no projects, managing invalid dates, and preventing division by zero. The output will include adjustments for each project, a summary of total reallocation, and any warnings. I’ll also create tests with sample projects to validate the function’s logic and export schemas for reuse while following TypeScript module style.
+[2025-09-08T12:14:26] codex
+**Adding budget optimization functions**
+
+I’ll provide additional functions for optimizing budget allocation, specifically `optimizeBudgetAllocation`, which will return an AllocationPlan along with recommended adjustments and warnings. I’ll set up a Zod schema to validate the input structure. There will also be a custom error class, `BudgetOptimizationError`, which I'll guard using try/catch and log appropriately, following a specific style like in `countryCodes.ts`. 
+
+The implementation will involve computing project scores based on priority, risk, and available budget, while proposing to redistribute flexible budget from lower priority projects. We'll add constraints like a total reallocation limit percentage and a minimum reserve per project.
+[2025-09-08T12:14:26] codex
+**Defining optional constraints**
+
+I’m going to define some optional constraints for the budget optimizer. First, there’s `maxReallocationPercent`, which defaults to 20% of the total allocated budget for reallocation, and `minProjectReservePercent`, set at 10%. I’ll also need an array, `lockProjects`, for project IDs that shouldn’t change, plus a `targetCurrency`, defaulting to EUR and ensuring errors with mixed currencies unless `allowMixedCurrency` is true. 
+
+I plan to implement minimal code for defining schemas like ProjectInputSchema and ConstraintsSchema. Validating input with Zod will be key, and I’ll establish scoring based on priority and risk weights, with a focus on allocating to medium or low-risk projects. I'll make sure to provide a configuration for these settings.
+[2025-09-08T12:14:26] codex
+**Setting scoring and reallocation metrics**
+
+For the budget optimizer, I'm setting priority weights where P0 is 1.5, P1 is 1.2, P2 is 1.0, and P3 is 0.8. I'll also implement risk penalties: low at 1.0, medium at 0.9, high at 0.8, and critical at 0.7. To factor in urgency, I'll compute the days remaining factor too.
+
+Next, I’ll define "need" based on the target and allocated budgets, and calculate "runway shortfall" as well as "room for capital." The reallocation pool will come from unlocked donor projects, ensuring we maximize the budget for those in need while minimizing overspending.
+[2025-09-08T12:14:26] codex
+**Finalizing donation and adjustment processes**
+
+I’m going to sum the donor budgets and cap them by the maxReallocationPercent multiplied by the total allocated amount. From there, I’ll distribute funds to recipients based on their scores, focusing on those lacking a buffer defined by their target. If a target is missing, I'll skip the need calculation, instead prioritizing runway index, which takes into account the buffer, days remaining, and daily burn rate.
+
+I’ll handle edge cases, such as throwing an error for no projects, managing invalid dates, and preventing division by zero. The output will include adjustments for each project, a summary of total reallocation, and any warnings. I’ll also create tests with sample projects to validate the function’s logic and export schemas for reuse while following TypeScript module style.
+[2025-09-08T12:14:26] codex
+
+Next, I’ll add a new utility at src/utils/budgetOptimizer.ts with Zod schemas, error handling, and a unit test, following existing patterns.
