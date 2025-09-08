@@ -46,5 +46,17 @@
     "tags": [
       "auto"
     ]
+  },
+  {
+    "id": "evt_1757333755064_7z7dob",
+    "ts": "2025-09-08T12:15:55.064Z",
+    "provider": "perplexity",
+    "plan": "perplexity_pro",
+    "metric": "tokens",
+    "amount": 1539,
+    "model": "sonar-pro",
+    "tags": [
+      "auto"
+    ]
   }
 ]
