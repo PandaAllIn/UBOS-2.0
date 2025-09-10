@@ -46,15 +46,20 @@ function startDashboardServer() {
   });
 }
 
-async function createWindow() {
+async function createWindow(mode = 'tide') {
   mainWindow = new BrowserWindow({
     width: 1280,
     height: 820,
     title: 'UBOS • Mission Control Dashboard',
     webPreferences: { contextIsolation: true }
   });
-  const target = `http://localhost:${DASHBOARD_PORT}`;
-  await mainWindow.loadURL(target);
+  if (mode === 'tide') {
+    const file = path.join(process.cwd(), 'desktop', 'tide-guide', 'index.html');
+    await mainWindow.loadFile(file, { query: { port: String(DASHBOARD_PORT) } });
+  } else {
+    const target = `http://localhost:${DASHBOARD_PORT}`;
+    await mainWindow.loadURL(target);
+  }
 }
 
 function createTray() {
@@ -65,7 +70,8 @@ function createTray() {
     tray = new Tray(nativeImage.createEmpty());
   }
   const contextMenu = Menu.buildFromTemplate([
-    { label: 'Open Dashboard', click: () => { if (mainWindow) { mainWindow.show(); mainWindow.focus(); } } },
+    { label: 'Open Tide Guide', click: async () => { if (mainWindow) { await createWindow('tide'); mainWindow.show(); } } },
+    { label: 'Open Mission Control (web)', click: async () => { if (mainWindow) { await createWindow('web'); mainWindow.show(); } } },
     { label: 'Reload', click: () => { if (mainWindow) mainWindow.reload(); } },
     { type: 'separator' },
     { label: 'Quit', click: () => { app.quit(); } }
@@ -86,7 +92,7 @@ app.whenReady().then(async () => {
   if (!ok) {
     console.error('[electron] dashboard server did not respond on time');
   }
-  await createWindow();
+  await createWindow('tide');
   createTray();
 
   app.on('activate', () => {
