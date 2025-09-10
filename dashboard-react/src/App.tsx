@@ -4,21 +4,22 @@ import MissionControl from './views/MissionControl'
 import Opportunities from './views/Opportunities'
 import Tools from './views/Tools'
 import Subscriptions from './views/Subscriptions'
+import NavHeader from './components/NavHeader'
 
 export default function App() {
   const [view, setView] = useState<'tide' | 'mission' | 'opps' | 'tools' | 'subs'>('tide')
   return (
     <div>
-      <header style={{ display: 'flex', justifyContent: 'space-between', padding: 12 }}>
-        <div style={{ fontWeight: 900 }}>UBOS Dashboard (React)</div>
-        <div>
-          <button onClick={() => setView('tide')} style={{ marginRight: 8 }}>Tide Guide</button>
-          <button onClick={() => setView('mission')} style={{ marginRight: 8 }}>Mission Control</button>
-          <button onClick={() => setView('opps')} style={{ marginRight: 8 }}>Opportunities</button>
-          <button onClick={() => setView('tools')} style={{ marginRight: 8 }}>Tools</button>
-          <button onClick={() => setView('subs')}>Subscriptions</button>
-        </div>
-      </header>
+      <NavHeader
+        title="UBOS Dashboard (React)"
+        actions={[
+          { label: 'Tide Guide', onClick: () => setView('tide') },
+          { label: 'Mission Control', onClick: () => setView('mission') },
+          { label: 'Opportunities', onClick: () => setView('opps') },
+          { label: 'Tools', onClick: () => setView('tools') },
+          { label: 'Subscriptions', onClick: () => setView('subs') }
+        ]}
+      />
       {view === 'tide' && <TideGuide />}
       {view === 'mission' && <MissionControl />}
       {view === 'opps' && <Opportunities />}
