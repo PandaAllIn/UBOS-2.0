@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { postJSON } from '../lib/api'
+import { useWebSocket } from '../hooks/useWebSocket'
 
 type Status = any
 
@@ -10,6 +11,7 @@ export default function MissionControl() {
   const [running, setRunning] = useState(false)
   const [result, setResult] = useState<any | null>(null)
   const [analysis, setAnalysis] = useState<any | null>(null)
+  const [logs, setLogs] = useState<string[]>([])
 
   async function refresh() {
     try {
@@ -24,6 +26,11 @@ export default function MissionControl() {
   }
 
   useEffect(() => { refresh() }, [])
+  useWebSocket((msg) => {
+    if (!msg || typeof msg !== 'object') return
+    if (msg.type === 'progress' && msg.message) setLogs(prev => [...prev.slice(-20), `${msg.stage||'progress'}: ${msg.message}`])
+    if (msg.type === 'notify' && msg.message) setLogs(prev => [...prev.slice(-20), `notify: ${msg.message}`])
+  }, [])
 
   return (
     <div style={{ padding: 16 }}>
@@ -73,6 +80,14 @@ export default function MissionControl() {
       </div>
       {!status ? <div>Loading…</div> : (
         <>
+          {!!logs.length && (
+            <div style={{ marginBottom: 12, background: 'rgba(255,255,255,0.06)', border:'1px solid rgba(255,255,255,0.08)', borderRadius: 8, padding: 12 }}>
+              <div style={{ fontWeight: 700, marginBottom: 6 }}>Live Events</div>
+              <ul style={{ margin:0, paddingLeft:18 }}>
+                {logs.slice(-8).reverse().map((l,i)=> <li key={i} className="muted">{l}</li>)}
+              </ul>
+            </div>
+          )}
           <pre style={{ background: 'rgba(255,255,255,0.06)', padding: 12, borderRadius: 8 }}>
             {JSON.stringify(status, null, 2)}
           </pre>
