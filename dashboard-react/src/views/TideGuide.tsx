@@ -17,16 +17,19 @@ export default function TideGuide() {
   const [alerts, setAlerts] = useState<Alert[]>([])
   const [pill, setPill] = useState('Starting…')
   const [selected, setSelected] = useState<string | null>(null)
+  const [trends, setTrends] = useState<any | null>(null)
 
   async function refresh() {
     try {
       setPill('Refreshing…')
-      const [s, a] = await Promise.all([
+      const [s, a, t] = await Promise.all([
         getJSON(`${apiBase}/api/status`),
-        getJSON(`${apiBase}/api/alerts`).catch(() => [])
+        getJSON(`${apiBase}/api/alerts`).catch(() => []),
+        getJSON(`${apiBase}/api/trends`).catch(() => null)
       ])
       setStatus(s)
       setAlerts(a)
+      setTrends(t)
       setPill('Live')
     } catch {
       setPill('Offline')
@@ -83,9 +86,22 @@ export default function TideGuide() {
           {!status ? <div>Loading…</div> : (
             <div>
               <div className="muted" style={{ marginBottom: 8 }}>Last updated: {new Date(status.timestamp || Date.now()).toLocaleString()}</div>
-              <pre style={{ background: 'rgba(255,255,255,0.06)', padding: 12, borderRadius: 8, maxHeight: 360, overflow: 'auto' }}>
-                {JSON.stringify(status, null, 2)}
-              </pre>
+              {trends ? (
+                <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:12 }}>
+                  <div>
+                    <div style={{ fontWeight:700, marginBottom:6 }}>24h Agents Completed</div>
+                    <Sparkline data={trends.agentsCompleted || []} />
+                  </div>
+                  <div>
+                    <div style={{ fontWeight:700, marginBottom:6 }}>24h Alerts</div>
+                    <Sparkline data={trends.alerts || []} color="var(--warn)" />
+                  </div>
+                </div>
+              ) : (
+                <pre style={{ background: 'rgba(255,255,255,0.06)', padding: 12, borderRadius: 8, maxHeight: 360, overflow: 'auto' }}>
+                  {JSON.stringify(status, null, 2)}
+                </pre>
+              )}
             </div>
           )}
         </Modal>

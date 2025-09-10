@@ -91,6 +91,43 @@ export class MissionControl {
     return { analyzed, suggestions };
   }
 
+  // Build hourly trends for last 24h from recent actions/alerts
+  async getTrends(): Promise<{
+    hours: string[];
+    agentsCompleted: number[];
+    agentsActive: number[];
+    alerts: number[];
+  }> {
+    const now = new Date();
+    const buckets = Array.from({ length: 24 }, (_, i) => new Date(now.getTime() - (23 - i) * 60 * 60 * 1000));
+    const labels = buckets.map((d) => d.getHours().toString().padStart(2, '0'));
+
+    const actions = await agentActionLogger.getRecentActions(1000);
+    const toHourIdx = (ts: string) => {
+      const t = new Date(ts).getTime();
+      const diffHours = Math.floor((t - (now.getTime() - 24 * 60 * 60 * 1000)) / (60 * 60 * 1000));
+      if (diffHours < 0 || diffHours > 23) return -1;
+      return diffHours;
+    };
+
+    const completed = Array(24).fill(0);
+    const active = Array(24).fill(0);
+    for (const a of actions) {
+      const idx = toHourIdx(a.timestamp);
+      if (idx === -1) continue;
+      if (a.status === 'completed') completed[idx]++;
+      if (a.status === 'started' || a.status === 'in_progress') active[idx]++;
+    }
+
+    const alerts = Array(24).fill(0);
+    for (const al of this.alerts) {
+      const idx = toHourIdx(al.timestamp);
+      if (idx !== -1) alerts[idx]++;
+    }
+
+    return { hours: labels, agentsCompleted: completed, agentsActive: active, alerts };
+  }
+
   private calculateAgentStatsFromActions(actions: any[]) {
     let active = 0, completed = 0, failed = 0;
     for (const a of actions) {

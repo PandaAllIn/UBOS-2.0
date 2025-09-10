@@ -81,6 +81,15 @@ export class DashboardServer {
       });
     });
 
+    this.app.get('/api/trends', async (_req, res) => {
+      try {
+        const data = await this.missionControl.getTrends();
+        res.json(data);
+      } catch (e: any) {
+        res.status(500).json({ error: e?.message || 'Failed to get trends' });
+      }
+    });
+
     // Notion helper endpoints
     this.app.get('/api/notion/links', async (req, res) => {
       try {
