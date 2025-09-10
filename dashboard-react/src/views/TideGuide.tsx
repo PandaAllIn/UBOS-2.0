@@ -3,6 +3,9 @@ import Sparkline from '../components/Sparkline'
 import Modal from '../components/Modal'
 import { useWebSocket } from '../hooks/useWebSocket'
 import { getJSON } from '../lib/api'
+import OceanBackground from '../components/OceanBackground'
+import MetricCard from '../components/MetricCard'
+import AlertsList from '../components/AlertsList'
 
 type Status = any
 type Alert = { level: string, message: string, timestamp: string }
@@ -55,7 +58,7 @@ export default function TideGuide() {
   const mk = (n: number) => Array.from({ length: 24 }, (_, i) => Math.max(0, Math.round(n + (Math.sin(i / 2) + Math.random() - 0.5) * Math.max(1, n * 0.15))))
 
   return (
-    <>
+    <OceanBackground>
       <header>
         <div className="title">🌊 UBOS • Tide Guide Dashboard</div>
         <div className="controls">
@@ -65,38 +68,15 @@ export default function TideGuide() {
       </header>
       <main>
         <div className="grid">
-          <div className="card" onClick={() => setSelected('Citizens Active')}>
-            <h3>CITIZENS ACTIVE</h3>
-            <div className="row"><div className="metric">{citizensActive}</div><div className="pill">24h</div></div>
-            <Sparkline data={mk(citizensActive)} />
-          </div>
-          <div className="card" onClick={() => setSelected('Agents • Runs')}>
-            <h3>AGENTS • RUNS</h3>
-            <div className="row"><div className="metric">{active} / {completed}</div><div className="pill">prog {progress}%</div></div>
-            <Sparkline data={mk(active + completed * 0.5)} />
-          </div>
-          <div className="card" onClick={() => setSelected('Memory • Notes')}>
-            <h3>MEMORY • NOTES</h3>
-            <div className="row"><div className="metric">{notes}</div><div className="pill">KB</div></div>
-            <Sparkline data={mk(notes || 1)} />
-          </div>
-          <div className="card" onClick={() => setSelected('Funding Opportunities')}>
-            <h3>FUNDING OPPORTUNITIES</h3>
-            <div className="row"><div className="metric">{opps}</div><div className="pill">{phase}</div></div>
-            <Sparkline data={mk(opps || 1)} />
-          </div>
+          <MetricCard title="Citizens Active" value={citizensActive} badge="24h" series={mk(citizensActive)} onClick={()=>setSelected('Citizens Active')} />
+          <MetricCard title="Agents • Runs" value={`${active} / ${completed}`} badge={`prog ${progress}%`} series={mk(active+completed*0.5)} onClick={()=>setSelected('Agents • Runs')} />
+          <MetricCard title="Memory • Notes" value={notes} badge="KB" series={mk(notes||1)} onClick={()=>setSelected('Memory • Notes')} />
+          <MetricCard title="Funding Opportunities" value={opps} badge={phase} series={mk(opps||1)} onClick={()=>setSelected('Funding Opportunities')} />
         </div>
 
         <div className="section">
           <h2>Recent Alerts</h2>
-          <div className="list">
-            {(alerts || []).slice(-6).reverse().map((a, i) => (
-              <div key={i} className="item">
-                <div><strong>{(a.level || 'info').toUpperCase()}</strong> — {a.message}</div>
-                <div className="muted">{new Date(a.timestamp || Date.now()).toLocaleString()}</div>
-              </div>
-            ))}
-          </div>
+          <AlertsList alerts={alerts} />
         </div>
 
         <Modal open={!!selected} onClose={() => setSelected(null)} title={selected || ''}>
@@ -110,6 +90,6 @@ export default function TideGuide() {
           )}
         </Modal>
       </main>
-    </>
+    </OceanBackground>
   )
 }
