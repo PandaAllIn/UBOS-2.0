@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import Sparkline from '../components/Sparkline'
+import Modal from '../components/Modal'
+import { useWebSocket } from '../hooks/useWebSocket'
+import { getJSON } from '../lib/api'
 
 type Status = any
 type Alert = { level: string, message: string, timestamp: string }
@@ -10,13 +13,14 @@ export default function TideGuide() {
   const [status, setStatus] = useState<Status | null>(null)
   const [alerts, setAlerts] = useState<Alert[]>([])
   const [pill, setPill] = useState('Starting…')
+  const [selected, setSelected] = useState<string | null>(null)
 
   async function refresh() {
     try {
       setPill('Refreshing…')
       const [s, a] = await Promise.all([
-        fetch(`${apiBase}/api/status`).then(r => r.json()),
-        fetch(`${apiBase}/api/alerts`).then(r => r.json()).catch(() => [])
+        getJSON(`${apiBase}/api/status`),
+        getJSON(`${apiBase}/api/alerts`).catch(() => [])
       ])
       setStatus(s)
       setAlerts(a)
@@ -30,6 +34,15 @@ export default function TideGuide() {
     refresh()
     const id = setInterval(refresh, 15000)
     return () => clearInterval(id)
+  }, [])
+
+  // Live updates via WS
+  useWebSocket((msg) => {
+    if (!msg || typeof msg !== 'object') return
+    if (msg.type === 'status_update') setStatus(msg.data)
+    if (msg.type === 'notify' || msg.type === 'activity') {
+      setAlerts(prev => [...prev.slice(-5), { level: 'info', message: msg.message || 'activity', timestamp: new Date().toISOString() }])
+    }
   }, [])
 
   const active = status?.system?.agents?.active ?? 0
@@ -52,22 +65,22 @@ export default function TideGuide() {
       </header>
       <main>
         <div className="grid">
-          <div className="card">
+          <div className="card" onClick={() => setSelected('Citizens Active')}>
             <h3>CITIZENS ACTIVE</h3>
             <div className="row"><div className="metric">{citizensActive}</div><div className="pill">24h</div></div>
             <Sparkline data={mk(citizensActive)} />
           </div>
-          <div className="card">
+          <div className="card" onClick={() => setSelected('Agents • Runs')}>
             <h3>AGENTS • RUNS</h3>
             <div className="row"><div className="metric">{active} / {completed}</div><div className="pill">prog {progress}%</div></div>
             <Sparkline data={mk(active + completed * 0.5)} />
           </div>
-          <div className="card">
+          <div className="card" onClick={() => setSelected('Memory • Notes')}>
             <h3>MEMORY • NOTES</h3>
             <div className="row"><div className="metric">{notes}</div><div className="pill">KB</div></div>
             <Sparkline data={mk(notes || 1)} />
           </div>
-          <div className="card">
+          <div className="card" onClick={() => setSelected('Funding Opportunities')}>
             <h3>FUNDING OPPORTUNITIES</h3>
             <div className="row"><div className="metric">{opps}</div><div className="pill">{phase}</div></div>
             <Sparkline data={mk(opps || 1)} />
@@ -85,8 +98,18 @@ export default function TideGuide() {
             ))}
           </div>
         </div>
+
+        <Modal open={!!selected} onClose={() => setSelected(null)} title={selected || ''}>
+          {!status ? <div>Loading…</div> : (
+            <div>
+              <div className="muted" style={{ marginBottom: 8 }}>Last updated: {new Date(status.timestamp || Date.now()).toLocaleString()}</div>
+              <pre style={{ background: 'rgba(255,255,255,0.06)', padding: 12, borderRadius: 8, maxHeight: 360, overflow: 'auto' }}>
+                {JSON.stringify(status, null, 2)}
+              </pre>
+            </div>
+          )}
+        </Modal>
       </main>
     </>
   )
 }
-
