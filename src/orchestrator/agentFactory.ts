@@ -16,6 +16,7 @@ import { EUFundingProposalAgent } from '../agents/euFundingProposalAgent.js';
 import { FigmaMCPAgent } from '../agents/figmaMCPAgent.js';
 import { SpecKitCodexAgent } from '../agents/specKitCodexAgent.js';
 import { CoordinationAgent } from '../agents/coordinationAgent.js';
+import { UBOSDesignSpecAgent } from '../agents/ubosDesignSpecAgent.js';
 
 export class AgentFactory {
   create(spec: AgentSpec): BaseAgent {
@@ -37,6 +38,7 @@ export class AgentFactory {
       case 'figma-mcp': return new FigmaMCPAgent(id, requirementId);
       case 'spec-kit-codex': return new SpecKitCodexAgent(id, requirementId);
       case 'CoordinationAgent': return new CoordinationAgent(id, requirementId);
+      case 'UBOSDesignSpecAgent': return new UBOSDesignSpecAgent(id, requirementId);
       default:
         throw new Error(`Unknown agent type: ${type}`);
     }

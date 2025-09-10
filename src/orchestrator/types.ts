@@ -51,7 +51,8 @@ export interface AgentSpec {
     | 'TestAgent'
     | 'figma-mcp'
     | 'spec-kit-codex'
-    | 'CoordinationAgent';
+    | 'CoordinationAgent'
+    | 'UBOSDesignSpecAgent';
   requirementId: string;
   capabilities: Capability[];
   params?: Record<string, any>;
