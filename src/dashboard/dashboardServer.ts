@@ -26,6 +26,9 @@ export class DashboardServer {
     // Serve static files from web directory
     const webDir = path.join(__dirname, 'web');
     this.app.use(express.static(webDir));
+    // Serve Tide Guide replica (desktop/tide-guide) at /tide for LAN/iPad access
+    const tideDir = path.join(process.cwd(), 'desktop', 'tide-guide');
+    this.app.use('/tide', express.static(tideDir));
     this.app.use(express.json());
 
     // API endpoints
