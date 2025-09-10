@@ -7,9 +7,12 @@
     "build": "tsc -p .",
     "start": "node dist/cli/index.js",
     "dev": "tsx src/cli/index.ts",
+    "dev:demo": "tsx src/cli/demo_eufm_agents.ts",
     "lint": "eslint .",
     "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test:file-writer": "tsx src/tests/fileWriter_test.ts",
     "test:integration": "tsx src/tests/eufm_integration_test.ts 'Integration check'",
+    "test:coord": "tsx src/tests/multiAgentCoordinator_test.ts",
     "test:country-codes": "tsx src/tests/countryCodes_test.ts",
     "dev:oradea": "tsx src/tools/oradea_business_cli.ts",
     "dev:dashboard": "tsx src/dashboard/dashboardServer.ts"

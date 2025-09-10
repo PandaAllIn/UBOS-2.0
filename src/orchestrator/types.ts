@@ -50,7 +50,8 @@ export interface AgentSpec {
     | 'MemoryAgent'
     | 'TestAgent'
     | 'figma-mcp'
-    | 'spec-kit-codex';
+    | 'spec-kit-codex'
+    | 'CoordinationAgent';
   requirementId: string;
   capabilities: Capability[];
   params?: Record<string, any>;

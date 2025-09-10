@@ -1,0 +1,78 @@
+[
+  {
+    "ts": "2025-09-10T16:23:21.935Z",
+    "traceId": "boot_mfe6v4os_l6e0",
+    "file": "/Users/panda/Desktop/UBOS/ubos/specs/territories/consultant-portal.spec.md",
+    "id": "consultant-portal",
+    "version": "1.0.0",
+    "services": [
+      "pricing-insights",
+      "opportunity-analysis",
+      "document-upload",
+      "results-report"
+    ]
+  },
+  {
+    "ts": "2025-09-10T16:23:21.969Z",
+    "traceId": "boot_mfe6v4os_l6e0",
+    "file": "/Users/panda/Desktop/UBOS/ubos/specs/territories/eufm.spec.md",
+    "id": "eufm",
+    "version": "1.0.0",
+    "services": [
+      "eu-discovery",
+      "proposal-writing",
+      "compliance-check"
+    ]
+  },
+  {
+    "ts": "2025-09-10T16:23:21.984Z",
+    "traceId": "boot_mfe6v4os_l6e0",
+    "file": "/Users/panda/Desktop/UBOS/ubos/specs/territories/integration-bridge.spec.md",
+    "id": "integration-bridge",
+    "version": "1.0.0",
+    "services": [
+      "cross-ai-comm",
+      "multi-agent-orchestration",
+      "realtime-collab",
+      "session-bridge"
+    ]
+  },
+  {
+    "ts": "2025-09-10T16:23:22.002Z",
+    "traceId": "boot_mfe6v4wc_ah0j",
+    "file": "/Users/panda/Desktop/UBOS/ubos/specs/territories/consultant-portal.spec.md",
+    "id": "consultant-portal",
+    "version": "1.0.0",
+    "services": [
+      "pricing-insights",
+      "opportunity-analysis",
+      "document-upload",
+      "results-report"
+    ]
+  },
+  {
+    "ts": "2025-09-10T16:23:22.006Z",
+    "traceId": "boot_mfe6v4wc_ah0j",
+    "file": "/Users/panda/Desktop/UBOS/ubos/specs/territories/eufm.spec.md",
+    "id": "eufm",
+    "version": "1.0.0",
+    "services": [
+      "eu-discovery",
+      "proposal-writing",
+      "compliance-check"
+    ]
+  },
+  {
+    "ts": "2025-09-10T16:23:22.009Z",
+    "traceId": "boot_mfe6v4wc_ah0j",
+    "file": "/Users/panda/Desktop/UBOS/ubos/specs/territories/integration-bridge.spec.md",
+    "id": "integration-bridge",
+    "version": "1.0.0",
+    "services": [
+      "cross-ai-comm",
+      "multi-agent-orchestration",
+      "realtime-collab",
+      "session-bridge"
+    ]
+  }
+]

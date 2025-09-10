@@ -2,6 +2,8 @@ import * as fs from 'fs/promises';
 import * as path from 'path';
 import matter from 'gray-matter';
 import * as yaml from 'yaml';
+import crypto from 'crypto';
+import { z } from 'zod';
 
 export interface SpecMetadata {
   version: string;
@@ -45,6 +47,8 @@ export interface ParsedSpec {
 
 export class SpecInterpreter {
   private specCache: Map<string, ParsedSpec> = new Map();
+  private registryPath = path.join(process.cwd(), 'logs', 'specs', 'registry.json');
+  private changelogPath = path.join(process.cwd(), 'logs', 'specs', 'changelog.json');
 
   async parseSpec(specPath: string): Promise<ParsedSpec> {
     const abs = this.resolveSpecPath(specPath);
@@ -74,6 +78,8 @@ export class SpecInterpreter {
     };
 
     await this.validateSpec(parsed);
+    await this.recordChangelog(abs, content, parsed.metadata);
+    console.log(`📘 Spec version: ${parsed.metadata.version} • status: ${parsed.metadata.status}`);
     this.specCache.set(abs, parsed);
     return parsed;
   }
@@ -191,8 +197,86 @@ export class SpecInterpreter {
   }
 
   private async validateSpec(spec: ParsedSpec): Promise<void> {
-    if (!spec.metadata.type) throw new Error('Spec missing type');
-    if (!spec.metadata.version) throw new Error('Spec missing version');
+    const SemVer = /^\d+\.\d+\.\d+(?:[-+][\w.-]+)?$/;
+    const MetadataSchema = z.object({
+      version: z.string().regex(SemVer, 'version must be semver (e.g., 1.0.0)'),
+      type: z.string().min(1),
+      status: z.string().min(1),
+      author: z.string().optional(),
+      backing: z.any().optional(),
+    });
+    MetadataSchema.parse(spec.metadata);
+
+    // Invariants
+    if (spec.userStories.length > 0 && spec.acceptanceCriteria.length === 0) {
+      console.warn('⚠️ Spec has user stories but no acceptance criteria');
+    }
+    if (['approved', 'executable'].includes((spec.metadata.status || '').toLowerCase()) &&
+        spec.acceptanceCriteria.length === 0) {
+      throw new Error('Executable/approved specs must include acceptance criteria');
+    }
+  }
+
+  private async recordChangelog(specAbsPath: string, raw: string, meta: SpecMetadata): Promise<void> {
+    try {
+      await fs.mkdir(path.dirname(this.registryPath), { recursive: true });
+      const hash = crypto.createHash('sha256').update(raw).digest('hex');
+
+      // Load registry
+      let registry: Record<string, { version: string; hash: string; updatedAt: string }> = {};
+      try {
+        registry = JSON.parse(await fs.readFile(this.registryPath, 'utf8'));
+      } catch {}
+
+      const prev = registry[specAbsPath];
+      if (!prev || prev.hash !== hash) {
+        const prevRaw = prev ? await this.tryLoadRawByHash(prev.hash) : undefined;
+        const diff = this.diffStats(prevRaw || '', raw);
+
+        // Append to changelog
+        const entry = {
+          ts: new Date().toISOString(),
+          path: specAbsPath,
+          from: prev?.version || null,
+          to: meta.version,
+          diff,
+        };
+        let changelog: any[] = [];
+        try {
+          changelog = JSON.parse(await fs.readFile(this.changelogPath, 'utf8'));
+        } catch {}
+        changelog.push(entry);
+        await fs.writeFile(this.changelogPath, JSON.stringify(changelog, null, 2));
+
+        // Update registry
+        registry[specAbsPath] = { version: meta.version, hash, updatedAt: entry.ts };
+        await fs.writeFile(this.registryPath, JSON.stringify(registry, null, 2));
+      }
+    } catch (err) {
+      console.warn('⚠️ Failed to record changelog:', err instanceof Error ? err.message : err);
+    }
+  }
+
+  private async tryLoadRawByHash(_hash: string): Promise<string | undefined> {
+    // Placeholder: In a future version we could store raw snapshots by content hash.
+    return undefined;
+  }
+
+  private diffStats(a: string, b: string): { added: number; removed: number; same: number } {
+    const aLines = a.split(/\r?\n/);
+    const bLines = b.split(/\r?\n/);
+    const aSet = new Map<string, number>();
+    aLines.forEach((l) => aSet.set(l, (aSet.get(l) || 0) + 1));
+    let same = 0;
+    const bSet = new Map<string, number>();
+    bLines.forEach((l) => bSet.set(l, (bSet.get(l) || 0) + 1));
+    for (const [line, cnt] of bSet) {
+      const inA = aSet.get(line) || 0;
+      same += Math.min(inA, cnt);
+    }
+    const removed = Math.max(0, aLines.length - same);
+    const added = Math.max(0, bLines.length - same);
+    return { added, removed, same };
   }
 
   private generateConfig(spec: ParsedSpec): any {
@@ -217,4 +301,3 @@ export class SpecInterpreter {
     return spec.acceptanceCriteria.map((c) => ({ rule: c }));
   }
 }
-

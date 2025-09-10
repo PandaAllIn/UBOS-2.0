@@ -1,0 +1,22 @@
+{
+  "/Users/panda/Desktop/UBOS/ubos/specs/kernel/constitution.spec.md": {
+    "version": "1.0.0",
+    "hash": "2055d3b2285493ef716716df36d5ea4e981bf05264768278a344c69fa9f84210",
+    "updatedAt": "2025-09-10T16:23:21.868Z"
+  },
+  "/Users/panda/Desktop/UBOS/ubos/specs/territories/integration-bridge.spec.md": {
+    "version": "1.0.0",
+    "hash": "6e9b2f9bf69315119bc683296339f7c3c7837f6faf69d379624df6f9bee053fd",
+    "updatedAt": "2025-09-10T16:23:21.873Z"
+  },
+  "/Users/panda/Desktop/UBOS/ubos/specs/territories/consultant-portal.spec.md": {
+    "version": "1.0.0",
+    "hash": "925234b178458b58966944ea83fd6a1671e560ff133cc99ecf4090ee49f3fc20",
+    "updatedAt": "2025-09-10T16:23:21.923Z"
+  },
+  "/Users/panda/Desktop/UBOS/ubos/specs/territories/eufm.spec.md": {
+    "version": "1.0.0",
+    "hash": "eede023681091ce013b016020a617b81d5ece0b684bcf75484796f7a7e71393a",
+    "updatedAt": "2025-09-10T16:23:21.960Z"
+  }
+}

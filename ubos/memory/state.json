@@ -119,10 +119,18 @@
       "transactions": [],
       "createdAt": 1757442758419,
       "updatedAt": 1757442758421
+    },
+    "citizen:ai:sonnet:001": {
+      "id": "citizen:ai:sonnet:001",
+      "balance": 100,
+      "level": 1,
+      "transactions": [],
+      "createdAt": 1757518361935,
+      "updatedAt": 1757518361935
     }
   },
   "createdAt": 1757437304434,
-  "updatedAt": 1757447588747,
+  "updatedAt": 1757518361936,
   "genesis": true,
   "genesisAt": 1757439799728,
   "founders": [

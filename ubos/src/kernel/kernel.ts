@@ -20,7 +20,8 @@ export class UBOSKernel {
   private booted = false;
 
   async boot(): Promise<void> {
-    console.log('🌟 UBOS Kernel Booting...');
+    const traceId = `boot_${Date.now().toString(36)}_${Math.random().toString(36).slice(2,6)}`;
+    console.log(`🌟 UBOS Kernel Booting... (trace=${traceId})`);
     console.log('📜 Loading Constitution...');
 
     // Legacy constitution (root) for compatibility
@@ -37,14 +38,14 @@ export class UBOSKernel {
         implementation: constitutionSpec.raw,
         interfaces: constitutionSpec.interfaces,
       });
-      console.log('⚙️ Spec Interpreter initialized for constitution');
+      console.log(`⚙️ Spec Interpreter initialized for constitution v${(constitutionSpec.metadata as any).version}`);
       void executable; // placeholder for future execution hooks
     } catch (err) {
       console.warn('⚠️ Spec Interpreter: kernel constitution not found or failed to parse.', err instanceof Error ? err.message : err);
     }
 
     await this.initializeCredits();
-    await this.initializeTerritories();
+    await this.initializeTerritories(traceId);
     await this.initializeCitizens();
 
     // Genesis block and founding citizens
@@ -59,7 +60,7 @@ export class UBOSKernel {
     }
 
     this.booted = true;
-    console.log('✅ UBOS Kernel Ready - Digital Nation Active');
+    console.log(`✅ UBOS Kernel Ready - Digital Nation Active (trace=${traceId})`);
     console.log('🎮 Infinite Game Started');
   }
 
@@ -124,10 +125,10 @@ export class UBOSKernel {
     console.log(`🏦 Backing ratio: €1 = ${backing.getBackingRatio()} UBOSC`);
   }
 
-  private async initializeTerritories(): Promise<void> {
+  private async initializeTerritories(traceId?: string): Promise<void> {
     console.log('🏛️ Initializing Territories...');
     // Load from specs first
-    const loaded = await this.loadTerritorySpecs();
+    const loaded = await this.loadTerritorySpecs(traceId);
     if (loaded.size > 0) {
       for (const [key, territory] of loaded) {
         await (territory as any).initialize?.();
@@ -141,15 +142,19 @@ export class UBOSKernel {
     }
   }
 
-  public async loadTerritorySpecs(): Promise<Map<string, any>> {
+  public async loadTerritorySpecs(traceId?: string): Promise<Map<string, any>> {
     const map = new Map<string, any>();
     try {
       const dir = path.resolve(process.cwd(), 'specs', 'territories');
       const files = await fs.readdir(dir);
+      const interpreter = new SpecInterpreter();
+      const eventLogPath = path.resolve(process.cwd(), 'logs', 'specs', 'territories_events.json');
+      await fs.mkdir(path.dirname(eventLogPath), { recursive: true });
       for (const f of files) {
         if (!f.endsWith('.spec.md')) continue;
         const full = path.join(dir, f);
-        const raw = await fs.readFile(full, 'utf8');
+        const spec = await interpreter.parseSpec(full);
+        const raw = spec.raw;
         const id = f.replace(/\.spec\.md$/, '');
         // Extract services list from markdown under '## Services'
         const services = this.extractServices(raw);
@@ -161,6 +166,24 @@ export class UBOSKernel {
         } else {
           const svc: GenericService[] = services.map((s) => ({ id: s.id, name: s.id, price: s.price }));
           map.set(id, new GenericTerritory(id, display, svc));
+        }
+
+        // Log event
+        const evt = {
+          ts: new Date().toISOString(),
+          traceId,
+          file: full,
+          id,
+          version: spec.metadata.version,
+          services: services.map((s) => s.id)
+        };
+        try {
+          let events: any[] = [];
+          try { events = JSON.parse(await fs.readFile(eventLogPath, 'utf8')); } catch {}
+          events.push(evt);
+          await fs.writeFile(eventLogPath, JSON.stringify(events, null, 2));
+        } catch (err) {
+          console.warn('⚠️ Failed to write territory event:', err instanceof Error ? err.message : err);
         }
       }
     } catch (err) {

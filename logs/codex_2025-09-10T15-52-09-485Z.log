@@ -1,0 +1,2775 @@
+Executing: codex exec --dangerously-bypass-approvals-and-sandbox Write actual files to disk with tests, documentation, error handling.
+
+Project Context: EUFM (European Union Funds Manager) - AI Agent Orchestration System
+Working Directory: /Users/panda/Desktop/UBOS
+Project Type: TypeScript/Node.js multi-agent coordination system
+Note: Use the existing test patterns and ensure TypeScript compatibility
+
+Safety Guidelines:
+- Preserve existing functionality when modifying files
+- Follow TypeScript best practices and existing code patterns
+- Add proper error handling and logging
+- Test changes before completing
+Working Directory: /Users/panda/Desktop/UBOS
+Timeout: 600000 ms
+
+[2025-09-10T15:52:09] OpenAI Codex v0.30.0 (research preview)
+--------
+workdir: /Users/panda/Desktop/UBOS
+model: gpt-5
+provider: openai
+approval: never
+sandbox: danger-full-access
+reasoning effort: medium
+reasoning summaries: auto
+--------
+[2025-09-10T15:52:09] User instructions:
+Write actual files to disk with tests, documentation, error handling.
+
+Project Context: EUFM (European Union Funds Manager) - AI Agent Orchestration System
+Working Directory: /Users/panda/Desktop/UBOS
+Project Type: TypeScript/Node.js multi-agent coordination system
+Note: Use the existing test patterns and ensure TypeScript compatibility
+
+Safety Guidelines:
+- Preserve existing functionality when modifying files
+- Follow TypeScript best practices and existing code patterns
+- Add proper error handling and logging
+- Test changes before completing
+
+[2025-09-10T15:52:12] thinking
+
+**Exploring project files**
+
+I need to write files to disk that include tests, documentation, and error handling for a project located at /Users/panda/Desktop/UBOS. I should list the files using the shell to get an overview. With full access, I can run commands, but I need to ensure that I have the necessary approvals. After exploring the repository, I can add the needed files and tests accordingly. Let's get started!
+[2025-09-10T15:52:13] codex
+
+I’ll scan the repository to understand structure, dependencies, and existing test patterns, then propose and implement changes with tests and docs.
+[2025-09-10T15:52:14] exec bash -lc 'ls -la' in /Users/panda/Desktop/UBOS
+[2025-09-10T15:52:14] bash -lc 'ls -la' succeeded in 42ms:
+total 1560
+drwxr-xr-x   47 panda  staff    1504 Sep 10 16:15 .
+drwx------+  17 panda  staff     544 Sep 10 13:39 ..
+-rw-r--r--@   1 panda  staff   14340 Sep 10 13:36 .DS_Store
+drwxr-xr-x    3 panda  staff      96 Sep 10 16:21 .claude
+drwxr-xr-x    3 panda  staff      96 Sep  8 16:46 .cursor
+-rw-r--r--    1 panda  staff     798 Sep  8 13:28 .env
+-rw-r--r--    1 panda  staff     196 Sep  7 21:10 .env.example
+drwxr-xr-x   17 panda  staff     544 Sep 10 16:31 .git
+-rw-r--r--    1 panda  staff      45 Sep 10 16:15 .gitattributes
+drwxr-xr-x    5 panda  staff     160 Sep 10 16:16 .github
+-rw-r--r--    1 panda  staff      71 Sep  8 15:04 .gitignore
+drwxr-xr-x    3 panda  staff      96 Sep  9 16:53 .vscode
+-rw-r--r--    1 panda  staff    5088 Sep 10 14:05 CODE_OF_CONDUCT.md
+-rw-r--r--@   1 panda  staff     458 Sep 10 14:05 CONTRIBUTING.md
+drwxr-xr-x    7 panda  staff     224 Sep  7 18:05 PROJECTS
+-rw-r--r--@   1 panda  staff     348 Sep 10 14:07 README.md
+-rw-r--r--@   1 panda  staff     425 Sep 10 14:05 SECURITY.md
+drwxr-xr-x    3 panda  staff      96 Sep  6 18:05 _external
+-rw-r--r--    1 panda  staff    7307 Sep  8 18:24 codex_comprehensive_dashboard_analysis.txt
+[2025-09-10T15:52:14] tokens used: 418
+[2025-09-10T15:52:18] exec bash -lc "ls -la src && rg --files src | wc -l && rg -n \"describe\\(|it\\(|jest|vitest\" -n src || true" in /Users/panda/Desktop/UBOS
+[2025-09-10T15:52:18] bash -lc "ls -la src && rg --files src | wc -l && rg -n \"describe\\(|it\\(|jest|vitest\" -n src || true" succeeded in 94ms:
+total 16
+drwxr-xr-x  21 panda  staff   672 Sep 10 18:50 .
+drwxr-xr-x  47 panda  staff  1504 Sep 10 16:15 ..
+-rw-r--r--@  1 panda  staff  6148 Sep  3 12:43 .DS_Store
+drwxr-xr-x   6 panda  staff   192 Sep  9 10:48 adapters
+drwxr-xr-x  20 panda  staff   640 Sep 10 15:13 agents
+drwxr-xr-x   3 panda  staff    96 Sep 10 18:50 aggregation
+drwxr-xr-x   7 panda  staff   224 Sep  3 15:12 analytics
+drwxr-xr-x   3 panda  staff    96 Sep  9 17:40 api
+drwxr-xr-x   4 panda  staff   128 Sep 10 18:51 cli
+drwxr-xr-x   8 panda  staff   256 Sep 10 15:13 dashboard
+drwxr-xr-x   3 panda  staff    96 Sep  8 13:14 integrations
+drwxr-xr-x   4 panda  staff   128 Sep  3 15:34 intelligence
+drwxr-xr-x   4 panda  staff   128 Sep 10 15:13 masterControl
+drwxr-xr-x   6 panda  staff   192 Sep  6 21:37 mcc
+drwxr-xr-x   4 panda  staff   128 Sep  3 14:48 memory
+drwxr-xr-x   4 panda  staff   128 Sep 10 18:50 messaging
+drwxr-xr-x   9 panda  staff   288 Sep  9 10:47 orchestrator
+drwxr-xr-x   3 panda  staff    96 Sep 10 18:50 protocols
+drwxr-xr-x   6 panda  staff   192 Sep  8 17:09 tests
+[2025-09-10T15:52:18] tokens used: 1792
+
+[2025-09-10T15:52:20] thinking
+
+**Inspecting test setup**
+
+I see there's a tests directory containing some custom tests, which is interesting! To get a better picture of how these tests are being run, I should check the package.json file. That file usually contains important information about the test runner and other dependencies. Understanding what’s set up there could clarify how I should approach running or modifying these tests. Let’s take a closer look at that package.json!
+[2025-09-10T15:52:22] exec bash -lc 'cat package.json' in /Users/panda/Desktop/UBOS
+[2025-09-10T15:52:22] bash -lc 'cat package.json' succeeded in 26ms:
+{
+  "name": "eufm",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "tsc -p .",
+    "start": "node dist/cli/index.js",
+    "dev": "tsx src/cli/index.ts",
+    "dev:demo": "tsx src/cli/demo_eufm_agents.ts",
+    "lint": "eslint .",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test:integration": "tsx src/tests/eufm_integration_test.ts 'Integration check'",
+    "test:country-codes": "tsx src/tests/countryCodes_test.ts",
+    "dev:oradea": "tsx src/tools/oradea_business_cli.ts",
+    "dev:dashboard": "tsx src/dashboard/dashboardServer.ts"
+  },
+  "dependencies": {
+    "@notionhq/client": "^5.0.0",
+    "@types/express": "^5.0.3",
+[2025-09-10T15:52:22] tokens used: 2459
+
+[2025-09-10T15:52:26] thinking
+
+**Clarifying testing structure**
+
+I see that there's no standard test runner since the tests are TypeScript scripts run using tsx. The task requires us to write actual files to disk, focusing on tests, documentation, and error handling for EUFM, but it's a bit ambiguous — are we adding a new feature? The repo has numerous files, so I should look into the "eufm" directory and list its contents to clarify what I need to do next.
+[2025-09-10T15:52:33] exec bash -lc 'ls -la eufm && rg -n "EUFM|European Union Funds Manager|Agent Orchestration|orchestration" -n src eufm || true' in /Users/panda/Desktop/UBOS
+[2025-09-10T15:52:33] bash -lc 'ls -la eufm && rg -n "EUFM|European Union Funds Manager|Agent Orchestration|orchestration" -n src eufm || true' succeeded in 59ms:
+total 0
+drwxr-xr-x   3 panda  staff    96 Sep 10 13:48 .
+drwxr-xr-x  47 panda  staff  1504 Sep 10 16:15 ..
+drwxr-xr-x  11 panda  staff   352 Sep 10 13:49 docs
+src/analytics/autoTracker.ts:2:// - Enabled only when EUFM_TRACK_USAGE=true
+src/analytics/autoTracker.ts:17:  return String(process.env.EUFM_TRACK_USAGE || '').toLowerCase() === 'true';
+src/masterControl/projectRegistry.ts:152:    // EUFM Funding Project
+src/masterControl/projectRegistry.ts:155:      name: 'EUFM EU Funding Acquisition',
+src/masterControl/projectRegistry.ts:156:      description: 'Secure €2M+ EU funding for EUFM infrastructure scaling',
+src/orchestrator/types.ts:46:    | 'EUFMAgentSummoner'
+src/orchestrator/agentFactory.ts:12:import { EUFMAgentSummoner } from '../agents/eufmAgentSummoner.js';
+src/orchestrator/agentFactory.ts:30:      case 'EUFMAgentSummoner': return new EUFMAgentSummoner(id, requirementId);
+src/messaging/messageBus.ts:61:  // Helpers validating standard EUFM messages
+src/adapters/perplexity.ts:22:        { role: 'system', content: 'You are EUFM Perplexity adapter.' },
+src/dashboard/fundingOpportunityScanner.ts:72:Analyze this funding information and extract opportunities relevant to AI/digital innovation projects like EUFM (European Union Funds Manager):
+src/dashboard/fundingOpportunityScanner.ts:203:  async generateEUFMProposal(opportunityId: string): Promise<string> {
+src/dashboard/fundingOpportunityScanner.ts:208:Generate a compelling EU funding proposal for the EUFM (European Union Funds Manager) project targeting this opportunity:
+src/dashboard/fundingOpportunityScanner.ts:217:EUFM PROJECT:
+src/dashboard/fundingOpportunityScanner.ts:237:Focus on how EUFM addresses European digital sovereignty, SME support, and innovation ecosystem development.
+src/dashboard/fundingOpportunityScanner.ts:264:        title: 'EUFM Core Funding — EUFM Program',
+[2025-09-10T15:52:33] tokens used: 4473
+[2025-09-10T15:52:36] thinking
+
+**Exploring file
+ writing implementation**
+
+I’m looking into implementing a function for "Write actual files to disk," perhaps a module that handles file writing. The project focuses on multi-agent coordination, so I might need a utility that includes error handling, testing, and documentation. I’ll also want for to search any existing "FileWriter" that could help with this. It seems like a crucial step for the project! Let’s see what I can find.
+[2025-09-10T15:52:39] exec bash -lc "rg -n \"write file|writeFile|fs\\.writeFile|fs\\.promises|FileWriter|save to disk|persist to disk\" src || true" in /Users/panda/Desktop/UBOS
+[2025-09-10T15:52:39] bash -lc "rg -n \"write file|writeFile|fs\\.writeFile|fs\\.promises|FileWriter|save to disk|persist to disk\" src || true" succeeded in 52ms:
+src/mcc/resourceManager.ts:32:    await fs.writeFile(this.stateFile, JSON.stringify(snap, null, 2), 'utf8');
+src/mcc/scheduler.ts:61:      await fs.writeFile(mapPath, JSON.stringify({ taskId: task.id, projectId: task.projectId, orchestratorRun: `logs/orchestrator/run_${run.taskId}.json` }, null, 2));
+src/mcc/projectRegistry.ts:26:    await fs.writeFile(file, JSON.stringify(data, null, 2), 'utf8');
+src/analytics/subscriptionManager.ts:138:    const { mkdir, writeFile } = await import('fs/promises');
+src/analytics/subscriptionManager.ts:141:    await writeFile(this.path, JSON.stringify(subs, null, 2), 'utf8');
+src/analytics/toolUsageTracker.ts:55:    await fs.writeFile(this.dbPath, JSON.stringify(events, null, 2), 'utf8');
+src/orchestrator/strategicOrchestrator.ts:21:    await fs.writeFile(out, JSON.stringify(data, null, 2), 'utf8');
+src/masterControl/projectRegistry.ts:364:      await fs.writeFile(this.registryPath, JSON.stringify(registryData, null, 2), 'utf-8');
+src/masterControl/agentActionLogger.ts:215:    await fs.writeFile(this.snapshotPath, JSON.stringify(snapshot, null, 2), 'utf-8');
+src/masterControl/agentActionLogger.ts:247:      await fs.writeFile(this.logPath, JSON.stringify(this.actions, null, 2), 'utf-8');
+src/utils/sessionMemoryUpdater.ts:31:      await fs.writeFile(this.memoryFilePath, updatedContent, 'utf-8');
+src/utils/sessionMemoryUpdater.ts:38:      await fs.writeFile(backupPath, updatedContent, 'utf-8');
+src/utils/sessionMemoryUpdater.ts:205:      await fs.writeFile(this.memoryFilePath, updatedContent, 'utf-8');
+src/utils/sessionMemoryUpdater.ts:253:    await fs.writeFile(metricsFile, JSON.stringify(metrics, null, 2), 'utf-8');
+src/dashboard/fundingOpportunityScanner.ts:174:    await fs.writeFile(filePath, JSON.stringify(opportunities, null, 2), 'utf8');
+src/dashboard/fundingOpportunityScanner.ts:186:    await fs.writeFile(summaryPath, JSON.stringify(summary, null, 2), 'utf8');
+src/dashboard/enhancedMissionControl.ts:129:    await fs.writeFile(filepath, JSON.stringify(this.sessionMemory, null, 2));
+src/dashboard/enhancedMissionControl.ts:460:    await fs.writeFile(exportPath, JSON.stringify(exportData, null, 2));
+src/agents/agentSummonerAgent.ts:42:    await fs.writeFile(
+src/agents/agentSummoner.ts:187:    await fs.writeFile(summoningFile, JSON.stringify(summoningResult, null, 2));
+[2025-09-10T15:52:39] tokens used: 3006
+
+[2025-09-10T15:52:42] thinking
+
+**Considering file handlingIt**
+
+ seems like there are quite a few direct uses of fs.writeFile. I’m thinking it might be a good idea to centralize file writing, adding error handling and logging to make things more robust. The user mentioned wanting to write actual files to disk along with tests and documentation, so they might be looking for a utility that saves artifacts effectively. I should consider finding existing utilities for file operations to streamline this process.
+[2025-09-10T15:52:44] exec bash -lc 'ls -la src/utils && rg -n "file|fs|write|path|mkdir|persist|storage|disk" src/utils || true' in /Users/panda/Desktop/UBOS
+[2025-09-10T15:52:44] bash -lc 'ls -la src/utils && rg -n "file|fs|write|path|mkdir|persist|storage|disk" src/utils || true' succeeded in 43ms:
+total 56
+drwxr-xr-x   6 panda  staff   192 Sep 10 15:13 .
+drwxr-xr-x  21 panda  staff   672 Sep 10 18:50 ..
+-rw-r--r--   1 panda  staff  2366 Sep  6 21:08 countryCodes.ts
+-rw-r--r--   1 panda  staff  4704 Sep  8 17:09 deadlineValidator.ts
+-rw-r--r--   1 panda  staff   613 Sep 10 14:04 paths.ts
+-rw-r--r--   1 panda  staff  8370 Sep 10 15:13 sessionMemoryUpdater.ts
+src/utils/paths.ts:1:import path from 'path';
+src/utils/paths.ts:9:    if (here.includes(`${path.sep}dist${path.sep}`)) {
+src/utils/paths.ts:10:      return path.resolve(here, '..', '..');
+src/utils/paths.ts:19:  return path.resolve(repoRoot(), ...segments);
+src/utils/sessionMemoryUpdater.ts:1:import { promises as fs } from 'fs';
+src/utils/sessionMemoryUpdater.ts:2:import path from 'path';
+src/utils/sessionMemoryUpdater.ts:21:    this.memoryFilePath = path.resolve('CLAUDE_SESSION_MEMORY.md');
+src/utils/sessionMemoryUpdater.ts:25:   * Update the session memory file with current context
+src/utils/sessionMemoryUpdater.ts:29:      const existingContent = await fs.readFile(this.memoryFilePath, 'utf-8');
+src/utils/sessionMemoryUpdater.ts:31:      await fs.writeFile(this.memoryFilePath, updatedContent, 'utf-8');
+src/utils/sessionMemoryUpdater.ts:36:      const backupPath = path.join('logs', 'session_memory', `session_memory_${Date.now()}.md`);
+src/utils/sessionMemoryUpdater.ts:37:      await fs.mkdir(path.dirname(backupPath), { recursive: true });
+src/utils/sessionMemoryUpdater.ts:38:      await fs.writeFile(backupPath, updatedContent, 'utf-8');
+[2025-09-10T15:52:44] tokens used: 1317
+
+[2025-09-10T15:52:47] thinking
+
+**Considering utility module creation**
+
+I'm thinking about creating a new utility module, like `src/utils/fileWriter.ts`, which would include a function `safeWriteFile`. This function would check if the directory exists, perform atomic writes, log the process, and return a success status. The user wants to preserve existing functionality, so I ought to be careful not to refactor too widely. I can add the utility and integrate it in a few places, while ensuring TypeScript compatibility with existing test patterns. I should check the `tests` directory under `src/tests`.
+[2025-09-10T15:52:49] exec bash -lc "ls -la src/tests && sed -n '1,200p' src/tests/countryCodes_test.ts && sed -n '1,200p' src/tests/deadlineValidator_test.ts || true" in /Users/panda/Desktop/UBOS
+[2025-09-10T15:52:49] bash -lc "ls -la src/tests && sed -n '1,200p' src/tests/countryCodes_test.ts && sed -n '1,200p' src/tests/deadlineValidator_test.ts || true" succeeded in 66ms:
+total 32
+drwxr-xr-x   6 panda  staff   192 Sep  8 17:09 .
+drwxr-xr-x  21 panda  staff   672 Sep 10 18:50 ..
+-rw-r--r--   1 panda  staff  1477 Sep  6 21:08 countryCodes_test.ts
+-rw-r--r--   1 panda  staff  2605 Sep  8 17:09 deadlineValidator_test.ts
+-rw-r--r--   1 panda  staff  1483 Sep  6 21:12 euFundingProposalAgent_test.ts
+-rw-r--r--   1 panda  staff  1416 Sep  6 17:22 eufm_integration_test.ts
+import { isValidEUCountryCode, assertEUCountryCode, EU_COUNTRY_CODES } from '../utils/countryCodes.js';
+
+function expect(condition: boolean, message: string) {
+  if (!condition) throw new Error(message);
+}
+
+async function run() {
+  console.log('Running country code validation tests...');
+
+  // Valid cases
+  for (const code of EU_COUNTRY_CODES) {
+    expect(isValidEUCountryCode(code), `Expected ${code} to be valid`);
+    expect(isValidEUCountryCode(code.toLowerCase()), `Expected lowercase ${code} to be valid`);
+[2025-09-10T15:52:49] tokens used: 848
+[2025-09-10T15:52:52] thinking
+
+**Setting up testing
+ and documentation**
+
+I'm working a simple on that script will use expect/assert for testing, and I'll run it with tsx. If there's an error, it'll call process.exit(1). I can create tests under src/tests for our new module, which is exciting! I also need to add documentation, probably a README or some docs organized in the docs/ directory. I’ll make sure to list out what's in the docs directory to keep everything tidy.
+[2025-09-10T15:52:55] exec bash -lc 'ls -la docs && rg -n "EUFM|file|write|persistence|storage" docs || true' in /Users/panda/Desktop/UBOS
+[2025-09-10T15:52:55] bash -lc 'ls -la docs && rg -n "EUFM|file|write|persistence|storage" docs || true' succeeded in 47ms:
+total 8
+drwxr-xr-x  11 panda  staff   352 Sep 10 15:33 .
+drwxr-xr-x  47 panda  staff  1504 Sep 10 16:15 ..
+-rw-r--r--   1 panda  staff  1067 Sep 10 15:33 REPO_HOUSEKEEPING.md
+drwxr-xr-x   2 panda  staff    64 Sep 10 13:44 agents
+drwxr-xr-x   2 panda  staff    64 Sep 10 13:44 guides
+drwxr-xr-x   3 panda  staff    96 Sep 10 13:49 obsidian
+drwxr-xr-x   2 panda  staff    64 Sep 10 13:48 roadmaps
+drwxr-xr-x   2 panda  staff    64 Sep 10 13:44 specs
+drwxr-xr-x   2 panda  staff    64 Sep 10 13:44 strategies
+drwxr-xr-x   2 panda  staff    64 Sep 10 13:49 subscriptions
+drwxr-xr-x   2 panda  staff    64 Sep 10 13:49 tools
+docs/REPO_HOUSEKEEPING.md:5:- CI: GitHub Actions workflow is added at `.github/workflows/ci.yml` to run typecheck, EUFM tests, UBOS tests, and build the consultant portal.
+docs/REPO_HOUSEKEEPING.md:6:- Large files: GitHub warned about a historical large file `google-cloud-cli-darwin-x86_64.tar.gz` (>50MB). For future safety:
+[2025-09-10T15:52:55] tokens used: 1648
+
+[2025-09-10T15:52:58] thinking
+
+**Considering documentation and error handling**
+
+I’m thinking about adding a document under the guides or tools section for the FileWriter. It’s important to incorporate error handling and logging in the process. I’ll need to create a minimal logger or consider reusing existing logging patterns. Searching for the logger utility could be helpful in finding the best approach to implement this. There’s a lot to think about, but I’m excited to get it all organized!
+[2025-09-10T15:52:59] exec bash -lc "rg -n \"logger|log\\(|console\\.error|console\\.warn\" src/utils | sed -n '1,120p'" in /Users/panda/Desktop/UBOS
+[2025-09-10T15:52:59] bash -lc "rg -n \"logger|log\\(|console\\.error|console\\.warn\" src/utils | sed -n '1,120p'" succeeded in 32ms:
+src/utils/countryCodes.ts:58:      console.warn('[EUFM] Invalid country code format:', value);
+src/utils/countryCodes.ts:72:    console.error('[EUFM] Country code must be a 2-letter ISO 3166-1 alpha-2 string:', value);
+src/utils/countryCodes.ts:76:    console.error('[EUFM] Country is not an EU member (ISO alpha-2):', code);
+src/utils/sessionMemoryUpdater.ts:33:      console.log(`📝 Session memory updated: ${this.memoryFilePath}`);
+src/utils/sessionMemoryUpdater.ts:41:      console.error('❌ Failed to update session memory:', error);
+src/utils/sessionMemoryUpdater.ts:206:      console.log('📊 Performance metrics added to session memory');
+src/utils/sessionMemoryUpdater.ts:209:      console.error('❌ Failed to add performance metrics:', error);
+src/utils/sessionMemoryUpdater.ts:257:    console.warn('⚠️ Could not track command metrics:', error);
+src/utils/deadlineValidator.ts:92:    console.error('[deadlineValidator] Invalid input type. Expected string.');
+src/utils/deadlineValidator.ts:98:    console.error('[deadlineValidator] Invalid date format. Expected YYYY-MM-DD. Got:', input);
+[2025-09-10T15:52:59] tokens used: 7612
+[2025-09-10T15:53:11] thinking
+
+I
+ need to consider that tests will create real files in a temporary directory within the repository, specifically under logs/tmp-tests. It's important to keep track of these files, but I also want to ensure that we handle cleanup properly afterward. That way, we won't leave any unnecessary files around, which might clutter the directory and lead to confusion later. It's all about maintaining a tidy workspace as we work through our tests!
+I'm thinking about implementing a file writer utility. I'll start by creating a file named `src/utils/fileWriter.ts`. It will import necessary modules like `fs.promises`, `path`, and `os`. 
+
+I’ll define a `WriteOptions` interface for various options. A key function will ensure directories exist, and another function will safely write files, checking the given path and type. I want to implement atomic writes by creating a temporary file first and then renaming it.
+
+I’ll also add functions to safely write JSON and back read it with error handling while defining a custom error for file writing issues.
+I’m planning to define a `code` string and follow TypeScript best practices by creating custom error types. I’ll also set up a tests file located at `src/tests/fileWriter_test.ts`. 
+
+I want to create a temporary directory for testing called `logs/test-output/file-writer`. To avoid cleanup headaches, I’ll append `Date.now()` to ensure uniqueness. 
+
+I'll verify the functionality of directory creation with nested paths, test the write atomic feature, and ensure proper error handling. Lastly, I’ll document everything in `docs/guides/file-writer.md`, updating the API and example sections accordingly.
+I'm considering whether to add an index barrel for the utils, but it seems like there's no central index needed. It's not strictly necessary, so maybe I can skip that for now. I’ll need to check the TypeScript configuration in `tsconfig.json` to ensure everything is set up correctly. It’s important to keep things organized, but only if they truly add value to the project without overcomplicating it. Let's take a closer look at the config!
+[2025-09-10T15:53:19] codex
+I'm thinking about implementing a file writer utility. I'll start by creating a file named `src/utils/fileWriter.ts`. It will import necessary modules like `fs.promises`, `path`, and `os`. 
+
+I’ll define a `WriteOptions` interface for various options. A key function will ensure directories exist, and another function will safely write files, checking the given path and type. I want to implement atomic writes by creating a temporary file first and then renaming it.
+
+I’ll also add functions to safely write JSON and read it back with error handling while defining a custom error for file writing issues.
+[2025-09-10T15:53:19] codex
+I’m planning to define a `code` string and follow TypeScript best practices by creating custom error types. I’ll also set up a tests file located at `src/tests/fileWriter_test.ts`. 
+
+I want to create a temporary directory for testing called `logs/test-output/file-writer`. To avoid cleanup headaches, I’ll append `Date.now()` to ensure uniqueness. 
+
+I'll verify the functionality of directory creation with nested paths, test the atomic write feature, and ensure proper error handling. Lastly, I’ll document everything in `docs/guides/file-writer.md`, updating the API and example sections accordingly.
+[2025-09-10T15:53:19] codex
+I'm considering whether to add an index barrel for the utils, but it seems like there's no central index needed. It's not strictly necessary, so maybe I can skip that for now. I’ll need to check the TypeScript configuration in `tsconfig.json` to ensure everything is set up correctly. It’s important to keep things organized, but only if they truly add value to the project without overcomplicating it. Let's take a closer look at the config!
+[2025-09-10T15:53:21] exec bash -lc 'cat tsconfig.json' in /Users/panda/Desktop/UBOS
+[2025-09-10T15:53:21] bash -lc 'cat tsconfig.json' succeeded in 47ms:
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "outDir": "dist",
+    "rootDir": "src",
+    "strict": true,
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "skipLibCheck": true
+  },
+  "include": ["src/**/*"]
+}
+[2025-09-10T15:53:21] tokens used: 1649
+
+[2025-09-10T15:53:23] thinking
+
+**Implementing file utilities**
+
+I’m planning to implement the file utilities and write tests for them. I also think I need to add error handling in one existing place. The instruction is clear that I should preserve the existing functionality while modifying files, so refactoring isn't required. I’ll just focus on making the necessary additions without altering what already works. Let’s move ahead with adding the files!
+[2025-09-10T15:53:25] codex
+
+Next, I’ll add a robust file writer utility with atomic writes, corresponding tests, and a short guide in docs.
+[2025-09-10T15:53:34] apply_patch auto_approved=true:
+A /Users/panda/Desktop/UBOS/src/utils/fileWriter.ts
+import { promises as fs } from 'fs';
+import path from 'path';
+
+export class FileWriteError extends Error {
+  code: string;
+  cause?: unknown;
+  constructor(message: string, code = 'FILE_WRITE_ERROR', cause?: unknown) {
+    super(message);
+    this.name = 'FileWriteError';
+    this.code = code;
+    this.cause = cause;
+  }
+}
+
+export interface WriteOptions {
+  encoding?: BufferEncoding;
+  mode?: number;
+  signal?: AbortSignal;
+  atomic?: boolean;
+  ensureDir?: boolean;
+}
+
+function isStringOrBuffer(v: unknown): v is string | Uint8Array {
+  return typeof v === 'string' || v instanceof Uint8Array;
+}
+
+async function ensureDir(dirPath: string): Promise<void> {
+  try {
+    await fs.mkdir(dirPath, { recursive: true });
+  } catch (err) {
+    console.error('[EUFM] Failed to ensure directory exists:', dirPath, err);
+    throw new FileWriteError(`Failed to ensure directory: ${dirPath}`, 'ENSURE_DIR_FAILED', err);
+  }
+}
+
+function tmpName(targetPath: string): string {
+  const base = `.tmp-${process.pid}-${Date.now()}-${Math.random().toString(36).slice(2)}`;
+  return path.join(path.dirname(targetPath), base);
+}
+
+export async function safeWriteFile(
+  filePath: string,
+  data: string | Uint8Array,
+  options: WriteOptions = {}
+): Promise<void> {
+  if (typeof filePath !== 'string' || filePath.trim() === '') {
+    console.error('[EUFM] Invalid file path provided to safeWriteFile:', filePath);
+    throw new FileWriteError('Invalid file path', 'INVALID_PATH');
+  }
+  if (!isStringOrBuffer(data)) {
+    console.error('[EUFM] Invalid data type provided to safeWriteFile. Expected string or Uint8Array');
+    throw new FileWriteError('Invalid data type', 'INVALID_DATA');
+  }
+
+  const { encoding, mode, signal, atomic = true, ensureDir: mkDir = true } = options;
+
+  const dir = path.dirname(filePath);
+  if (mkDir) {
+    await ensureDir(dir);
+  }
+
+  const writeOpts: Parameters<typeof fs.writeFile>[2] = {};
+  if (encoding && typeof data === 'string') (writeOpts as any).encoding = encoding;
+  if (mode) (writeOpts as any).mode = mode;
+  if (signal) (writeOpts as any).signal = signal as any;
+
+  try {
+    if (atomic) {
+      const tmp = tmpName(filePath);
+      await fs.writeFile(tmp, data as any, writeOpts);
+      await fs.rename(tmp, filePath);
+    } else {
+      await fs.writeFile(filePath, data as any, writeOpts);
+    }
+    console.log(`📄 [EUFM] Wrote file: ${filePath}`);
+  } catch (err) {
+    console.error(`[EUFM] Failed to write file: ${filePath}`, err);
+    throw new FileWriteError(`Failed to write file: ${filePath}`, 'WRITE_FAILED', err);
+  }
+}
+
+export interface JsonWriteOptions extends WriteOptions {
+  pretty?: number | boolean;
+}
+
+export async function safeWriteJson(
+  filePath: string,
+  value: unknown,
+  options: JsonWriteOptions = {}
+): Promise<void> {
+  let json: string;
+  try {
+    const spaces = options.pretty === true ? 2 : typeof options.pretty === 'number' ? options.pretty : 0;
+    json = JSON.stringify(value, null, spaces);
+  } catch (err) {
+    console.error('[EUFM] JSON serialization failed in safeWriteJson for', filePath, err);
+    throw new FileWriteError('JSON serialization failed', 'JSON_STRINGIFY_FAILED', err);
+  }
+  await safeWriteFile(filePath, json + (options.encoding === 'utf-8' || options.encoding === undefined ? '' : ''), options);
+}
+
+export async function readJson<T = unknown>(filePath: string): Promise<T> {
+  try {
+    const content = await fs.readFile(filePath, 'utf-8');
+    return JSON.parse(content) as T;
+  } catch (err) {
+    console.error('[EUFM] Failed to read or parse JSON:', filePath, err);
+    throw new FileWriteError(`Failed to read or parse JSON: ${filePath}`, 'READ_JSON_FAILED', err);
+  }
+}
+
+[2025-09-10T15:53:34] apply_patch(auto_approved=true) exited 0 in 193ms:
+Success. Updated the following files:
+A src/utils/fileWriter.ts
+[2025-09-10T15:53:34] turn diff:
+diff --git a/src/utils/fileWriter.ts b/src/utils/fileWriter.ts
+new file mode 100644
+index 0000000000000000000000000000000000000000..17b2ed8d95ef5c9a4dfa34639628b47bbf9c5f05
+--- /dev/null
++++ b/src/utils/fileWriter.ts
+@@ -0,0 +1,111 @@
++import { promises as fs } from 'fs';
++import path from 'path';
++
++export class FileWriteError extends Error {
++  code: string;
++  cause?: unknown;
++  constructor(message: string, code = 'FILE_WRITE_ERROR', cause?: unknown) {
++    super(message);
++    this.name = 'FileWriteError';
++    this.code = code;
++    this.cause = cause;
++  }
++}
++
++export interface WriteOptions {
++  encoding?: BufferEncoding;
++  mode?: number;
++  signal?: AbortSignal;
++  atomic?: boolean;
++  ensureDir?: boolean;
++}
++
++function isStringOrBuffer(v: unknown): v is string | Uint8Array {
++  return typeof v === 'string' || v instanceof Uint8Array;
++}
++
++async function ensureDir(dirPath: string): Promise<void> {
++  try {
++    await fs.mkdir(dirPath, { recursive: true });
++  } catch (err) {
++    console.error('[EUFM] Failed to ensure directory exists:', dirPath, err);
++    throw new FileWriteError(`Failed to ensure directory: ${dirPath}`, 'ENSURE_DIR_FAILED', err);
++  }
++}
++
++function tmpName(targetPath: string): string {
++  const base = `.tmp-${process.pid}-${Date.now()}-${Math.random().toString(36).slice(2)}`;
++  return path.join(path.dirname(targetPath), base);
++}
++
++export async function safeWriteFile(
++  filePath: string,
++  data: string | Uint8Array,
++  options: WriteOptions = {}
++): Promise<void> {
++  if (typeof filePath !== 'string' || filePath.trim() === '') {
++    console.error('[EUFM] Invalid file path provided to safeWriteFile:', filePath);
++    throw new FileWriteError('Invalid file path', 'INVALID_PATH');
++  }
++  if (!isStringOrBuffer(data)) {
++    console.error('[EUFM] Invalid data type provided to safeWriteFile. Expected string or Uint8Array');
++    throw new FileWriteError('Invalid data type', 'INVALID_DATA');
++  }
++
++  const { encoding, mode, signal, atomic = true, ensureDir: mkDir = true } = options;
++
++  const dir = path.dirname(filePath);
++  if (mkDir) {
++    await ensureDir(dir);
++  }
++
++  const writeOpts: Parameters<typeof fs.writeFile>[2] = {};
++  if (encoding && typeof data === 'string') (writeOpts as any).encoding = encoding;
++  if (mode) (writeOpts as any).mode = mode;
++  if (signal) (writeOpts as any).signal = signal as any;
++
++  try {
++    if (atomic) {
++      const tmp = tmpName(filePath);
++      await fs.writeFile(tmp, data as any, writeOpts);
++      await fs.rename(tmp, filePath);
++    } else {
++      await fs.writeFile(filePath, data as any, writeOpts);
++    }
++    console.log(`📄 [EUFM] Wrote file: ${filePath}`);
++  } catch (err) {
++    console.error(`[EUFM] Failed to write file: ${filePath}`, err);
++    throw new FileWriteError(`Failed to write file: ${filePath}`, 'WRITE_FAILED', err);
++  }
++}
++
++export interface JsonWriteOptions extends WriteOptions {
++  pretty?: number | boolean;
++}
++
++export async function safeWriteJson(
++  filePath: string,
++  value: unknown,
++  options: JsonWriteOptions = {}
++): Promise<void> {
++  let json: string;
++  try {
++    const spaces = options.pretty === true ? 2 : typeof options.pretty === 'number' ? options.pretty : 0;
++    json = JSON.stringify(value, null, spaces);
++  } catch (err) {
++    console.error('[EUFM] JSON serialization failed in safeWriteJson for', filePath, err);
++    throw new FileWriteError('JSON serialization failed', 'JSON_STRINGIFY_FAILED', err);
++  }
++  await safeWriteFile(filePath, json + (options.encoding === 'utf-8' || options.encoding === undefined ? '' : ''), options);
++}
++
++export async function readJson<T = unknown>(filePath: string): Promise<T> {
++  try {
++    const content = await fs.readFile(filePath, 'utf-8');
++    return JSON.parse(content) as T;
++  } catch (err) {
++    console.error('[EUFM] Failed to read or parse JSON:', filePath, err);
++    throw new FileWriteError(`Failed to read or parse JSON: ${filePath}`, 'READ_JSON_FAILED', err);
++  }
++}
++
+
+[2025-09-10T15:53:34] tokens used: 1415
+[2025-09-10T15:53:34] turn diff:
+diff --git a/src/utils/fileWriter.ts b/src/utils/fileWriter.ts
+new file mode 100644
+index 0000000000000000000000000000000000000000..17b2ed8d95ef5c9a4dfa34639628b47bbf9c5f05
+--- /dev/null
++++ b/src/utils/fileWriter.ts
+@@ -0,0 +1,111 @@
++import { promises as fs } from 'fs';
++import path from 'path';
++
++export class FileWriteError extends Error {
++  code: string;
++  cause?: unknown;
++  constructor(message: string, code = 'FILE_WRITE_ERROR', cause?: unknown) {
++    super(message);
++    this.name = 'FileWriteError';
++    this.code = code;
++    this.cause = cause;
++  }
++}
++
++export interface WriteOptions {
++  encoding?: BufferEncoding;
++  mode?: number;
++  signal?: AbortSignal;
++  atomic?: boolean;
++  ensureDir?: boolean;
++}
++
++function isStringOrBuffer(v: unknown): v is string | Uint8Array {
++  return typeof v === 'string' || v instanceof Uint8Array;
++}
++
++async function ensureDir(dirPath: string): Promise<void> {
++  try {
++    await fs.mkdir(dirPath, { recursive: true });
++  } catch (err) {
++    console.error('[EUFM] Failed to ensure directory exists:', dirPath, err);
++    throw new FileWriteError(`Failed to ensure directory: ${dirPath}`, 'ENSURE_DIR_FAILED', err);
++  }
++}
++
++function tmpName(targetPath: string): string {
++  const base = `.tmp-${process.pid}-${Date.now()}-${Math.random().toString(36).slice(2)}`;
++  return path.join(path.dirname(targetPath), base);
++}
++
++export async function safeWriteFile(
++  filePath: string,
++  data: string | Uint8Array,
++  options: WriteOptions = {}
++): Promise<void> {
++  if (typeof filePath !== 'string' || filePath.trim() === '') {
++    console.error('[EUFM] Invalid file path provided to safeWriteFile:', filePath);
++    throw new FileWriteError('Invalid file path', 'INVALID_PATH');
++  }
++  if (!isStringOrBuffer(data)) {
++    console.error('[EUFM] Invalid data type provided to safeWriteFile. Expected string or Uint8Array');
++    throw new FileWriteError('Invalid data type', 'INVALID_DATA');
++  }
++
++  const { encoding, mode, signal, atomic = true, ensureDir: mkDir = true } = options;
++
++  const dir = path.dirname(filePath);
++  if (mkDir) {
++    await ensureDir(dir);
++  }
++
++  const writeOpts: Parameters<typeof fs.writeFile>[2] = {};
++  if (encoding && typeof data === 'string') (writeOpts as any).encoding = encoding;
++  if (mode) (writeOpts as any).mode = mode;
++  if (signal) (writeOpts as any).signal = signal as any;
++
++  try {
++    if (atomic) {
++      const tmp = tmpName(filePath);
++      await fs.writeFile(tmp, data as any, writeOpts);
++      await fs.rename(tmp, filePath);
++    } else {
++      await fs.writeFile(filePath, data as any, writeOpts);
++    }
++    console.log(`📄 [EUFM] Wrote file: ${filePath}`);
++  } catch (err) {
++    console.error(`[EUFM] Failed to write file: ${filePath}`, err);
++    throw new FileWriteError(`Failed to write file: ${filePath}`, 'WRITE_FAILED', err);
++  }
++}
++
++export interface JsonWriteOptions extends WriteOptions {
++  pretty?: number | boolean;
++}
++
++export async function safeWriteJson(
++  filePath: string,
++  value: unknown,
++  options: JsonWriteOptions = {}
++): Promise<void> {
++  let json: string;
++  try {
++    const spaces = options.pretty === true ? 2 : typeof options.pretty === 'number' ? options.pretty : 0;
++    json = JSON.stringify(value, null, spaces);
++  } catch (err) {
++    console.error('[EUFM] JSON serialization failed in safeWriteJson for', filePath, err);
++    throw new FileWriteError('JSON serialization failed', 'JSON_STRINGIFY_FAILED', err);
++  }
++  await safeWriteFile(filePath, json + (options.encoding === 'utf-8' || options.encoding === undefined ? '' : ''), options);
++}
++
++export async function readJson<T = unknown>(filePath: string): Promise<T> {
++  try {
++    const content = await fs.readFile(filePath, 'utf-8');
++    return JSON.parse(content) as T;
++  } catch (err) {
++    console.error('[EUFM] Failed to read or parse JSON:', filePath, err);
++    throw new FileWriteError(`Failed to read or parse JSON: ${filePath}`, 'READ_JSON_FAILED', err);
++  }
++}
++
+
+[2025-09-10T15:53:51] apply_patch auto_approved=true:
+A /Users/panda/Desktop/UBOS/src/tests/fileWriter_test.ts
+import path from 'path';
+import { promises as fs } from 'fs';
+import { safeWriteFile, safeWriteJson, readJson, FileWriteError } from '../utils/fileWriter.js';
+
+function expect(condition: boolean, message: string) {
+  if (!condition) throw new Error(message);
+}
+
+async function exists(p: string): Promise<boolean> {
+  try {
+    await fs.access(p);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+async function run() {
+  console.log('[EUFM] Running fileWriter tests...');
+  const base = path.join('logs', 'test-output', 'file-writer', `${Date.now()}_${Math.random().toString(36).slice(2)}`);
+
+  // ensureDir behavior via nested path
+  const nestedFile = path.join(base, 'deep', 'nest', 'hello.txt');
+  await safeWriteFile(nestedFile, 'hello world', { encoding: 'utf-8', ensureDir: true, atomic: true });
+  expect(await exists(nestedFile), 'nested write: file should exist');
+  const text = await fs.readFile(nestedFile, 'utf-8');
+  expect(text === 'hello world', 'nested write: content should match');
+
+  // JSON write + read
+  const jsonFile = path.join(base, 'data', 'obj.json');
+  const obj = { a: 1, b: 'two', c: [3, 4, 5] };
+  await safeWriteJson(jsonFile, obj, { pretty: true, ensureDir: true });
+  const readBack = await readJson<typeof obj>(jsonFile);
+  expect(readBack.a === 1 && readBack.b === 'two' && Array.isArray(readBack.c) && readBack.c.length === 3, 'json read: object should match structure');
+
+  // atomic write attempts should not leave temp files in directory
+  const dirEntries = await fs.readdir(path.dirname(jsonFile));
+  const tmpLeak = dirEntries.some((e) => e.startsWith('.tmp-'));
+  expect(!tmpLeak, 'atomic write: should not leave temporary files');
+
+  // error path: JSON serialization failure (circular reference)
+  const circ: any = { name: 'x' };
+  circ.self = circ;
+  let threw = false;
+  try {
+    await safeWriteJson(path.join(base, 'bad', 'circ.json'), circ, { ensureDir: true });
+  } catch (err) {
+    threw = true;
+    expect(err instanceof FileWriteError, 'circular: should throw FileWriteError');
+    expect((err as FileWriteError).code === 'JSON_STRINGIFY_FAILED', 'circular: error code should be JSON_STRINGIFY_FAILED');
+  }
+  expect(threw, 'circular: expected to throw');
+
+  // error path: invalid data type for safeWriteFile
+  let threw2 = false;
+  try {
+    // @ts-expect-error testing runtime guard
+    await safeWriteFile(path.join(base, 'bad', 'invalid.txt'), { not: 'string or buffer' }, { ensureDir: true });
+  } catch (err) {
+    threw2 = true;
+    expect(err instanceof FileWriteError, 'invalid data: should throw FileWriteError');
+    expect((err as FileWriteError).code === 'INVALID_DATA', 'invalid data: error code should be INVALID_DATA');
+  }
+  expect(threw2, 'invalid data: expected to throw');
+
+  console.log('[EUFM] fileWriter tests passed.');
+}
+
+run().catch((err) => {
+  console.error('[EUFM] fileWriter tests failed:', err?.message || err);
+  process.exit(1);
+});
+
+[2025-09-10T15:53:51] apply_patch(auto_approved=true) exited 0 in 118ms:
+Success. Updated the following files:
+A src/tests/fileWriter_test.ts
+[2025-09-10T15:53:51] turn diff:
+diff --git a/src/tests/fileWriter_test.ts b/src/tests/fileWriter_test.ts
+new file mode 100644
+index 0000000000000000000000000000000000000000..6bffa86256db4927077ce05d51a60db8ebe303f4
+--- /dev/null
++++ b/src/tests/fileWriter_test.ts
+@@ -0,0 +1,73 @@
++import path from 'path';
++import { promises as fs } from 'fs';
++import { safeWriteFile, safeWriteJson, readJson, FileWriteError } from '../utils/fileWriter.js';
++
++function expect(condition: boolean, message: string) {
++  if (!condition) throw new Error(message);
++}
++
++async function exists(p: string): Promise<boolean> {
++  try {
++    await fs.access(p);
++    return true;
++  } catch {
++    return false;
++  }
++}
++
++async function run() {
++  console.log('[EUFM] Running fileWriter tests...');
++  const base = path.join('logs', 'test-output', 'file-writer', `${Date.now()}_${Math.random().toString(36).slice(2)}`);
++
++  // ensureDir behavior via nested path
++  const nestedFile = path.join(base, 'deep', 'nest', 'hello.txt');
++  await safeWriteFile(nestedFile, 'hello world', { encoding: 'utf-8', ensureDir: true, atomic: true });
++  expect(await exists(nestedFile), 'nested write: file should exist');
++  const text = await fs.readFile(nestedFile, 'utf-8');
++  expect(text === 'hello world', 'nested write: content should match');
++
++  // JSON write + read
++  const jsonFile = path.join(base, 'data', 'obj.json');
++  const obj = { a: 1, b: 'two', c: [3, 4, 5] };
++  await safeWriteJson(jsonFile, obj, { pretty: true, ensureDir: true });
++  const readBack = await readJson<typeof obj>(jsonFile);
++  expect(readBack.a === 1 && readBack.b === 'two' && Array.isArray(readBack.c) && readBack.c.length === 3, 'json read: object should match structure');
++
++  // atomic write attempts should not leave temp files in directory
++  const dirEntries = await fs.readdir(path.dirname(jsonFile));
++  const tmpLeak = dirEntries.some((e) => e.startsWith('.tmp-'));
++  expect(!tmpLeak, 'atomic write: should not leave temporary files');
++
++  // error path: JSON serialization failure (circular reference)
++  const circ: any = { name: 'x' };
++  circ.self = circ;
++  let threw = false;
++  try {
++    await safeWriteJson(path.join(base, 'bad', 'circ.json'), circ, { ensureDir: true });
++  } catch (err) {
++    threw = true;
++    expect(err instanceof FileWriteError, 'circular: should throw FileWriteError');
++    expect((err as FileWriteError).code === 'JSON_STRINGIFY_FAILED', 'circular: error code should be JSON_STRINGIFY_FAILED');
++  }
++  expect(threw, 'circular: expected to throw');
++
++  // error path: invalid data type for safeWriteFile
++  let threw2 = false;
++  try {
++    // @ts-expect-error testing runtime guard
++    await safeWriteFile(path.join(base, 'bad', 'invalid.txt'), { not: 'string or buffer' }, { ensureDir: true });
++  } catch (err) {
++    threw2 = true;
++    expect(err instanceof FileWriteError, 'invalid data: should throw FileWriteError');
++    expect((err as FileWriteError).code === 'INVALID_DATA', 'invalid data: error code should be INVALID_DATA');
++  }
++  expect(threw2, 'invalid data: expected to throw');
++
++  console.log('[EUFM] fileWriter tests passed.');
++}
++
++run().catch((err) => {
++  console.error('[EUFM] fileWriter tests failed:', err?.message || err);
++  process.exit(1);
++});
++
+diff --git a/src/utils/fileWriter.ts b/src/utils/fileWriter.ts
+new file mode 100644
+index 0000000000000000000000000000000000000000..17b2ed8d95ef5c9a4dfa34639628b47bbf9c5f05
+--- /dev/null
++++ b/src/utils/fileWriter.ts
+@@ -0,0 +1,111 @@
++import { promises as fs } from 'fs';
++import path from 'path';
++
++export class FileWriteError extends Error {
++  code: string;
++  cause?: unknown;
++  constructor(message: string, code = 'FILE_WRITE_ERROR', cause?: unknown) {
++    super(message);
++    this.name = 'FileWriteError';
++    this.code = code;
++    this.cause = cause;
++  }
++}
++
++export interface WriteOptions {
++  encoding?: BufferEncoding;
++  mode?: number;
++  signal?: AbortSignal;
++  atomic?: boolean;
++  ensureDir?: boolean;
++}
++
++function isStringOrBuffer(v: unknown): v is string | Uint8Array {
++  return typeof v === 'string' || v instanceof Uint8Array;
++}
++
++async function ensureDir(dirPath: string): Promise<void> {
++  try {
++    await fs.mkdir(dirPath, { recursive: true });
++  } catch (err) {
++    console.error('[EUFM] Failed to ensure directory exists:', dirPath, err);
++    throw new FileWriteError(`Failed to ensure directory: ${dirPath}`, 'ENSURE_DIR_FAILED', err);
++  }
++}
++
++function tmpName(targetPath: string): string {
++  const base = `.tmp-${process.pid}-${Date.now()}-${Math.random().toString(36).slice(2)}`;
++  return path.join(path.dirname(targetPath), base);
++}
++
++export async function safeWriteFile(
++  filePath: string,
++  data: string | Uint8Array,
++  options: WriteOptions = {}
++): Promise<void> {
++  if (typeof filePath !== 'string' || filePath.trim() === '') {
++    console.error('[EUFM] Invalid file path provided to safeWriteFile:', filePath);
++    throw new FileWriteError('Invalid file path', 'INVALID_PATH');
++  }
++  if (!isStringOrBuffer(data)) {
++    console.error('[EUFM] Invalid data type provided to safeWriteFile. Expected string or Uint8Array');
++    throw new FileWriteError('Invalid data type', 'INVALID_DATA');
++  }
++
++  const { encoding, mode, signal, atomic = true, ensureDir: mkDir = true } = options;
++
++  const dir = path.dirname(filePath);
++  if (mkDir) {
++    await ensureDir(dir);
++  }
++
++  const writeOpts: Parameters<typeof fs.writeFile>[2] = {};
++  if (encoding && typeof data === 'string') (writeOpts as any).encoding = encoding;
++  if (mode) (writeOpts as any).mode = mode;
++  if (signal) (writeOpts as any).signal = signal as any;
++
++  try {
++    if (atomic) {
++      const tmp = tmpName(filePath);
++      await fs.writeFile(tmp, data as any, writeOpts);
++      await fs.rename(tmp, filePath);
++    } else {
++      await fs.writeFile(filePath, data as any, writeOpts);
++    }
++    console.log(`📄 [EUFM] Wrote file: ${filePath}`);
++  } catch (err) {
++    console.error(`[EUFM] Failed to write file: ${filePath}`, err);
++    throw new FileWriteError(`Failed to write file: ${filePath}`, 'WRITE_FAILED', err);
++  }
++}
++
++export interface JsonWriteOptions extends WriteOptions {
++  pretty?: number | boolean;
++}
++
++export async function safeWriteJson(
++  filePath: string,
++  value: unknown,
++  options: JsonWriteOptions = {}
++): Promise<void> {
++  let json: string;
++  try {
++    const spaces = options.pretty === true ? 2 : typeof options.pretty === 'number' ? options.pretty : 0;
++    json = JSON.stringify(value, null, spaces);
++  } catch (err) {
++    console.error('[EUFM] JSON serialization failed in safeWriteJson for', filePath, err);
++    throw new FileWriteError('JSON serialization failed', 'JSON_STRINGIFY_FAILED', err);
++  }
++  await safeWriteFile(filePath, json + (options.encoding === 'utf-8' || options.encoding === undefined ? '' : ''), options);
++}
++
++export async function readJson<T = unknown>(filePath: string): Promise<T> {
++  try {
++    const content = await fs.readFile(filePath, 'utf-8');
++    return JSON.parse(content) as T;
++  } catch (err) {
++    console.error('[EUFM] Failed to read or parse JSON:', filePath, err);
++    throw new FileWriteError(`Failed to read or parse JSON: ${filePath}`, 'READ_JSON_FAILED', err);
++  }
++}
++
+
+diff --git a/src/tests/fileWriter_test.ts b/src/tests/fileWriter_test.ts
+new file mode 100644
+index 0000000000000000000000000000000000000000..6bffa86256db4927077ce05d51a60db8ebe303f4
+--- /dev/null
++++ b/src/tests/fileWriter_test.ts
+@@ -0,0 +1,73 @@
++import path from 'path';
++import { promises as fs } from 'fs';
++import { safeWriteFile, safeWriteJson, readJson, FileWriteError } from '../utils/fileWriter.js';
++
++function expect(condition: boolean, message: string) {
++  if (!condition) throw new Error(message);
++}
++
++async function exists(p: string): Promise<boolean> {
++  try {
++    await fs.access(p);
++    return true;
++  } catch {
++    return false;
++  }
++}
++
++async function run() {
++  console.log('[EUFM] Running fileWriter tests...');
++  const base = path.join('logs', 'test-output', 'file-writer', `${Date.now()}_${Math.random().toString(36).slice(2)}`);
++
++  // ensureDir behavior via nested path
++  const nestedFile = path.join(base, 'deep', 'nest', 'hello.txt');
++  await safeWriteFile(nestedFile, 'hello world', { encoding: 'utf-8', ensureDir: true, atomic: true });
++  expect(await exists(nestedFile), 'nested write: file should exist');
++  const text = await fs.readFile(nestedFile, 'utf-8');
++  expect(text === 'hello world', 'nested write: content should match');
++
++  // JSON write + read
++  const jsonFile = path.join(base, 'data', 'obj.json');
++  const obj = { a: 1, b: 'two', c: [3, 4, 5] };
++  await safeWriteJson(jsonFile, obj, { pretty: true, ensureDir: true });
++  const readBack = await readJson<typeof obj>(jsonFile);
++  expect(readBack.a === 1 && readBack.b === 'two' && Array.isArray(readBack.c) && readBack.c.length === 3, 'json read: object should match structure');
++
++  // atomic write attempts should not leave temp files in directory
++  const dirEntries = await fs.readdir(path.dirname(jsonFile));
++  const tmpLeak = dirEntries.some((e) => e.startsWith('.tmp-'));
++  expect(!tmpLeak, 'atomic write: should not leave temporary files');
++
++  // error path: JSON serialization failure (circular reference)
++  const circ: any = { name: 'x' };
++  circ.self = circ;
++  let threw = false;
++  try {
++    await safeWriteJson(path.join(base, 'bad', 'circ.json'), circ, { ensureDir: true });
++  } catch (err) {
++    threw = true;
++    expect(err instanceof FileWriteError, 'circular: should throw FileWriteError');
++    expect((err as FileWriteError).code === 'JSON_STRINGIFY_FAILED', 'circular: error code should be JSON_STRINGIFY_FAILED');
++  }
++  expect(threw, 'circular: expected to throw');
++
++  // error path: invalid data type for safeWriteFile
++  let threw2 = false;
++  try {
++    // @ts-expect-error testing runtime guard
++    await safeWriteFile(path.join(base, 'bad', 'invalid.txt'), { not: 'string or buffer' }, { ensureDir: true });
++  } catch (err) {
++    threw2 = true;
++    expect(err instanceof FileWriteError, 'invalid data: should throw FileWriteError');
++    expect((err as FileWriteError).code === 'INVALID_DATA', 'invalid data: error code should be INVALID_DATA');
++  }
++  expect(threw2, 'invalid data: expected to throw');
++
++  console.log('[EUFM] fileWriter tests passed.');
++}
++
++run().catch((err) => {
++  console.error('[EUFM] fileWriter tests failed:', err?.message || err);
++  process.exit(1);
++});
++
+diff --git a/src/utils/fileWriter.ts b/src/utils/fileWriter.ts
+new file mode 100644
+index 0000000000000000000000000000000000000000..17b2ed8d95ef5c9a4dfa34639628b47bbf9c5f05
+--- /dev/null
++++ b/src/utils/fileWriter.ts
+@@ -0,0 +1,111 @@
++import { promises as fs } from 'fs';
++import path from 'path';
++
++export class FileWriteError extends Error {
++  code: string;
++  cause?: unknown;
++  constructor(message: string, code = 'FILE_WRITE_ERROR', cause?: unknown) {
++    super(message);
++    this.name = 'FileWriteError';
++    this.code = code;
++    this.cause = cause;
++  }
++}
++
++export interface WriteOptions {
++  encoding?: BufferEncoding;
++  mode?: number;
++  signal?: AbortSignal;
++  atomic?: boolean;
++  ensureDir?: boolean;
++}
++
++function isStringOrBuffer(v: unknown): v is string | Uint8Array {
++  return typeof v === 'string' || v instanceof Uint8Array;
++}
++
++async function ensureDir(dirPath: string): Promise<void> {
++  try {
++    await fs.mkdir(dirPath, { recursive: true });
++  } catch (err) {
++    console.error('[EUFM] Failed to ensure directory exists:', dirPath, err);
++    throw new FileWriteError(`Failed to ensure directory: ${dirPath}`, 'ENSURE_DIR_FAILED', err);
++  }
++}
++
++function tmpName(targetPath: string): string {
++  const base = `.tmp-${process.pid}-${Date.now()}-${Math.random().toString(36).slice(2)}`;
++  return path.join(path.dirname(targetPath), base);
++}
++
++export async function safeWriteFile(
++  filePath: string,
++  data: string | Uint8Array,
++  options: WriteOptions = {}
++): Promise<void> {
++  if (typeof filePath !== 'string' || filePath.trim() === '') {
++    console.error('[EUFM] Invalid file path provided to safeWriteFile:', filePath);
++    throw new FileWriteError('Invalid file path', 'INVALID_PATH');
++  }
++  if (!isStringOrBuffer(data)) {
++    console.error('[EUFM] Invalid data type provided to safeWriteFile. Expected string or Uint8Array');
++    throw new FileWriteError('Invalid data type', 'INVALID_DATA');
++  }
++
++  const { encoding, mode, signal, atomic = true, ensureDir: mkDir = true } = options;
++
++  const dir = path.dirname(filePath);
++  if (mkDir) {
++    await ensureDir(dir);
++  }
++
++  const writeOpts: Parameters<typeof fs.writeFile>[2] = {};
++  if (encoding && typeof data === 'string') (writeOpts as any).encoding = encoding;
++  if (mode) (writeOpts as any).mode = mode;
++  if (signal) (writeOpts as any).signal = signal as any;
++
++  try {
++    if (atomic) {
++      const tmp = tmpName(filePath);
++      await fs.writeFile(tmp, data as any, writeOpts);
++      await fs.rename(tmp, filePath);
++    } else {
++      await fs.writeFile(filePath, data as any, writeOpts);
++    }
++    console.log(`📄 [EUFM] Wrote file: ${filePath}`);
++  } catch (err) {
++    console.error(`[EUFM] Failed to write file: ${filePath}`, err);
++    throw new FileWriteError(`Failed to write file: ${filePath}`, 'WRITE_FAILED', err);
++  }
++}
++
++export interface JsonWriteOptions extends WriteOptions {
++  pretty?: number | boolean;
++}
++
++export async function safeWriteJson(
++  filePath: string,
++  value: unknown,
++  options: JsonWriteOptions = {}
++): Promise<void> {
++  let json: string;
++  try {
++    const spaces = options.pretty === true ? 2 : typeof options.pretty === 'number' ? options.pretty : 0;
++    json = JSON.stringify(value, null, spaces);
++  } catch (err) {
++    console.error('[EUFM] JSON serialization failed in safeWriteJson for', filePath, err);
++    throw new FileWriteError('JSON serialization failed', 'JSON_STRINGIFY_FAILED', err);
++  }
++  await safeWriteFile(filePath, json + (options.encoding === 'utf-8' || options.encoding === undefined ? '' : ''), options);
++}
++
++export async function readJson<T = unknown>(filePath: string): Promise<T> {
++  try {
++    const content = await fs.readFile(filePath, 'utf-8');
++    return JSON.parse(content) as T;
++  } catch (err) {
++    console.error('[EUFM] Failed to read or parse JSON:', filePath, err);
++    throw new FileWriteError(`Failed to read or parse JSON: ${filePath}`, 'READ_JSON_FAILED', err);
++  }
++}
++
+
+[2025-09-10T15:53:51] tokens used: 2352
+[2025-09-10T15:53:51] turn diff:
+[2025-09-10T15:54:01] apply_patch auto_approved=true:
+A /Users/panda/Desktop/UBOS/docs/guides/file-writer.md
+**File Writer Utility**
+- Location: `src/utils/fileWriter.ts`
+
+Provides safe, atomic file and JSON writing with directory creation, typed errors, and concise logging consistent with EUFM patterns.
+
+API
+- `safeWriteFile(filePath, data, options)`
+  - Writes `string` or `Uint8Array` to disk.
+  - Options:
+    - `atomic` (default: true): write to temp file and rename for atomicity.
+    - `ensureDir` (default: true): create parent directories recursively.
+    - `encoding`, `mode`, `signal`: forwarded to `fs.writeFile`.
+- `safeWriteJson(filePath, value, options)`
+  - Serializes JSON with optional `pretty` spacing (true = 2 spaces) and writes via `safeWriteFile`.
+- `readJson(filePath)`
+  - Reads and parses JSON with error context.
+- `FileWriteError`
+  - Custom error with `code`:
+    - `INVALID_PATH`, `INVALID_DATA`, `ENSURE_DIR_FAILED`, `WRITE_FAILED`, `JSON_STRINGIFY_FAILED`, `READ_JSON_FAILED`.
+
+Usage
+- Write text safely:
+  - `await safeWriteFile('logs/output/report.txt', 'hello', { encoding: 'utf-8' });`
+- Write JSON (pretty):
+  - `await safeWriteJson('logs/output/data.json', { ok: true }, { pretty: true });`
+- Read JSON:
+  - `const data = await readJson('logs/output/data.json');`
+
+Error Handling
+- Throws `FileWriteError` with a specific `code` and logs a clear `[EUFM]`-prefixed message.
+- Catch and branch on `code` for programmatic recovery.
+
+Testing
+- Run: `tsx src/tests/fileWriter_test.ts`
+- Tests cover directory creation, atomic writes (no temp leaks), JSON round-trip, and error cases.
+
+[2025-09-10T15:54:01] apply_patch(auto_approved=true) exited 0 in 562ms:
+Success. Updated the following files:
+A docs/guides/file-writer.md
+[2025-09-10T15:54:01] turn diff:
+diff --git a/docs/guides/file-writer.md b/docs/guides/file-writer.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..fd51ef659c9b4a2d1307808b25d49aee33d33c6f
+--- /dev/null
++++ b/docs/guides/file-writer.md
+@@ -0,0 +1,36 @@
++**File Writer Utility**
++- Location: `src/utils/fileWriter.ts`
++
++Provides safe, atomic file and JSON writing with directory creation, typed errors, and concise logging consistent with EUFM patterns.
++
++API
++- `safeWriteFile(filePath, data, options)`
++  - Writes `string` or `Uint8Array` to disk.
++  - Options:
++    - `atomic` (default: true): write to temp file and rename for atomicity.
++    - `ensureDir` (default: true): create parent directories recursively.
++    - `encoding`, `mode`, `signal`: forwarded to `fs.writeFile`.
++- `safeWriteJson(filePath, value, options)`
++  - Serializes JSON with optional `pretty` spacing (true = 2 spaces) and writes via `safeWriteFile`.
++- `readJson(filePath)`
++  - Reads and parses JSON with error context.
++- `FileWriteError`
++  - Custom error with `code`:
++    - `INVALID_PATH`, `INVALID_DATA`, `ENSURE_DIR_FAILED`, `WRITE_FAILED`, `JSON_STRINGIFY_FAILED`, `READ_JSON_FAILED`.
++
++Usage
++- Write text safely:
++  - `await safeWriteFile('logs/output/report.txt', 'hello', { encoding: 'utf-8' });`
++- Write JSON (pretty):
++  - `await safeWriteJson('logs/output/data.json', { ok: true }, { pretty: true });`
++- Read JSON:
++  - `const data = await readJson('logs/output/data.json');`
++
++Error Handling
++- Throws `FileWriteError` with a specific `code` and logs a clear `[EUFM]`-prefixed message.
++- Catch and branch on `code` for programmatic recovery.
++
++Testing
++- Run: `tsx src/tests/fileWriter_test.ts`
++- Tests cover directory creation, atomic writes (no temp leaks), JSON round-trip, and error cases.
++
+diff --git a/src/tests/fileWriter_test.ts b/src/tests/fileWriter_test.ts
+new file mode 100644
+index 0000000000000000000000000000000000000000..6bffa86256db4927077ce05d51a60db8ebe303f4
+--- /dev/null
++++ b/src/tests/fileWriter_test.ts
+@@ -0,0 +1,73 @@
++import path from 'path';
++import { promises as fs } from 'fs';
++import { safeWriteFile, safeWriteJson, readJson, FileWriteError } from '../utils/fileWriter.js';
++
++function expect(condition: boolean, message: string) {
++  if (!condition) throw new Error(message);
++}
++
++async function exists(p: string): Promise<boolean> {
++  try {
++    await fs.access(p);
++    return true;
++  } catch {
++    return false;
++  }
++}
++
++async function run() {
++  console.log('[EUFM] Running fileWriter tests...');
++  const base = path.join('logs', 'test-output', 'file-writer', `${Date.now()}_${Math.random().toString(36).slice(2)}`);
++
++  // ensureDir behavior via nested path
++  const nestedFile = path.join(base, 'deep', 'nest', 'hello.txt');
++  await safeWriteFile(nestedFile, 'hello world', { encoding: 'utf-8', ensureDir: true, atomic: true });
++  expect(await exists(nestedFile), 'nested write: file should exist');
++  const text = await fs.readFile(nestedFile, 'utf-8');
++  expect(text === 'hello world', 'nested write: content should match');
++
++  // JSON write + read
++  const jsonFile = path.join(base, 'data', 'obj.json');
++  const obj = { a: 1, b: 'two', c: [3, 4, 5] };
++  await safeWriteJson(jsonFile, obj, { pretty: true, ensureDir: true });
++  const readBack = await readJson<typeof obj>(jsonFile);
++  expect(readBack.a === 1 && readBack.b === 'two' && Array.isArray(readBack.c) && readBack.c.length === 3, 'json read: object should match structure');
++
++  // atomic write attempts should not leave temp files in directory
++  const dirEntries = await fs.readdir(path.dirname(jsonFile));
++  const tmpLeak = dirEntries.some((e) => e.startsWith('.tmp-'));
++  expect(!tmpLeak, 'atomic write: should not leave temporary files');
++
++  // error path: JSON serialization failure (circular reference)
++  const circ: any = { name: 'x' };
++  circ.self = circ;
++  let threw = false;
++  try {
++    await safeWriteJson(path.join(base, 'bad', 'circ.json'), circ, { ensureDir: true });
++  } catch (err) {
++    threw = true;
++    expect(err instanceof FileWriteError, 'circular: should throw FileWriteError');
++    expect((err as FileWriteError).code === 'JSON_STRINGIFY_FAILED', 'circular: error code should be JSON_STRINGIFY_FAILED');
++  }
++  expect(threw, 'circular: expected to throw');
++
++  // error path: invalid data type for safeWriteFile
++  let threw2 = false;
++  try {
++    // @ts-expect-error testing runtime guard
++    await safeWriteFile(path.join(base, 'bad', 'invalid.txt'), { not: 'string or buffer' }, { ensureDir: true });
++  } catch (err) {
++    threw2 = true;
++    expect(err instanceof FileWriteError, 'invalid data: should throw FileWriteError');
++    expect((err as FileWriteError).code === 'INVALID_DATA', 'invalid data: error code should be INVALID_DATA');
++  }
++  expect(threw2, 'invalid data: expected to throw');
++
++  console.log('[EUFM] fileWriter tests passed.');
++}
++
++run().catch((err) => {
++  console.error('[EUFM] fileWriter tests failed:', err?.message || err);
++  process.exit(1);
++});
++
+diff --git a/src/utils/fileWriter.ts b/src/utils/fileWriter.ts
+new file mode 100644
+index 0000000000000000000000000000000000000000..17b2ed8d95ef5c9a4dfa34639628b47bbf9c5f05
+--- /dev/null
++++ b/src/utils/fileWriter.ts
+@@ -0,0 +1,111 @@
++import { promises as fs } from 'fs';
++import path from 'path';
++
++export class FileWriteError extends Error {
++  code: string;
++  cause?: unknown;
++  constructor(message: string, code = 'FILE_WRITE_ERROR', cause?: unknown) {
++    super(message);
++    this.name = 'FileWriteError';
++    this.code = code;
++    this.cause = cause;
++  }
++}
++
++export interface WriteOptions {
++  encoding?: BufferEncoding;
++  mode?: number;
++  signal?: AbortSignal;
++  atomic?: boolean;
++  ensureDir?: boolean;
++}
++
++function isStringOrBuffer(v: unknown): v is string | Uint8Array {
++  return typeof v === 'string' || v instanceof Uint8Array;
++}
++
++async function ensureDir(dirPath: string): Promise<void> {
++  try {
++    await fs.mkdir(dirPath, { recursive: true });
++  } catch (err) {
++    console.error('[EUFM] Failed to ensure directory exists:', dirPath, err);
++    throw new FileWriteError(`Failed to ensure directory: ${dirPath}`, 'ENSURE_DIR_FAILED', err);
++  }
++}
++
++function tmpName(targetPath: string): string {
++  const base = `.tmp-${process.pid}-${Date.now()}-${Math.random().toString(36).slice(2)}`;
++  return path.join(path.dirname(targetPath), base);
++}
++
++export async function safeWriteFile(
++  filePath: string,
++  data: string | Uint8Array,
++  options: WriteOptions = {}
++): Promise<void> {
++  if (typeof filePath !== 'string' || filePath.trim() === '') {
++    console.error('[EUFM] Invalid file path provided to safeWriteFile:', filePath);
++    throw new FileWriteError('Invalid file path', 'INVALID_PATH');
++  }
++  if (!isStringOrBuffer(data)) {
++    console.error('[EUFM] Invalid data type provided to safeWriteFile. Expected string or Uint8Array');
++    throw new FileWriteError('Invalid data type', 'INVALID_DATA');
++  }
++
++  const { encoding, mode, signal, atomic = true, ensureDir: mkDir = true } = options;
++
++  const dir = path.dirname(filePath);
++  if (mkDir) {
++    await ensureDir(dir);
++  }
++
++  const writeOpts: Parameters<typeof fs.writeFile>[2] = {};
++  if (encoding && typeof data === 'string') (writeOpts as any).encoding = encoding;
++  if (mode) (writeOpts as any).mode = mode;
++  if (signal) (writeOpts as any).signal = signal as any;
++
++  try {
++    if (atomic) {
++      const tmp = tmpName(filePath);
++      await fs.writeFile(tmp, data as any, writeOpts);
++      await fs.rename(tmp, filePath);
++    } else {
++      await fs.writeFile(filePath, data as any, writeOpts);
++    }
++    console.log(`📄 [EUFM] Wrote file: ${filePath}`);
++  } catch (err) {
++    console.error(`[EUFM] Failed to write file: ${filePath}`, err);
++    throw new FileWriteError(`Failed to write file: ${filePath}`, 'WRITE_FAILED', err);
++  }
++}
++
++export interface JsonWriteOptions extends WriteOptions {
++  pretty?: number | boolean;
++}
++
++export async function safeWriteJson(
++  filePath: string,
++  value: unknown,
++  options: JsonWriteOptions = {}
++): Promise<void> {
++  let json: string;
++  try {
++    const spaces = options.pretty === true ? 2 : typeof options.pretty === 'number' ? options.pretty : 0;
++    json = JSON.stringify(value, null, spaces);
++  } catch (err) {
++    console.error('[EUFM] JSON serialization failed in safeWriteJson for', filePath, err);
++    throw new FileWriteError('JSON serialization failed', 'JSON_STRINGIFY_FAILED', err);
++  }
++  await safeWriteFile(filePath, json + (options.encoding === 'utf-8' || options.encoding === undefined ? '' : ''), options);
++}
++
++export async function readJson<T = unknown>(filePath: string): Promise<T> {
++  try {
++    const content = await fs.readFile(filePath, 'utf-8');
++    return JSON.parse(content) as T;
++  } catch (err) {
++    console.error('[EUFM] Failed to read or parse JSON:', filePath, err);
++    throw new FileWriteError(`Failed to read or parse JSON: ${filePath}`, 'READ_JSON_FAILED', err);
++  }
++}
++
+
+[2025-09-10T15:54:01] tokens used: 1615
+[2025-09-10T15:54:01] turn diff:
+diff --git a/docs/guides/file-writer.md b/docs/guides/file-writer.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..fd51ef659c9b4a2d1307808b25d49aee33d33c6f
+--- /dev/null
++++ b/docs/guides/file-writer.md
+@@ -0,0 +1,36 @@
++**File Writer Utility**
++- Location: `src/utils/fileWriter.ts`
++
++Provides safe, atomic file and JSON writing with directory creation, typed errors, and concise logging consistent with EUFM patterns.
++
++API
++- `safeWriteFile(filePath, data, options)`
++  - Writes `string` or `Uint8Array` to disk.
++  - Options:
++    - `atomic` (default: true): write to temp file and rename for atomicity.
++    - `ensureDir` (default: true): create parent directories recursively.
++    - `encoding`, `mode`, `signal`: forwarded to `fs.writeFile`.
++- `safeWriteJson(filePath, value, options)`
++  - Serializes JSON with optional `pretty` spacing (true = 2 spaces) and writes via `safeWriteFile`.
++- `readJson(filePath)`
++  - Reads and parses JSON with error context.
++- `FileWriteError`
++  - Custom error with `code`:
++    - `INVALID_PATH`, `INVALID_DATA`, `ENSURE_DIR_FAILED`, `WRITE_FAILED`, `JSON_STRINGIFY_FAILED`, `READ_JSON_FAILED`.
++
++Usage
++- Write text safely:
++  - `await safeWriteFile('logs/output/report.txt', 'hello', { encoding: 'utf-8' });`
++- Write JSON (pretty):
++  - `await safeWriteJson('logs/output/data.json', { ok: true }, { pretty: true });`
++- Read JSON:
++  - `const data = await readJson('logs/output/data.json');`
++
++Error Handling
++- Throws `FileWriteError` with a specific `code` and logs a clear `[EUFM]`-prefixed message.
++- Catch and branch on `code` for programmatic recovery.
++
++Testing
++- Run: `tsx src/tests/fileWriter_test.ts`
++- Tests cover directory creation, atomic writes (no temp leaks), JSON round-trip, and error cases.
++
+diff --git a/src/tests/fileWriter_test.ts b/src/tests/fileWriter_test.ts
+new file mode 100644
+index 0000000000000000000000000000000000000000..6bffa86256db4927077ce05d51a60db8ebe303f4
+--- /dev/null
++++ b/src/tests/fileWriter_test.ts
+@@ -0,0 +1,73 @@
++import path from 'path';
++import { promises as fs } from 'fs';
++import { safeWriteFile, safeWriteJson, readJson, FileWriteError } from '../utils/fileWriter.js';
++
++function expect(condition: boolean, message: string) {
++  if (!condition) throw new Error(message);
++}
++
++async function exists(p: string): Promise<boolean> {
++  try {
++    await fs.access(p);
++    return true;
++  } catch {
++    return false;
++  }
++}
++
++async function run() {
++  console.log('[EUFM] Running fileWriter tests...');
++  const base = path.join('logs', 'test-output', 'file-writer', `${Date.now()}_${Math.random().toString(36).slice(2)}`);
++
++  // ensureDir behavior via nested path
++  const nestedFile = path.join(base, 'deep', 'nest', 'hello.txt');
++  await safeWriteFile(nestedFile, 'hello world', { encoding: 'utf-8', ensureDir: true, atomic: true });
++  expect(await exists(nestedFile), 'nested write: file should exist');
++  const text = await fs.readFile(nestedFile, 'utf-8');
++  expect(text === 'hello world', 'nested write: content should match');
++
++  // JSON write + read
++  const jsonFile = path.join(base, 'data', 'obj.json');
++  const obj = { a: 1, b: 'two', c: [3, 4, 5] };
++  await safeWriteJson(jsonFile, obj, { pretty: true, ensureDir: true });
++  const readBack = await readJson<typeof obj>(jsonFile);
++  expect(readBack.a === 1 && readBack.b === 'two' && Array.isArray(readBack.c) && readBack.c.length === 3, 'json read: object should match structure');
++
++  // atomic write attempts should not leave temp files in directory
++  const dirEntries = await fs.readdir(path.dirname(jsonFile));
++  const tmpLeak = dirEntries.some((e) => e.startsWith('.tmp-'));
++  expect(!tmpLeak, 'atomic write: should not leave temporary files');
++
++  // error path: JSON serialization failure (circular reference)
++  const circ: any = { name: 'x' };
++  circ.self = circ;
++  let threw = false;
++  try {
++    await safeWriteJson(path.join(base, 'bad', 'circ.json'), circ, { ensureDir: true });
++  } catch (err) {
++    threw = true;
++    expect(err instanceof FileWriteError, 'circular: should throw FileWriteError');
++    expect((err as FileWriteError).code === 'JSON_STRINGIFY_FAILED', 'circular: error code should be JSON_STRINGIFY_FAILED');
++  }
++  expect(threw, 'circular: expected to throw');
++
++  // error path: invalid data type for safeWriteFile
++  let threw2 = false;
++  try {
++    // @ts-expect-error testing runtime guard
++    await safeWriteFile(path.join(base, 'bad', 'invalid.txt'), { not: 'string or buffer' }, { ensureDir: true });
++  } catch (err) {
++    threw2 = true;
++    expect(err instanceof FileWriteError, 'invalid data: should throw FileWriteError');
++    expect((err as FileWriteError).code === 'INVALID_DATA', 'invalid data: error code should be INVALID_DATA');
++  }
++  expect(threw2, 'invalid data: expected to throw');
++
++  console.log('[EUFM] fileWriter tests passed.');
++}
++
++run().catch((err) => {
++  console.error('[EUFM] fileWriter tests failed:', err?.message || err);
++  process.exit(1);
++});
++
+diff --git a/src/utils/fileWriter.ts b/src/utils/fileWriter.ts
+new file mode 100644
+index 0000000000000000000000000000000000000000..17b2ed8d95ef5c9a4dfa34639628b47bbf9c5f05
+--- /dev/null
++++ b/src/utils/fileWriter.ts
+@@ -0,0 +1,111 @@
++import { promises as fs } from 'fs';
++import path from 'path';
++
++export class FileWriteError extends Error {
++  code: string;
++  cause?: unknown;
++  constructor(message: string, code = 'FILE_WRITE_ERROR', cause?: unknown) {
++    super(message);
++    this.name = 'FileWriteError';
++    this.code = code;
++    this.cause = cause;
++  }
++}
++
++export interface WriteOptions {
++  encoding?: BufferEncoding;
++  mode?: number;
++  signal?: AbortSignal;
++  atomic?: boolean;
++  ensureDir?: boolean;
++}
++
++function isStringOrBuffer(v: unknown): v is string | Uint8Array {
++  return typeof v === 'string' || v instanceof Uint8Array;
++}
++
++async function ensureDir(dirPath: string): Promise<void> {
++  try {
++    await fs.mkdir(dirPath, { recursive: true });
++  } catch (err) {
++    console.error('[EUFM] Failed to ensure directory exists:', dirPath, err);
++    throw new FileWriteError(`Failed to ensure directory: ${dirPath}`, 'ENSURE_DIR_FAILED', err);
++  }
++}
++
++function tmpName(targetPath: string): string {
++  const base = `.tmp-${process.pid}-${Date.now()}-${Math.random().toString(36).slice(2)}`;
++  return path.join(path.dirname(targetPath), base);
++}
++
++export async function safeWriteFile(
++  filePath: string,
++  data: string | Uint8Array,
++  options: WriteOptions = {}
++): Promise<void> {
++  if (typeof filePath !== 'string' || filePath.trim() === '') {
++    console.error('[EUFM] Invalid file path provided to safeWriteFile:', filePath);
++    throw new FileWriteError('Invalid file path', 'INVALID_PATH');
++  }
++  if (!isStringOrBuffer(data)) {
++    console.error('[EUFM] Invalid data type provided to safeWriteFile. Expected string or Uint8Array');
++    throw new FileWriteError('Invalid data type', 'INVALID_DATA');
++  }
++
++  const { encoding, mode, signal, atomic = true, ensureDir: mkDir = true } = options;
++
++  const dir = path.dirname(filePath);
++  if (mkDir) {
++    await ensureDir(dir);
++  }
++
++  const writeOpts: Parameters<typeof fs.writeFile>[2] = {};
++  if (encoding && typeof data === 'string') (writeOpts as any).encoding = encoding;
++  if (mode) (writeOpts as any).mode = mode;
++  if (signal) (writeOpts as any).signal = signal as any;
++
++  try {
++    if (atomic) {
++      const tmp = tmpName(filePath);
++      await fs.writeFile(tmp, data as any, writeOpts);
++      await fs.rename(tmp, filePath);
++    } else {
++      await fs.writeFile(filePath, data as any, writeOpts);
++    }
++    console.log(`📄 [EUFM] Wrote file: ${filePath}`);
++  } catch (err) {
++    console.error(`[EUFM] Failed to write file: ${filePath}`, err);
++    throw new FileWriteError(`Failed to write file: ${filePath}`, 'WRITE_FAILED', err);
++  }
++}
++
++export interface JsonWriteOptions extends WriteOptions {
++  pretty?: number | boolean;
++}
++
++export async function safeWriteJson(
++  filePath: string,
++  value: unknown,
++  options: JsonWriteOptions = {}
++): Promise<void> {
++  let json: string;
++  try {
++    const spaces = options.pretty === true ? 2 : typeof options.pretty === 'number' ? options.pretty : 0;
++    json = JSON.stringify(value, null, spaces);
++  } catch (err) {
++    console.error('[EUFM] JSON serialization failed in safeWriteJson for', filePath, err);
++    throw new FileWriteError('JSON serialization failed', 'JSON_STRINGIFY_FAILED', err);
++  }
++  await safeWriteFile(filePath, json + (options.encoding === 'utf-8' || options.encoding === undefined ? '' : ''), options);
++}
++
++export async function readJson<T = unknown>(filePath: string): Promise<T> {
++  try {
++    const content = await fs.readFile(filePath, 'utf-8');
++    return JSON.parse(content) as T;
++  } catch (err) {
++    console.error('[EUFM] Failed to read or parse JSON:', filePath, err);
++    throw new FileWriteError(`Failed to read or parse JSON: ${filePath}`, 'READ_JSON_FAILED', err);
++  }
++}
++
+
+
+[2025-09-10T15:54:03] thinking
+
+**Updating package.json**
+
+I’m considering whether to add a script in package.json for this test. While it’s not strictly necessary, it could be helpful. Since the repo has existing test scripts for specific functions, I think adding a "test:file-writer" might streamline things. I’ll go ahead and update package.json to include that and make the testing process a bit more organized. It should definitely help anyone looking to run tests in the future!
+[2025-09-10T15:54:06] apply_patch auto_approved=true:
+M /Users/panda/Desktop/UBOS/package.json
+@@ -12,2 +12,3 @@
+     "typecheck": "tsc -p tsconfig.json --noEmit",
++    "test:file-writer": "tsx src/tests/fileWriter_test.ts",
+     "test:integration": "tsx src/tests/eufm_integration_test.ts 'Integration check'",
+[2025-09-10T15:54:06] apply_patch(auto_approved=true) exited 0 in 406ms:
+Success. Updated the following files:
+M package.json
+[2025-09-10T15:54:06] turn diff:
+diff --git a/docs/guides/file-writer.md b/docs/guides/file-writer.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..fd51ef659c9b4a2d1307808b25d49aee33d33c6f
+--- /dev/null
++++ b/docs/guides/file-writer.md
+@@ -0,0 +1,36 @@
++**File Writer Utility**
++- Location: `src/utils/fileWriter.ts`
++
++Provides safe, atomic file and JSON writing with directory creation, typed errors, and concise logging consistent with EUFM patterns.
++
++API
++- `safeWriteFile(filePath, data, options)`
++  - Writes `string` or `Uint8Array` to disk.
++  - Options:
++    - `atomic` (default: true): write to temp file and rename for atomicity.
++    - `ensureDir` (default: true): create parent directories recursively.
++    - `encoding`, `mode`, `signal`: forwarded to `fs.writeFile`.
++- `safeWriteJson(filePath, value, options)`
++  - Serializes JSON with optional `pretty` spacing (true = 2 spaces) and writes via `safeWriteFile`.
++- `readJson(filePath)`
++  - Reads and parses JSON with error context.
++- `FileWriteError`
++  - Custom error with `code`:
++    - `INVALID_PATH`, `INVALID_DATA`, `ENSURE_DIR_FAILED`, `WRITE_FAILED`, `JSON_STRINGIFY_FAILED`, `READ_JSON_FAILED`.
++
++Usage
++- Write text safely:
++  - `await safeWriteFile('logs/output/report.txt', 'hello', { encoding: 'utf-8' });`
++- Write JSON (pretty):
++  - `await safeWriteJson('logs/output/data.json', { ok: true }, { pretty: true });`
++- Read JSON:
++  - `const data = await readJson('logs/output/data.json');`
++
++Error Handling
++- Throws `FileWriteError` with a specific `code` and logs a clear `[EUFM]`-prefixed message.
++- Catch and branch on `code` for programmatic recovery.
++
++Testing
++- Run: `tsx src/tests/fileWriter_test.ts`
++- Tests cover directory creation, atomic writes (no temp leaks), JSON round-trip, and error cases.
++
+diff --git a/package.json b/package.json
+index dece4a7cd7f802a9fb882807f6fe55a355993492..81cabcef4ca40ab66bc867bebaec9514904123e1
+--- a/package.json
++++ b/package.json
+@@ -10,6 +10,7 @@
+     "dev:demo": "tsx src/cli/demo_eufm_agents.ts",
+     "lint": "eslint .",
+     "typecheck": "tsc -p tsconfig.json --noEmit",
++    "test:file-writer": "tsx src/tests/fileWriter_test.ts",
+     "test:integration": "tsx src/tests/eufm_integration_test.ts 'Integration check'",
+     "test:country-codes": "tsx src/tests/countryCodes_test.ts",
+     "dev:oradea": "tsx src/tools/oradea_business_cli.ts",
+diff --git a/src/tests/fileWriter_test.ts b/src/tests/fileWriter_test.ts
+new file mode 100644
+index 0000000000000000000000000000000000000000..6bffa86256db4927077ce05d51a60db8ebe303f4
+--- /dev/null
++++ b/src/tests/fileWriter_test.ts
+@@ -0,0 +1,73 @@
++import path from 'path';
++import { promises as fs } from 'fs';
++import { safeWriteFile, safeWriteJson, readJson, FileWriteError } from '../utils/fileWriter.js';
++
++function expect(condition: boolean, message: string) {
++  if (!condition) throw new Error(message);
++}
++
++async function exists(p: string): Promise<boolean> {
++  try {
++    await fs.access(p);
++    return true;
++  } catch {
++    return false;
++  }
++}
++
++async function run() {
++  console.log('[EUFM] Running fileWriter tests...');
++  const base = path.join('logs', 'test-output', 'file-writer', `${Date.now()}_${Math.random().toString(36).slice(2)}`);
++
++  // ensureDir behavior via nested path
++  const nestedFile = path.join(base, 'deep', 'nest', 'hello.txt');
++  await safeWriteFile(nestedFile, 'hello world', { encoding: 'utf-8', ensureDir: true, atomic: true });
++  expect(await exists(nestedFile), 'nested write: file should exist');
++  const text = await fs.readFile(nestedFile, 'utf-8');
++  expect(text === 'hello world', 'nested write: content should match');
++
++  // JSON write + read
++  const jsonFile = path.join(base, 'data', 'obj.json');
++  const obj = { a: 1, b: 'two', c: [3, 4, 5] };
++  await safeWriteJson(jsonFile, obj, { pretty: true, ensureDir: true });
++  const readBack = await readJson<typeof obj>(jsonFile);
++  expect(readBack.a === 1 && readBack.b === 'two' && Array.isArray(readBack.c) && readBack.c.length === 3, 'json read: object should match structure');
++
++  // atomic write attempts should not leave temp files in directory
++  const dirEntries = await fs.readdir(path.dirname(jsonFile));
++  const tmpLeak = dirEntries.some((e) => e.startsWith('.tmp-'));
++  expect(!tmpLeak, 'atomic write: should not leave temporary files');
++
++  // error path: JSON serialization failure (circular reference)
++  const circ: any = { name: 'x' };
++  circ.self = circ;
++  let threw = false;
++  try {
++    await safeWriteJson(path.join(base, 'bad', 'circ.json'), circ, { ensureDir: true });
++  } catch (err) {
++    threw = true;
++    expect(err instanceof FileWriteError, 'circular: should throw FileWriteError');
++    expect((err as FileWriteError).code === 'JSON_STRINGIFY_FAILED', 'circular: error code should be JSON_STRINGIFY_FAILED');
++  }
++  expect(threw, 'circular: expected to throw');
++
++  // error path: invalid data type for safeWriteFile
++  let threw2 = false;
++  try {
++    // @ts-expect-error testing runtime guard
++    await safeWriteFile(path.join(base, 'bad', 'invalid.txt'), { not: 'string or buffer' }, { ensureDir: true });
++  } catch (err) {
++    threw2 = true;
++    expect(err instanceof FileWriteError, 'invalid data: should throw FileWriteError');
++    expect((err as FileWriteError).code === 'INVALID_DATA', 'invalid data: error code should be INVALID_DATA');
++  }
++  expect(threw2, 'invalid data: expected to throw');
++
++  console.log('[EUFM] fileWriter tests passed.');
++}
++
++run().catch((err) => {
++  console.error('[EUFM] fileWriter tests failed:', err?.message || err);
++  process.exit(1);
++});
++
+diff --git a/src/utils/fileWriter.ts b/src/utils/fileWriter.ts
+new file mode 100644
+index 0000000000000000000000000000000000000000..17b2ed8d95ef5c9a4dfa34639628b47bbf9c5f05
+--- /dev/null
++++ b/src/utils/fileWriter.ts
+@@ -0,0 +1,111 @@
++import { promises as fs } from 'fs';
++import path from 'path';
++
++export class FileWriteError extends Error {
++  code: string;
++  cause?: unknown;
++  constructor(message: string, code = 'FILE_WRITE_ERROR', cause?: unknown) {
++    super(message);
++    this.name = 'FileWriteError';
++    this.code = code;
++    this.cause = cause;
++  }
++}
++
++export interface WriteOptions {
++  encoding?: BufferEncoding;
++  mode?: number;
++  signal?: AbortSignal;
++  atomic?: boolean;
++  ensureDir?: boolean;
++}
++
++function isStringOrBuffer(v: unknown): v is string | Uint8Array {
++  return typeof v === 'string' || v instanceof Uint8Array;
++}
++
++async function ensureDir(dirPath: string): Promise<void> {
++  try {
++    await fs.mkdir(dirPath, { recursive: true });
++  } catch (err) {
++    console.error('[EUFM] Failed to ensure directory exists:', dirPath, err);
++    throw new FileWriteError(`Failed to ensure directory: ${dirPath}`, 'ENSURE_DIR_FAILED', err);
++  }
++}
++
++function tmpName(targetPath: string): string {
++  const base = `.tmp-${process.pid}-${Date.now()}-${Math.random().toString(36).slice(2)}`;
++  return path.join(path.dirname(targetPath), base);
++}
++
++export async function safeWriteFile(
++  filePath: string,
++  data: string | Uint8Array,
++  options: WriteOptions = {}
++): Promise<void> {
++  if (typeof filePath !== 'string' || filePath.trim() === '') {
++    console.error('[EUFM] Invalid file path provided to safeWriteFile:', filePath);
++    throw new FileWriteError('Invalid file path', 'INVALID_PATH');
++  }
++  if (!isStringOrBuffer(data)) {
++    console.error('[EUFM] Invalid data type provided to safeWriteFile. Expected string or Uint8Array');
++    throw new FileWriteError('Invalid data type', 'INVALID_DATA');
++  }
++
++  const { encoding, mode, signal, atomic = true, ensureDir: mkDir = true } = options;
++
++  const dir = path.dirname(filePath);
++  if (mkDir) {
++    await ensureDir(dir);
++  }
++
++  const writeOpts: Parameters<typeof fs.writeFile>[2] = {};
++  if (encoding && typeof data === 'string') (writeOpts as any).encoding = encoding;
++  if (mode) (writeOpts as any).mode = mode;
++  if (signal) (writeOpts as any).signal = signal as any;
++
++  try {
++    if (atomic) {
++      const tmp = tmpName(filePath);
++      await fs.writeFile(tmp, data as any, writeOpts);
++      await fs.rename(tmp, filePath);
++    } else {
++      await fs.writeFile(filePath, data as any, writeOpts);
++    }
++    console.log(`📄 [EUFM] Wrote file: ${filePath}`);
++  } catch (err) {
++    console.error(`[EUFM] Failed to write file: ${filePath}`, err);
++    throw new FileWriteError(`Failed to write file: ${filePath}`, 'WRITE_FAILED', err);
++  }
++}
++
++export interface JsonWriteOptions extends WriteOptions {
++  pretty?: number | boolean;
++}
++
++export async function safeWriteJson(
++  filePath: string,
++  value: unknown,
++  options: JsonWriteOptions = {}
++): Promise<void> {
++  let json: string;
++  try {
++    const spaces = options.pretty === true ? 2 : typeof options.pretty === 'number' ? options.pretty : 0;
++    json = JSON.stringify(value, null, spaces);
++  } catch (err) {
++    console.error('[EUFM] JSON serialization failed in safeWriteJson for', filePath, err);
++    throw new FileWriteError('JSON serialization failed', 'JSON_STRINGIFY_FAILED', err);
++  }
++  await safeWriteFile(filePath, json + (options.encoding === 'utf-8' || options.encoding === undefined ? '' : ''), options);
++}
++
++export async function readJson<T = unknown>(filePath: string): Promise<T> {
++  try {
++    const content = await fs.readFile(filePath, 'utf-8');
++    return JSON.parse(content) as T;
++  } catch (err) {
++    console.error('[EUFM] Failed to read or parse JSON:', filePath, err);
++    throw new FileWriteError(`Failed to read or parse JSON: ${filePath}`, 'READ_JSON_FAILED', err);
++  }
++}
++
+
+[2025-09-10T15:54:06] tokens used: 871
+[2025-09-10T15:54:06] turn diff:
+diff --git a/docs/guides/file-writer.md b/docs/guides/file-writer.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..fd51ef659c9b4a2d1307808b25d49aee33d33c6f
+--- /dev/null
++++ b/docs/guides/file-writer.md
+@@ -0,0 +1,36 @@
++**File Writer Utility**
++- Location: `src/utils/fileWriter.ts`
++
++Provides safe, atomic file and JSON writing with directory creation, typed errors, and concise logging consistent with EUFM patterns.
++
++API
++- `safeWriteFile(filePath, data, options)`
++  - Writes `string` or `Uint8Array` to disk.
++  - Options:
++    - `atomic` (default: true): write to temp file and rename for atomicity.
++    - `ensureDir` (default: true): create parent directories recursively.
++    - `encoding`, `mode`, `signal`: forwarded to `fs.writeFile`.
++- `safeWriteJson(filePath, value, options)`
++  - Serializes JSON with optional `pretty` spacing (true = 2 spaces) and writes via `safeWriteFile`.
++- `readJson(filePath)`
++  - Reads and parses JSON with error context.
++- `FileWriteError`
++  - Custom error with `code`:
++    - `INVALID_PATH`, `INVALID_DATA`, `ENSURE_DIR_FAILED`, `WRITE_FAILED`, `JSON_STRINGIFY_FAILED`, `READ_JSON_FAILED`.
++
++Usage
++- Write text safely:
++  - `await safeWriteFile('logs/output/report.txt', 'hello', { encoding: 'utf-8' });`
++- Write JSON (pretty):
++  - `await safeWriteJson('logs/output/data.json', { ok: true }, { pretty: true });`
++- Read JSON:
++  - `const data = await readJson('logs/output/data.json');`
++
++Error Handling
++- Throws `FileWriteError` with a specific `code` and logs a clear `[EUFM]`-prefixed message.
++- Catch and branch on `code` for programmatic recovery.
++
++Testing
++- Run: `tsx src/tests/fileWriter_test.ts`
++- Tests cover directory creation, atomic writes (no temp leaks), JSON round-trip, and error cases.
++
+diff --git a/package.json b/package.json
+index dece4a7cd7f802a9fb882807f6fe55a355993492..81cabcef4ca40ab66bc867bebaec9514904123e1
+--- a/package.json
++++ b/package.json
+@@ -10,6 +10,7 @@
+     "dev:demo": "tsx src/cli/demo_eufm_agents.ts",
+     "lint": "eslint .",
+     "typecheck": "tsc -p tsconfig.json --noEmit",
++    "test:file-writer": "tsx src/tests/fileWriter_test.ts",
+     "test:integration": "tsx src/tests/eufm_integration_test.ts 'Integration check'",
+     "test:country-codes": "tsx src/tests/countryCodes_test.ts",
+     "dev:oradea": "tsx src/tools/oradea_business_cli.ts",
+diff --git a/src/tests/fileWriter_test.ts b/src/tests/fileWriter_test.ts
+new file mode 100644
+index 0000000000000000000000000000000000000000..6bffa86256db4927077ce05d51a60db8ebe303f4
+--- /dev/null
++++ b/src/tests/fileWriter_test.ts
+@@ -0,0 +1,73 @@
++import path from 'path';
++import { promises as fs } from 'fs';
++import { safeWriteFile, safeWriteJson, readJson, FileWriteError } from '../utils/fileWriter.js';
++
++function expect(condition: boolean, message: string) {
++  if (!condition) throw new Error(message);
++}
++
++async function exists(p: string): Promise<boolean> {
++  try {
++    await fs.access(p);
++    return true;
++  } catch {
++    return false;
++  }
++}
++
++async function run() {
++  console.log('[EUFM] Running fileWriter tests...');
++  const base = path.join('logs', 'test-output', 'file-writer', `${Date.now()}_${Math.random().toString(36).slice(2)}`);
++
++  // ensureDir behavior via nested path
++  const nestedFile = path.join(base, 'deep', 'nest', 'hello.txt');
++  await safeWriteFile(nestedFile, 'hello world', { encoding: 'utf-8', ensureDir: true, atomic: true });
++  expect(await exists(nestedFile), 'nested write: file should exist');
++  const text = await fs.readFile(nestedFile, 'utf-8');
++  expect(text === 'hello world', 'nested write: content should match');
++
++  // JSON write + read
++  const jsonFile = path.join(base, 'data', 'obj.json');
++  const obj = { a: 1, b: 'two', c: [3, 4, 5] };
++  await safeWriteJson(jsonFile, obj, { pretty: true, ensureDir: true });
++  const readBack = await readJson<typeof obj>(jsonFile);
++  expect(readBack.a === 1 && readBack.b === 'two' && Array.isArray(readBack.c) && readBack.c.length === 3, 'json read: object should match structure');
++
++  // atomic write attempts should not leave temp files in directory
++  const dirEntries = await fs.readdir(path.dirname(jsonFile));
++  const tmpLeak = dirEntries.some((e) => e.startsWith('.tmp-'));
++  expect(!tmpLeak, 'atomic write: should not leave temporary files');
++
++  // error path: JSON serialization failure (circular reference)
++  const circ: any = { name: 'x' };
++  circ.self = circ;
++  let threw = false;
++  try {
++    await safeWriteJson(path.join(base, 'bad', 'circ.json'), circ, { ensureDir: true });
++  } catch (err) {
++    threw = true;
++    expect(err instanceof FileWriteError, 'circular: should throw FileWriteError');
++    expect((err as FileWriteError).code === 'JSON_STRINGIFY_FAILED', 'circular: error code should be JSON_STRINGIFY_FAILED');
++  }
++  expect(threw, 'circular: expected to throw');
++
++  // error path: invalid data type for safeWriteFile
++  let threw2 = false;
++  try {
++    // @ts-expect-error testing runtime guard
++    await safeWriteFile(path.join(base, 'bad', 'invalid.txt'), { not: 'string or buffer' }, { ensureDir: true });
++  } catch (err) {
++    threw2 = true;
++    expect(err instanceof FileWriteError, 'invalid data: should throw FileWriteError');
++    expect((err as FileWriteError).code === 'INVALID_DATA', 'invalid data: error code should be INVALID_DATA');
++  }
++  expect(threw2, 'invalid data: expected to throw');
++
++  console.log('[EUFM] fileWriter tests passed.');
++}
++
++run().catch((err) => {
++  console.error('[EUFM] fileWriter tests failed:', err?.message || err);
++  process.exit(1);
++});
++
+diff --git a/src/utils/fileWriter.ts b/src/utils/fileWriter.ts
+new file mode 100644
+index 0000000000000000000000000000000000000000..17b2ed8d95ef5c9a4dfa34639628b47bbf9c5f05
+--- /dev/null
++++ b/src/utils/fileWriter.ts
+@@ -0,0 +1,111 @@
++import { promises as fs } from 'fs';
++import path from 'path';
++
++export class FileWriteError extends Error {
++  code: string;
++  cause?: unknown;
++  constructor(message: string, code = 'FILE_WRITE_ERROR', cause?: unknown) {
++    super(message);
++    this.name = 'FileWriteError';
++    this.code = code;
++    this.cause = cause;
++  }
++}
++
++export interface WriteOptions {
++  encoding?: BufferEncoding;
++  mode?: number;
++  signal?: AbortSignal;
++  atomic?: boolean;
++  ensureDir?: boolean;
++}
++
++function isStringOrBuffer(v: unknown): v is string | Uint8Array {
++  return typeof v === 'string' || v instanceof Uint8Array;
++}
++
++async function ensureDir(dirPath: string): Promise<void> {
++  try {
++    await fs.mkdir(dirPath, { recursive: true });
++  } catch (err) {
++    console.error('[EUFM] Failed to ensure directory exists:', dirPath, err);
++    throw new FileWriteError(`Failed to ensure directory: ${dirPath}`, 'ENSURE_DIR_FAILED', err);
++  }
++}
++
++function tmpName(targetPath: string): string {
++  const base = `.tmp-${process.pid}-${Date.now()}-${Math.random().toString(36).slice(2)}`;
++  return path.join(path.dirname(targetPath), base);
++}
++
++export async function safeWriteFile(
++  filePath: string,
++  data: string | Uint8Array,
++  options: WriteOptions = {}
++): Promise<void> {
++  if (typeof filePath !== 'string' || filePath.trim() === '') {
++    console.error('[EUFM] Invalid file path provided to safeWriteFile:', filePath);
++    throw new FileWriteError('Invalid file path', 'INVALID_PATH');
++  }
++  if (!isStringOrBuffer(data)) {
++    console.error('[EUFM] Invalid data type provided to safeWriteFile. Expected string or Uint8Array');
++    throw new FileWriteError('Invalid data type', 'INVALID_DATA');
++  }
++
++  const { encoding, mode, signal, atomic = true, ensureDir: mkDir = true } = options;
++
++  const dir = path.dirname(filePath);
++  if (mkDir) {
++    await ensureDir(dir);
++  }
++
++  const writeOpts: Parameters<typeof fs.writeFile>[2] = {};
++  if (encoding && typeof data === 'string') (writeOpts as any).encoding = encoding;
++  if (mode) (writeOpts as any).mode = mode;
++  if (signal) (writeOpts as any).signal = signal as any;
++
++  try {
++    if (atomic) {
++      const tmp = tmpName(filePath);
++      await fs.writeFile(tmp, data as any, writeOpts);
++      await fs.rename(tmp, filePath);
++    } else {
++      await fs.writeFile(filePath, data as any, writeOpts);
++    }
++    console.log(`📄 [EUFM] Wrote file: ${filePath}`);
++  } catch (err) {
++    console.error(`[EUFM] Failed to write file: ${filePath}`, err);
++    throw new FileWriteError(`Failed to write file: ${filePath}`, 'WRITE_FAILED', err);
++  }
++}
++
++export interface JsonWriteOptions extends WriteOptions {
++  pretty?: number | boolean;
++}
++
++export async function safeWriteJson(
++  filePath: string,
++  value: unknown,
++  options: JsonWriteOptions = {}
++): Promise<void> {
++  let json: string;
++  try {
++    const spaces = options.pretty === true ? 2 : typeof options.pretty === 'number' ? options.pretty : 0;
++    json = JSON.stringify(value, null, spaces);
++  } catch (err) {
++    console.error('[EUFM] JSON serialization failed in safeWriteJson for', filePath, err);
++    throw new FileWriteError('JSON serialization failed', 'JSON_STRINGIFY_FAILED', err);
++  }
++  await safeWriteFile(filePath, json + (options.encoding === 'utf-8' || options.encoding === undefined ? '' : ''), options);
++}
++
++export async function readJson<T = unknown>(filePath: string): Promise<T> {
++  try {
++    const content = await fs.readFile(filePath, 'utf-8');
++    return JSON.parse(content) as T;
++  } catch (err) {
++    console.error('[EUFM] Failed to read or parse JSON:', filePath, err);
++    throw new FileWriteError(`Failed to read or parse JSON: ${filePath}`, 'READ_JSON_FAILED', err);
++  }
++}
++
+
+[2025-09-10T15:54:10] codex
+
+I’ll run typecheck and the new file writer test to validate compilation and behavior.
+[2025-09-10T15:54:11] exec bash -lc 'pnpm -v || npm -v && npm run typecheck && npm run test:file-writer' in /Users/panda/Desktop/UBOS
+[2025-09-10T15:54:28] bash -lc 'pnpm -v || npm -v && npm run typecheck && npm run test:file-writer' succeeded in 16.67s:
+bash: pnpm: command not found
+10.9.2
+
+> eufm@0.1.0 typecheck
+> tsc -p tsconfig.json --noEmit
+
+
+> eufm@0.1.0 test:file-writer
+> tsx src/tests/fileWriter_test.ts
+
+[EUFM] Running fileWriter tests...
+📄 [EUFM] Wrote file: logs/test-output/file-writer/1757519667844_k0mw2f0is1m/deep/nest/hello.txt
+📄 [EUFM] Wrote file: logs/test-output/file-writer/1757519667844_k0mw2f0is1m/data/obj.json
+[EUFM] JSON serialization failed in safeWriteJson for logs/test-output/file-writer/1757519667844_k0mw2f0is1m/bad/circ.json TypeError: Converting circular structure to JSON
+    --> starting at object with constructor 'Object'
+    --- property 'self' closes the circle
+    at JSON.stringify (<anonymous>)
+    at safeWriteJson (/Users/panda/Desktop/UBOS/src/utils/fileWriter.ts:94:17)
+    at run (/Users/panda/Desktop/UBOS/src/tests/fileWriter_test.ts:46:11)
+[EUFM] Invalid data type provided to safeWriteFile. Expected string or Uint8Array
+[2025-09-10T15:54:28] tokens used: 388
+[2025-09-10T15:54:28] turn diff:
+diff --git a/docs/guides/file-writer.md b/docs/guides/file-writer.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..fd51ef659c9b4a2d1307808b25d49aee33d33c6f
+--- /dev/null
++++ b/docs/guides/file-writer.md
+@@ -0,0 +1,36 @@
++**File Writer Utility**
++- Location: `src/utils/fileWriter.ts`
++
++Provides safe, atomic file and JSON writing with directory creation, typed errors, and concise logging consistent with EUFM patterns.
++
++API
++- `safeWriteFile(filePath, data, options)`
++  - Writes `string` or `Uint8Array` to disk.
++  - Options:
++    - `atomic` (default: true): write to temp file and rename for atomicity.
++    - `ensureDir` (default: true): create parent directories recursively.
++    - `encoding`, `mode`, `signal`: forwarded to `fs.writeFile`.
++- `safeWriteJson(filePath, value, options)`
++  - Serializes JSON with optional `pretty` spacing (true = 2 spaces) and writes via `safeWriteFile`.
++- `readJson(filePath)`
++  - Reads and parses JSON with error context.
++- `FileWriteError`
++  - Custom error with `code`:
++    - `INVALID_PATH`, `INVALID_DATA`, `ENSURE_DIR_FAILED`, `WRITE_FAILED`, `JSON_STRINGIFY_FAILED`, `READ_JSON_FAILED`.
++
++Usage
++- Write text safely:
++  - `await safeWriteFile('logs/output/report.txt', 'hello', { encoding: 'utf-8' });`
++- Write JSON (pretty):
++  - `await safeWriteJson('logs/output/data.json', { ok: true }, { pretty: true });`
++- Read JSON:
++  - `const data = await readJson('logs/output/data.json');`
++
++Error Handling
++- Throws `FileWriteError` with a specific `code` and logs a clear `[EUFM]`-prefixed message.
++- Catch and branch on `code` for programmatic recovery.
++
++Testing
++- Run: `tsx src/tests/fileWriter_test.ts`
++- Tests cover directory creation, atomic writes (no temp leaks), JSON round-trip, and error cases.
++
+diff --git a/package.json b/package.json
+index dece4a7cd7f802a9fb882807f6fe55a355993492..81cabcef4ca40ab66bc867bebaec9514904123e1
+--- a/package.json
++++ b/package.json
+@@ -10,6 +10,7 @@
+     "dev:demo": "tsx src/cli/demo_eufm_agents.ts",
+     "lint": "eslint .",
+     "typecheck": "tsc -p tsconfig.json --noEmit",
++    "test:file-writer": "tsx src/tests/fileWriter_test.ts",
+     "test:integration": "tsx src/tests/eufm_integration_test.ts 'Integration check'",
+     "test:country-codes": "tsx src/tests/countryCodes_test.ts",
+     "dev:oradea": "tsx src/tools/oradea_business_cli.ts",
+diff --git a/src/tests/fileWriter_test.ts b/src/tests/fileWriter_test.ts
+new file mode 100644
+index 0000000000000000000000000000000000000000..6bffa86256db4927077ce05d51a60db8ebe303f4
+--- /dev/null
++++ b/src/tests/fileWriter_test.ts
+@@ -0,0 +1,73 @@
++import path from 'path';
++import { promises as fs } from 'fs';
++import { safeWriteFile, safeWriteJson, readJson, FileWriteError } from '../utils/fileWriter.js';
++
++function expect(condition: boolean, message: string) {
++  if (!condition) throw new Error(message);
++}
++
++async function exists(p: string): Promise<boolean> {
++  try {
++    await fs.access(p);
++    return true;
++  } catch {
++    return false;
++  }
++}
++
++async function run() {
++  console.log('[EUFM] Running fileWriter tests...');
++  const base = path.join('logs', 'test-output', 'file-writer', `${Date.now()}_${Math.random().toString(36).slice(2)}`);
++
++  // ensureDir behavior via nested path
++  const nestedFile = path.join(base, 'deep', 'nest', 'hello.txt');
++  await safeWriteFile(nestedFile, 'hello world', { encoding: 'utf-8', ensureDir: true, atomic: true });
++  expect(await exists(nestedFile), 'nested write: file should exist');
++  const text = await fs.readFile(nestedFile, 'utf-8');
++  expect(text === 'hello world', 'nested write: content should match');
++
++  // JSON write + read
++  const jsonFile = path.join(base, 'data', 'obj.json');
++  const obj = { a: 1, b: 'two', c: [3, 4, 5] };
++  await safeWriteJson(jsonFile, obj, { pretty: true, ensureDir: true });
++  const readBack = await readJson<typeof obj>(jsonFile);
++  expect(readBack.a === 1 && readBack.b === 'two' && Array.isArray(readBack.c) && readBack.c.length === 3, 'json read: object should match structure');
++
++  // atomic write attempts should not leave temp files in directory
++  const dirEntries = await fs.readdir(path.dirname(jsonFile));
++  const tmpLeak = dirEntries.some((e) => e.startsWith('.tmp-'));
++  expect(!tmpLeak, 'atomic write: should not leave temporary files');
++
++  // error path: JSON serialization failure (circular reference)
++  const circ: any = { name: 'x' };
++  circ.self = circ;
++  let threw = false;
++  try {
++    await safeWriteJson(path.join(base, 'bad', 'circ.json'), circ, { ensureDir: true });
++  } catch (err) {
++    threw = true;
++    expect(err instanceof FileWriteError, 'circular: should throw FileWriteError');
++    expect((err as FileWriteError).code === 'JSON_STRINGIFY_FAILED', 'circular: error code should be JSON_STRINGIFY_FAILED');
++  }
++  expect(threw, 'circular: expected to throw');
++
++  // error path: invalid data type for safeWriteFile
++  let threw2 = false;
++  try {
++    // @ts-expect-error testing runtime guard
++    await safeWriteFile(path.join(base, 'bad', 'invalid.txt'), { not: 'string or buffer' }, { ensureDir: true });
++  } catch (err) {
++    threw2 = true;
++    expect(err instanceof FileWriteError, 'invalid data: should throw FileWriteError');
++    expect((err as FileWriteError).code === 'INVALID_DATA', 'invalid data: error code should be INVALID_DATA');
++  }
++  expect(threw2, 'invalid data: expected to throw');
++
++  console.log('[EUFM] fileWriter tests passed.');
++}
++
++run().catch((err) => {
++  console.error('[EUFM] fileWriter tests failed:', err?.message || err);
++  process.exit(1);
++});
++
+diff --git a/src/utils/fileWriter.ts b/src/utils/fileWriter.ts
+new file mode 100644
+index 0000000000000000000000000000000000000000..17b2ed8d95ef5c9a4dfa34639628b47bbf9c5f05
+--- /dev/null
++++ b/src/utils/fileWriter.ts
+@@ -0,0 +1,111 @@
++import { promises as fs } from 'fs';
++import path from 'path';
++
++export class FileWriteError extends Error {
++  code: string;
++  cause?: unknown;
++  constructor(message: string, code = 'FILE_WRITE_ERROR', cause?: unknown) {
++    super(message);
++    this.name = 'FileWriteError';
++    this.code = code;
++    this.cause = cause;
++  }
++}
++
++export interface WriteOptions {
++  encoding?: BufferEncoding;
++  mode?: number;
++  signal?: AbortSignal;
++  atomic?: boolean;
++  ensureDir?: boolean;
++}
++
++function isStringOrBuffer(v: unknown): v is string | Uint8Array {
++  return typeof v === 'string' || v instanceof Uint8Array;
++}
++
++async function ensureDir(dirPath: string): Promise<void> {
++  try {
++    await fs.mkdir(dirPath, { recursive: true });
++  } catch (err) {
++    console.error('[EUFM] Failed to ensure directory exists:', dirPath, err);
++    throw new FileWriteError(`Failed to ensure directory: ${dirPath}`, 'ENSURE_DIR_FAILED', err);
++  }
++}
++
++function tmpName(targetPath: string): string {
++  const base = `.tmp-${process.pid}-${Date.now()}-${Math.random().toString(36).slice(2)}`;
++  return path.join(path.dirname(targetPath), base);
++}
++
++export async function safeWriteFile(
++  filePath: string,
++  data: string | Uint8Array,
++  options: WriteOptions = {}
++): Promise<void> {
++  if (typeof filePath !== 'string' || filePath.trim() === '') {
++    console.error('[EUFM] Invalid file path provided to safeWriteFile:', filePath);
++    throw new FileWriteError('Invalid file path', 'INVALID_PATH');
++  }
++  if (!isStringOrBuffer(data)) {
++    console.error('[EUFM] Invalid data type provided to safeWriteFile. Expected string or Uint8Array');
++    throw new FileWriteError('Invalid data type', 'INVALID_DATA');
++  }
++
++  const { encoding, mode, signal, atomic = true, ensureDir: mkDir = true } = options;
++
++  const dir = path.dirname(filePath);
++  if (mkDir) {
++    await ensureDir(dir);
++  }
++
++  const writeOpts: Parameters<typeof fs.writeFile>[2] = {};
++  if (encoding && typeof data === 'string') (writeOpts as any).encoding = encoding;
++  if (mode) (writeOpts as any).mode = mode;
++  if (signal) (writeOpts as any).signal = signal as any;
++
++  try {
++    if (atomic) {
++      const tmp = tmpName(filePath);
++      await fs.writeFile(tmp, data as any, writeOpts);
++      await fs.rename(tmp, filePath);
++    } else {
++      await fs.writeFile(filePath, data as any, writeOpts);
++    }
++    console.log(`📄 [EUFM] Wrote file: ${filePath}`);
++  } catch (err) {
++    console.error(`[EUFM] Failed to write file: ${filePath}`, err);
++    throw new FileWriteError(`Failed to write file: ${filePath}`, 'WRITE_FAILED', err);
++  }
++}
++
++export interface JsonWriteOptions extends WriteOptions {
++  pretty?: number | boolean;
++}
++
++export async function safeWriteJson(
++  filePath: string,
++  value: unknown,
++  options: JsonWriteOptions = {}
++): Promise<void> {
++  let json: string;
++  try {
++    const spaces = options.pretty === true ? 2 : typeof options.pretty === 'number' ? options.pretty : 0;
++    json = JSON.stringify(value, null, spaces);
++  } catch (err) {
++    console.error('[EUFM] JSON serialization failed in safeWriteJson for', filePath, err);
++    throw new FileWriteError('JSON serialization failed', 'JSON_STRINGIFY_FAILED', err);
++  }
++  await safeWriteFile(filePath, json + (options.encoding === 'utf-8' || options.encoding === undefined ? '' : ''), options);
++}
++
++export async function readJson<T = unknown>(filePath: string): Promise<T> {
++  try {
++    const content = await fs.readFile(filePath, 'utf-8');
++    return JSON.parse(content) as T;
++  } catch (err) {
++    console.error('[EUFM] Failed to read or parse JSON:', filePath, err);
++    throw new FileWriteError(`Failed to read or parse JSON: ${filePath}`, 'READ_JSON_FAILED', err);
++  }
++}
++
+
+
+[2025-09-10T15:54:31] thinking
+
+**Considering documentation updates**
+
+I think it might be helpful to add a brief note in the README.md or docs index, though it's not strictly necessary. I should summarize the changes made, explain how to run tests, and indicate where the documentation is. It's also worth noting that we preserved the existing functionality. Additionally, I could offer the option to integrate the utility into existing modules at a later date. This approach seems comprehensive!
+[2025-09-10T15:54:32] codex
+
+Implemented a robust file writer utility with tests and docs.
+
+What I added
+- Utility: src/utils/fileWriter.ts
+  - safeWriteFile: Atomic writes, auto-create directories, typed errors, and clear logging.
+  - safeWriteJson: JSON serialization with optional pretty-printing, codes detailed error.
+  - readJson Safe JSON reading: with parse error handling.
+  - FileWriteError: Custom error type with code: INVALID_PATH, INVALID_DATA, ENSURE_DIR_FAILED,_FAILED WRITE, JSON_STRINGIFY_FAILED, READ_JSON_FAILED.
+- Tests: src/tests/fileWriter_test.ts
+  - Verifies nested directory creation, atomic write behavior (no temp file leaks), (c JSON round-trip, and error pathsircular JSON, data invalid type).
+- Documentation: docs/guides/file-writer.md
+  - Usage examples API, overview, error handling guidance, and test instructions.
+- Scripts: package.json -
+  Added script: test:file-writer
+
+How to run
+- Typecheck: npm run typecheck
+- File writer tests: npm run test:file-writer
+
+Notes
+- Follows the project’s simple tsx-based test pattern; no external test framework added.
+- Uses console logging consistent with the codebase ([EUFM]-prefixed messages).
+- Preserves existing functionality no ref;actors of existing writeFile calls. If you’d like, I can replace some critical write sites to use the new utility.
+
+Want me to integrate safeWriteFile into a few high-impact modules (e.g., analytics, dashboard exports) next?
+[2025-09-10T15:54:51] tokens used: 5280
+[2025-09-10T15:54:51] turn diff:
+diff --git a/docs/guides/file-writer.md b/docs/guides/file-writer.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..fd51ef659c9b4a2d1307808b25d49aee33d33c6f
+--- /dev/null
++++ b/docs/guides/file-writer.md
+@@ -0,0 +1,36 @@
++**File Writer Utility**
++- Location: `src/utils/fileWriter.ts`
++
++Provides safe, atomic file and JSON writing with directory creation, typed errors, and concise logging consistent with EUFM patterns.
++
++API
++- `safeWriteFile(filePath, data, options)`
++  - Writes `string` or `Uint8Array` to disk.
++  - Options:
++    - `atomic` (default: true): write to temp file and rename for atomicity.
++    - `ensureDir` (default: true): create parent directories recursively.
++    - `encoding`, `mode`, `signal`: forwarded to `fs.writeFile`.
++- `safeWriteJson(filePath, value, options)`
++  - Serializes JSON with optional `pretty` spacing (true = 2 spaces) and writes via `safeWriteFile`.
++- `readJson(filePath)`
++  - Reads and parses JSON with error context.
++- `FileWriteError`
++  - Custom error with `code`:
++    - `INVALID_PATH`, `INVALID_DATA`, `ENSURE_DIR_FAILED`, `WRITE_FAILED`, `JSON_STRINGIFY_FAILED`, `READ_JSON_FAILED`.
++
++Usage
++- Write text safely:
++  - `await safeWriteFile('logs/output/report.txt', 'hello', { encoding: 'utf-8' });`
++- Write JSON (pretty):
++  - `await safeWriteJson('logs/output/data.json', { ok: true }, { pretty: true });`
++- Read JSON:
++  - `const data = await readJson('logs/output/data.json');`
++
++Error Handling
++- Throws `FileWriteError` with a specific `code` and logs a clear `[EUFM]`-prefixed message.
++- Catch and branch on `code` for programmatic recovery.
++
++Testing
++- Run: `tsx src/tests/fileWriter_test.ts`
++- Tests cover directory creation, atomic writes (no temp leaks), JSON round-trip, and error cases.
++
+diff --git a/package.json b/package.json
+index dece4a7cd7f802a9fb882807f6fe55a355993492..7dd8b311be6def660626c1c7ad92d2ad0c029791
+--- a/package.json
++++ b/package.json
+@@ -10,7 +10,9 @@
+     "dev:demo": "tsx src/cli/demo_eufm_agents.ts",
+     "lint": "eslint .",
+     "typecheck": "tsc -p tsconfig.json --noEmit",
++    "test:file-writer": "tsx src/tests/fileWriter_test.ts",
+     "test:integration": "tsx src/tests/eufm_integration_test.ts 'Integration check'",
++    "test:coord": "tsx src/tests/multiAgentCoordinator_test.ts",
+     "test:country-codes": "tsx src/tests/countryCodes_test.ts",
+     "dev:oradea": "tsx src/tools/oradea_business_cli.ts",
+     "dev:dashboard": "tsx src/dashboard/dashboardServer.ts"
+diff --git a/src/tests/fileWriter_test.ts b/src/tests/fileWriter_test.ts
+new file mode 100644
+index 0000000000000000000000000000000000000000..6bffa86256db4927077ce05d51a60db8ebe303f4
+--- /dev/null
++++ b/src/tests/fileWriter_test.ts
+@@ -0,0 +1,73 @@
++import path from 'path';
++import { promises as fs } from 'fs';
++import { safeWriteFile, safeWriteJson, readJson, FileWriteError } from '../utils/fileWriter.js';
++
++function expect(condition: boolean, message: string) {
++  if (!condition) throw new Error(message);
++}
++
++async function exists(p: string): Promise<boolean> {
++  try {
++    await fs.access(p);
++    return true;
++  } catch {
++    return false;
++  }
++}
++
++async function run() {
++  console.log('[EUFM] Running fileWriter tests...');
++  const base = path.join('logs', 'test-output', 'file-writer', `${Date.now()}_${Math.random().toString(36).slice(2)}`);
++
++  // ensureDir behavior via nested path
++  const nestedFile = path.join(base, 'deep', 'nest', 'hello.txt');
++  await safeWriteFile(nestedFile, 'hello world', { encoding: 'utf-8', ensureDir: true, atomic: true });
++  expect(await exists(nestedFile), 'nested write: file should exist');
++  const text = await fs.readFile(nestedFile, 'utf-8');
++  expect(text === 'hello world', 'nested write: content should match');
++
++  // JSON write + read
++  const jsonFile = path.join(base, 'data', 'obj.json');
++  const obj = { a: 1, b: 'two', c: [3, 4, 5] };
++  await safeWriteJson(jsonFile, obj, { pretty: true, ensureDir: true });
++  const readBack = await readJson<typeof obj>(jsonFile);
++  expect(readBack.a === 1 && readBack.b === 'two' && Array.isArray(readBack.c) && readBack.c.length === 3, 'json read: object should match structure');
++
++  // atomic write attempts should not leave temp files in directory
++  const dirEntries = await fs.readdir(path.dirname(jsonFile));
++  const tmpLeak = dirEntries.some((e) => e.startsWith('.tmp-'));
++  expect(!tmpLeak, 'atomic write: should not leave temporary files');
++
++  // error path: JSON serialization failure (circular reference)
++  const circ: any = { name: 'x' };
++  circ.self = circ;
++  let threw = false;
++  try {
++    await safeWriteJson(path.join(base, 'bad', 'circ.json'), circ, { ensureDir: true });
++  } catch (err) {
++    threw = true;
++    expect(err instanceof FileWriteError, 'circular: should throw FileWriteError');
++    expect((err as FileWriteError).code === 'JSON_STRINGIFY_FAILED', 'circular: error code should be JSON_STRINGIFY_FAILED');
++  }
++  expect(threw, 'circular: expected to throw');
++
++  // error path: invalid data type for safeWriteFile
++  let threw2 = false;
++  try {
++    // @ts-expect-error testing runtime guard
++    await safeWriteFile(path.join(base, 'bad', 'invalid.txt'), { not: 'string or buffer' }, { ensureDir: true });
++  } catch (err) {
++    threw2 = true;
++    expect(err instanceof FileWriteError, 'invalid data: should throw FileWriteError');
++    expect((err as FileWriteError).code === 'INVALID_DATA', 'invalid data: error code should be INVALID_DATA');
++  }
++  expect(threw2, 'invalid data: expected to throw');
++
++  console.log('[EUFM] fileWriter tests passed.');
++}
++
++run().catch((err) => {
++  console.error('[EUFM] fileWriter tests failed:', err?.message || err);
++  process.exit(1);
++});
++
+diff --git a/src/utils/fileWriter.ts b/src/utils/fileWriter.ts
+new file mode 100644
+index 0000000000000000000000000000000000000000..17b2ed8d95ef5c9a4dfa34639628b47bbf9c5f05
+--- /dev/null
++++ b/src/utils/fileWriter.ts
+@@ -0,0 +1,111 @@
++import { promises as fs } from 'fs';
++import path from 'path';
++
++export class FileWriteError extends Error {
++  code: string;
++  cause?: unknown;
++  constructor(message: string, code = 'FILE_WRITE_ERROR', cause?: unknown) {
++    super(message);
++    this.name = 'FileWriteError';
++    this.code = code;
++    this.cause = cause;
++  }
++}
++
++export interface WriteOptions {
++  encoding?: BufferEncoding;
++  mode?: number;
++  signal?: AbortSignal;
++  atomic?: boolean;
++  ensureDir?: boolean;
++}
++
++function isStringOrBuffer(v: unknown): v is string | Uint8Array {
++  return typeof v === 'string' || v instanceof Uint8Array;
++}
++
++async function ensureDir(dirPath: string): Promise<void> {
++  try {
++    await fs.mkdir(dirPath, { recursive: true });
++  } catch (err) {
++    console.error('[EUFM] Failed to ensure directory exists:', dirPath, err);
++    throw new FileWriteError(`Failed to ensure directory: ${dirPath}`, 'ENSURE_DIR_FAILED', err);
++  }
++}
++
++function tmpName(targetPath: string): string {
++  const base = `.tmp-${process.pid}-${Date.now()}-${Math.random().toString(36).slice(2)}`;
++  return path.join(path.dirname(targetPath), base);
++}
++
++export async function safeWriteFile(
++  filePath: string,
++  data: string | Uint8Array,
++  options: WriteOptions = {}
++): Promise<void> {
++  if (typeof filePath !== 'string' || filePath.trim() === '') {
++    console.error('[EUFM] Invalid file path provided to safeWriteFile:', filePath);
++    throw new FileWriteError('Invalid file path', 'INVALID_PATH');
++  }
++  if (!isStringOrBuffer(data)) {
++    console.error('[EUFM] Invalid data type provided to safeWriteFile. Expected string or Uint8Array');
++    throw new FileWriteError('Invalid data type', 'INVALID_DATA');
++  }
++
++  const { encoding, mode, signal, atomic = true, ensureDir: mkDir = true } = options;
++
++  const dir = path.dirname(filePath);
++  if (mkDir) {
++    await ensureDir(dir);
++  }
++
++  const writeOpts: Parameters<typeof fs.writeFile>[2] = {};
++  if (encoding && typeof data === 'string') (writeOpts as any).encoding = encoding;
++  if (mode) (writeOpts as any).mode = mode;
++  if (signal) (writeOpts as any).signal = signal as any;
++
++  try {
++    if (atomic) {
++      const tmp = tmpName(filePath);
++      await fs.writeFile(tmp, data as any, writeOpts);
++      await fs.rename(tmp, filePath);
++    } else {
++      await fs.writeFile(filePath, data as any, writeOpts);
++    }
++    console.log(`📄 [EUFM] Wrote file: ${filePath}`);
++  } catch (err) {
++    console.error(`[EUFM] Failed to write file: ${filePath}`, err);
++    throw new FileWriteError(`Failed to write file: ${filePath}`, 'WRITE_FAILED', err);
++  }
++}
++
++export interface JsonWriteOptions extends WriteOptions {
++  pretty?: number | boolean;
++}
++
++export async function safeWriteJson(
++  filePath: string,
++  value: unknown,
++  options: JsonWriteOptions = {}
++): Promise<void> {
++  let json: string;
++  try {
++    const spaces = options.pretty === true ? 2 : typeof options.pretty === 'number' ? options.pretty : 0;
++    json = JSON.stringify(value, null, spaces);
++  } catch (err) {
++    console.error('[EUFM] JSON serialization failed in safeWriteJson for', filePath, err);
++    throw new FileWriteError('JSON serialization failed', 'JSON_STRINGIFY_FAILED', err);
++  }
++  await safeWriteFile(filePath, json + (options.encoding === 'utf-8' || options.encoding === undefined ? '' : ''), options);
++}
++
++export async function readJson<T = unknown>(filePath: string): Promise<T> {
++  try {
++    const content = await fs.readFile(filePath, 'utf-8');
++    return JSON.parse(content) as T;
++  } catch (err) {
++    console.error('[EUFM] Failed to read or parse JSON:', filePath, err);
++    throw new FileWriteError(`Failed to read or parse JSON: ${filePath}`, 'READ_JSON_FAILED', err);
++  }
++}
++
+
+
+Process exited with code: 0

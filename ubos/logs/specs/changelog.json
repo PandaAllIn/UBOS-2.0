@@ -1,0 +1,79 @@
+[
+  {
+    "ts": "2025-09-10T16:23:21.723Z",
+    "path": "/Users/panda/Desktop/UBOS/ubos/specs/kernel/constitution.spec.md",
+    "from": null,
+    "to": "1.0.0",
+    "diff": {
+      "added": 26,
+      "removed": 0,
+      "same": 1
+    }
+  },
+  {
+    "ts": "2025-09-10T16:23:21.825Z",
+    "path": "/Users/panda/Desktop/UBOS/ubos/specs/territories/consultant-portal.spec.md",
+    "from": null,
+    "to": "1.0.0",
+    "diff": {
+      "added": 44,
+      "removed": 0,
+      "same": 1
+    }
+  },
+  {
+    "ts": "2025-09-10T16:23:21.866Z",
+    "path": "/Users/panda/Desktop/UBOS/ubos/specs/territories/eufm.spec.md",
+    "from": null,
+    "to": "1.0.0",
+    "diff": {
+      "added": 34,
+      "removed": 0,
+      "same": 1
+    }
+  },
+  {
+    "ts": "2025-09-10T16:23:21.868Z",
+    "path": "/Users/panda/Desktop/UBOS/ubos/specs/kernel/constitution.spec.md",
+    "from": null,
+    "to": "1.0.0",
+    "diff": {
+      "added": 26,
+      "removed": 0,
+      "same": 1
+    }
+  },
+  {
+    "ts": "2025-09-10T16:23:21.873Z",
+    "path": "/Users/panda/Desktop/UBOS/ubos/specs/territories/integration-bridge.spec.md",
+    "from": null,
+    "to": "1.0.0",
+    "diff": {
+      "added": 41,
+      "removed": 0,
+      "same": 1
+    }
+  },
+  {
+    "ts": "2025-09-10T16:23:21.923Z",
+    "path": "/Users/panda/Desktop/UBOS/ubos/specs/territories/consultant-portal.spec.md",
+    "from": null,
+    "to": "1.0.0",
+    "diff": {
+      "added": 44,
+      "removed": 0,
+      "same": 1
+    }
+  },
+  {
+    "ts": "2025-09-10T16:23:21.960Z",
+    "path": "/Users/panda/Desktop/UBOS/ubos/specs/territories/eufm.spec.md",
+    "from": null,
+    "to": "1.0.0",
+    "diff": {
+      "added": 34,
+      "removed": 0,
+      "same": 1
+    }
+  }
+]
