@@ -16,7 +16,9 @@
     "test:country-codes": "tsx src/tests/countryCodes_test.ts",
     "dev:oradea": "tsx src/tools/oradea_business_cli.ts",
     "dev:dashboard": "tsx src/dashboard/dashboardServer.ts",
-    "desktop:dev": "electron desktop/electron-main.mjs"
+    "desktop:dev": "electron desktop/electron-main.mjs",
+    "dev:dashboard:react": "npm run -C dashboard-react dev",
+    "build:dashboard:react": "npm run -C dashboard-react build"
   },
   "dependencies": {
     "@notionhq/client": "^5.0.0",

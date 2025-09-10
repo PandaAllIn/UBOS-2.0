@@ -229,7 +229,14 @@ Task: Answer the user's question and suggest 1-3 concrete next actions using the
       }
     });
 
-    // Serve dashboard on root
+    // Serve React dashboard build, if present, at /app
+    const reactDir = path.join(process.cwd(), 'dashboard-react', 'dist');
+    this.app.use('/app', express.static(reactDir));
+    this.app.get('/app/*', (req, res) => {
+      res.sendFile(path.join(reactDir, 'index.html'));
+    });
+
+    // Serve dashboard on root (legacy web)
     this.app.get('/', (req, res) => {
       res.sendFile(path.join(webDir, 'index.html'));
     });
