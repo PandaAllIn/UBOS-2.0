@@ -8,18 +8,29 @@ let mainWindow = null;
 let tray = null;
 let serverProcess = null;
 
+import http from 'http';
 async function wait(ms) { return new Promise(r => setTimeout(r, ms)); }
-
 async function pingHealth(maxTries = 50) {
-  const endpoint = `http://localhost:${DASHBOARD_PORT}/api/health`;
-  for (let i = 0; i < maxTries; i++) {
-    try {
-      const res = await fetch(endpoint, { method: 'GET' });
-      if (res.ok) return true;
-    } catch {}
-    await wait(200);
-  }
-  return false;
+  return new Promise(async (resolve) => {
+    let tries = 0;
+    const check = () => {
+      tries++;
+      const req = http.request({ hostname: 'localhost', port: Number(DASHBOARD_PORT), path: '/api/health', method: 'GET' }, (res) => {
+        if (res.statusCode && res.statusCode >= 200 && res.statusCode < 300) {
+          resolve(true);
+        } else if (tries >= maxTries) {
+          resolve(false);
+        } else {
+          setTimeout(check, 200);
+        }
+      });
+      req.on('error', () => {
+        if (tries >= maxTries) resolve(false); else setTimeout(check, 200);
+      });
+      req.end();
+    };
+    check();
+  });
 }
 
 function startDashboardServer() {
@@ -64,6 +75,11 @@ function createTray() {
   tray.on('click', () => { if (mainWindow) mainWindow.show(); });
 }
 
+// Disable GPU for compatibility on older macOS versions / headless
+app.commandLine.appendSwitch('disable-gpu');
+app.commandLine.appendSwitch('disable-gpu-sandbox');
+app.disableHardwareAcceleration();
+
 app.whenReady().then(async () => {
   startDashboardServer();
   const ok = await pingHealth(100);
@@ -86,4 +102,3 @@ app.on('window-all-closed', () => {
 app.on('before-quit', () => {
   try { if (serverProcess) serverProcess.kill('SIGTERM'); } catch {}
 });
-

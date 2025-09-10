@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UBOS Dashboard - Tide Guide Style (Codex Creation)</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', system-ui, sans-serif;
+            background: linear-gradient(135deg, #0B1220 0%, #121A2B 100%);
+            min-height: 100vh;
+            color: white;
+            padding: 20px;
+        }
+        
+        .dashboard-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .header h1 {
+            font-size: 28px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        
+        .depth-picker {
+            display: flex;
+            background: #1a2332;
+            border-radius: 8px;
+            padding: 4px;
+            margin: 20px auto;
+            width: fit-content;
+            border: 1px solid rgba(255,255,255,0.08);
+        }
+        
+        .depth-option {
+            padding: 8px 16px;
+            background: transparent;
+            border: none;
+            color: #8CA0B3;
+            cursor: pointer;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+        
+        .depth-option.active {
+            background: #49C0C7;
+            color: #0B1220;
+        }
+        
+        .cards-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+        
+        .dashboard-card {
+            background: #121A2B;
+            border-radius: 12px;
+            padding: 20px;
+            border: 1px solid rgba(255,255,255,0.08);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.4);
+        }
+        
+        .card-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #C9D3E0;
+            margin-bottom: 8px;
+        }
+        
+        .card-value {
+            font-size: 28px;
+            font-weight: 600;
+            margin-bottom: 4px;
+            font-variant-numeric: tabular-nums;
+        }
+        
+        .card-subtitle {
+            font-size: 12px;
+            color: #8CA0B3;
+            margin-bottom: 16px;
+        }
+        
+        .sparkline-container {
+            height: 56px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .sparkline {
+            width: 100%;
+            height: 100%;
+        }
+        
+        .citizen-activity .card-value { color: #49C0C7; }
+        .agent-performance .card-value { color: #2DA1A8; }
+        .territory-health .card-value { color: #43D17C; }
+        .governance .card-value { color: #8CA0B3; }
+        
+        .description {
+            text-align: center;
+            color: #8CA0B3;
+            margin-top: 30px;
+            padding: 20px;
+            background: rgba(255,255,255,0.02);
+            border-radius: 8px;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <div class="header">
+            <h1>UBOS Dashboard</h1>
+            <div class="depth-picker">
+                <button class="depth-option">Minimal</button>
+                <button class="depth-option active">Standard</button>
+                <button class="depth-option">Expanded</button>
+            </div>
+        </div>
+        
+        <div class="cards-grid">
+            <div class="dashboard-card citizen-activity">
+                <div class="card-title">Citizen Activity</div>
+                <div class="card-value">12,540</div>
+                <div class="card-subtitle">+8.2% today</div>
+                <div class="sparkline-container">
+                    <svg class="sparkline" viewBox="0 0 200 56">
+                        <defs>
+                            <linearGradient id="citizenGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                                <stop offset="0%" style="stop-color:#49C0C7;stop-opacity:0.25"/>
+                                <stop offset="100%" style="stop-color:#49C0C7;stop-opacity:0"/>
+                            </linearGradient>
+                        </defs>
+                        <path d="M0,45 C20,40 40,35 60,30 C80,28 100,25 120,20 C140,18 160,15 180,12 L200,10" 
+                              fill="none" stroke="#49C0C7" stroke-width="2" stroke-linecap="round"/>
+                        <path d="M0,45 C20,40 40,35 60,30 C80,28 100,25 120,20 C140,18 160,15 180,12 L200,10 L200,56 L0,56 Z" 
+                              fill="url(#citizenGradient)"/>
+                    </svg>
+                </div>
+            </div>
+            
+            <div class="dashboard-card agent-performance">
+                <div class="card-title">Agent Performance</div>
+                <div class="card-value">96.3%</div>
+                <div class="card-subtitle">SLO ✓</div>
+                <div class="sparkline-container">
+                    <svg class="sparkline" viewBox="0 0 200 56">
+                        <defs>
+                            <linearGradient id="agentGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                                <stop offset="0%" style="stop-color:#2DA1A8;stop-opacity:0.25"/>
+                                <stop offset="100%" style="stop-color:#2DA1A8;stop-opacity:0"/>
+                            </linearGradient>
+                        </defs>
+                        <path d="M0,25 C20,20 40,22 60,18 C80,15 100,12 120,14 C140,16 160,13 180,10 L200,8" 
+                              fill="none" stroke="#2DA1A8" stroke-width="2" stroke-linecap="round"/>
+                        <path d="M0,25 C20,20 40,22 60,18 C80,15 100,12 120,14 C140,16 160,13 180,10 L200,8 L200,56 L0,56 Z" 
+                              fill="url(#agentGradient)"/>
+                    </svg>
+                </div>
+            </div>
+            
+            <div class="dashboard-card territory-health">
+                <div class="card-title">Territory Health</div>
+                <div class="card-value">0.78</div>
+                <div class="card-subtitle">Attention band</div>
+                <div class="sparkline-container">
+                    <svg class="sparkline" viewBox="0 0 200 56">
+                        <defs>
+                            <linearGradient id="territoryGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                                <stop offset="0%" style="stop-color:#43D17C;stop-opacity:0.25"/>
+                                <stop offset="100%" style="stop-color:#43D17C;stop-opacity:0"/>
+                            </linearGradient>
+                        </defs>
+                        <path d="M0,35 C20,32 40,38 60,35 C80,30 100,28 120,32 C140,35 160,30 180,25 L200,22" 
+                              fill="none" stroke="#43D17C" stroke-width="2" stroke-linecap="round"/>
+                        <path d="M0,35 C20,32 40,38 60,35 C80,30 100,28 120,32 C140,35 160,30 180,25 L200,22 L200,56 L0,56 Z" 
+                              fill="url(#territoryGradient)"/>
+                    </svg>
+                </div>
+            </div>
+            
+            <div class="dashboard-card governance">
+                <div class="card-title">Governance</div>
+                <div class="card-value">83%</div>
+                <div class="card-subtitle">Adoption ↑</div>
+                <div class="sparkline-container">
+                    <svg class="sparkline" viewBox="0 0 200 56">
+                        <defs>
+                            <linearGradient id="governanceGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                                <stop offset="0%" style="stop-color:#8CA0B3;stop-opacity:0.25"/>
+                                <stop offset="100%" style="stop-color:#8CA0B3;stop-opacity:0"/>
+                            </linearGradient>
+                        </defs>
+                        <path d="M0,40 C20,42 40,38 60,35 C80,32 100,30 120,28 C140,30 160,25 180,20 L200,18" 
+                              fill="none" stroke="#8CA0B3" stroke-width="2" stroke-linecap="round"/>
+                        <path d="M0,40 C20,42 40,38 60,35 C80,32 100,30 120,28 C140,30 160,25 180,20 L200,18 L200,56 L0,56 Z" 
+                              fill="url(#governanceGradient)"/>
+                    </svg>
+                </div>
+            </div>
+        </div>
+        
+        <div class="description">
+            <strong>This is what Codex created!</strong><br>
+            Perfect Tide Guide aesthetics adapted for UBOS:<br>
+            • Ocean gradient background (#0B1220 → #121A2B)<br>
+            • Teal/aqua sparklines with smooth curves<br>
+            • Real UBOS data (Citizens, Agents, Territories, Governance)<br>
+            • Progressive disclosure depth controls<br>
+            • SF fonts with rounded numerics<br><br>
+            The SwiftUI version has interactive charts, animations, and Apple Watch support.
+        </div>
+    </div>
+</body>
+</html>
