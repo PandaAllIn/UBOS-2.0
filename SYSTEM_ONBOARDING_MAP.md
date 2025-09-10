@@ -17,6 +17,7 @@ This document bootstraps any new agent, tool, or collaborator with a fast, compl
   - Consultant Portal build: `cd consultant-portal && npm run -s build`
 - Orchestration CLI: `npm run -s dev -- orchestrator:analyze "<task>"` then `orchestrator:execute`.
 - Dashboard (local): `npm run -s dev:dashboard` (see `src/dashboard/dashboardServer.ts`).
+  - Desktop app (macOS 13+): `npm run -s desktop:dev` (Electron wrapper that starts the server and opens a window)
 - Notion sync (if configured): `npm run -s dev -- notion:sync-all` (see commands list below).
 
 ## High-Level Architecture

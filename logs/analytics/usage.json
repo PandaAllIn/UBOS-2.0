@@ -1,26 +1,14 @@
 [
   {
-    "id": "evt_1757519695911_tnjggl",
-    "ts": "2025-09-10T15:54:55.911Z",
-    "provider": "gemini",
-    "plan": "perplexity_pro",
-    "metric": "tokens",
-    "amount": 522,
-    "model": "gemini-2.0-flash-exp",
-    "tags": [
-      "auto"
-    ]
-  },
-  {
-    "id": "evt_1757519730090_mqmdz6",
-    "ts": "2025-09-10T15:55:30.090Z",
-    "provider": "gemini",
+    "id": "evt_1757527358094_p1gx4h",
+    "ts": "2025-09-10T18:02:38.094Z",
+    "provider": "perplexity",
     "plan": "perplexity_pro",
     "metric": "requests",
     "amount": 1,
-    "model": "gemini-2.0-flash-exp",
+    "model": "sonar-pro",
     "tags": [
       "auto"
     ]
   }
-]
+]]

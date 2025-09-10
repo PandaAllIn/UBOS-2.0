@@ -7,8 +7,8 @@
       "tests-helped",
       "needs-retry-with-backoff"
     ],
-    "effectiveness": 0.79,
-    "lastUpdated": "2025-09-10T15:55:30.107Z"
+    "effectiveness": 0.9,
+    "lastUpdated": "2025-09-10T18:02:38.096Z"
   },
   {
     "id": "req_2",

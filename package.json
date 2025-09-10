@@ -15,7 +15,8 @@
     "test:coord": "tsx src/tests/multiAgentCoordinator_test.ts",
     "test:country-codes": "tsx src/tests/countryCodes_test.ts",
     "dev:oradea": "tsx src/tools/oradea_business_cli.ts",
-    "dev:dashboard": "tsx src/dashboard/dashboardServer.ts"
+    "dev:dashboard": "tsx src/dashboard/dashboardServer.ts",
+    "desktop:dev": "electron desktop/electron-main.mjs"
   },
   "dependencies": {
     "@notionhq/client": "^5.0.0",
@@ -30,6 +31,7 @@
   },
   "devDependencies": {
     "@types/node": "^20.12.7",
+    "electron": "^30.5.1",
     "eslint": "^8.57.0",
     "jose": "^5.10.0",
     "tsx": "^4.16.2",
