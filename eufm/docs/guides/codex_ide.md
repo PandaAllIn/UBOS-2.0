@@ -15,7 +15,7 @@ Codex is OpenAI’s coding agent that can read, modify, and run code locally in 
 - You can offload jobs to a Codex cloud environment. Start from local context, choose Run in the cloud, and track progress in the side panel. Bring results back locally to test and iterate.
 
 ## EUFM project playbook
-- Working directory: `/Users/panda/Desktop/EUFM`
+- Working directory: `<repo-root>`
 - Preferred mode: Agent (default) for most tasks. Approve network access only when fetching external docs or dependencies.
 - Safe commands: docs generation, lint checks, link checks, README updates. Avoid destructive git operations without a branch.
 - Branching: when delegating to cloud, prefer off-main branches.

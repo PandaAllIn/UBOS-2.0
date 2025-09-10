@@ -217,7 +217,7 @@ What Claude does:
 #### **1. Open Cursor IDE**
 ```bash
 # Make sure you're in the EUFM project directory
-cd /Users/panda/Desktop/EUFM
+cd <repo-root>
 open -a Cursor .
 ```
 
