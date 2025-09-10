@@ -1,4 +1,5 @@
 # EUFM AGENT QUICK REFERENCE
+> For a full system overview and directory map, see `SYSTEM_ONBOARDING_MAP.md` at the repo root.
 ## Essential Commands & Capabilities for All Agents
 
 ---
@@ -146,4 +147,3 @@ npm run dev -- gpt5:status --json    # Machine-readable JSON output for CI/autom
 
 *Quick reference for agent coordination and system capabilities*
 *Last Updated: January 9, 2025*
-

@@ -74,5 +74,81 @@
       "realtime-collab",
       "session-bridge"
     ]
+  },
+  {
+    "ts": "2025-09-10T17:44:46.541Z",
+    "traceId": "boot_mfe9rtnu_ojr8",
+    "file": "/Users/panda/Desktop/UBOS/ubos/specs/territories/consultant-portal.spec.md",
+    "id": "consultant-portal",
+    "version": "1.0.0",
+    "services": [
+      "pricing-insights",
+      "opportunity-analysis",
+      "document-upload",
+      "results-report"
+    ]
+  },
+  {
+    "ts": "2025-09-10T17:44:46.551Z",
+    "traceId": "boot_mfe9rtnu_ojr8",
+    "file": "/Users/panda/Desktop/UBOS/ubos/specs/territories/eufm.spec.md",
+    "id": "eufm",
+    "version": "1.0.0",
+    "services": [
+      "eu-discovery",
+      "proposal-writing",
+      "compliance-check"
+    ]
+  },
+  {
+    "ts": "2025-09-10T17:44:46.555Z",
+    "traceId": "boot_mfe9rtnu_ojr8",
+    "file": "/Users/panda/Desktop/UBOS/ubos/specs/territories/integration-bridge.spec.md",
+    "id": "integration-bridge",
+    "version": "1.0.0",
+    "services": [
+      "cross-ai-comm",
+      "multi-agent-orchestration",
+      "realtime-collab",
+      "session-bridge"
+    ]
+  },
+  {
+    "ts": "2025-09-10T17:44:46.580Z",
+    "traceId": "boot_mfe9rtv1_lk1h",
+    "file": "/Users/panda/Desktop/UBOS/ubos/specs/territories/consultant-portal.spec.md",
+    "id": "consultant-portal",
+    "version": "1.0.0",
+    "services": [
+      "pricing-insights",
+      "opportunity-analysis",
+      "document-upload",
+      "results-report"
+    ]
+  },
+  {
+    "ts": "2025-09-10T17:44:46.583Z",
+    "traceId": "boot_mfe9rtv1_lk1h",
+    "file": "/Users/panda/Desktop/UBOS/ubos/specs/territories/eufm.spec.md",
+    "id": "eufm",
+    "version": "1.0.0",
+    "services": [
+      "eu-discovery",
+      "proposal-writing",
+      "compliance-check"
+    ]
+  },
+  {
+    "ts": "2025-09-10T17:44:46.652Z",
+    "traceId": "boot_mfe9rtv1_lk1h",
+    "file": "/Users/panda/Desktop/UBOS/ubos/specs/territories/integration-bridge.spec.md",
+    "id": "integration-bridge",
+    "version": "1.0.0",
+    "services": [
+      "cross-ai-comm",
+      "multi-agent-orchestration",
+      "realtime-collab",
+      "session-bridge"
+    ]
   }
 ]

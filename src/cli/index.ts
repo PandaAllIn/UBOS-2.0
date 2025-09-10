@@ -14,6 +14,8 @@ import { projectRegistry } from '../masterControl/projectRegistry.js';
 import { agentActionLogger } from '../masterControl/agentActionLogger.js';
 import { NotionSyncService } from '../integrations/notionSyncService.js';
 import { notionSyncAgent } from '../agents/notionSyncAgent.js';
+import { promises as fs } from 'fs';
+import path from 'path';
 
 async function main() {
 	const cmd = process.argv[2] || 'help';
@@ -152,6 +154,61 @@ async function main() {
 			console.log(out);
 			break;
 		}
+
+        case 'spec:list': {
+            try {
+                const p = path.join(process.cwd(), 'logs', 'specs', 'registry.json');
+                const raw = await fs.readFile(p, 'utf-8').catch(() => '');
+                const reg = raw ? JSON.parse(raw) : {};
+                const entries = Object.entries(reg) as Array<[string, any]> ;
+                if (!entries.length) { console.log('No specs recorded yet.'); break; }
+                console.log('=== Registered Specs ===');
+                for (const [specPath, meta] of entries) {
+                    console.log(`- ${specPath} :: v${meta.version} @ ${meta.updatedAt}`);
+                }
+            } catch (e: any) {
+                console.error('❌ spec:list failed:', e.message);
+                process.exit(1);
+            }
+            break;
+        }
+
+        case 'spec:events': {
+            try {
+                const limit = parseInt(process.argv[3] || '20');
+                const p = path.join(process.cwd(), 'logs', 'specs', 'territories_events.json');
+                const raw = await fs.readFile(p, 'utf-8').catch(() => '');
+                const events: any[] = raw ? JSON.parse(raw) : [];
+                console.log(`=== Territory Events (last ${limit}) ===`);
+                events.slice(-limit).forEach((evt) => {
+                    console.log(`${evt.ts} [${evt.traceId || 'n/a'}] ${evt.id} v${evt.version} :: services=[${(evt.services||[]).join(', ')}]`);
+                });
+            } catch (e: any) {
+                console.error('❌ spec:events failed:', e.message);
+                process.exit(1);
+            }
+            break;
+        }
+
+        case 'spec:diff': {
+            try {
+                const target = process.argv[3];
+                const p = path.join(process.cwd(), 'logs', 'specs', 'changelog.json');
+                const raw = await fs.readFile(p, 'utf-8').catch(() => '');
+                const changes: any[] = raw ? JSON.parse(raw) : [];
+                const filtered = target ? changes.filter(c => c.path.includes(target)) : changes;
+                if (!filtered.length) { console.log('No changelog entries found.'); break; }
+                const last = filtered[filtered.length - 1];
+                console.log('=== Latest Spec Diff ===');
+                console.log(`Path: ${last.path}`);
+                console.log(`From: ${last.from || 'none'} -> To: ${last.to}`);
+                console.log(`Diff: +${last.diff.added} / -${last.diff.removed} / =${last.diff.same}`);
+            } catch (e: any) {
+                console.error('❌ spec:diff failed:', e.message);
+                process.exit(1);
+            }
+            break;
+        }
 
 		case 'gemini:cli': {
 			console.log('🚀 Starting Gemini 2.5 Flash CLI...');

@@ -3,6 +3,7 @@ import * as path from 'path';
 import matter from 'gray-matter';
 import * as yaml from 'yaml';
 import crypto from 'crypto';
+import vm from 'vm';
 import { z } from 'zod';
 
 export interface SpecMetadata {
@@ -86,15 +87,12 @@ export class SpecInterpreter {
 
   async toExecutable(spec: ParsedSpec): Promise<ExecutableConfig> {
     console.log(`⚡ Converting spec to executable: ${spec.metadata.type}`);
+    const safe = this.safeHooks(spec.implementation);
     return {
       config: this.generateConfig(spec),
       tasks: this.generateTasks(spec),
       validators: this.generateValidators(spec),
-      hooks: {
-        beforeInit: spec.implementation.beforeInit,
-        afterInit: spec.implementation.afterInit,
-        onMetamorphosis: spec.implementation.onMetamorphosis,
-      },
+      hooks: safe,
     };
   }
 
@@ -299,5 +297,34 @@ export class SpecInterpreter {
 
   private generateValidators(spec: ParsedSpec): any[] {
     return spec.acceptanceCriteria.map((c) => ({ rule: c }));
+  }
+
+  // Create safe wrappers around hook code blocks
+  private safeHooks(impl: any): { beforeInit?: Function; afterInit?: Function; onMetamorphosis?: Function } {
+    const wrap = (code?: string) => {
+      if (!code || typeof code !== 'string' || !code.trim()) return undefined;
+      // Very defensive sandbox: no process, require, globalThis minimized
+      const sandbox: any = {
+        console: {
+          log: (...args: any[]) => console.log('[spec-hook]', ...args),
+          warn: (...args: any[]) => console.warn('[spec-hook]', ...args),
+          error: (...args: any[]) => console.error('[spec-hook]', ...args),
+        },
+      };
+      const context = vm.createContext(sandbox, { name: 'spec-hook' });
+      const script = new vm.Script(`(function() { ${code}\n })()`, { filename: 'spec-hook.vm' });
+      return () => {
+        try {
+          script.runInContext(context, { timeout: 50 });
+        } catch (err) {
+          console.warn('⚠️ Spec hook execution blocked/failed:', err instanceof Error ? err.message : err);
+        }
+      };
+    };
+    return {
+      beforeInit: wrap(impl.beforeInit),
+      afterInit: wrap(impl.afterInit),
+      onMetamorphosis: wrap(impl.onMetamorphosis),
+    };
   }
 }

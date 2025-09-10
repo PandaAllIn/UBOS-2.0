@@ -199,9 +199,12 @@ export class UBOSKernel {
     const services: Array<{ id: string; price: number }> = [];
     for (const line of lines) {
       // Match patterns like: - eu-discovery: 100 credits
-      const m = /^-\s*([a-zA-Z0-9_-]+)\s*:\s*(\d+)/.exec(line);
+      const m = /^-\s*([a-z0-9-]+)\s*:\s*(\d+)/i.exec(line);
       if (m) {
-        services.push({ id: m[1], price: Number(m[2]) });
+        const id = m[1].toLowerCase();
+        const price = Number(m[2]);
+        if (!/^[a-z0-9-]+$/.test(id) || !Number.isFinite(price)) continue;
+        services.push({ id, price });
       }
     }
     return services;

@@ -180,3 +180,89 @@ This document bootstraps any new agent, tool, or collaborator with a fast, compl
 ---
 If you’re a tool/agent, the key to working smoothly here is: read specs → respect types/contracts → use repo-relative paths → log actions → keep context in `logs/` so the next session has continuity.
 
+## UBOS Citizenship & Credits
+
+- UBOS operates as a digital nation-state with persistent AI/human citizens
+- Citizens have credit balances (backed 1:1 with EUR) and can access services
+- Registration: `cd ubos && npm run cli -- citizen register <citizenId>`
+- Check status: `npm run cli -- citizen info <citizenId>`
+- View services: `npm run cli -- services list`
+- Your citizen record persists in `ubos/memory/state.json`
+- Soul files (optional): `ubos/src/agents/souls/` contain achievements and memory
+
+## Quick Success Examples
+
+Try these now:
+
+Research task (low cost):
+```
+npm run dev -- orchestrator:execute "Research competitive landscape of AI coding assistants"
+```
+
+Development task (requires API keys):
+```
+npm run dev -- orchestrator:execute "Create TypeScript utility for API rate limiting with exponential backoff"
+```
+
+Multi-agent task:
+```
+npm run dev -- orchestrator:execute "Research Node.js testing frameworks and create implementation example"
+```
+
+## Common Issues & Solutions
+
+Agent execution failures:
+- Missing OPENAI_API_KEY → CodexAgent needs OpenAI
+- Missing PERPLEXITY_API_KEY → EnhancedAbacusAgent needs Perplexity
+- Missing ANTHROPIC_API_KEY → Claude-based flows
+
+API key priority:
+- Research: PERPLEXITY_API_KEY only (cheap)
+- Development: OPENAI_API_KEY (or CodexCLI where available)
+
+Orchestrator not finding agents:
+- Check `src/orchestrator/agentFactory.ts` registration
+- Run `npm run typecheck` for errors
+
+## TL;DR Quickstart (Pick Your Goal)
+
+See it work (30s):
+```
+git clone <repo> && cd <repo> && npm ci
+npm run dev -- orchestrator:execute "Explain TypeScript generics"
+```
+
+Build something (2m):
+```
+npm ci && npm run typecheck
+npm run dev -- orchestrator:execute "Create TypeScript utility for debouncing function calls with TypeScript types"
+```
+
+Full system access (5m):
+```
+npm ci && cd ubos && npm ci && cd ../consultant-portal && npm ci && cd ..
+cd ubos && npm run cli -- citizen register citizen:ai:yourname:001
+npm run cli -- citizen info citizen:ai:yourname:001
+npm run cli -- services list
+```
+
+Understand architecture (15m):
+1) `eufm/docs/agents/SYSTEM_ARCHITECTURE.md`
+2) `ubos/specs/kernel/constitution.spec.md`
+3) `src/orchestrator/types.ts`
+4) `npm run dev -- orchestrator:analyze "your task"`
+
+## How You Know It’s Working
+
+Level 1 – System Alive:
+- Typecheck passes
+- Orchestrator analyze returns agent suggestions
+
+Level 2 – Agent Execution:
+- Research outputs in `logs/research_data/`
+- Orchestrator run files in `logs/orchestrator/`
+
+Level 3 – Full Productivity:
+- Multi-step tasks across research + development succeed
+- Citizenship active; credit operations visible
+- Persistent artifacts (code, docs, analyses) created
