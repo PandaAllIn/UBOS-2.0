@@ -9,6 +9,7 @@ export default function MissionControl() {
   const [task, setTask] = useState('Analyze EU funding news today and suggest next actions')
   const [running, setRunning] = useState(false)
   const [result, setResult] = useState<any | null>(null)
+  const [analysis, setAnalysis] = useState<any | null>(null)
 
   async function refresh() {
     try {
@@ -30,7 +31,7 @@ export default function MissionControl() {
       {error && <div style={{ color: '#ef476f' }}>Error: {error}</div>}
       <div style={{ margin: '12px 0', padding: 12, background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 8 }}>
         <div style={{ fontWeight: 700, marginBottom: 6 }}>Orchestrator</div>
-        <div style={{ display: 'flex', gap: 8 }}>
+        <div style={{ display: 'flex', gap: 8, marginBottom: 8 }}>
           <input style={{ flex: 1, padding: 8, borderRadius: 8, border: '1px solid rgba(255,255,255,0.12)', background: 'rgba(255,255,255,0.06)', color: 'var(--text)' }} value={task} onChange={e => setTask(e.target.value)} placeholder="Describe your task" />
           <button disabled={running} onClick={async () => {
             try {
@@ -39,8 +40,31 @@ export default function MissionControl() {
               setResult(r)
             } catch (e:any) { setError(e.message) } finally { setRunning(false) }
           }}>Execute</button>
+          <button disabled={running} onClick={async () => {
+            try {
+              setRunning(true); setAnalysis(null)
+              const a = await postJSON('/api/analyze', { task })
+              setAnalysis(a)
+            } catch (e:any) { setError(e.message) } finally { setRunning(false) }
+          }}>Analyze</button>
         </div>
         {running && <div style={{ marginTop: 8 }}>Running…</div>}
+        {analysis && (
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+            <div>
+              <div style={{ fontWeight: 700, marginTop: 8 }}>Analysis</div>
+              <pre style={{ background: 'rgba(255,255,255,0.06)', padding: 12, borderRadius: 8, maxHeight: 320, overflow: 'auto' }}>
+                {JSON.stringify(analysis.analyzed, null, 2)}
+              </pre>
+            </div>
+            <div>
+              <div style={{ fontWeight: 700, marginTop: 8 }}>Suggestions</div>
+              <pre style={{ background: 'rgba(255,255,255,0.06)', padding: 12, borderRadius: 8, maxHeight: 320, overflow: 'auto' }}>
+                {JSON.stringify(analysis.suggestions, null, 2)}
+              </pre>
+            </div>
+          </div>
+        )}
         {result && (
           <pre style={{ marginTop: 8, background: 'rgba(255,255,255,0.06)', padding: 12, borderRadius: 8, maxHeight: 320, overflow: 'auto' }}>
             {JSON.stringify(result, null, 2)}

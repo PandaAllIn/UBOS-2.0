@@ -51,6 +51,19 @@ export class DashboardServer {
       }
     });
 
+    this.app.post('/api/analyze', async (req, res) => {
+      try {
+        const { task } = req.body || {};
+        if (!task || String(task).trim().length === 0) {
+          return res.status(400).json({ error: 'Missing task' });
+        }
+        const result = await this.missionControl.analyzeTask(task);
+        res.json(result);
+      } catch (e: any) {
+        res.status(500).json({ error: e?.message || 'Analyze failed' });
+      }
+    });
+
     this.app.post('/api/scan-funding', async (req, res) => {
       try {
         const opportunities = await this.missionControl.scanFundingOpportunities();

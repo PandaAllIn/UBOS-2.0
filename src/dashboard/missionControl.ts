@@ -85,6 +85,12 @@ export class MissionControl {
     };
   }
 
+  // Analyze a task without executing (used by dashboard analyze UI)
+  async analyzeTask(taskDescription: string) {
+    const { analyzed, suggestions } = await this.orchestrator.analyze(taskDescription);
+    return { analyzed, suggestions };
+  }
+
   private calculateAgentStatsFromActions(actions: any[]) {
     let active = 0, completed = 0, failed = 0;
     for (const a of actions) {
