@@ -14,7 +14,7 @@ export interface SessionMemory {
   context: {
     currentProject?: string;
     activeObjectives?: string[];
-    completedTasks?: string[];
+    completedTasks?: any[];
     discoveredAgents?: any[];
     researchCosts?: number;
   };
@@ -50,7 +50,7 @@ export interface EnhancedMissionControlStatus extends MissionControlStatus {
 export class EnhancedMissionControl extends MissionControl {
   private agentSummoner: AgentSummonerAgent;
   private enhancedResearcher: EnhancedPerplexityResearch;
-  private sessionMemory: SessionMemory;
+  private sessionMemory!: SessionMemory;
   private sessionDir = 'logs/sessions';
 
   constructor() {
@@ -314,7 +314,7 @@ export class EnhancedMissionControl extends MissionControl {
       
       return result;
       
-    } catch (error) {
+    } catch (error: any) {
       await this.addAlert('error', `Enhanced task failed: ${error}`);
       await this.addToHistory('system_event', `Task error: ${error}`, { error: String(error) });
       this.events.emit('notify', { level: 'error', message: 'Enhanced task execution failed' });
@@ -363,7 +363,7 @@ export class EnhancedMissionControl extends MissionControl {
   private async updateSessionContext(taskDescription: string, result: any): Promise<void> {
     // Update session memory with task completion
     if (!this.sessionMemory.context.completedTasks) {
-      this.sessionMemory.context.completedTasks = [];
+      this.sessionMemory.context.completedTasks = [] as any[];
     }
     
     this.sessionMemory.context.completedTasks.push({
@@ -462,4 +462,3 @@ export class EnhancedMissionControl extends MissionControl {
     return exportPath;
   }
 }
-

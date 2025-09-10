@@ -144,7 +144,7 @@ async function createComprehensiveEUFMSystem() {
             {
               type: 'callout',
               callout: {
-                rich_text: [{ text: { content: 'Status: Active & Generating Revenue\\nHealth Score: 98/100\\nLast Activity: 15 minutes ago\\nLocation: /Users/panda/Desktop/Claude Code/eufm XF/' } }],
+          rich_text: [{ text: { content: `Status: Active & Generating Revenue\\nHealth Score: 98/100\\nLast Activity: 15 minutes ago\\nLocation: ${process.cwd()}/eufm/docs/xf/` } }],
                 icon: { emoji: '✅' },
                 color: 'green_background'
               }

@@ -148,7 +148,7 @@ async function createLiveEUFMFeed() {
             {
               type: 'paragraph',
               paragraph: {
-                rich_text: [{ text: { content: '• Health Score: 98/100\\n• Last Activity: 15 minutes ago\\n• Location: /Users/panda/Desktop/Claude Code/eufm XF/\\n• Agent Ecosystem: 3 active agents\\n• Revenue Impact: €6M proven system\\n• Integration Status: 100% operational\\n• Next Milestone: Scale to 10x capacity' } }]
+          rich_text: [{ text: { content: `• Health Score: 98/100\\n• Last Activity: 15 minutes ago\\n• Location: ${process.cwd()}/eufm/docs/xf/\\n• Agent Ecosystem: 3 active agents\\n• Revenue Impact: €6M proven system\\n• Integration Status: 100% operational\\n• Next Milestone: Scale to 10x capacity` } }]
               }
             }
           ]

@@ -1,0 +1,21 @@
+{
+  "mcpServers": {
+    "stripe": {
+      "command": "node",
+      "args": ["scripts/mcp-stripe-server.js"],
+      "env": {
+        "STRIPE_SECRET_KEY": "sk_test_your_stripe_secret_key_here",
+        "STRIPE_PRICE_STARTER": "price_starter_id",
+        "STRIPE_PRICE_PRO": "price_pro_id",
+        "STRIPE_PRICE_AGENCY": "price_agency_id"
+      }
+    },
+    "figma-developer-mcp": {
+      "command": "npx",
+      "args": ["-y", "figma-developer-mcp", "--stdio"],
+      "env": {
+        "FIGMA_API_KEY": "YOUR_FIGMA_API_KEY_HERE"
+      }
+    }
+  }
+}

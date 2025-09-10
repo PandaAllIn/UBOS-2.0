@@ -1,0 +1,1630 @@
+Executing: codex exec --dangerously-bypass-approvals-and-sandbox Test the optimized Codex configuration by creating a simple TypeScript utility function for EU funding deadline validation
+
+Project Context: EUFM (European Union Funds Manager) - AI Agent Orchestration System
+Working Directory: /Users/panda/Desktop/EUFM
+Project Type: TypeScript/Node.js multi-agent coordination system
+Note: Use the existing test patterns and ensure TypeScript compatibility
+
+Safety Guidelines:
+- Preserve existing functionality when modifying files
+- Follow TypeScript best practices and existing code patterns
+- Add proper error handling and logging
+- Test changes before completing
+Working Directory: /Users/panda/Desktop/EUFM
+Timeout: 600000 ms
+
+approval: never
+sandbox: danger-full-access
+reasoning effort: medium
+reasoning summaries: auto
+--------
+[2025-09-08T14:07:58] User instructions:
+Test the optimized Codex configuration by creating a simple TypeScript utility function for EU funding deadline validation
+
+Project Context: EUFM (European Union Funds Manager) - AI Agent Orchestration System
+Working Directory: /Users/panda/Desktop/EUFM
+Project Type: TypeScript/Node.js multi-agent coordination system
+Note: Use the existing test patterns and ensure TypeScript compatibility
+
+Safety Guidelines:
+- Preserve existing functionality when modifying files
+- Follow TypeScript best practices and existing code patterns
+- Add proper error handling and logging
+- Test changes before completing
+[2025-09-08T14:07:58] OpenAI Codex v0.30.0 (research preview)
+--------
+workdir: /Users/panda/Desktop/EUFM
+model: gpt-5
+provider: openai
+
+[2025-09-08T14:08:03] thinking
+
+**Testing Codex Configuration**
+
+I to need in work the repository at /Users/panda/Desktop/EUFM. The task is to test an optimized Codex configuration by creating a simple TypeScript utility function that validates EU funding deadlines. I must ensure compatibility with existing test patterns and preserve current error handling functionality while adding and logging.
+
+Since I have full access and can run commands, I'll explore the file structure for any tests and patterns mentioned in AGENTS.md. However, I can't find the "update_plan" tool, although I do have "apply_patch" available.
+**Exploring the Repository**
+
+I need to follow the instruction to provide a preamble before making any tool calls and ensure that my messages are concise. To start, I'll run a command to explore the repository, scanning for relevant information. This first step is crucial for understanding the file structure and the contents before moving on to more specific tasks. Let's get started with this exploration![2025-09-08T14:08:06] codex
+**Exploring the Repository**
+
+I need to follow the instruction to provide a preamble before making any tool calls and ensure that my messages are concise. To start, I'll run a command to explore the repository, scanning for relevant information. This first step is crucial for understanding the file structure and the contents before moving on to more specific tasks. Let's get started with this exploration!
+
+[2025-09-08T14:08:06] codex
+
+I’m going to scan the repository to find the existing structure and test patterns, then add a small TypeScript utility for deadline validation with corresponding tests.
+[2025-09-08T14:08:07] exec bash -lc 'ls -la' in /Users/panda/Desktop/EUFM
+[2025-09-08T14:08:07] bash -lc 'ls -la' succeeded in 151ms:
+total 1160
+drwxr-xr-x   69 panda  staff   2208 Sep  8 17:07 .
+drwx------+  17 panda  staff    544 Sep  7 19:35 ..
+-rw-r--r--@   1 panda  staff  10244 Sep  7 18:05 .DS_Store
+drwxr-xr-x    3 panda  staff     96 Sep  8 14:20 .claude
+drwxr-xr-x    3 panda  staff     96 Sep  8 16:46 .cursor
+-rw-r--r--    1 panda  staff    798 Sep  8 13:28 .env
+-rw-r--r--    1 panda  staff    196 Sep  7 21:10 .env.example
+drwxr-xr-x   17 panda  staff    544 Sep  8 15:21 .git
+drwxr-xr-x    3 panda  staff     96 Sep  3 11:39 .github
+-rw-r--r--    1 panda  staff     71 Sep  8 15:04 .gitignore
+-rw-r--r--    1 panda  staff   6432 Sep  8 17:07 AGENTS.md
+-rw-r--r--    1 panda  staff   3972 Sep  8 14:53 AGENT_QUICK_REFERENCE.md
+-rw-r--r--    1 panda  staff  11019 Sep  6 20:32 CLAUDE_MISSION_BRIEFING.md
+-rw-r--r--    1 panda  staff  15420 Sep  6 21:26 CLAUDE_SESSION_MEMORY.md
+-rw-r--r--    1 panda  staff   2966 Sep  7 18:11 CLAUDE_SESSION_STARTER.md
+-rw-r--r--    1 panda  staff  15118 Sep  8 13:02 CODEX_HANDOFF_BRIEFING.md
+-rw-r--r--    1 panda  staff   8675 Sep  7 17:07 CODEX_IMPLEMENTATION_PLAN.md
+-rw-r--r--    1 panda  staff   5088 Sep  8 15:14 CODE_OF_CONDUCT.md
+-rw-r--r--@   1 panda  staff    458 Sep  3 11:40 CONTRIBUTING.md
+[2025-09-08T14:08:07] tokens used: 7816
+[2025-09-08T14:08:10] exec bash -lc 'ls -la src && rg --files src | wc -l && rg -n "BaseAgent|AgentFactory|orchestrator|agents|jest|vitest|mocha|ava|ts-node|ts-jest|tsx|ts-mocha|tsc" -n src package.json tsconfig.json' in /Users/panda/Desktop/EUFM
+[2025-09-08T14:08:10] bash -lc 'ls -la src && rg --files src | wc -l && rg -n "BaseAgent|AgentFactory|orchestrator|agents|jest|vitest|mocha|ava|ts-node|ts-jest|tsx|ts-mocha|tsc" -n src package.json tsconfig.json' succeeded in 204ms:
+total 16
+drwxr-xr-x  17 panda  staff   544 Sep  8 13:14 .
+drwxr-xr-x  69 panda  staff  2208 Sep  8 17:07 ..
+-rw-r--r--@  1 panda  staff  6148 Sep  3 12:43 .DS_Store
+drwxr-xr-x   5 panda  staff   160 Sep  3 12:43 adapters
+drwxr-xr-x  18 panda  staff   576 Sep  8 13:41 agents
+drwxr-xr-x   7 panda  staff   224 Sep  3 15:12 analytics
+drwxr-xr-x   3 panda  staff    96 Sep  8 13:40 cli
+drwxr-xr-x   8 panda  staff   256 Sep  8 14:01 dashboard
+drwxr-xr-x   3 panda  staff    96 Sep  8 13:14 integrations
+drwxr-xr-x   4 panda  staff   128 Sep  3 15:34 intelligence
+drwxr-xr-x   4 panda  staff   128 Sep  7 17:25 masterControl
+drwxr-xr-x   6 panda  staff   192 Sep  6 21:37 mcc
+drwxr-xr-x   4 panda  staff   128 Sep  3 14:48 memory
+drwxr-xr-x   8 panda  staff   256 Sep  6 20:46 orchestrator
+drwxr-xr-x   5 panda  staff   160 Sep  6 21:12 tests
+drwxr-xr-x  12 panda  staff   384 Sep  7 18:52 tools
+drwxr-xr-x   4 panda  staff   128 Sep  6 21:24 utils
+      65
+package.json:7:    "build": "tsc -p .",
+[2025-09-08T14:08:10] tokens used: 2351
+
+[2025-09-08T14:08:13] thinking
+
+**Planning utility function**
+
+I’ve noticed that there's a tests directory with TypeScript tests running through tsx instead of jest. The current test patterns are executed via NPM scripts like "test:integration" and they look liketsx src `/tests/<file>.ts`. Now, I need to create a utility function for validating EU funding deadlines, and the best spot for this seems to be in `src/utils`. I should start by listing out what utilities we have!
+[2025-09-08T14:08:15] exec bash -lc 'ls -la src/utils && rg -n "deadline|date|validate|fund" src/utils src/tools src/agents src/orchestrator src/tests | head -n 50' in /Users/panda/Desktop/EUFM
+[2025-09-08T14:08:15] bash -lc 'ls -la src/utils && rg -n "deadline|date|validate|fund" src/utils src/tools src/agents src/orchestrator src/tests | head -n 50' succeeded in 161ms:
+total 32
+drwxr-xr-x   4 panda  staff   128 Sep  6 21:24 .
+drwxr-xr-x  17 panda  staff   544 Sep  8 13:14 ..
+-rw-r--r--   1 panda  staff  2366 Sep  6 21:08 countryCodes.ts
+-rw-r--r--   1 panda  staff  8355 Sep  6 21:24 sessionMemoryUpdater.ts
+src/orchestrator/taskAnalyzer.ts:21:    /(deadline|mission[- ]critical|production)/i,
+src/agents/eufmAgentSummoner.ts:162:    } else if (inputLower.includes('test') || inputLower.includes('verify') || inputLower.includes('validate')) {
+src/agents/eufmAgentSummoner.ts:312:          domain: 'eu_funding'
+src/agents/eufmAgentSummoner.ts:428:  async recommendForResearch(query: string, domain: string = 'eu_funding'): Promise<AgentRecommendation[]> {
+src/agents/oradeaBusinessAgent.ts:23:  date: string;
+src/agents/oradeaBusinessAgent.ts:214:        date: preferredDates[0], // Use first preferred date
+src/agents/oradeaBusinessAgent.ts:304:- EU funding legislation research
+src/agents/oradeaBusinessAgent.ts:340:  async updateContactNotes(contactName: string, notes: string): Promise<void> {
+src/agents/testAgent.ts:5: * TestAgent: a minimal agent used to validate integration.
+src/agents/enhancedAbacusAgent.ts:88:      'eu_funding': ['eu fund', 'european fund', 'horizon', 'grant', 'h2020', 'h2025'],
+src/agents/enhancedAbacusAgent.ts:170:        'eu_funding': 'in the context of European Union funding, grants, and Horizon Europe programs',
+src/agents/enhancedAbacusAgent.ts:214:    if (domain === 'eu_funding') {
+src/agents/enhancedAbacusAgent.ts:215:      followUps.push(`What EU funding opportunities are available for ${input}?`);
+src/agents/enhancedAbacusAgent.ts:216:      followUps.push(`What are successful case studies of EU-funded projects in ${input}?`);
+src/agents/enhancedAbacusAgent.ts:312:    if (desc.includes('funding') || desc.includes('grant')) {
+[2025-09-08T14:08:15] tokens used: 3308
+
+[2025-09-08T14:08:21] thinking
+
+**Creating a deadline validator**
+
+I see there's no deadline utility yet, and there's definitely a need for one. I’ll create it in `src/utils/deadlineValidator.ts`. The plan is to design a function, `validateDeadline`, that checks if a given deadline is valid, whether it’s upcoming or past, and how many days are left. It’ll also optionally determine if the submission window is still open regarding a grace period or cutoff time. I’ll keep it simple for testing and return a typed object with key fields.
+**Implementing input validation**
+
+I to need add input validation for the date string, ensuring it’s parseable and not an invalid date or NaN. I'll stick to using the built-in Date to keep dependencies minimal. I’m considering time zones since the Node environment's timezone can be unknown; I’ll compute using UTC to avoid DST issues. For days remaining, I'll calculate the difference between the deadline's end of day and now, rounding down the result. I’ll also implement basic logging to keep things minimal and add tests according to existing patterns.
+[2025-09-08T14:08:29] codex
+**Implementing input validation**
+
+I need to add input validation for the date string, ensuring it’s parseable and not an invalid date or NaN. I'll stick to using the built-in Date to keep dependencies minimal. I’m considering time zones since the Node environment's timezone can be unknown; I’ll compute using UTC to avoid DST issues. For days remaining, I'll calculate the difference between the deadline's end of day and now, rounding down the result. I’ll also implement basic logging to keep things minimal and add tests according to existing patterns.
+[2025-09-08T14:08:31] exec bash -lc "sed -n '1,200p' src/tests/eufm_integration_test.ts" in /Users/panda/Desktop/EUFM
+[2025-09-08T14:08:31] bash -lc "sed -n '1,200p' src/tests/eufm_integration_test.ts" succeeded in 246ms:
+import { AgentFactory } from '../orchestrator/agentFactory.js';
+import type { AgentSpec, AgentResult } from '../orchestrator/types.js';
+
+/**
+ * Simple integration demo: constructs a TestAgent via AgentFactory and runs it.
+ * Safe to run without external APIs or network.
+ */
+export async function runAgentIntegrationDemo(input: string): Promise<AgentResult> {
+  const factory = new AgentFactory();
+
+  const spec: AgentSpec = {
+    id: 'agent-test-1',
+    type: 'TestAgent',
+    requirementId: 'req-demo-1',
+    capabilities: ['memory'],
+    params: { note: 'integration-smoke' },
+  };
+
+  const agent = factory.create(spec);
+  const ctx = { workingDir: process.cwd(), shared: { demo: true } };
+[2025-09-08T14:08:31] tokens used: 1993
+[2025-09-08T14:08:33] exec bash -lc "sed -n '1,220p' src/tests/euFundingProposalAgent_test.ts" in /Users/panda/Desktop/EUFM
+[2025-09-08T14:08:33] bash -lc "sed -n '1,220p' src/tests/euFundingProposalAgent_test.ts" succeeded in 77ms:
+import { AgentFactory } from '../orchestrator/agentFactory.js';
+import type { AgentSpec, AgentResult } from '../orchestrator/types.js';
+
+async function runOnce(input: string, dryRun: boolean): Promise<AgentResult> {
+  const factory = new AgentFactory();
+  const spec: AgentSpec = {
+    id: `agent-proposal-${dryRun ? 'dry' : 'run'}`,
+    type: 'EUFundingProposalAgent',
+    requirementId: 'req-proposal-1',
+    capabilities: ['memory'],
+  };
+  const agent = factory.create(spec);
+  const ctx = { workingDir: process.cwd(), shared: { test: true } };
+  return agent.run({ input, timeoutMs: 15_000, dryRun }, ctx);
+}
+
+export async function runEUProposalAgentDemo(): Promise<void> {
+  const input = 'Horizon Europe green hydrogen pilot [programme:Horizon Europe] [beneficiary:Consortium]';
+  console.info('[EUFM] EUFundingProposalAgent demo starting...');
+  const dry = await runOnce(input, true);
+[2025-09-08T14:08:33] tokens used: 555
+[2025-09-08T14:08:42] exec bash -lc "sed -n '1,240p' src/tests/countryCodes_test.ts" in /Users/panda/Desktop/EUFM
+[2025-09-08T14:08:42] bash -lc "sed -n '1,240p' src/tests/countryCodes_test.ts" succeeded in 4.31s:
+import { isValidEUCountryCode, assertEUCountryCode, EU_COUNTRY_CODES } from '../utils/countryCodes.js';
+
+function expect(condition: boolean, message: string) {
+  if (!condition) throw new Error(message);
+}
+
+async function run() {
+  console.log('Running country code validation tests...');
+
+  // Valid cases
+  for (const code of EU_COUNTRY_CODES) {
+    expect(isValidEUCountryCode(code), `Expected ${code} to be valid`);
+    expect(isValidEUCountryCode(code.toLowerCase()), `Expected lowercase ${code} to be valid`);
+    expect(isValidEUCountryCode(` ${code} `), `Expected spaced ${code} to be valid`);
+    expect(assertEUCountryCode(code) === code, `assert should return ${code}`);
+  }
+
+  // Invalid cases
+  const invalid = [
+    'GB', // United Kingdom (not EU)
+[2025-09-08T14:08:42] tokens used: 540
+
+[2025-09-08T14:08:48] thinking
+
+**Creating deadline validation tests**
+
+I’m looking to create a test for the deadline validator using node scripts that can run and exit with a code. It's important to ensure that the test remains stable regardless of the current date and time. To do this, I'll inject a fixed date into the function as an option for better testability. I'll also define various test cases for different scenarios. Lastly, I’ll add some TypeScript definitions and consider helper functions while implementing everything in the appropriate file.
+**Updating TypeScript configuration**
+
+I need to check if the `tsconfig` file requires any It updates.’s currently set up for Node/ES modules, and I see that it uses the `.js` extension in TypeScript import statements. This means that during compilation to the `dist` folder, the `.js` imports are maintained. In the TypeScript source, for instance, it imports `../utils/countryCodes.js`. I'll need to open the `tsconfig.json` file to verify the ESM settings.
+[2025-09-08T14:08:52] codex
+**Updating TypeScript configuration**
+
+I need to check if the `tsconfig` file requires any updates. It’s currently set up for Node/ES modules, and I see that it uses the `.js` extension in TypeScript import statements. This means that during compilation to the `dist` folder, the `.js` imports are maintained. In the TypeScript source, for instance, it imports `../utils/countryCodes.js`. I'll need to open the `tsconfig.json` file to verify the ESM settings.
+[2025-09-08T14:08:53] exec bash -lc 'cat tsconfig.json' in /Users/panda/Desktop/EUFM
+[2025-09-08T14:08:53] bash -lc 'cat tsconfig.json' succeeded in 81ms:
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "outDir": "dist",
+    "rootDir": "src",
+    "strict": true,
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "skipLibCheck": true
+  },
+  "include": ["src/**/*"]
+}
+[2025-09-08T14:08:53] tokens used: 800
+
+[2025-09-08T14:08:57] thinking
+
+**Implementing validation and logging**
+
+I see that we’re using ESM and importing .js files. I’ll follow the same style—export from the file and import in tests with the .js path. Now, I need to implement validation. For logging, I think we should log at the debug level when the EUFM_DEBUG environment variable or similar is set, but keep things quiet otherwise. A minimal console.debug in dev is also acceptable. Error handling and logging are essential, so I’ll implement that in the error path. Let’s create the file and test `src/tests/deadlineValidator_test.ts`.
+[2025-09-08T14:08:59] codex
+
+Next, I’ll add a new utility `src/utils/deadlineValidator.ts` and a corresponding test `src/tests/deadlineValidator_test.ts`, following the repo’s ESM import style and test pattern.
+  const m = /^\s*(\d{4})-(\d{2})-(\d{2})/.exec(dateStr);
+  if (!m) return null;
+  const [_, y, mo, d] = m;
+  // Basic range checks to avoid Date auto-rollover surprises
+  const year = Number(y), month = Number(mo), day = Number(d);
+  if (month < 1 || month > 12) return null;
+[2025-09-08T14:09:15] apply_patch auto_approved=true:
+A /Users/panda/Desktop/EUFM/src/utils/deadlineValidator.ts
+/**
+ * EU Funding deadline validation utilities.
+ *
+ * Provides strict, dependency-free validation for ISO-like date strings
+ * and normalized results useful for scheduling and dashboards.
+ */
+
+}
+
+/**
+ * Validate and evaluate a funding deadline.
+ *
+ * - Accepts ISO-like inputs such as `YYYY-MM-DD` or `YYYY-MM-DDTHH:mm`.
+ * - Normalizes to date-only in UTC and evaluates using end-of-day semantics.
+ */
+export function validateDeadline(input: unknown, opts: DeadlineValidationOptions = {}): DeadlineValidationResult {
+  const inclusive = opts.inclusive ?? true;
+  const now = toDateSafe(opts.now) ?? new Date();
+
+  if (typeof input !== 'string') {
+    console.error('[deadlineValidator] Invalid input type. Expected string.');
+    return { valid: false, isPast: false, isToday: false, daysRemaining: 0, reason: 'Expected a date string' };
+  }
+
+  const dateOnly = normalizeDateOnly(input);
+  if (!dateOnly) {
+    console.error('[deadlineValidator] Invalid date format. Expected YYYY-MM-DD. Got:', input);
+    return { valid: false, isPast: false, isToday: false, daysRemaining: 0, reason: 'Invalid or unsupported date format' };
+  }
+
+  const deadlineEOD = endOfDayUTC(dateOnly);
+  if (day < 1 || day > 31) return null;
+  // Construct date in UTC to avoid TZ surprises and then reformat
+  const dt = new Date(Date.UTC(year, month - 1, day));
+  if (isNaN(dt.getTime())) return null;
+  // Ensure the components round-trip (no rollover)
+  const ok = dt.getUTCFullYear() === year && dt.getUTCMonth() === month - 1 && dt.getUTCDate() === day;
+  if (!ok) return null;
+  return `${y}-${mo}-${d}`;
+}
+
+/** Returns a Date at the end of the given date's day in UTC (23:59:59.999 UTC). */
+function endOfDayUTC(dateOnlyISO: string): Date {
+  const [y, m, d] = dateOnlyISO.split('-').map(Number);
+  // Next day 00:00:00.000 UTC minus 1 ms
+  const nextDay = new Date(Date.UTC(y, m, d));
+  return new Date(nextDay.getTime() - 1);
+}
+
+/** Returns whether two dates are on the same calendar day in UTC. */
+function isSameUTCDate(a: Date, b: Date): boolean {
+  return a.getUTCFullYear() === b.getUTCFullYear() && a.getUTCMonth() === b.getUTCMonth() && a.getUTCDate() === b.getUTCDate();
+  const isToday = isSameUTCDate(deadlineEOD, now);
+  const diffMs = deadlineEOD.getTime() - now.getTime();
+  const daysRemaining = Math.ceil(diffMs / DAY_MS);
+
+  // Determine past status with inclusive behavior (today counts as not past when inclusive)
+  const isPast = inclusive ? diffMs < 0 && !isToday : diffMs < 0 || isToday;
+
+  return {
+    valid: true,
+    date: dateOnly,
+    isPast,
+    isToday,
+    daysRemaining,
+  };
+}
+
+/** Convenience predicate: returns true when the deadline is valid and not past. */
+export function isDeadlineUpcoming(input: unknown, opts?: DeadlineValidationOptions): boolean {
+  const res = validateDeadline(input, opts);
+  return res.valid && !res.isPast;
+}
+
+export interface DeadlineValidationOptions {
+  /**
+   * An override for the current time to make evaluation deterministic in tests.
+   * Accepts a Date instance or an ISO-8601 string. Defaults to `new Date()`.
+   */
+  now?: Date | string;
+  /**
+   * If true, a deadline on the same calendar day as `now` is considered upcoming (not past).
+   * Defaults to true (inclusive end-of-day deadline behavior).
+   */
+  inclusive?: boolean;
+}
+
+export interface DeadlineValidationResult {
+  valid: boolean;
+  /** ISO date-only (YYYY-MM-DD) when valid, otherwise undefined */
+  date?: string;
+  /** True when deadline end-of-day is in the past relative to `now` */
+  isPast: boolean;
+  /** True when deadline is the same calendar day as `now` */
+  isToday: boolean;
+  /** Whole days remaining until deadline end-of-day; 0 if today; negative when in past */
+  daysRemaining: number;
+  /** Human-readable reason for invalid input, when applicable */
+  reason?: string;
+}
+
+/** Milliseconds in a day */
+const DAY_MS = 24 * 60 * 60 * 1000;
+
+function toDateSafe(input: Date | string | undefined): Date | null {
+  if (!input) return null;
+  try {
+    if (input instanceof Date) return new Date(input.getTime());
+    const d = new Date(input);
+    return isNaN(d.getTime()) ? null : d;
+  } catch {
+    return null;
+  }
+}
+
+function normalizeDateOnly(dateStr: string): string | null {
+  // Accept common formats; prefer YYYY-MM-DD. Strip time if present.
+  // Using regex to extract YYYY-MM-DD at the start of the string.
+[2025-09-08T14:09:16] apply_patch(auto_approved=true) exited 0 in 330ms:
+Success. Updated the following files:
+A src/utils/deadlineValidator.ts
+[2025-09-08T14:09:16] turn diff:
+diff --git a/src/utils/deadlineValidator.ts b/src/utils/deadlineValidator.ts
+new file mode 100644
+index 0000000000000000000000000000000000000000..6441b83aa7333f412dc5ef9b394cd905b3140e23
+--- /dev/null
++++ b/src/utils/deadlineValidator.ts
+@@ -0,0 +1,124 @@
++/**
++ * EU Funding deadline validation utilities.
++ *
++ * Provides strict, dependency-free validation for ISO-like date strings
++ * and normalized results useful for scheduling and dashboards.
++ */
++
++export interface DeadlineValidationOptions {
++  /**
++   * An override for the current time to make evaluation deterministic in tests.
++   * Accepts a Date instance or an ISO-8601 string. Defaults to `new Date()`.
++   */
++  now?: Date | string;
++  /**
++   * If true, a deadline on the same calendar day as `now` is considered upcoming (not past).
++   * Defaults to true (inclusive end-of-day deadline behavior).
++   */
++  inclusive?: boolean;
++}
++
++export interface DeadlineValidationResult {
++  valid: boolean;
++  /** ISO date-only (YYYY-MM-DD) when valid, otherwise undefined */
++  date?: string;
++  /** True when deadline end-of-day is in the past relative to `now` */
++  isPast: boolean;
++  /** True when deadline is the same calendar day as `now` */
++  isToday: boolean;
++  /** Whole days remaining until deadline end-of-day; 0 if today; negative when in past */
++  daysRemaining: number;
++  /** Human-readable reason for invalid input, when applicable */
++  reason?: string;
++}
++
++/** Milliseconds in a day */
++const DAY_MS = 24 * 60 * 60 * 1000;
++
++function toDateSafe(input: Date | string | undefined): Date | null {
++  if (!input) return null;
++  try {
++    if (input instanceof Date) return new Date(input.getTime());
++    const d = new Date(input);
++    return isNaN(d.getTime()) ? null : d;
++  } catch {
++    return null;
++  }
++}
++
++function normalizeDateOnly(dateStr: string): string | null {
++  // Accept common formats; prefer YYYY-MM-DD. Strip time if present.
++  // Using regex to extract YYYY-MM-DD at the start of the string.
++  const m = /^\s*(\d{4})-(\d{2})-(\d{2})/.exec(dateStr);
++  if (!m) return null;
++  const [_, y, mo, d] = m;
++  // Basic range checks to avoid Date auto-rollover surprises
++  const year = Number(y), month = Number(mo), day = Number(d);
++  if (month < 1 || month > 12) return null;
++  if (day < 1 || day > 31) return null;
++  // Construct date in UTC to avoid TZ surprises and then reformat
++  const dt = new Date(Date.UTC(year, month - 1, day));
++  if (isNaN(dt.getTime())) return null;
++  // Ensure the components round-trip (no rollover)
++  const ok = dt.getUTCFullYear() === year && dt.getUTCMonth() === month - 1 && dt.getUTCDate() === day;
++  if (!ok) return null;
++  return `${y}-${mo}-${d}`;
++}
++
++/** Returns a Date at the end of the given date's day in UTC (23:59:59.999 UTC). */
++function endOfDayUTC(dateOnlyISO: string): Date {
++  const [y, m, d] = dateOnlyISO.split('-').map(Number);
++  // Next day 00:00:00.000 UTC minus 1 ms
++  const nextDay = new Date(Date.UTC(y, m, d));
++  return new Date(nextDay.getTime() - 1);
++}
++
++/** Returns whether two dates are on the same calendar day in UTC. */
++function isSameUTCDate(a: Date, b: Date): boolean {
++  return a.getUTCFullYear() === b.getUTCFullYear() && a.getUTCMonth() === b.getUTCMonth() && a.getUTCDate() === b.getUTCDate();
++}
++
++/**
++ * Validate and evaluate a funding deadline.
++ *
++ * - Accepts ISO-like inputs such as `YYYY-MM-DD` or `YYYY-MM-DDTHH:mm`.
++ * - Normalizes to date-only in UTC and evaluates using end-of-day semantics.
++ */
++export function validateDeadline(input: unknown, opts: DeadlineValidationOptions = {}): DeadlineValidationResult {
++  const inclusive = opts.inclusive ?? true;
++  const now = toDateSafe(opts.now) ?? new Date();
++
++  if (typeof input !== 'string') {
++    console.error('[deadlineValidator] Invalid input type. Expected string.');
++    return { valid: false, isPast: false, isToday: false, daysRemaining: 0, reason: 'Expected a date string' };
++  }
++
++  const dateOnly = normalizeDateOnly(input);
++  if (!dateOnly) {
++    console.error('[deadlineValidator] Invalid date format. Expected YYYY-MM-DD. Got:', input);
++    return { valid: false, isPast: false, isToday: false, daysRemaining: 0, reason: 'Invalid or unsupported date format' };
++  }
++
++  const deadlineEOD = endOfDayUTC(dateOnly);
++  const isToday = isSameUTCDate(deadlineEOD, now);
++  const diffMs = deadlineEOD.getTime() - now.getTime();
++  const daysRemaining = Math.ceil(diffMs / DAY_MS);
++
++  // Determine past status with inclusive behavior (today counts as not past when inclusive)
++  const isPast = inclusive ? diffMs < 0 && !isToday : diffMs < 0 || isToday;
++
++  return {
++    valid: true,
++    date: dateOnly,
++    isPast,
++    isToday,
++    daysRemaining,
++  };
++}
++
++/** Convenience predicate: returns true when the deadline is valid and not past. */
++export function isDeadlineUpcoming(input: unknown, opts?: DeadlineValidationOptions): boolean {
++  const res = validateDeadline(input, opts);
++  return res.valid && !res.isPast;
++}
++
+
+[2025-09-08T14:09:16] tokens used: 18571
+[2025-09-08T14:09:16] turn diff:
+diff --git a/src/utils/deadlineValidator.ts b/src/utils/deadlineValidator.ts
+new file mode 100644
+index 0000000000000000000000000000000000000000..6441b83aa7333f412dc5ef9b394cd905b3140e23
+--- /dev/null
++++ b/src/utils/deadlineValidator.ts
+@@ -0,0 +1,124 @@
++/**
++ * EU Funding deadline validation utilities.
++ *
++ * Provides strict, dependency-free validation for ISO-like date strings
++ * and normalized results useful for scheduling and dashboards.
++ */
++
++export interface DeadlineValidationOptions {
++  /**
++   * An override for the current time to make evaluation deterministic in tests.
++   * Accepts a Date instance or an ISO-8601 string. Defaults to `new Date()`.
++   */
++  now?: Date | string;
++  /**
++   * If true, a deadline on the same calendar day as `now` is considered upcoming (not past).
++   * Defaults to true (inclusive end-of-day deadline behavior).
++   */
++  inclusive?: boolean;
++}
++
++export interface DeadlineValidationResult {
++  valid: boolean;
++  /** ISO date-only (YYYY-MM-DD) when valid, otherwise undefined */
++  date?: string;
++  /** True when deadline end-of-day is in the past relative to `now` */
++  isPast: boolean;
++  /** True when deadline is the same calendar day as `now` */
++  isToday: boolean;
++  /** Whole days remaining until deadline end-of-day; 0 if today; negative when in past */
++  daysRemaining: number;
++  /** Human-readable reason for invalid input, when applicable */
++  reason?: string;
++}
++
++/** Milliseconds in a day */
++const DAY_MS = 24 * 60 * 60 * 1000;
++
++function toDateSafe(input: Date | string | undefined): Date | null {
++  if (!input) return null;
++  try {
++    if (input instanceof Date) return new Date(input.getTime());
++    const d = new Date(input);
++    return isNaN(d.getTime()) ? null : d;
++  } catch {
++    return null;
++  }
++}
++
++function normalizeDateOnly(dateStr: string): string | null {
++  // Accept common formats; prefer YYYY-MM-DD. Strip time if present.
++  // Using regex to extract YYYY-MM-DD at the start of the string.
++  const m = /^\s*(\d{4})-(\d{2})-(\d{2})/.exec(dateStr);
++  if (!m) return null;
++  const [_, y, mo, d] = m;
++  // Basic range checks to avoid Date auto-rollover surprises
++  const year = Number(y), month = Number(mo), day = Number(d);
++  if (month < 1 || month > 12) return null;
++  if (day < 1 || day > 31) return null;
++  // Construct date in UTC to avoid TZ surprises and then reformat
++  const dt = new Date(Date.UTC(year, month - 1, day));
++  if (isNaN(dt.getTime())) return null;
++  // Ensure the components round-trip (no rollover)
++  const ok = dt.getUTCFullYear() === year && dt.getUTCMonth() === month - 1 && dt.getUTCDate() === day;
++  if (!ok) return null;
++  return `${y}-${mo}-${d}`;
++}
++
++/** Returns a Date at the end of the given date's day in UTC (23:59:59.999 UTC). */
++function endOfDayUTC(dateOnlyISO: string): Date {
++  const [y, m, d] = dateOnlyISO.split('-').map(Number);
++  // Next day 00:00:00.000 UTC minus 1 ms
++  const nextDay = new Date(Date.UTC(y, m, d));
++  return new Date(nextDay.getTime() - 1);
++}
++
++/** Returns whether two dates are on the same calendar day in UTC. */
++function isSameUTCDate(a: Date, b: Date): boolean {
++  return a.getUTCFullYear() === b.getUTCFullYear() && a.getUTCMonth() === b.getUTCMonth() && a.getUTCDate() === b.getUTCDate();
++}
++
++/**
++ * Validate and evaluate a funding deadline.
++ *
++ * - Accepts ISO-like inputs such as `YYYY-MM-DD` or `YYYY-MM-DDTHH:mm`.
++ * - Normalizes to date-only in UTC and evaluates using end-of-day semantics.
++ */
++export function validateDeadline(input: unknown, opts: DeadlineValidationOptions = {}): DeadlineValidationResult {
++  const inclusive = opts.inclusive ?? true;
++  const now = toDateSafe(opts.now) ?? new Date();
++
++  if (typeof input !== 'string') {
++    console.error('[deadlineValidator] Invalid input type. Expected string.');
++    return { valid: false, isPast: false, isToday: false, daysRemaining: 0, reason: 'Expected a date string' };
++  }
++
++  const dateOnly = normalizeDateOnly(input);
++  if (!dateOnly) {
++    console.error('[deadlineValidator] Invalid date format. Expected YYYY-MM-DD. Got:', input);
++    return { valid: false, isPast: false, isToday: false, daysRemaining: 0, reason: 'Invalid or unsupported date format' };
++  }
++
++  const deadlineEOD = endOfDayUTC(dateOnly);
++  const isToday = isSameUTCDate(deadlineEOD, now);
++  const diffMs = deadlineEOD.getTime() - now.getTime();
++  const daysRemaining = Math.ceil(diffMs / DAY_MS);
++
++  // Determine past status with inclusive behavior (today counts as not past when inclusive)
++  const isPast = inclusive ? diffMs < 0 && !isToday : diffMs < 0 || isToday;
++
++  return {
++    valid: true,
++    date: dateOnly,
++    isPast,
++    isToday,
++    daysRemaining,
++  };
++}
++
++/** Convenience predicate: returns true when the deadline is valid and not past. */
++export function isDeadlineUpcoming(input: unknown, opts?: DeadlineValidationOptions): boolean {
++  const res = validateDeadline(input, opts);
++  return res.valid && !res.isPast;
++}
++
+
+
+[2025-09-08T14:09:26] thinking
+
+**Fixing implementation mismatches**
+
+It’s a bit surprising, but it makes sense with rounding up. The documentation states "0 if today," but our implementation is returning 1, which definitely needs fixing. Oops! The JSDoc also states "0 if today," so we have to align our code. I’ll set computedDays to 0 for today and adjust the calculation for past dates. I’m pondering over using Math.floor instead of ceil for negative values, since using ceil yields 0 which isn't correct.
+**Adjusting daysRemaining calculation**
+
+I need to change how I compute daysRemaining. The logic should be: if it’s today, return 0. If the difference in milliseconds (diffMs) is non-negative, I'll use Math.ceil(diffMs divided by DAY_MS). For negative diffMs, I’m considering Math.floor instead, since it gives a more negative number, which would seem reasonable. So, my logic would be: if it’s today, return 0; otherwise, calculate based on whether diffMs is positive or negative. Time to patch the file!
+[2025-09-08T14:09:30] codex
+**Adjusting daysRemaining calculation**
+
+I need to change how I compute daysRemaining. The logic should be: if it’s today, return 0. If the difference in milliseconds (diffMs) is non-negative, I'll use Math.ceil(diffMs divided by DAY_MS). For negative diffMs, I’m considering Math.floor instead, since it gives a more negative number, which would seem reasonable. So, my logic would be: if it’s today, return 0; otherwise, calculate based on whether diffMs is positive or negative. Time to patch the file!
+[2025-09-08T14:09:31] apply_patch auto_approved=true:
+M /Users/panda/Desktop/EUFM/src/utils/deadlineValidator.ts
+@@ -104,3 +104,5 @@
+   const diffMs = deadlineEOD.getTime() - now.getTime();
+-  const daysRemaining = Math.ceil(diffMs / DAY_MS);
++  const daysRemaining = isToday
++    ? 0
++    : (diffMs >= 0 ? Math.ceil(diffMs / DAY_MS) : Math.floor(diffMs / DAY_MS));
+ 
+@@ -123,2 +125 @@
+ }
+-
+[2025-09-08T14:09:32] apply_patch(auto_approved=true) exited 0 in 269ms:
+Success. Updated the following files:
+M src/utils/deadlineValidator.ts
+[2025-09-08T14:09:32] turn diff:
+diff --git a/src/utils/deadlineValidator.ts b/src/utils/deadlineValidator.ts
+new file mode 100644
+index 0000000000000000000000000000000000000000..40e5476d676c4ed4576604bd0d4b19f6bf67ef7c
+--- /dev/null
++++ b/src/utils/deadlineValidator.ts
+@@ -0,0 +1,125 @@
++/**
++ * EU Funding deadline validation utilities.
++ *
++ * Provides strict, dependency-free validation for ISO-like date strings
++ * and normalized results useful for scheduling and dashboards.
++ */
++
++export interface DeadlineValidationOptions {
++  /**
++   * An override for the current time to make evaluation deterministic in tests.
++   * Accepts a Date instance or an ISO-8601 string. Defaults to `new Date()`.
++   */
++  now?: Date | string;
++  /**
++   * If true, a deadline on the same calendar day as `now` is considered upcoming (not past).
++   * Defaults to true (inclusive end-of-day deadline behavior).
++   */
++  inclusive?: boolean;
++}
++
++export interface DeadlineValidationResult {
++  valid: boolean;
++  /** ISO date-only (YYYY-MM-DD) when valid, otherwise undefined */
++  date?: string;
++  /** True when deadline end-of-day is in the past relative to `now` */
++  isPast: boolean;
++  /** True when deadline is the same calendar day as `now` */
++  isToday: boolean;
++  /** Whole days remaining until deadline end-of-day; 0 if today; negative when in past */
++  daysRemaining: number;
++  /** Human-readable reason for invalid input, when applicable */
++  reason?: string;
++}
++
++/** Milliseconds in a day */
++const DAY_MS = 24 * 60 * 60 * 1000;
++
++function toDateSafe(input: Date | string | undefined): Date | null {
++  if (!input) return null;
++  try {
++    if (input instanceof Date) return new Date(input.getTime());
++    const d = new Date(input);
++    return isNaN(d.getTime()) ? null : d;
++  } catch {
++    return null;
++  }
++}
++
++function normalizeDateOnly(dateStr: string): string | null {
++  // Accept common formats; prefer YYYY-MM-DD. Strip time if present.
++  // Using regex to extract YYYY-MM-DD at the start of the string.
++  const m = /^\s*(\d{4})-(\d{2})-(\d{2})/.exec(dateStr);
++  if (!m) return null;
++  const [_, y, mo, d] = m;
++  // Basic range checks to avoid Date auto-rollover surprises
++  const year = Number(y), month = Number(mo), day = Number(d);
++  if (month < 1 || month > 12) return null;
++  if (day < 1 || day > 31) return null;
++  // Construct date in UTC to avoid TZ surprises and then reformat
++  const dt = new Date(Date.UTC(year, month - 1, day));
++  if (isNaN(dt.getTime())) return null;
++  // Ensure the components round-trip (no rollover)
++  const ok = dt.getUTCFullYear() === year && dt.getUTCMonth() === month - 1 && dt.getUTCDate() === day;
++  if (!ok) return null;
++  return `${y}-${mo}-${d}`;
++}
++
++/** Returns a Date at the end of the given date's day in UTC (23:59:59.999 UTC). */
++function endOfDayUTC(dateOnlyISO: string): Date {
++  const [y, m, d] = dateOnlyISO.split('-').map(Number);
++  // Next day 00:00:00.000 UTC minus 1 ms
++  const nextDay = new Date(Date.UTC(y, m, d));
++  return new Date(nextDay.getTime() - 1);
++}
++
++/** Returns whether two dates are on the same calendar day in UTC. */
++function isSameUTCDate(a: Date, b: Date): boolean {
++  return a.getUTCFullYear() === b.getUTCFullYear() && a.getUTCMonth() === b.getUTCMonth() && a.getUTCDate() === b.getUTCDate();
++}
++
++/**
++ * Validate and evaluate a funding deadline.
++ *
++ * - Accepts ISO-like inputs such as `YYYY-MM-DD` or `YYYY-MM-DDTHH:mm`.
++ * - Normalizes to date-only in UTC and evaluates using end-of-day semantics.
++ */
++export function validateDeadline(input: unknown, opts: DeadlineValidationOptions = {}): DeadlineValidationResult {
++  const inclusive = opts.inclusive ?? true;
++  const now = toDateSafe(opts.now) ?? new Date();
++
++  if (typeof input !== 'string') {
++    console.error('[deadlineValidator] Invalid input type. Expected string.');
++    return { valid: false, isPast: false, isToday: false, daysRemaining: 0, reason: 'Expected a date string' };
++  }
++
++  const dateOnly = normalizeDateOnly(input);
++  if (!dateOnly) {
++    console.error('[deadlineValidator] Invalid date format. Expected YYYY-MM-DD. Got:', input);
++    return { valid: false, isPast: false, isToday: false, daysRemaining: 0, reason: 'Invalid or unsupported date format' };
++  }
++
++  const deadlineEOD = endOfDayUTC(dateOnly);
++  const isToday = isSameUTCDate(deadlineEOD, now);
++  const diffMs = deadlineEOD.getTime() - now.getTime();
++  const daysRemaining = isToday
++    ? 0
++    : (diffMs >= 0 ? Math.ceil(diffMs / DAY_MS) : Math.floor(diffMs / DAY_MS));
++
++  // Determine past status with inclusive behavior (today counts as not past when inclusive)
++  const isPast = inclusive ? diffMs < 0 && !isToday : diffMs < 0 || isToday;
++
++  return {
++    valid: true,
++    date: dateOnly,
++    isPast,
++    isToday,
++    daysRemaining,
++  };
++}
++
++/** Convenience predicate: returns true when the deadline is valid and not past. */
++export function isDeadlineUpcoming(input: unknown, opts?: DeadlineValidationOptions): boolean {
++  const res = validateDeadline(input, opts);
++  return res.valid && !res.isPast;
++}
+
+[2025-09-08T14:09:32] tokens used: 2425
+[2025-09-08T14:09:32] turn diff:
+diff --git a/src/utils/deadlineValidator.ts b/src/utils/deadlineValidator.ts
+new file mode 100644
+index 0000000000000000000000000000000000000000..40e5476d676c4ed4576604bd0d4b19f6bf67ef7c
+--- /dev/null
++++ b/src/utils/deadlineValidator.ts
+@@ -0,0 +1,125 @@
++/**
++ * EU Funding deadline validation utilities.
++ *
++ * Provides strict, dependency-free validation for ISO-like date strings
++ * and normalized results useful for scheduling and dashboards.
++ */
++
++export interface DeadlineValidationOptions {
++  /**
++   * An override for the current time to make evaluation deterministic in tests.
++   * Accepts a Date instance or an ISO-8601 string. Defaults to `new Date()`.
++   */
++  now?: Date | string;
++  /**
++   * If true, a deadline on the same calendar day as `now` is considered upcoming (not past).
++   * Defaults to true (inclusive end-of-day deadline behavior).
++   */
++  inclusive?: boolean;
++}
++
++export interface DeadlineValidationResult {
++  valid: boolean;
++  /** ISO date-only (YYYY-MM-DD) when valid, otherwise undefined */
++  date?: string;
++  /** True when deadline end-of-day is in the past relative to `now` */
++  isPast: boolean;
++  /** True when deadline is the same calendar day as `now` */
++  isToday: boolean;
++  /** Whole days remaining until deadline end-of-day; 0 if today; negative when in past */
++  daysRemaining: number;
++  /** Human-readable reason for invalid input, when applicable */
++  reason?: string;
++}
++
++/** Milliseconds in a day */
++const DAY_MS = 24 * 60 * 60 * 1000;
++
++function toDateSafe(input: Date | string | undefined): Date | null {
++  if (!input) return null;
++  try {
++    if (input instanceof Date) return new Date(input.getTime());
++    const d = new Date(input);
++    return isNaN(d.getTime()) ? null : d;
++  } catch {
++    return null;
++  }
++}
++
++function normalizeDateOnly(dateStr: string): string | null {
++  // Accept common formats; prefer YYYY-MM-DD. Strip time if present.
++  // Using regex to extract YYYY-MM-DD at the start of the string.
++  const m = /^\s*(\d{4})-(\d{2})-(\d{2})/.exec(dateStr);
++  if (!m) return null;
++  const [_, y, mo, d] = m;
++  // Basic range checks to avoid Date auto-rollover surprises
++  const year = Number(y), month = Number(mo), day = Number(d);
++  if (month < 1 || month > 12) return null;
++  if (day < 1 || day > 31) return null;
++  // Construct date in UTC to avoid TZ surprises and then reformat
++  const dt = new Date(Date.UTC(year, month - 1, day));
++  if (isNaN(dt.getTime())) return null;
++  // Ensure the components round-trip (no rollover)
++  const ok = dt.getUTCFullYear() === year && dt.getUTCMonth() === month - 1 && dt.getUTCDate() === day;
++  if (!ok) return null;
++  return `${y}-${mo}-${d}`;
++}
++
++/** Returns a Date at the end of the given date's day in UTC (23:59:59.999 UTC). */
++function endOfDayUTC(dateOnlyISO: string): Date {
++  const [y, m, d] = dateOnlyISO.split('-').map(Number);
++  // Next day 00:00:00.000 UTC minus 1 ms
++  const nextDay = new Date(Date.UTC(y, m, d));
++  return new Date(nextDay.getTime() - 1);
++}
++
++/** Returns whether two dates are on the same calendar day in UTC. */
++function isSameUTCDate(a: Date, b: Date): boolean {
++  return a.getUTCFullYear() === b.getUTCFullYear() && a.getUTCMonth() === b.getUTCMonth() && a.getUTCDate() === b.getUTCDate();
++}
++
++/**
++ * Validate and evaluate a funding deadline.
++ *
++ * - Accepts ISO-like inputs such as `YYYY-MM-DD` or `YYYY-MM-DDTHH:mm`.
++ * - Normalizes to date-only in UTC and evaluates using end-of-day semantics.
++ */
++export function validateDeadline(input: unknown, opts: DeadlineValidationOptions = {}): DeadlineValidationResult {
++  const inclusive = opts.inclusive ?? true;
++  const now = toDateSafe(opts.now) ?? new Date();
++
++  if (typeof input !== 'string') {
++    console.error('[deadlineValidator] Invalid input type. Expected string.');
++    return { valid: false, isPast: false, isToday: false, daysRemaining: 0, reason: 'Expected a date string' };
++  }
++
++  const dateOnly = normalizeDateOnly(input);
++  if (!dateOnly) {
++    console.error('[deadlineValidator] Invalid date format. Expected YYYY-MM-DD. Got:', input);
++    return { valid: false, isPast: false, isToday: false, daysRemaining: 0, reason: 'Invalid or unsupported date format' };
++  }
++
++  const deadlineEOD = endOfDayUTC(dateOnly);
++  const isToday = isSameUTCDate(deadlineEOD, now);
++  const diffMs = deadlineEOD.getTime() - now.getTime();
++  const daysRemaining = isToday
++    ? 0
++    : (diffMs >= 0 ? Math.ceil(diffMs / DAY_MS) : Math.floor(diffMs / DAY_MS));
++
++  // Determine past status with inclusive behavior (today counts as not past when inclusive)
++  const isPast = inclusive ? diffMs < 0 && !isToday : diffMs < 0 || isToday;
++
++  return {
++    valid: true,
++    date: dateOnly,
++    isPast,
++    isToday,
++    daysRemaining,
++  };
++}
++
++/** Convenience predicate: returns true when the deadline is valid and not past. */
++export function isDeadlineUpcoming(input: unknown, opts?: DeadlineValidationOptions): boolean {
++  const res = validateDeadline(input, opts);
++  return res.valid && !res.isPast;
++}
+
+
+[2025-09-08T14:09:39] thinking
+
+I'm looking to write a test that calls a function with the current settings and overrides, then logs the results. I want to ensure everything is implemented correctly so that I can verify its functionality. This process will help me catch any potential issues and confirm that the function behaves as expected. Let's dive in and get that test set up! I hope I can get this right on the first try.
+[2025-09-08T14:09:45] apply_patch auto_approved=true:
+A /Users/panda/Desktop/EUFM/src/tests/deadlineValidator_test.ts
+import { validateDeadline, isDeadlineUpcoming } from '../utils/deadlineValidator.js';
+
+function expect(condition: boolean, message: string) {
+  if (!condition) throw new Error(message);
+}
+
+async function run() {
+  console.log('[EUFM] Running deadline validator tests...');
+
+  const NOW = '2025-09-08T10:00:00Z';
+
+  // Future date
+  const future = validateDeadline('2025-09-10', { now: NOW });
+  expect(future.valid, 'future: should be valid');
+  expect(!future.isPast, 'future: should not be past');
+  expect(!future.isToday, 'future: should not be today');
+  expect(future.daysRemaining === 3, `future: expected daysRemaining 3, got ${future.daysRemaining}`);
+
+  // Today (inclusive default)
+  const today = validateDeadline('2025-09-08', { now: NOW });
+  expect(today.valid, 'today: should be valid');
+  expect(today.isToday, 'today: isToday should be true');
+  expect(!today.isPast, 'today: not past when inclusive');
+  expect(today.daysRemaining === 0, `today: expected daysRemaining 0, got ${today.daysRemaining}`);
+
+  // Past
+  const past = validateDeadline('2025-09-05', { now: NOW });
+  expect(past.valid, 'past: should be valid');
+  expect(past.isPast, 'past: should be past');
+  expect(past.daysRemaining <= -1, `past: expected negative daysRemaining, got ${past.daysRemaining}`);
+  expect(past.daysRemaining === -3, `past: expected -3, got ${past.daysRemaining}`);
+
+  // Invalid format
+  const bad1 = validateDeadline('08/09/2025', { now: NOW });
+  expect(!bad1.valid, 'invalid: slash format should be invalid');
+  const bad2 = validateDeadline('2025-13-01', { now: NOW });
+  expect(!bad2.valid, 'invalid: month 13 should be invalid');
+  const bad3 = validateDeadline(123 as unknown, { now: NOW });
+  expect(!bad3.valid, 'invalid: non-string should be invalid');
+
+  // Convenience predicate
+  expect(isDeadlineUpcoming('2025-09-10', { now: NOW }), 'upcoming: future should be upcoming');
+  expect(isDeadlineUpcoming('2025-09-08', { now: NOW }), 'upcoming: today inclusive should be upcoming');
+  expect(!isDeadlineUpcoming('2025-09-05', { now: NOW }), 'upcoming: past should not be upcoming');
+
+  // Non-inclusive behavior
+  const todayNonInclusive = validateDeadline('2025-09-08', { now: NOW, inclusive: false });
+  expect(todayNonInclusive.isPast, 'non-inclusive: today counts as past');
+  expect(!isDeadlineUpcoming('2025-09-08', { now: NOW, inclusive: false }), 'non-inclusive: today not upcoming');
+
+  console.log('[EUFM] Deadline validator tests passed.');
+}
+
+run().catch((err) => {
+  console.error('[EUFM] Deadline validator tests failed:', err?.message || err);
+  process.exit(1);
+});
+
+[2025-09-08T14:09:46] apply_patch(auto_approved=true) exited 0 in 821ms:
+Success. Updated the following files:
+A src/tests/deadlineValidator_test.ts
+[2025-09-08T14:09:46] turn diff:
+diff --git a/src/tests/deadlineValidator_test.ts b/src/tests/deadlineValidator_test.ts
+new file mode 100644
+index 0000000000000000000000000000000000000000..1ac2bb5c737afd68663fc6adec34232de56bd563
+--- /dev/null
++++ b/src/tests/deadlineValidator_test.ts
+@@ -0,0 +1,58 @@
++import { validateDeadline, isDeadlineUpcoming } from '../utils/deadlineValidator.js';
++
++function expect(condition: boolean, message: string) {
++  if (!condition) throw new Error(message);
++}
++
++async function run() {
++  console.log('[EUFM] Running deadline validator tests...');
++
++  const NOW = '2025-09-08T10:00:00Z';
++
++  // Future date
++  const future = validateDeadline('2025-09-10', { now: NOW });
++  expect(future.valid, 'future: should be valid');
++  expect(!future.isPast, 'future: should not be past');
++  expect(!future.isToday, 'future: should not be today');
++  expect(future.daysRemaining === 3, `future: expected daysRemaining 3, got ${future.daysRemaining}`);
++
++  // Today (inclusive default)
++  const today = validateDeadline('2025-09-08', { now: NOW });
++  expect(today.valid, 'today: should be valid');
++  expect(today.isToday, 'today: isToday should be true');
++  expect(!today.isPast, 'today: not past when inclusive');
++  expect(today.daysRemaining === 0, `today: expected daysRemaining 0, got ${today.daysRemaining}`);
++
++  // Past
++  const past = validateDeadline('2025-09-05', { now: NOW });
++  expect(past.valid, 'past: should be valid');
++  expect(past.isPast, 'past: should be past');
++  expect(past.daysRemaining <= -1, `past: expected negative daysRemaining, got ${past.daysRemaining}`);
++  expect(past.daysRemaining === -3, `past: expected -3, got ${past.daysRemaining}`);
++
++  // Invalid format
++  const bad1 = validateDeadline('08/09/2025', { now: NOW });
++  expect(!bad1.valid, 'invalid: slash format should be invalid');
++  const bad2 = validateDeadline('2025-13-01', { now: NOW });
++  expect(!bad2.valid, 'invalid: month 13 should be invalid');
++  const bad3 = validateDeadline(123 as unknown, { now: NOW });
++  expect(!bad3.valid, 'invalid: non-string should be invalid');
++
++  // Convenience predicate
++  expect(isDeadlineUpcoming('2025-09-10', { now: NOW }), 'upcoming: future should be upcoming');
++  expect(isDeadlineUpcoming('2025-09-08', { now: NOW }), 'upcoming: today inclusive should be upcoming');
++  expect(!isDeadlineUpcoming('2025-09-05', { now: NOW }), 'upcoming: past should not be upcoming');
++
++  // Non-inclusive behavior
++  const todayNonInclusive = validateDeadline('2025-09-08', { now: NOW, inclusive: false });
++  expect(todayNonInclusive.isPast, 'non-inclusive: today counts as past');
++  expect(!isDeadlineUpcoming('2025-09-08', { now: NOW, inclusive: false }), 'non-inclusive: today not upcoming');
++
++  console.log('[EUFM] Deadline validator tests passed.');
++}
++
++run().catch((err) => {
++  console.error('[EUFM] Deadline validator tests failed:', err?.message || err);
++  process.exit(1);
++});
++
+diff --git a/src/utils/deadlineValidator.ts b/src/utils/deadlineValidator.ts
+new file mode 100644
+index 0000000000000000000000000000000000000000..40e5476d676c4ed4576604bd0d4b19f6bf67ef7c
+--- /dev/null
++++ b/src/utils/deadlineValidator.ts
+@@ -0,0 +1,125 @@
++/**
++ * EU Funding deadline validation utilities.
++ *
++ * Provides strict, dependency-free validation for ISO-like date strings
++ * and normalized results useful for scheduling and dashboards.
++ */
++
++export interface DeadlineValidationOptions {
++  /**
++   * An override for the current time to make evaluation deterministic in tests.
++   * Accepts a Date instance or an ISO-8601 string. Defaults to `new Date()`.
++   */
++  now?: Date | string;
++  /**
++   * If true, a deadline on the same calendar day as `now` is considered upcoming (not past).
++   * Defaults to true (inclusive end-of-day deadline behavior).
++   */
++  inclusive?: boolean;
++}
++
++export interface DeadlineValidationResult {
++  valid: boolean;
++  /** ISO date-only (YYYY-MM-DD) when valid, otherwise undefined */
++  date?: string;
++  /** True when deadline end-of-day is in the past relative to `now` */
++  isPast: boolean;
++  /** True when deadline is the same calendar day as `now` */
++  isToday: boolean;
++  /** Whole days remaining until deadline end-of-day; 0 if today; negative when in past */
++  daysRemaining: number;
++  /** Human-readable reason for invalid input, when applicable */
++  reason?: string;
++}
++
++/** Milliseconds in a day */
++const DAY_MS = 24 * 60 * 60 * 1000;
++
++function toDateSafe(input: Date | string | undefined): Date | null {
++  if (!input) return null;
++  try {
++    if (input instanceof Date) return new Date(input.getTime());
++    const d = new Date(input);
++    return isNaN(d.getTime()) ? null : d;
++  } catch {
++    return null;
++  }
++}
++
++function normalizeDateOnly(dateStr: string): string | null {
++  // Accept common formats; prefer YYYY-MM-DD. Strip time if present.
++  // Using regex to extract YYYY-MM-DD at the start of the string.
++  const m = /^\s*(\d{4})-(\d{2})-(\d{2})/.exec(dateStr);
++  if (!m) return null;
++  const [_, y, mo, d] = m;
++  // Basic range checks to avoid Date auto-rollover surprises
++  const year = Number(y), month = Number(mo), day = Number(d);
++  if (month < 1 || month > 12) return null;
++  if (day < 1 || day > 31) return null;
++  // Construct date in UTC to avoid TZ surprises and then reformat
++  const dt = new Date(Date.UTC(year, month - 1, day));
++  if (isNaN(dt.getTime())) return null;
++  // Ensure the components round-trip (no rollover)
++  const ok = dt.getUTCFullYear() === year && dt.getUTCMonth() === month - 1 && dt.getUTCDate() === day;
++  if (!ok) return null;
++  return `${y}-${mo}-${d}`;
++}
++
++/** Returns a Date at the end of the given date's day in UTC (23:59:59.999 UTC). */
++function endOfDayUTC(dateOnlyISO: string): Date {
++  const [y, m, d] = dateOnlyISO.split('-').map(Number);
++  // Next day 00:00:00.000 UTC minus 1 ms
++  const nextDay = new Date(Date.UTC(y, m, d));
++  return new Date(nextDay.getTime() - 1);
++}
++
++/** Returns whether two dates are on the same calendar day in UTC. */
++function isSameUTCDate(a: Date, b: Date): boolean {
++  return a.getUTCFullYear() === b.getUTCFullYear() && a.getUTCMonth() === b.getUTCMonth() && a.getUTCDate() === b.getUTCDate();
++}
++
++/**
++ * Validate and evaluate a funding deadline.
++ *
++ * - Accepts ISO-like inputs such as `YYYY-MM-DD` or `YYYY-MM-DDTHH:mm`.
++ * - Normalizes to date-only in UTC and evaluates using end-of-day semantics.
++ */
++export function validateDeadline(input: unknown, opts: DeadlineValidationOptions = {}): DeadlineValidationResult {
++  const inclusive = opts.inclusive ?? true;
++  const now = toDateSafe(opts.now) ?? new Date();
++
++  if (typeof input !== 'string') {
++    console.error('[deadlineValidator] Invalid input type. Expected string.');
++    return { valid: false, isPast: false, isToday: false, daysRemaining: 0, reason: 'Expected a date string' };
++  }
++
++  const dateOnly = normalizeDateOnly(input);
++  if (!dateOnly) {
++    console.error('[deadlineValidator] Invalid date format. Expected YYYY-MM-DD. Got:', input);
++    return { valid: false, isPast: false, isToday: false, daysRemaining: 0, reason: 'Invalid or unsupported date format' };
++  }
++
++  const deadlineEOD = endOfDayUTC(dateOnly);
++  const isToday = isSameUTCDate(deadlineEOD, now);
++  const diffMs = deadlineEOD.getTime() - now.getTime();
++  const daysRemaining = isToday
++    ? 0
++    : (diffMs >= 0 ? Math.ceil(diffMs / DAY_MS) : Math.floor(diffMs / DAY_MS));
++
++  // Determine past status with inclusive behavior (today counts as not past when inclusive)
++  const isPast = inclusive ? diffMs < 0 && !isToday : diffMs < 0 || isToday;
++
++  return {
++    valid: true,
++    date: dateOnly,
++    isPast,
++    isToday,
++    daysRemaining,
++  };
++}
++
++/** Convenience predicate: returns true when the deadline is valid and not past. */
++export function isDeadlineUpcoming(input: unknown, opts?: DeadlineValidationOptions): boolean {
++  const res = validateDeadline(input, opts);
++  return res.valid && !res.isPast;
++}
+
+[2025-09-08T14:09:46] tokens used: 1425
+[2025-09-08T14:09:46] turn diff:
+diff --git a/src/tests/deadlineValidator_test.ts b/src/tests/deadlineValidator_test.ts
+new file mode 100644
+index 0000000000000000000000000000000000000000..1ac2bb5c737afd68663fc6adec34232de56bd563
+--- /dev/null
++++ b/src/tests/deadlineValidator_test.ts
+@@ -0,0 +1,58 @@
++import { validateDeadline, isDeadlineUpcoming } from '../utils/deadlineValidator.js';
++
++function expect(condition: boolean, message: string) {
++  if (!condition) throw new Error(message);
++}
++
++async function run() {
++  console.log('[EUFM] Running deadline validator tests...');
++
++  const NOW = '2025-09-08T10:00:00Z';
++
++  // Future date
++  const future = validateDeadline('2025-09-10', { now: NOW });
++  expect(future.valid, 'future: should be valid');
++  expect(!future.isPast, 'future: should not be past');
++  expect(!future.isToday, 'future: should not be today');
++  expect(future.daysRemaining === 3, `future: expected daysRemaining 3, got ${future.daysRemaining}`);
++
++  // Today (inclusive default)
++  const today = validateDeadline('2025-09-08', { now: NOW });
++  expect(today.valid, 'today: should be valid');
++  expect(today.isToday, 'today: isToday should be true');
++  expect(!today.isPast, 'today: not past when inclusive');
++  expect(today.daysRemaining === 0, `today: expected daysRemaining 0, got ${today.daysRemaining}`);
++
++  // Past
++  const past = validateDeadline('2025-09-05', { now: NOW });
++  expect(past.valid, 'past: should be valid');
++  expect(past.isPast, 'past: should be past');
++  expect(past.daysRemaining <= -1, `past: expected negative daysRemaining, got ${past.daysRemaining}`);
++  expect(past.daysRemaining === -3, `past: expected -3, got ${past.daysRemaining}`);
++
++  // Invalid format
++  const bad1 = validateDeadline('08/09/2025', { now: NOW });
++  expect(!bad1.valid, 'invalid: slash format should be invalid');
++  const bad2 = validateDeadline('2025-13-01', { now: NOW });
++  expect(!bad2.valid, 'invalid: month 13 should be invalid');
++  const bad3 = validateDeadline(123 as unknown, { now: NOW });
++  expect(!bad3.valid, 'invalid: non-string should be invalid');
++
++  // Convenience predicate
++  expect(isDeadlineUpcoming('2025-09-10', { now: NOW }), 'upcoming: future should be upcoming');
++  expect(isDeadlineUpcoming('2025-09-08', { now: NOW }), 'upcoming: today inclusive should be upcoming');
++  expect(!isDeadlineUpcoming('2025-09-05', { now: NOW }), 'upcoming: past should not be upcoming');
++
++  // Non-inclusive behavior
++  const todayNonInclusive = validateDeadline('2025-09-08', { now: NOW, inclusive: false });
++  expect(todayNonInclusive.isPast, 'non-inclusive: today counts as past');
++  expect(!isDeadlineUpcoming('2025-09-08', { now: NOW, inclusive: false }), 'non-inclusive: today not upcoming');
++
++  console.log('[EUFM] Deadline validator tests passed.');
++}
++
++run().catch((err) => {
++  console.error('[EUFM] Deadline validator tests failed:', err?.message || err);
++  process.exit(1);
++});
++
+diff --git a/src/utils/deadlineValidator.ts b/src/utils/deadlineValidator.ts
+new file mode 100644
+index 0000000000000000000000000000000000000000..40e5476d676c4ed4576604bd0d4b19f6bf67ef7c
+--- /dev/null
++++ b/src/utils/deadlineValidator.ts
+@@ -0,0 +1,125 @@
++/**
++ * EU Funding deadline validation utilities.
++ *
++ * Provides strict, dependency-free validation for ISO-like date strings
++ * and normalized results useful for scheduling and dashboards.
++ */
++
++export interface DeadlineValidationOptions {
++  /**
++   * An override for the current time to make evaluation deterministic in tests.
++   * Accepts a Date instance or an ISO-8601 string. Defaults to `new Date()`.
++   */
++  now?: Date | string;
++  /**
++   * If true, a deadline on the same calendar day as `now` is considered upcoming (not past).
++   * Defaults to true (inclusive end-of-day deadline behavior).
++   */
++  inclusive?: boolean;
++}
++
++export interface DeadlineValidationResult {
++  valid: boolean;
++  /** ISO date-only (YYYY-MM-DD) when valid, otherwise undefined */
++  date?: string;
++  /** True when deadline end-of-day is in the past relative to `now` */
++  isPast: boolean;
++  /** True when deadline is the same calendar day as `now` */
++  isToday: boolean;
++  /** Whole days remaining until deadline end-of-day; 0 if today; negative when in past */
++  daysRemaining: number;
++  /** Human-readable reason for invalid input, when applicable */
++  reason?: string;
++}
++
++/** Milliseconds in a day */
++const DAY_MS = 24 * 60 * 60 * 1000;
++
++function toDateSafe(input: Date | string | undefined): Date | null {
++  if (!input) return null;
++  try {
++    if (input instanceof Date) return new Date(input.getTime());
++    const d = new Date(input);
++    return isNaN(d.getTime()) ? null : d;
++  } catch {
++    return null;
++  }
++}
++
++function normalizeDateOnly(dateStr: string): string | null {
++  // Accept common formats; prefer YYYY-MM-DD. Strip time if present.
++  // Using regex to extract YYYY-MM-DD at the start of the string.
++  const m = /^\s*(\d{4})-(\d{2})-(\d{2})/.exec(dateStr);
++  if (!m) return null;
++  const [_, y, mo, d] = m;
++  // Basic range checks to avoid Date auto-rollover surprises
++  const year = Number(y), month = Number(mo), day = Number(d);
++  if (month < 1 || month > 12) return null;
++  if (day < 1 || day > 31) return null;
++  // Construct date in UTC to avoid TZ surprises and then reformat
++  const dt = new Date(Date.UTC(year, month - 1, day));
++  if (isNaN(dt.getTime())) return null;
++  // Ensure the components round-trip (no rollover)
++  const ok = dt.getUTCFullYear() === year && dt.getUTCMonth() === month - 1 && dt.getUTCDate() === day;
++  if (!ok) return null;
++  return `${y}-${mo}-${d}`;
++}
++
++/** Returns a Date at the end of the given date's day in UTC (23:59:59.999 UTC). */
++function endOfDayUTC(dateOnlyISO: string): Date {
++  const [y, m, d] = dateOnlyISO.split('-').map(Number);
++  // Next day 00:00:00.000 UTC minus 1 ms
++  const nextDay = new Date(Date.UTC(y, m, d));
++  return new Date(nextDay.getTime() - 1);
++}
++
++/** Returns whether two dates are on the same calendar day in UTC. */
++function isSameUTCDate(a: Date, b: Date): boolean {
++  return a.getUTCFullYear() === b.getUTCFullYear() && a.getUTCMonth() === b.getUTCMonth() && a.getUTCDate() === b.getUTCDate();
++}
++
++/**
++ * Validate and evaluate a funding deadline.
++ *
++ * - Accepts ISO-like inputs such as `YYYY-MM-DD` or `YYYY-MM-DDTHH:mm`.
++ * - Normalizes to date-only in UTC and evaluates using end-of-day semantics.
++ */
++export function validateDeadline(input: unknown, opts: DeadlineValidationOptions = {}): DeadlineValidationResult {
++  const inclusive = opts.inclusive ?? true;
++  const now = toDateSafe(opts.now) ?? new Date();
++
++  if (typeof input !== 'string') {
++    console.error('[deadlineValidator] Invalid input type. Expected string.');
++    return { valid: false, isPast: false, isToday: false, daysRemaining: 0, reason: 'Expected a date string' };
++  }
++
++  const dateOnly = normalizeDateOnly(input);
++  if (!dateOnly) {
++    console.error('[deadlineValidator] Invalid date format. Expected YYYY-MM-DD. Got:', input);
++    return { valid: false, isPast: false, isToday: false, daysRemaining: 0, reason: 'Invalid or unsupported date format' };
++  }
++
++  const deadlineEOD = endOfDayUTC(dateOnly);
++  const isToday = isSameUTCDate(deadlineEOD, now);
++  const diffMs = deadlineEOD.getTime() - now.getTime();
++  const daysRemaining = isToday
++    ? 0
++    : (diffMs >= 0 ? Math.ceil(diffMs / DAY_MS) : Math.floor(diffMs / DAY_MS));
++
++  // Determine past status with inclusive behavior (today counts as not past when inclusive)
++  const isPast = inclusive ? diffMs < 0 && !isToday : diffMs < 0 || isToday;
++
++  return {
++    valid: true,
++    date: dateOnly,
++    isPast,
++    isToday,
++    daysRemaining,
++  };
++}
++
++/** Convenience predicate: returns true when the deadline is valid and not past. */
++export function isDeadlineUpcoming(input: unknown, opts?: DeadlineValidationOptions): boolean {
++  const res = validateDeadline(input, opts);
++  return res.valid && !res.isPast;
++}
+
+
+[2025-09-08T14:09:48] thinking
+
+**Running TypeScript checks and tests**
+
+I need to run TypeScript type checks and tests now. The next step involves checking the package.json file for available scripts. I'll open it up to see what scripts are set up for testing and type checking. This should guide me in executing the appropriate commands to ensure everything is functioning as expected. It’s like following a recipe to make sure each ingredient is in the right place.
+[2025-09-08T14:09:51] exec bash -lc 'cat package.json' in /Users/panda/Desktop/EUFM
+[2025-09-08T14:09:51] bash -lc 'cat package.json' succeeded in 95ms:
+{
+  "name": "eufm",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "tsc -p .",
+    "start": "node dist/cli/index.js",
+    "dev": "tsx src/cli/index.ts",
+    "lint": "eslint .",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test:integration": "tsx src/tests/eufm_integration_test.ts 'Integration check'",
+    "test:country-codes": "tsx src/tests/countryCodes_test.ts",
+    "dev:oradea": "tsx src/tools/oradea_business_cli.ts",
+    "dev:dashboard": "tsx src/dashboard/dashboardServer.ts"
+  },
+  "dependencies": {
+    "@notionhq/client": "^5.0.0",
+    "@types/express": "^5.0.3",
+    "@types/ws": "^8.18.1",
+[2025-09-08T14:09:52] tokens used: 1016
+[2025-09-08T14:09:52] turn diff:
+diff --git a/src/tests/deadlineValidator_test.ts b/src/tests/deadlineValidator_test.ts
+new file mode 100644
+index 0000000000000000000000000000000000000000..1ac2bb5c737afd68663fc6adec34232de56bd563
+--- /dev/null
++++ b/src/tests/deadlineValidator_test.ts
+@@ -0,0 +1,58 @@
++import { validateDeadline, isDeadlineUpcoming } from '../utils/deadlineValidator.js';
++
++function expect(condition: boolean, message: string) {
++  if (!condition) throw new Error(message);
++}
++
++async function run() {
++  console.log('[EUFM] Running deadline validator tests...');
++
++  const NOW = '2025-09-08T10:00:00Z';
++
++  // Future date
++  const future = validateDeadline('2025-09-10', { now: NOW });
++  expect(future.valid, 'future: should be valid');
++  expect(!future.isPast, 'future: should not be past');
++  expect(!future.isToday, 'future: should not be today');
++  expect(future.daysRemaining === 3, `future: expected daysRemaining 3, got ${future.daysRemaining}`);
++
++  // Today (inclusive default)
++  const today = validateDeadline('2025-09-08', { now: NOW });
++  expect(today.valid, 'today: should be valid');
++  expect(today.isToday, 'today: isToday should be true');
++  expect(!today.isPast, 'today: not past when inclusive');
++  expect(today.daysRemaining === 0, `today: expected daysRemaining 0, got ${today.daysRemaining}`);
++
++  // Past
++  const past = validateDeadline('2025-09-05', { now: NOW });
++  expect(past.valid, 'past: should be valid');
++  expect(past.isPast, 'past: should be past');
++  expect(past.daysRemaining <= -1, `past: expected negative daysRemaining, got ${past.daysRemaining}`);
++  expect(past.daysRemaining === -3, `past: expected -3, got ${past.daysRemaining}`);
++
++  // Invalid format
++  const bad1 = validateDeadline('08/09/2025', { now: NOW });
++  expect(!bad1.valid, 'invalid: slash format should be invalid');
++  const bad2 = validateDeadline('2025-13-01', { now: NOW });
++  expect(!bad2.valid, 'invalid: month 13 should be invalid');
++  const bad3 = validateDeadline(123 as unknown, { now: NOW });
++  expect(!bad3.valid, 'invalid: non-string should be invalid');
++
++  // Convenience predicate
++  expect(isDeadlineUpcoming('2025-09-10', { now: NOW }), 'upcoming: future should be upcoming');
++  expect(isDeadlineUpcoming('2025-09-08', { now: NOW }), 'upcoming: today inclusive should be upcoming');
++  expect(!isDeadlineUpcoming('2025-09-05', { now: NOW }), 'upcoming: past should not be upcoming');
++
++  // Non-inclusive behavior
++  const todayNonInclusive = validateDeadline('2025-09-08', { now: NOW, inclusive: false });
++  expect(todayNonInclusive.isPast, 'non-inclusive: today counts as past');
++  expect(!isDeadlineUpcoming('2025-09-08', { now: NOW, inclusive: false }), 'non-inclusive: today not upcoming');
++
++  console.log('[EUFM] Deadline validator tests passed.');
++}
++
++run().catch((err) => {
++  console.error('[EUFM] Deadline validator tests failed:', err?.message || err);
++  process.exit(1);
++});
++
+diff --git a/src/utils/deadlineValidator.ts b/src/utils/deadlineValidator.ts
+new file mode 100644
+index 0000000000000000000000000000000000000000..40e5476d676c4ed4576604bd0d4b19f6bf67ef7c
+--- /dev/null
++++ b/src/utils/deadlineValidator.ts
+@@ -0,0 +1,125 @@
++/**
++ * EU Funding deadline validation utilities.
++ *
++ * Provides strict, dependency-free validation for ISO-like date strings
++ * and normalized results useful for scheduling and dashboards.
++ */
++
++export interface DeadlineValidationOptions {
++  /**
++   * An override for the current time to make evaluation deterministic in tests.
++   * Accepts a Date instance or an ISO-8601 string. Defaults to `new Date()`.
++   */
++  now?: Date | string;
++  /**
++   * If true, a deadline on the same calendar day as `now` is considered upcoming (not past).
++   * Defaults to true (inclusive end-of-day deadline behavior).
++   */
++  inclusive?: boolean;
++}
++
++export interface DeadlineValidationResult {
++  valid: boolean;
++  /** ISO date-only (YYYY-MM-DD) when valid, otherwise undefined */
++  date?: string;
++  /** True when deadline end-of-day is in the past relative to `now` */
++  isPast: boolean;
++  /** True when deadline is the same calendar day as `now` */
++  isToday: boolean;
++  /** Whole days remaining until deadline end-of-day; 0 if today; negative when in past */
++  daysRemaining: number;
++  /** Human-readable reason for invalid input, when applicable */
++  reason?: string;
++}
++
++/** Milliseconds in a day */
++const DAY_MS = 24 * 60 * 60 * 1000;
++
++function toDateSafe(input: Date | string | undefined): Date | null {
++  if (!input) return null;
++  try {
++    if (input instanceof Date) return new Date(input.getTime());
++    const d = new Date(input);
++    return isNaN(d.getTime()) ? null : d;
++  } catch {
++    return null;
++  }
++}
++
++function normalizeDateOnly(dateStr: string): string | null {
++  // Accept common formats; prefer YYYY-MM-DD. Strip time if present.
++  // Using regex to extract YYYY-MM-DD at the start of the string.
++  const m = /^\s*(\d{4})-(\d{2})-(\d{2})/.exec(dateStr);
++  if (!m) return null;
++  const [_, y, mo, d] = m;
++  // Basic range checks to avoid Date auto-rollover surprises
++  const year = Number(y), month = Number(mo), day = Number(d);
++  if (month < 1 || month > 12) return null;
++  if (day < 1 || day > 31) return null;
++  // Construct date in UTC to avoid TZ surprises and then reformat
++  const dt = new Date(Date.UTC(year, month - 1, day));
++  if (isNaN(dt.getTime())) return null;
++  // Ensure the components round-trip (no rollover)
++  const ok = dt.getUTCFullYear() === year && dt.getUTCMonth() === month - 1 && dt.getUTCDate() === day;
++  if (!ok) return null;
++  return `${y}-${mo}-${d}`;
++}
++
++/** Returns a Date at the end of the given date's day in UTC (23:59:59.999 UTC). */
++function endOfDayUTC(dateOnlyISO: string): Date {
++  const [y, m, d] = dateOnlyISO.split('-').map(Number);
++  // Next day 00:00:00.000 UTC minus 1 ms
++  const nextDay = new Date(Date.UTC(y, m, d));
++  return new Date(nextDay.getTime() - 1);
++}
++
++/** Returns whether two dates are on the same calendar day in UTC. */
++function isSameUTCDate(a: Date, b: Date): boolean {
++  return a.getUTCFullYear() === b.getUTCFullYear() && a.getUTCMonth() === b.getUTCMonth() && a.getUTCDate() === b.getUTCDate();
++}
++
++/**
++ * Validate and evaluate a funding deadline.
++ *
++ * - Accepts ISO-like inputs such as `YYYY-MM-DD` or `YYYY-MM-DDTHH:mm`.
++ * - Normalizes to date-only in UTC and evaluates using end-of-day semantics.
++ */
++export function validateDeadline(input: unknown, opts: DeadlineValidationOptions = {}): DeadlineValidationResult {
++  const inclusive = opts.inclusive ?? true;
++  const now = toDateSafe(opts.now) ?? new Date();
++
++  if (typeof input !== 'string') {
++    console.error('[deadlineValidator] Invalid input type. Expected string.');
++    return { valid: false, isPast: false, isToday: false, daysRemaining: 0, reason: 'Expected a date string' };
++  }
++
++  const dateOnly = normalizeDateOnly(input);
++  if (!dateOnly) {
++    console.error('[deadlineValidator] Invalid date format. Expected YYYY-MM-DD. Got:', input);
++    return { valid: false, isPast: false, isToday: false, daysRemaining: 0, reason: 'Invalid or unsupported date format' };
++  }
++
++  const deadlineEOD = endOfDayUTC(dateOnly);
++  const isToday = isSameUTCDate(deadlineEOD, now);
++  const diffMs = deadlineEOD.getTime() - now.getTime();
++  const daysRemaining = isToday
++    ? 0
++    : (diffMs >= 0 ? Math.ceil(diffMs / DAY_MS) : Math.floor(diffMs / DAY_MS));
++
++  // Determine past status with inclusive behavior (today counts as not past when inclusive)
++  const isPast = inclusive ? diffMs < 0 && !isToday : diffMs < 0 || isToday;
++
++  return {
++    valid: true,
++    date: dateOnly,
++    isPast,
++    isToday,
++    daysRemaining,
++  };
++}
++
++/** Convenience predicate: returns true when the deadline is valid and not past. */
++export function isDeadlineUpcoming(input: unknown, opts?: DeadlineValidationOptions): boolean {
++  const res = validateDeadline(input, opts);
++  return res.valid && !res.isPast;
++}
+
+[2025-09-08T14:09:56] exec bash -lc 'npm run typecheck' in /Users/panda/Desktop/EUFM

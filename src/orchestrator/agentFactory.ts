@@ -13,6 +13,8 @@ import { EUFMAgentSummoner } from '../agents/eufmAgentSummoner.js';
 import { SmokeTestAgent } from '../agents/smokeTestAgent.js';
 import { TestAgent } from '../agents/testAgent.js';
 import { EUFundingProposalAgent } from '../agents/euFundingProposalAgent.js';
+import { FigmaMCPAgent } from '../agents/figmaMCPAgent.js';
+import { SpecKitCodexAgent } from '../agents/specKitCodexAgent.js';
 
 export class AgentFactory {
   create(spec: AgentSpec): BaseAgent {
@@ -31,6 +33,8 @@ export class AgentFactory {
       case 'MemoryAgent': return new MemoryAgent(id, requirementId);
       case 'EUFundingProposalAgent': return new EUFundingProposalAgent(id, requirementId);
       case 'TestAgent': return new TestAgent(id, requirementId);
+      case 'figma-mcp': return new FigmaMCPAgent(id, requirementId);
+      case 'spec-kit-codex': return new SpecKitCodexAgent(id, requirementId);
       default:
         throw new Error(`Unknown agent type: ${type}`);
     }

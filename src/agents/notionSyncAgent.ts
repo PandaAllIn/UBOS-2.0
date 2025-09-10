@@ -1,16 +1,15 @@
-import { Agent, AgentConfig } from '../orchestrator/types.js';
 import { agentActionLogger } from '../masterControl/agentActionLogger.js';
 import { exec } from 'child_process';
 import { promisify } from 'util';
 
 const execAsync = promisify(exec);
 
-export interface NotionSyncAgentConfig extends AgentConfig {
+export interface NotionSyncAgentConfig {
   syncInterval?: number; // minutes
   enableScheduler?: boolean;
 }
 
-export class NotionSyncAgent implements Agent {
+export class NotionSyncAgent {
   name = 'NotionSyncAgent';
   description = 'Automated Notion synchronization agent - powers 15-minute live updates';
   private config: NotionSyncAgentConfig;
@@ -48,19 +47,16 @@ export class NotionSyncAgent implements Agent {
         default:
           return await this.syncAll();
       }
-    } catch (error) {
+    } catch (error: any) {
       const errorMsg = `NotionSyncAgent error: ${error instanceof Error ? error.message : String(error)}`;
       console.error(errorMsg);
-      
-      await agentActionLogger.logAction(
-        'NotionSyncAgent',
-        task,
-        'error',
-        Date.now() - startTime,
-        0,
-        errorMsg
-      );
-      
+      await agentActionLogger.logAction({
+        agent: 'NotionSyncAgent',
+        action: task,
+        details: errorMsg,
+        category: 'automation',
+        status: 'failed'
+      });
       return errorMsg;
     }
   }
@@ -83,17 +79,16 @@ export class NotionSyncAgent implements Agent {
       
       const message = `✅ NotionSyncAgent: Complete sync finished (${successful}/${total} successful)`;
       
-      await agentActionLogger.logAction(
-        'NotionSyncAgent',
-        'sync-all',
-        'success',
-        Date.now() - startTime,
-        0.001, // Minimal cost for coordination
-        message
-      );
+      await agentActionLogger.logAction({
+        agent: 'NotionSyncAgent',
+        action: 'sync-all',
+        details: message,
+        category: 'automation',
+        status: 'completed'
+      });
 
       return message;
-    } catch (error) {
+    } catch (error: any) {
       const errorMsg = `❌ NotionSyncAgent sync failed: ${error}`;
       console.error(errorMsg);
       return errorMsg;
@@ -105,7 +100,7 @@ export class NotionSyncAgent implements Agent {
       console.log('📊 Syncing projects to Notion...');
       const { stdout } = await execAsync('npm run dev -- notion:sync-projects');
       return '✅ Projects synced successfully';
-    } catch (error) {
+    } catch (error: any) {
       return `❌ Projects sync failed: ${error}`;
     }
   }
@@ -115,7 +110,7 @@ export class NotionSyncAgent implements Agent {
       console.log('🤖 Syncing agents to Notion...');
       const { stdout } = await execAsync('npm run dev -- notion:sync-agents');
       return '✅ Agents synced successfully';
-    } catch (error) {
+    } catch (error: any) {
       return `❌ Agents sync failed: ${error}`;
     }
   }
@@ -125,7 +120,7 @@ export class NotionSyncAgent implements Agent {
       console.log('🇪🇺 Syncing funding opportunities to Notion...');
       const { stdout } = await execAsync('npm run dev -- notion:sync-funding');
       return '✅ Funding synced successfully';
-    } catch (error) {
+    } catch (error: any) {
       return `❌ Funding sync failed: ${error}`;
     }
   }
@@ -135,7 +130,7 @@ export class NotionSyncAgent implements Agent {
       console.log('📅 Running daily Notion update...');
       const { stdout } = await execAsync('npm run dev -- notion:daily-update');
       return '✅ Daily update completed';
-    } catch (error) {
+    } catch (error: any) {
       return `❌ Daily update failed: ${error}`;
     }
   }
@@ -162,14 +157,13 @@ export class NotionSyncAgent implements Agent {
       await this.syncAll();
     }, (this.config.syncInterval || 15) * 60 * 1000); // Convert minutes to milliseconds
 
-    await agentActionLogger.logAction(
-      'NotionSyncAgent',
-      'start-scheduler',
-      'success',
-      100,
-      0,
-      `Scheduler started - syncing every ${this.config.syncInterval} minutes`
-    );
+    await agentActionLogger.logAction({
+      agent: 'NotionSyncAgent',
+      action: 'start-scheduler',
+      details: `Scheduler started - syncing every ${this.config.syncInterval} minutes`,
+      category: 'automation',
+      status: 'completed'
+    });
 
     return `✅ Scheduler started - auto-syncing every ${this.config.syncInterval} minutes`;
   }
@@ -182,14 +176,13 @@ export class NotionSyncAgent implements Agent {
     clearInterval(this.intervalId);
     this.intervalId = null;
 
-    await agentActionLogger.logAction(
-      'NotionSyncAgent',
-      'stop-scheduler',
-      'success',
-      50,
-      0,
-      'Scheduler stopped'
-    );
+    await agentActionLogger.logAction({
+      agent: 'NotionSyncAgent',
+      action: 'stop-scheduler',
+      details: 'Scheduler stopped',
+      category: 'automation',
+      status: 'completed'
+    });
 
     return '✅ Scheduler stopped';
   }

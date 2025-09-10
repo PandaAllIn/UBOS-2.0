@@ -1,59 +1,35 @@
 [
   {
-    "id": "evt_1757262762130_jjzwpz",
-    "ts": "2025-09-07T16:32:42.130Z",
+    "id": "evt_1757400800687_ln74ap",
+    "ts": "2025-09-09T06:53:20.687Z",
     "provider": "perplexity",
     "plan": "perplexity_pro",
     "metric": "tokens",
-    "amount": 1183,
+    "amount": 1877,
     "model": "sonar-pro",
     "tags": [
       "auto"
     ]
   },
   {
-    "id": "evt_1757262804258_ac2pvd",
-    "ts": "2025-09-07T16:33:24.258Z",
+    "id": "evt_1757400809515_khiolu",
+    "ts": "2025-09-09T06:53:29.515Z",
     "provider": "perplexity",
     "plan": "perplexity_pro",
     "metric": "tokens",
-    "amount": 1298,
+    "amount": 1790,
     "model": "sonar-pro",
     "tags": [
       "auto"
     ]
   },
   {
-    "id": "evt_1757331885733_24uss9",
-    "ts": "2025-09-08T11:44:45.733Z",
-    "provider": "gemini",
-    "plan": "perplexity_pro",
-    "metric": "tokens",
-    "amount": 668,
-    "model": "gemini-2.0-flash-exp",
-    "tags": [
-      "auto"
-    ]
-  },
-  {
-    "id": "evt_1757331991162_j8dekg",
-    "ts": "2025-09-08T11:46:31.162Z",
-    "provider": "gemini",
-    "plan": "perplexity_pro",
-    "metric": "tokens",
-    "amount": 848,
-    "model": "gemini-2.0-flash-exp",
-    "tags": [
-      "auto"
-    ]
-  },
-  {
-    "id": "evt_1757333755064_7z7dob",
-    "ts": "2025-09-08T12:15:55.064Z",
+    "id": "evt_1757400824623_p58xd3",
+    "ts": "2025-09-09T06:53:44.623Z",
     "provider": "perplexity",
     "plan": "perplexity_pro",
     "metric": "tokens",
-    "amount": 1539,
+    "amount": 1638,
     "model": "sonar-pro",
     "tags": [
       "auto"

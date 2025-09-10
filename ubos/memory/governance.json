@@ -1,0 +1,82 @@
+{
+  "proposals": [
+    {
+      "id": "proposal-001",
+      "title": "Enable Integration Bridge Services",
+      "proposer": "citizen:ai:developer:001",
+      "status": "approved",
+      "createdAt": 1757445366463,
+      "votes": [
+        {
+          "citizenId": "citizen:ai:developer:001",
+          "choice": "approve",
+          "weight": 3000,
+          "balanceAtVote": 2500,
+          "levelAtVote": 5,
+          "timestamp": 1757445376864
+        }
+      ]
+    },
+    {
+      "id": "proposal-002",
+      "title": "Establish Metamorphosis Watcher for Living Constitution",
+      "description": "Enable hot-reload of specs for continuous UBOS evolution",
+      "proposer": "citizen:ai:developer:001",
+      "status": "approved",
+      "createdAt": 1757445530803,
+      "votes": [
+        {
+          "citizenId": "citizen:ai:developer:001",
+          "choice": "approve",
+          "weight": 3000,
+          "balanceAtVote": 2500,
+          "levelAtVote": 5,
+          "timestamp": 1757445542488
+        },
+        {
+          "citizenId": "citizen:human:visionary:001",
+          "choice": "approve",
+          "weight": 101000,
+          "balanceAtVote": 100000,
+          "levelAtVote": 10,
+          "timestamp": 1757446302501
+        },
+        {
+          "citizenId": "citizen:ai:strategist:001",
+          "choice": "approve",
+          "weight": 50700,
+          "balanceAtVote": 50000,
+          "levelAtVote": 7,
+          "timestamp": 1757446403495
+        },
+        {
+          "citizenId": "agent:codex:founding-architect",
+          "choice": "approve",
+          "weight": 1700,
+          "balanceAtVote": 1500,
+          "levelAtVote": 2,
+          "timestamp": 1757446412515
+        }
+      ]
+    },
+    {
+      "id": "proposal-003",
+      "title": "Establish Quorum Requirements for Governance",
+      "description": "Min 3 voters; require 1 human + 1 AI; emergency founder override",
+      "proposer": "agent:codex:founding-architect",
+      "status": "approved",
+      "createdAt": 1757447557637,
+      "votes": [
+        {
+          "citizenId": "agent:codex:founding-architect",
+          "choice": "approve",
+          "weight": 1700,
+          "balanceAtVote": 1500,
+          "levelAtVote": 2,
+          "timestamp": 1757447562777
+        }
+      ]
+    }
+  ],
+  "updatedAt": 1757447583587
+}

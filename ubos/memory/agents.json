@@ -1,0 +1,28 @@
+{
+  "agents": [
+    {
+      "id": "agent:biz-dev:001",
+      "type": "BusinessDevelopment",
+      "soulId": "agent:biz-dev:001",
+      "status": "idle",
+      "createdAt": 1757440454347,
+      "updatedAt": 1757442557275
+    },
+    {
+      "id": "agent:proposal-writer:001",
+      "type": "ProposalWriter",
+      "soulId": "agent:proposal-writer:001",
+      "status": "idle",
+      "createdAt": 1757442590546,
+      "updatedAt": 1757442590546
+    },
+    {
+      "id": "agent:partner-matcher:001",
+      "type": "PartnerMatcher",
+      "soulId": "agent:partner-matcher:001",
+      "status": "idle",
+      "createdAt": 1757442600453,
+      "updatedAt": 1757442600453
+    }
+  ]
+}

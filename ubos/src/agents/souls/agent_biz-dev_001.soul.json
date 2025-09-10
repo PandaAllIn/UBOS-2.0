@@ -1,0 +1,47 @@
+{
+  "agentId": "agent:biz-dev:001",
+  "type": "BusinessDevelopment",
+  "created": "2025-01-09T00:00:00Z",
+  "achievements": {
+    "titles": [
+      "Funding Oracle"
+    ],
+    "xp": 20,
+    "level": 1,
+    "contributions": []
+  },
+  "memory": {
+    "shortTerm": {},
+    "longTerm": {
+      "agentMemory": {
+        "funding-programs": {
+          "horizon-europe": {
+            "budget": "95.5B",
+            "focus": [
+              "digital",
+              "green",
+              "health"
+            ]
+          },
+          "digital-europe": {
+            "budget": "7.5B",
+            "focus": [
+              "AI",
+              "cybersecurity",
+              "digital-skills"
+            ]
+          },
+          "connecting-europe": {
+            "budget": "33.7B",
+            "focus": [
+              "transport",
+              "energy",
+              "digital"
+            ]
+          }
+        }
+      }
+    }
+  },
+  "credentials": {}
+}

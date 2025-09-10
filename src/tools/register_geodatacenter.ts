@@ -1,5 +1,6 @@
 import 'dotenv/config';
 import { projectRegistry, type ProjectMetadata } from '../masterControl/projectRegistry.js';
+import { repoPath } from '../utils/paths.js';
 
 async function main() {
   try {
@@ -64,9 +65,9 @@ async function main() {
         }
       ],
       location: {
-        baseDirectory: '/Users/panda/Desktop/EUFM/PROJECTS/GeoDataCenter',
+        baseDirectory: repoPath('PROJECTS', 'GeoDataCenter'),
         configFile: 'Claude Geo.md',
-        logsDirectory: '/Users/panda/Desktop/EUFM/logs/GeoDataCenter'
+        logsDirectory: repoPath('logs', 'GeoDataCenter')
       }
     };
 
@@ -79,4 +80,3 @@ async function main() {
 }
 
 main();
-

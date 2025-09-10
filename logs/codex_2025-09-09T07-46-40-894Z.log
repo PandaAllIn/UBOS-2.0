@@ -1,0 +1,1926 @@
+Executing: codex exec --dangerously-bypass-approvals-and-sandbox Implement Enterprise AI Orchestration Platform MVP:
+
+Phase 1 Priority Tasks:
+1. Create /src/orchestrator/enterpriseGateway.ts - Multi-tenant API gateway with provider routing
+2. Implement universal adapter pattern for OpenAI, Anthropic, Google, Perplexity APIs  
+3. Add request normalization and response standardization
+4. Create unified REST API endpoints: /api/v1/orchestrate
+5. Add rate limiting and quota management per tenant
+6. Implement basic SSO integration (SAML, OIDC) framework
+
+Technical Requirements:
+- Follow BaseAgent pattern, register in AgentFactory
+- Use TypeScript strict mode with comprehensive error handling  
+- Support €999-50K/month enterprise pricing model
+- Target M ARR with Fortune 500 customers
+- Compete against Microsoft Copilot Studio
+
+This is HIGHEST PRIORITY monetization opportunity. Generate complete technical implementation.
+
+Project Context: EUFM (European Union Funds Manager) - AI Agent Orchestration System
+Working Directory: /Users/panda/Desktop/EUFM
+Project Type: TypeScript/Node.js multi-agent coordination system
+Note: Follow the BaseAgent pattern in src/agents/ and register in AgentFactory
+
+Safety Guidelines:
+- Preserve existing functionality when modifying files
+- Follow TypeScript best practices and existing code patterns
+- Add proper error handling and logging
+- Test changes before completing
+Working Directory: /Users/panda/Desktop/EUFM
+Timeout: 600000 ms
+
+[2025-09-09T07:46:41] OpenAI Codex v0.30.0 (research preview)
+--------
+workdir: /Users/panda/Desktop/EUFM
+model: gpt-5
+provider: openai
+approval: never
+sandbox: danger-full-access
+reasoning effort: medium
+reasoning summaries: auto
+--------
+[2025-09-09T07:46:41] User instructions:
+Implement Enterprise AI Orchestration Platform MVP:
+
+Phase 1 Priority Tasks:
+1. Create /src/orchestrator/enterpriseGateway.ts - Multi-tenant API gateway with provider routing
+2. Implement universal adapter pattern for OpenAI, Anthropic, Google, Perplexity APIs  
+3. Add request normalization and response standardization
+4. Create unified REST API endpoints: /api/v1/orchestrate
+5. Add rate limiting and quota management per tenant
+6. Implement basic SSO integration (SAML, OIDC) framework
+
+Technical Requirements:
+- Follow BaseAgent pattern, register in AgentFactory
+- Use TypeScript strict mode with comprehensive error handling  
+- Support €999-50K/month enterprise pricing model
+- Target M ARR with Fortune 500 customers
+- Compete against Microsoft Copilot Studio
+
+This is HIGHEST PRIORITY monetization opportunity. Generate complete technical implementation.
+
+Project Context: EUFM (European Union Funds Manager) - AI Agent Orchestration System
+Working Directory: /Users/panda/Desktop/EUFM
+Project Type: TypeScript/Node.js multi-agent coordination system
+Note: Follow the BaseAgent pattern in src/agents/ and register in AgentFactory
+
+Safety Guidelines:
+- Preserve existing functionality when modifying files
+- Follow TypeScript best practices and existing code patterns
+- Add proper error handling and logging
+- Test changes before completing
+
+[2025-09-09T07:46:48] thinking
+
+**Exploring repo functionality**
+
+I'm considering how to use commands to run and edit files through the apply_patch function. The shell applies those patches, but I need to ensure I'm navigating the repository effectively. It feels like there’s some potential here for making changes, so I'm eager to delve deeper. Let's see how everything connects and what adjustments are essential in the process.
+[2025-09-09T07:46:49] codex
+
+I’ll scan the repo structure to locate agents, orchestrator patterns, and existing server setup so I can add the gateway, adapters, and endpoint consistently. Then I’ll scaffold the gateway and adapters with strict TypeScript and placeholders for SSO, rate limits, and registration.
+[2025-09-09T07:46:49] exec bash -lc 'ls -la' in /Users/panda/Desktop/EUFM
+[2025-09-09T07:46:50] bash -lc 'ls -la' succeeded in 133ms:
+total 1320
+drwxr-xr-x   81 panda  staff   2592 Sep  9 10:06 .
+drwx------+  17 panda  staff    544 Sep  7 19:35 ..
+-rw-r--r--@   1 panda  staff  10244 Sep  7 18:05 .DS_Store
+drwxr-xr-x    3 panda  staff     96 Sep  9 10:36 .claude
+drwxr-xr-x    3 panda  staff     96 Sep  8 16:46 .cursor
+-rw-r--r--    1 panda  staff    798 Sep  8 13:28 .env
+-rw-r--r--    1 panda  staff    196 Sep  7 21:10 .env.example
+drwxr-xr-x   17 panda  staff    544 Sep  8 20:55 .git
+drwxr-xr-x    3 panda  staff     96 Sep  3 11:39 .github
+-rw-r--r--    1 panda  staff     71 Sep  8 15:04 .gitignore
+-rw-r--r--    1 panda  staff   6792 Sep  8 17:14 AGENTS.md
+-rw-r--r--    1 panda  staff   5024 Sep  8 19:19 AGENT_QUICK_REFERENCE.md
+-rw-r--r--    1 panda  staff   5123 Sep  8 17:38 CLAUDE_CODE_INSTRUCTIONS.md
+-rw-r--r--    1 panda  staff   7825 Sep  8 17:31 CLAUDE_CODE_ORIENTATION.md
+-rw-r--r--    1 panda  staff  11019 Sep  6 20:32 CLAUDE_MISSION_BRIEFING.md
+-rw-r--r--    1 panda  staff   7089 Sep  8 17:47 CLAUDE_READING_INSTRUCTION.md
+-rw-r--r--    1 panda  staff  15420 Sep  6 21:26 CLAUDE_SESSION_MEMORY.md
+-rw-r--r--    1 panda  staff   2966 Sep  7 18:11 CLAUDE_SESSION_STARTER.md
+-rw-r--r--    1 panda  staff  15118 Sep  8 13:02 CODEX_HANDOFF_BRIEFING.md
+[2025-09-09T07:46:50] tokens used: 2322
+[2025-09-09T07:46:55] exec bash -lc "ls -la src && rg -n \"BaseAgent|AgentFactory|orchestrator|agents\" -S src -g '"'!dist'"'" in /Users/panda/Desktop/EUFM
+[2025-09-09T07:46:56] bash -lc "ls -la src && rg -n \"BaseAgent|AgentFactory|orchestrator|agents\" -S src -g '"'!dist'"'" succeeded in 369ms:
+total 16
+drwxr-xr-x  17 panda  staff   544 Sep  8 13:14 .
+drwxr-xr-x  81 panda  staff  2592 Sep  9 10:06 ..
+-rw-r--r--@  1 panda  staff  6148 Sep  3 12:43 .DS_Store
+drwxr-xr-x   5 panda  staff   160 Sep  3 12:43 adapters
+drwxr-xr-x  20 panda  staff   640 Sep  9 10:43 agents
+drwxr-xr-x   7 panda  staff   224 Sep  3 15:12 analytics
+drwxr-xr-x   3 panda  staff    96 Sep  8 19:49 cli
+drwxr-xr-x   8 panda  staff   256 Sep  8 14:01 dashboard
+drwxr-xr-x   3 panda  staff    96 Sep  8 13:14 integrations
+drwxr-xr-x   4 panda  staff   128 Sep  3 15:34 intelligence
+drwxr-xr-x   4 panda  staff   128 Sep  7 17:25 masterControl
+drwxr-xr-x   6 panda  staff   192 Sep  6 21:37 mcc
+drwxr-xr-x   4 panda  staff   128 Sep  3 14:48 memory
+drwxr-xr-x   8 panda  staff   256 Sep  9 10:45 orchestrator
+drwxr-xr-x   6 panda  staff   192 Sep  8 17:09 tests
+drwxr-xr-x  18 panda  staff   576 Sep  8 20:00 tools
+drwxr-xr-x   5 panda  staff   160 Sep  8 17:09 utils
+src/tools/register_geodatacenter.ts:40:        agents: ['AgentSummoner', 'EUFundingProposal', 'EnhancedAbacus', 'CodexCLI', 'ProjectMonitor'],
+src/tools/register_portal_oradea.ts:29:        agents: [],
+[2025-09-09T07:46:56] tokens used: 2706
+[2025-09-09T07:46:58] exec bash -lc "ls -la src/orchestrator && sed -n '1,200p' src/orchestrator/agentFactory.ts" in /Users/panda/Desktop/EUFM
+[2025-09-09T07:46:58] bash -lc "ls -la src/orchestrator && sed -n '1,200p' src/orchestrator/agentFactory.ts" succeeded in 124ms:
+total 72
+drwxr-xr-x   8 panda  staff   256 Sep  9 10:45 .
+drwxr-xr-x  17 panda  staff   544 Sep  8 13:14 ..
+-rw-r--r--   1 panda  staff  2353 Sep  9 10:45 agentFactory.ts
+-rw-r--r--   1 panda  staff  4138 Sep  8 14:53 capabilityMapper.ts
+-rw-r--r--   1 panda  staff  1945 Sep  3 15:34 executionCoordinator.ts
+-rw-r--r--   1 panda  staff  4284 Sep  3 15:35 strategicOrchestrator.ts
+-rw-r--r--   1 panda  staff  4648 Sep  3 15:32 taskAnalyzer.ts
+-rw-r--r--   1 panda  staff  1637 Sep  6 21:12 types.ts
+import { AgentSpec } from './types.js';
+import { BaseAgent } from '../agents/baseAgent.js';
+import { CodexAgent } from '../agents/codexAgent.js';
+import { CodexCLIAgent } from '../agents/codexCLIAgent.js';
+import { JulesAgent } from '../agents/julesAgent.js';
+import { AbacusAgent } from '../agents/abacusAgent.js';
+import { BrowserAgent } from '../agents/browserAgent.js';
+import { MemoryAgent } from '../agents/memoryAgent.js';
+import { AgentSummonerAgent } from '../agents/agentSummonerAgent.js';
+import { AgentSummoner } from '../agents/agentSummoner.js';
+import { EnhancedAbacusAgent } from '../agents/enhancedAbacusAgent.js';
+[2025-09-09T07:46:58] tokens used: 3306
+[2025-09-09T07:47:00] exec bash -lc "sed -n '1,200p' src/agents/baseAgent.ts && sed -n '1,220p' src/orchestrator/types.ts" in /Users/panda/Desktop/EUFM
+[2025-09-09T07:47:00] bash -lc "sed -n '1,200p' src/agents/baseAgent.ts && sed -n '1,220p' src/orchestrator/types.ts" succeeded in 224ms:
+import { AgentResult } from '../orchestrator/types.js';
+
+export interface AgentContext {
+  workingDir?: string;
+  shared?: Record<string, any>;
+}
+
+export interface AgentRunOptions {
+  input: string;
+  timeoutMs?: number;
+  dryRun?: boolean;
+}
+
+export abstract class BaseAgent {
+  constructor(public id: string, public requirementId: string) {}
+
+  abstract get type(): string;
+  abstract run(opts: AgentRunOptions, ctx?: AgentContext): Promise<AgentResult>;
+
+  protected now() { return new Date().toISOString(); }
+[2025-09-09T07:47:00] tokens used: 14761
+
+[2025-09-09T07:47:02] thinking
+
+**Exploring file structure**
+
+I’m considering the structure of my project. The types file.ts is small, but it seems like we need to set up the orchestration gateway and possibly check other files in the adapters directory. There’s a lot to think about regarding how these components will interact. I’ll take some time to explore that directory and see what’s there to fully understand how everything fits proceeding together before.
+[2025-09-09T07:47:03] exec bash -lc "ls -la src/adapters && sed -n '1,200p' src/adapters/README.md || true" in /Users/panda/Desktop/EUFM
+[2025-09-09T07:47:04] bash -lc "ls -la src/adapters && sed -n '1,200p' src/adapters/README.md || true" succeeded in 82ms:
+total 24
+drwxr-xr-x   5 panda  staff   160 Sep  3 12:43 .
+drwxr-xr-x  17 panda  staff   544 Sep  8 13:14 ..
+-rw-r--r--   1 panda  staff   781 Sep  3 12:43 anthropic.ts
+-rw-r--r--   1 panda  staff   899 Sep  8 17:25 google_gemini.ts
+-rw-r--r--   1 panda  staff  1011 Sep  3 12:42 openai.ts
+sed: src/adapters/README.md: No such file or directory
+[2025-09-09T07:47:04] tokens used: 1810
+[2025-09-09T07:47:06] exec bash -lc "sed -n '1,200p' src/adapters/openai.ts && sed -n '1,200p' src/adapters/anthropic.ts && sed -n '1,240p' src/adapters/google_gemini.ts" in /Users/panda/Desktop/EUFM
+[2025-09-09T07:47:07] bash -lc "sed -n '1,200p' src/adapters/openai.ts && sed -n '1,200p' src/adapters/anthropic.ts && sed -n '1,240p' src/adapters/google_gemini.ts" succeeded in 669ms:
+export interface CompleteOptions {
+	model: string;
+	temperature?: number;
+	maxOutputTokens?: number;
+	json?: boolean;
+}
+
+export async function openaiComplete(prompt: string, options: CompleteOptions): Promise<string> {
+	const apiKey = process.env.OPENAI_API_KEY;
+	if (!apiKey) throw new Error('Missing OPENAI_API_KEY');
+	const url = 'https://api.openai.com/v1/chat/completions';
+	const body: any = {
+		model: options.model,
+		messages: [
+			{ role: 'system', content: 'You are EUFM OpenAI adapter.' },
+			{ role: 'user', content: prompt }
+		],
+		temperature: options.temperature ?? 0.2
+	};
+	if (options.json) body.response_format = { type: 'json_object' };
+[2025-09-09T07:47:07] tokens used: 293
+
+[2025-09-09T07:47:10] thinking
+
+**Planning universal adapter integration**
+
+I’m thinking about the adapters for OpenAI, Anthropic, and Gemini, but Perplexity isn’t available yet. I’ll need to implement a universal adapter pattern, possibly by creating a file called `enterpriseGateway.ts` to manage provider routing. This would include normalization, standardization, rate limiting, tenant quotas, an SSO framework stub, and a unified REST endpoint I. also need a server infrastructure, so I should check if there's an Express server available somewhere.
+[2025-09-09T07:47:13] exec bash -lc "rg -n \"express|fastify|koa|/api/|orchestrate\" src | sed -n '1,200p'" in /Users/panda/Desktop/EUFM
+[2025-09-09T07:47:13] bash -lc "rg -n \"express|fastify|koa|/api/|orchestrate\" src | sed -n '1,200p'" succeeded in 215ms:
+src/dashboard/dashboardServer.ts:1:import express from 'express';
+src/dashboard/dashboardServer.ts:14:  private app = express();
+src/dashboard/dashboardServer.ts:28:    this.app.use(express.static(webDir));
+src/dashboard/dashboardServer.ts:29:    this.app.use(express.json());
+src/dashboard/dashboardServer.ts:32:    this.app.get('/api/status', async (req, res) => {
+src/dashboard/dashboardServer.ts:41:    this.app.post('/api/execute', async (req, res) => {
+src/dashboard/dashboardServer.ts:51:    this.app.post('/api/scan-funding', async (req, res) => {
+src/dashboard/dashboardServer.ts:60:    this.app.get('/api/health', (req, res) => {
+src/dashboard/dashboardServer.ts:69:    this.app.get('/api/notion/links', async (req, res) => {
+src/dashboard/dashboardServer.ts:81:    this.app.post('/api/notion/sync', async (req, res) => {
+src/dashboard/dashboardServer.ts:100:    this.app.post('/api/assistant', async (req, res) => {
+src/dashboard/dashboardServer.ts:120:    this.app.get('/api/tools', async (req, res) => {
+src/dashboard/dashboardServer.ts:129:    this.app.get('/api/subscriptions', async (req, res) => {
+src/dashboard/dashboardServer.ts:138:    this.app.get('/api/opportunities', async (req, res) => {
+src/dashboard/dashboardServer.ts:147:    this.app.get('/api/alerts', async (req, res) => {
+src/dashboard/dashboardServer.ts:156:    this.app.get('/api/search', async (req, res) => {
+src/dashboard/dashboardServer.ts:166:    this.app.get('/api/export/status.json', async (req, res) => {
+src/dashboard/dashboardServer.ts:178:    this.app.get('/api/recent/research', async (_req, res) => {
+src/dashboard/dashboardServer.ts:192:    this.app.get('/api/recent/codex', async (_req, res) => {
+src/dashboard/dashboardServer.ts:203:    this.app.get('/api/export/opportunities.csv', async (req, res) => {
+[2025-09-09T07:47:13] tokens used: 2110
+[2025-09-09T07:47:16] exec bash -lc "sed -n '1,240p' src/dashboard/dashboardServer.ts" in /Users/panda/Desktop/EUFM
+[2025-09-09T07:47:16] bash -lc "sed -n '1,240p' src/dashboard/dashboardServer.ts" succeeded in 103ms:
+import express from 'express';
+import { createServer } from 'http';
+import { WebSocketServer } from 'ws';
+import path from 'path';
+import { fileURLToPath } from 'url';
+import { MissionControl } from './missionControl.js';
+import { NotionSyncService } from '../integrations/notionSyncService.js';
+import { geminiComplete } from '../adapters/google_gemini.js';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+export class DashboardServer {
+  private app = express();
+  private server = createServer(this.app);
+  private wss = new WebSocketServer({ server: this.server });
+  private missionControl = new MissionControl();
+  private port = process.env.DASHBOARD_PORT || 3000;
+
+  constructor() {
+[2025-09-09T07:47:16] tokens used: 971
+[2025-09-09T07:47:18] exec bash -lc "sed -n '240,520p' src/dashboard/dashboardServer.ts" in /Users/panda/Desktop/EUFM
+[2025-09-09T07:47:18] bash -lc "sed -n '240,520p' src/dashboard/dashboardServer.ts" succeeded in 65ms:
+      this.sendStatusUpdate(ws);
+      
+      // Handle client messages
+      ws.on('message', async (message) => {
+        try {
+          const data = JSON.parse(message.toString());
+          await this.handleWebSocketMessage(ws, data);
+        } catch (error) {
+          ws.send(JSON.stringify({ error: 'Invalid message format' }));
+        }
+      });
+
+      ws.on('close', () => {
+        console.log('Dashboard client disconnected');
+      });
+    });
+
+    // Relay mission control events to all clients
+    this.missionControl.events.on('alert', (evt) => {
+      const payload = JSON.stringify({ type: 'activity', message: `[${evt.level.toUpperCase()}] ${evt.message}` });
+[2025-09-09T07:47:18] tokens used: 2621
+
+[2025-09-09T07:47:22] thinking
+
+**Considering server integration to think about the express server for the dashboard**
+
+I need. I can either integrate the orchestrate endpoint into this server or create a new enterprise gateway file and possibly a new server. The task involves making `/src/orchestrator/enterpriseGateway.ts`, which will act as a multi-tenant API gateway with unified endpoint `/api/v1/orchestrate`. It might be easier to keep everything in the same express app to avoid spinning up a new server. Opening tsconfig.json for strict mode should be my next step.
+[2025-09-09T07:47:24] exec bash -lc 'cat tsconfig.json' in /Users/panda/Desktop/EUFM
+[2025-09-09T07:47:24] bash -lc 'cat tsconfig.json' succeeded in 68ms:
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "outDir": "dist",
+    "rootDir": "src",
+    "strict": true,
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "skipLibCheck": true
+  },
+  "include": ["src/**/*"]
+}
+[2025-09-09T07:47:24] tokens used: 1449
+
+[2025-09-09T07:47:33] thinking
+
+**Implementing API key auth**
+
+I'm planning to set up a simple API key-based authentication system, pulling configurations from an environment or a config file in the memory folder. I’ll create a file in `src/orchestrator/enterpriseGateway.ts` that exports a class with a method for registering endpoints and middleware, which can be imported into `dashboardServer.ts`.
+
+For the SSO, integration I’ll provide stubs in `src/integrations/sso/` with interfaces and placeholder classes, keeping things structured without fully implementing the protocols just yet. I'll ensure to add some minimal comments in the code, following the guidelines!
+**Structuring code for clarity**
+
+I’m focusing on structuring the code to enhance clarity while following the BaseAgent pattern in the AgentFactory. I might create an `EnterpriseGatewayAgent` to manage orchestration requests. Although the gateway itself isn't an agent, they want me to adhere to the BaseAgent pattern. I’ll also develop `enterpriseOrchestratorAgent.ts` to encapsulate the orchestration logic, which will then be registered in the AgentFactory.
+
+Additionally, I’ll set up a REST endpoint at `/api/v1/orchestrate` in the dashboard server, manage tenant quotas rate limits, and implement and-memory store for tracking this an in info. I'll also log activities in the logs directory!
+**Implementing the Perplexity adapter**
+
+I need to create a Perplexity adapter using their API from `https://api.perplexity.ai/chat/completions` with the required `PERPLEXITY_API_KEY`. I’ll keep the implementation minimal while ensuring normalization and standardization.
+
+The structure will include `src/orchestrator/enterpriseGateway.ts`, where I define types like `NormalizedRequest` and `StandardResponse`. I’ll create theEnterprise `Gateway` class with various methods for normalization, dispatching, and middleware. 
+
+For universal adapter consistency, I might set up a folder for provider adapters like `perplexityAdapter.ts`. For SSO, I’ll build minimal stub functions in `src/integrations/sso`. I’ll ensure that authorization handling is clear, especially when dealing with OIDC tokens.
+**Setting up API key mapping and quotas**
+
+I’m planning to implement a simple API key mapping by reading the environment variable `EUFM_TENANT_KEYS` as JSON. 
+
+For rate limiting and quotas, I think I’ll create `src/orchestrator/tenantManager.ts`, which could be where I add `tenantQuotaManager.ts` to manage in-memory maps keyed by `tenantId`.
+
+I also need to set up the endpoint in `dashboardServer.ts`, ensuring to add the POST request for `/api/v1/orchestrate`. As for testing, I’ll aim to implement basic tests in the tests folder, but I need to keep an eye on time constraints and ensure everything compiles correctly, checking the build system in `package.json`.
+[2025-09-09T07:47:47] codex
+**Structuring code for clarity**
+
+I’m focusing on structuring the code to enhance clarity while following the BaseAgent pattern in the AgentFactory. I might create an `EnterpriseGatewayAgent` to manage orchestration requests. Although the gateway itself isn't an agent, they want me to adhere to the BaseAgent pattern. I’ll also develop `enterpriseOrchestratorAgent.ts` to encapsulate the orchestration logic, which will then be registered in the AgentFactory.
+
+Additionally, I’ll set up a REST endpoint at `/api/v1/orchestrate` in the dashboard server, manage tenant quotas and rate limits, and implement an in-memory store for tracking this info. I'll also log activities in the logs directory!
+[2025-09-09T07:47:47] codex
+**Implementing the Perplexity adapter**
+
+I need to create a Perplexity adapter using their API from `https://api.perplexity.ai/chat/completions` with the required `PERPLEXITY_API_KEY`. I’ll keep the implementation minimal while ensuring normalization and standardization.
+
+The structure will include `src/orchestrator/enterpriseGateway.ts`, where I define types like `NormalizedRequest` and `StandardResponse`. I’ll create the `EnterpriseGateway` class with various methods for normalization, dispatching, and middleware. 
+
+For universal adapter consistency, I might set up a folder for provider adapters like `perplexityAdapter.ts`. For SSO, I’ll build minimal stub functions in `src/integrations/sso`. I’ll ensure that authorization handling is clear, especially when dealing with OIDC tokens.
+[2025-09-09T07:47:47] codex
+**Setting up API key mapping and quotas**
+
+I’m planning to implement a simple API key mapping by reading the environment variable `EUFM_TENANT_KEYS` as JSON. 
+
+For rate limiting and quotas, I think I’ll create `src/orchestrator/tenantManager.ts`, which could be where I add `tenantQuotaManager.ts` to manage in-memory maps keyed by `tenantId`.
+
+I also need to set up the endpoint in `dashboardServer.ts`, ensuring to add the POST request for `/api/v1/orchestrate`. As for testing, I’ll aim to implement basic tests in the tests folder, but I need to keep an eye on time constraints and ensure everything compiles correctly, checking the build system in `package.json`.
+[2025-09-09T07:47:48] exec bash -lc 'cat package.json' in /Users/panda/Desktop/EUFM
+[2025-09-09T07:47:48] bash -lc 'cat package.json' succeeded in 58ms:
+{
+  "name": "eufm",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "tsc -p .",
+    "start": "node dist/cli/index.js",
+    "dev": "tsx src/cli/index.ts",
+    "lint": "eslint .",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test:integration": "tsx src/tests/eufm_integration_test.ts 'Integration check'",
+    "test:country-codes": "tsx src/tests/countryCodes_test.ts",
+    "dev:oradea": "tsx src/tools/oradea_business_cli.ts",
+    "dev:dashboard": "tsx src/dashboard/dashboardServer.ts"
+  },
+  "dependencies": {
+    "@notionhq/client": "^5.0.0",
+    "@types/express": "^5.0.3",
+    "@types/ws": "^8.18.1",
+[2025-09-09T07:47:48] tokens used: 1276
+[2025-09-09T07:47:54] codex
+
+Next, I’ll scaffold the gateway, adapters, tenant quota manager, SSO stubs, register a new agent, and mount the /api/v1/orchestrate endpoint. Then I’ll run a TypeScript build to validate.
+[2025-09-09T07:47:58] apply_patch auto_approved=true:
+A /Users/panda/Desktop/EUFM/src/orchestrator/providers/types.ts
+export type ProviderId = 'openai' | 'anthropic' | 'google' | 'perplexity';
+
+export interface NormalizedRequest {
+  tenantId: string;
+  provider: ProviderId;
+  model: string;
+  input: {
+    prompt?: string;
+    messages?: { role: 'system' | 'user' | 'assistant' | 'tool'; content: string }[];
+    json?: boolean;
+  };
+  params?: {
+    temperature?: number;
+    maxOutputTokens?: number;
+    top_p?: number;
+  };
+  metadata?: Record<string, any>;
+}
+
+export interface StandardizedResponse {
+  id: string;
+  provider: ProviderId;
+  model: string;
+  created: string;
+  output: {
+    text: string;
+    citations?: any[];
+    tool_calls?: any[];
+  };
+  usage?: {
+    input_tokens?: number;
+    output_tokens?: number;
+    total_tokens?: number;
+    cost_usd?: number;
+  };
+  latency_ms?: number;
+  tenantId: string;
+  warnings?: string[];
+}
+
+export interface LLMAdapter {
+  id: ProviderId;
+  complete(req: NormalizedRequest): Promise<StandardizedResponse>;
+}
+
+[2025-09-09T07:47:58] apply_patch(auto_approved=true) exited 0 in 174ms:
+Success. Updated the following files:
+A src/orchestrator/providers/types.ts
+[2025-09-09T07:47:58] turn diff:
+diff --git a/src/orchestrator/providers/types.ts b/src/orchestrator/providers/types.ts
+new file mode 100644
+index 0000000000000000000000000000000000000000..512862a6134e38720fe42cb521d3bbd716e6a507
+--- /dev/null
++++ b/src/orchestrator/providers/types.ts
+@@ -0,0 +1,45 @@
++export type ProviderId = 'openai' | 'anthropic' | 'google' | 'perplexity';
++
++export interface NormalizedRequest {
++  tenantId: string;
++  provider: ProviderId;
++  model: string;
++  input: {
++    prompt?: string;
++    messages?: { role: 'system' | 'user' | 'assistant' | 'tool'; content: string }[];
++    json?: boolean;
++  };
++  params?: {
++    temperature?: number;
++    maxOutputTokens?: number;
++    top_p?: number;
++  };
++  metadata?: Record<string, any>;
++}
++
++export interface StandardizedResponse {
++  id: string;
++  provider: ProviderId;
++  model: string;
++  created: string;
++  output: {
++    text: string;
++    citations?: any[];
++    tool_calls?: any[];
++  };
++  usage?: {
++    input_tokens?: number;
++    output_tokens?: number;
++    total_tokens?: number;
++    cost_usd?: number;
++  };
++  latency_ms?: number;
++  tenantId: string;
++  warnings?: string[];
++}
++
++export interface LLMAdapter {
++  id: ProviderId;
++  complete(req: NormalizedRequest): Promise<StandardizedResponse>;
++}
++
+
+[2025-09-09T07:47:58] tokens used: 1246
+[2025-09-09T07:47:58] turn diff:
+diff --git a/src/orchestrator/providers/types.ts b/src/orchestrator/providers/types.ts
+new file mode 100644
+index 0000000000000000000000000000000000000000..512862a6134e38720fe42cb521d3bbd716e6a507
+--- /dev/null
++++ b/src/orchestrator/providers/types.ts
+@@ -0,0 +1,45 @@
++export type ProviderId = 'openai' | 'anthropic' | 'google' | 'perplexity';
++
++export interface NormalizedRequest {
++  tenantId: string;
++  provider: ProviderId;
++  model: string;
++  input: {
++    prompt?: string;
++    messages?: { role: 'system' | 'user' | 'assistant' | 'tool'; content: string }[];
++    json?: boolean;
++  };
++  params?: {
++    temperature?: number;
++    maxOutputTokens?: number;
++    top_p?: number;
++  };
++  metadata?: Record<string, any>;
++}
++
++export interface StandardizedResponse {
++  id: string;
++  provider: ProviderId;
++  model: string;
++  created: string;
++  output: {
++    text: string;
++    citations?: any[];
++    tool_calls?: any[];
++  };
++  usage?: {
++    input_tokens?: number;
++    output_tokens?: number;
++    total_tokens?: number;
++    cost_usd?: number;
++  };
++  latency_ms?: number;
++  tenantId: string;
++  warnings?: string[];
++}
++
++export interface LLMAdapter {
++  id: ProviderId;
++  complete(req: NormalizedRequest): Promise<StandardizedResponse>;
++}
++
+
+[2025-09-09T07:48:06] apply_patch auto_approved=true:
+A /Users/panda/Desktop/EUFM/src/orchestrator/providers/openaiAdapter.ts
+import { LLMAdapter, NormalizedRequest, StandardizedResponse } from './types.js';
+import { openaiComplete } from '../../adapters/openai.js';
+
+export class OpenAIAdapter implements LLMAdapter {
+  id = 'openai' as const;
+
+  async complete(req: NormalizedRequest): Promise<StandardizedResponse> {
+    const start = Date.now();
+    const prompt = buildPrompt(req);
+    const text = await openaiComplete(prompt, {
+      model: req.model,
+      temperature: req?.params?.temperature,
+      maxOutputTokens: req?.params?.maxOutputTokens,
+      json: !!req.input.json,
+    });
+    const latency_ms = Date.now() - start;
+    return {
+      id: `openai_${Date.now()}`,
+      provider: 'openai',
+      model: req.model,
+      created: new Date().toISOString(),
+      output: { text },
+      latency_ms,
+      tenantId: req.tenantId,
+    };
+  }
+}
+
+function buildPrompt(req: NormalizedRequest): string {
+  if (req.input.messages?.length) {
+    return req.input.messages
+      .map((m) => `${m.role.toUpperCase()}: ${m.content}`)
+      .join('\n');
+  }
+  return String(req.input.prompt || '');
+}
+
+[2025-09-09T07:48:07] apply_patch(auto_approved=true) exited 0 in 591ms:
+Success. Updated the following files:
+A src/orchestrator/providers/openaiAdapter.ts
+[2025-09-09T07:48:07] turn diff:
+diff --git a/src/orchestrator/providers/openaiAdapter.ts b/src/orchestrator/providers/openaiAdapter.ts
+new file mode 100644
+index 0000000000000000000000000000000000000000..786d32cb1d8660a5aaa23f4d8ddce4f7ddf6981f
+--- /dev/null
++++ b/src/orchestrator/providers/openaiAdapter.ts
+@@ -0,0 +1,37 @@
++import { LLMAdapter, NormalizedRequest, StandardizedResponse } from './types.js';
++import { openaiComplete } from '../../adapters/openai.js';
++
++export class OpenAIAdapter implements LLMAdapter {
++  id = 'openai' as const;
++
++  async complete(req: NormalizedRequest): Promise<StandardizedResponse> {
++    const start = Date.now();
++    const prompt = buildPrompt(req);
++    const text = await openaiComplete(prompt, {
++      model: req.model,
++      temperature: req?.params?.temperature,
++      maxOutputTokens: req?.params?.maxOutputTokens,
++      json: !!req.input.json,
++    });
++    const latency_ms = Date.now() - start;
++    return {
++      id: `openai_${Date.now()}`,
++      provider: 'openai',
++      model: req.model,
++      created: new Date().toISOString(),
++      output: { text },
++      latency_ms,
++      tenantId: req.tenantId,
++    };
++  }
++}
++
++function buildPrompt(req: NormalizedRequest): string {
++  if (req.input.messages?.length) {
++    return req.input.messages
++      .map((m) => `${m.role.toUpperCase()}: ${m.content}`)
++      .join('\n');
++  }
++  return String(req.input.prompt || '');
++}
++
+diff --git a/src/orchestrator/providers/types.ts b/src/orchestrator/providers/types.ts
+new file mode 100644
+index 0000000000000000000000000000000000000000..512862a6134e38720fe42cb521d3bbd716e6a507
+--- /dev/null
++++ b/src/orchestrator/providers/types.ts
+@@ -0,0 +1,45 @@
++export type ProviderId = 'openai' | 'anthropic' | 'google' | 'perplexity';
++
++export interface NormalizedRequest {
++  tenantId: string;
++  provider: ProviderId;
++  model: string;
++  input: {
++    prompt?: string;
++    messages?: { role: 'system' | 'user' | 'assistant' | 'tool'; content: string }[];
++    json?: boolean;
++  };
++  params?: {
++    temperature?: number;
++    maxOutputTokens?: number;
++    top_p?: number;
++  };
++  metadata?: Record<string, any>;
++}
++
++export interface StandardizedResponse {
++  id: string;
++  provider: ProviderId;
++  model: string;
++  created: string;
++  output: {
++    text: string;
++    citations?: any[];
++    tool_calls?: any[];
++  };
++  usage?: {
++    input_tokens?: number;
++    output_tokens?: number;
++    total_tokens?: number;
++    cost_usd?: number;
++  };
++  latency_ms?: number;
++  tenantId: string;
++  warnings?: string[];
++}
++
++export interface LLMAdapter {
++  id: ProviderId;
++  complete(req: NormalizedRequest): Promise<StandardizedResponse>;
++}
++
+
+[2025-09-09T07:48:07] tokens used: 917
+[2025-09-09T07:48:07] turn diff:
+diff --git a/src/orchestrator/providers/openaiAdapter.ts b/src/orchestrator/providers/openaiAdapter.ts
+new file mode 100644
+index 0000000000000000000000000000000000000000..786d32cb1d8660a5aaa23f4d8ddce4f7ddf6981f
+--- /dev/null
++++ b/src/orchestrator/providers/openaiAdapter.ts
+@@ -0,0 +1,37 @@
++import { LLMAdapter, NormalizedRequest, StandardizedResponse } from './types.js';
++import { openaiComplete } from '../../adapters/openai.js';
++
++export class OpenAIAdapter implements LLMAdapter {
++  id = 'openai' as const;
++
++  async complete(req: NormalizedRequest): Promise<StandardizedResponse> {
++    const start = Date.now();
++    const prompt = buildPrompt(req);
++    const text = await openaiComplete(prompt, {
++      model: req.model,
++      temperature: req?.params?.temperature,
++      maxOutputTokens: req?.params?.maxOutputTokens,
++      json: !!req.input.json,
++    });
++    const latency_ms = Date.now() - start;
++    return {
++      id: `openai_${Date.now()}`,
++      provider: 'openai',
++      model: req.model,
++      created: new Date().toISOString(),
++      output: { text },
++      latency_ms,
++      tenantId: req.tenantId,
++    };
++  }
++}
++
++function buildPrompt(req: NormalizedRequest): string {
++  if (req.input.messages?.length) {
++    return req.input.messages
++      .map((m) => `${m.role.toUpperCase()}: ${m.content}`)
++      .join('\n');
++  }
++  return String(req.input.prompt || '');
++}
++
+diff --git a/src/orchestrator/providers/types.ts b/src/orchestrator/providers/types.ts
+new file mode 100644
+index 0000000000000000000000000000000000000000..512862a6134e38720fe42cb521d3bbd716e6a507
+--- /dev/null
++++ b/src/orchestrator/providers/types.ts
+@@ -0,0 +1,45 @@
++export type ProviderId = 'openai' | 'anthropic' | 'google' | 'perplexity';
++
++export interface NormalizedRequest {
++  tenantId: string;
++  provider: ProviderId;
++  model: string;
++  input: {
++    prompt?: string;
++    messages?: { role: 'system' | 'user' | 'assistant' | 'tool'; content: string }[];
++    json?: boolean;
++  };
++  params?: {
++    temperature?: number;
++    maxOutputTokens?: number;
++    top_p?: number;
++  };
++  metadata?: Record<string, any>;
++}
++
++export interface StandardizedResponse {
++  id: string;
++  provider: ProviderId;
++  model: string;
++  created: string;
++  output: {
++    text: string;
++    citations?: any[];
++    tool_calls?: any[];
++  };
++  usage?: {
++    input_tokens?: number;
++    output_tokens?: number;
++    total_tokens?: number;
++    cost_usd?: number;
++  };
++  latency_ms?: number;
++  tenantId: string;
++  warnings?: string[];
++}
++
++export interface LLMAdapter {
++  id: ProviderId;
++  complete(req: NormalizedRequest): Promise<StandardizedResponse>;
++}
++
+
+[2025-09-09T07:48:11] apply_patch auto_approved=true:
+A /Users/panda/Desktop/EUFM/src/orchestrator/providers/anthropicAdapter.ts
+import { LLMAdapter, NormalizedRequest, StandardizedResponse } from './types.js';
+import { anthropicComplete } from '../../adapters/anthropic.js';
+
+export class AnthropicAdapter implements LLMAdapter {
+  id = 'anthropic' as const;
+
+  async complete(req: NormalizedRequest): Promise<StandardizedResponse> {
+    const start = Date.now();
+    const prompt = buildPrompt(req);
+    const text = await anthropicComplete(prompt, req.model || 'claude-3-5-sonnet-latest');
+    const latency_ms = Date.now() - start;
+    return {
+      id: `anthropic_${Date.now()}`,
+      provider: 'anthropic',
+      model: req.model,
+      created: new Date().toISOString(),
+      output: { text },
+      latency_ms,
+      tenantId: req.tenantId,
+    };
+  }
+}
+
+function buildPrompt(req: NormalizedRequest): string {
+  if (req.input.messages?.length) {
+    return req.input.messages
+      .map((m) => `${m.role.toUpperCase()}: ${m.content}`)
+      .join('\n');
+  }
+  return String(req.input.prompt || '');
+}
+
+[2025-09-09T07:48:12] apply_patch(auto_approved=true) exited 0 in 492ms:
+Success. Updated the following files:
+A src/orchestrator/providers/anthropicAdapter.ts
+[2025-09-09T07:48:12] turn diff:
+diff --git a/src/orchestrator/providers/anthropicAdapter.ts b/src/orchestrator/providers/anthropicAdapter.ts
+new file mode 100644
+index 0000000000000000000000000000000000000000..2b997d79e3be00b1c7edc060cbf1c4345e75fdd8
+--- /dev/null
++++ b/src/orchestrator/providers/anthropicAdapter.ts
+@@ -0,0 +1,32 @@
++import { LLMAdapter, NormalizedRequest, StandardizedResponse } from './types.js';
++import { anthropicComplete } from '../../adapters/anthropic.js';
++
++export class AnthropicAdapter implements LLMAdapter {
++  id = 'anthropic' as const;
++
++  async complete(req: NormalizedRequest): Promise<StandardizedResponse> {
++    const start = Date.now();
++    const prompt = buildPrompt(req);
++    const text = await anthropicComplete(prompt, req.model || 'claude-3-5-sonnet-latest');
++    const latency_ms = Date.now() - start;
++    return {
++      id: `anthropic_${Date.now()}`,
++      provider: 'anthropic',
++      model: req.model,
++      created: new Date().toISOString(),
++      output: { text },
++      latency_ms,
++      tenantId: req.tenantId,
++    };
++  }
++}
++
++function buildPrompt(req: NormalizedRequest): string {
++  if (req.input.messages?.length) {
++    return req.input.messages
++      .map((m) => `${m.role.toUpperCase()}: ${m.content}`)
++      .join('\n');
++  }
++  return String(req.input.prompt || '');
++}
++
+diff --git a/src/orchestrator/providers/openaiAdapter.ts b/src/orchestrator/providers/openaiAdapter.ts
+new file mode 100644
+index 0000000000000000000000000000000000000000..786d32cb1d8660a5aaa23f4d8ddce4f7ddf6981f
+--- /dev/null
++++ b/src/orchestrator/providers/openaiAdapter.ts
+@@ -0,0 +1,37 @@
++import { LLMAdapter, NormalizedRequest, StandardizedResponse } from './types.js';
++import { openaiComplete } from '../../adapters/openai.js';
++
++export class OpenAIAdapter implements LLMAdapter {
++  id = 'openai' as const;
++
++  async complete(req: NormalizedRequest): Promise<StandardizedResponse> {
++    const start = Date.now();
++    const prompt = buildPrompt(req);
++    const text = await openaiComplete(prompt, {
++      model: req.model,
++      temperature: req?.params?.temperature,
++      maxOutputTokens: req?.params?.maxOutputTokens,
++      json: !!req.input.json,
++    });
++    const latency_ms = Date.now() - start;
++    return {
++      id: `openai_${Date.now()}`,
++      provider: 'openai',
++      model: req.model,
++      created: new Date().toISOString(),
++      output: { text },
++      latency_ms,
++      tenantId: req.tenantId,
++    };
++  }
++}
++
++function buildPrompt(req: NormalizedRequest): string {
++  if (req.input.messages?.length) {
++    return req.input.messages
++      .map((m) => `${m.role.toUpperCase()}: ${m.content}`)
++      .join('\n');
++  }
++  return String(req.input.prompt || '');
++}
++
+diff --git a/src/orchestrator/providers/types.ts b/src/orchestrator/providers/types.ts
+new file mode 100644
+index 0000000000000000000000000000000000000000..512862a6134e38720fe42cb521d3bbd716e6a507
+--- /dev/null
++++ b/src/orchestrator/providers/types.ts
+@@ -0,0 +1,45 @@
++export type ProviderId = 'openai' | 'anthropic' | 'google' | 'perplexity';
++
++export interface NormalizedRequest {
++  tenantId: string;
++  provider: ProviderId;
++  model: string;
++  input: {
++    prompt?: string;
++    messages?: { role: 'system' | 'user' | 'assistant' | 'tool'; content: string }[];
++    json?: boolean;
++  };
++  params?: {
++    temperature?: number;
++    maxOutputTokens?: number;
++    top_p?: number;
++  };
++  metadata?: Record<string, any>;
++}
++
++export interface StandardizedResponse {
++  id: string;
++  provider: ProviderId;
++  model: string;
++  created: string;
++  output: {
++    text: string;
++    citations?: any[];
++    tool_calls?: any[];
++  };
++  usage?: {
++    input_tokens?: number;
++    output_tokens?: number;
++    total_tokens?: number;
++    cost_usd?: number;
++  };
++  latency_ms?: number;
++  tenantId: string;
++  warnings?: string[];
++}
++
++export interface LLMAdapter {
++  id: ProviderId;
++  complete(req: NormalizedRequest): Promise<StandardizedResponse>;
++}
++
+
+[2025-09-09T07:48:12] tokens used: 811
+[2025-09-09T07:48:12] turn diff:
+diff --git a/src/orchestrator/providers/anthropicAdapter.ts b/src/orchestrator/providers/anthropicAdapter.ts
+new file mode 100644
+index 0000000000000000000000000000000000000000..2b997d79e3be00b1c7edc060cbf1c4345e75fdd8
+--- /dev/null
++++ b/src/orchestrator/providers/anthropicAdapter.ts
+@@ -0,0 +1,32 @@
++import { LLMAdapter, NormalizedRequest, StandardizedResponse } from './types.js';
++import { anthropicComplete } from '../../adapters/anthropic.js';
++
++export class AnthropicAdapter implements LLMAdapter {
++  id = 'anthropic' as const;
++
++  async complete(req: NormalizedRequest): Promise<StandardizedResponse> {
++    const start = Date.now();
++    const prompt = buildPrompt(req);
++    const text = await anthropicComplete(prompt, req.model || 'claude-3-5-sonnet-latest');
++    const latency_ms = Date.now() - start;
++    return {
++      id: `anthropic_${Date.now()}`,
++      provider: 'anthropic',
++      model: req.model,
++      created: new Date().toISOString(),
++      output: { text },
++      latency_ms,
++      tenantId: req.tenantId,
++    };
++  }
++}
++
++function buildPrompt(req: NormalizedRequest): string {
++  if (req.input.messages?.length) {
++    return req.input.messages
++      .map((m) => `${m.role.toUpperCase()}: ${m.content}`)
++      .join('\n');
++  }
++  return String(req.input.prompt || '');
++}
++
+diff --git a/src/orchestrator/providers/openaiAdapter.ts b/src/orchestrator/providers/openaiAdapter.ts
+new file mode 100644
+index 0000000000000000000000000000000000000000..786d32cb1d8660a5aaa23f4d8ddce4f7ddf6981f
+--- /dev/null
++++ b/src/orchestrator/providers/openaiAdapter.ts
+@@ -0,0 +1,37 @@
++import { LLMAdapter, NormalizedRequest, StandardizedResponse } from './types.js';
++import { openaiComplete } from '../../adapters/openai.js';
++
++export class OpenAIAdapter implements LLMAdapter {
++  id = 'openai' as const;
++
++  async complete(req: NormalizedRequest): Promise<StandardizedResponse> {
++    const start = Date.now();
++    const prompt = buildPrompt(req);
++    const text = await openaiComplete(prompt, {
++      model: req.model,
++      temperature: req?.params?.temperature,
++      maxOutputTokens: req?.params?.maxOutputTokens,
++      json: !!req.input.json,
++    });
++    const latency_ms = Date.now() - start;
++    return {
++      id: `openai_${Date.now()}`,
++      provider: 'openai',
++      model: req.model,
++      created: new Date().toISOString(),
++      output: { text },
++      latency_ms,
++      tenantId: req.tenantId,
++    };
++  }
++}
++
++function buildPrompt(req: NormalizedRequest): string {
++  if (req.input.messages?.length) {
++    return req.input.messages
++      .map((m) => `${m.role.toUpperCase()}: ${m.content}`)
++      .join('\n');
++  }
++  return String(req.input.prompt || '');
++}
++
+diff --git a/src/orchestrator/providers/types.ts b/src/orchestrator/providers/types.ts
+new file mode 100644
+index 0000000000000000000000000000000000000000..512862a6134e38720fe42cb521d3bbd716e6a507
+--- /dev/null
++++ b/src/orchestrator/providers/types.ts
+@@ -0,0 +1,45 @@
++export type ProviderId = 'openai' | 'anthropic' | 'google' | 'perplexity';
++
++export interface NormalizedRequest {
++  tenantId: string;
++  provider: ProviderId;
++  model: string;
++  input: {
++    prompt?: string;
++    messages?: { role: 'system' | 'user' | 'assistant' | 'tool'; content: string }[];
++    json?: boolean;
++  };
++  params?: {
++    temperature?: number;
++    maxOutputTokens?: number;
++    top_p?: number;
++  };
++  metadata?: Record<string, any>;
++}
++
++export interface StandardizedResponse {
++  id: string;
++  provider: ProviderId;
++  model: string;
++  created: string;
++  output: {
++    text: string;
++    citations?: any[];
++    tool_calls?: any[];
++  };
++  usage?: {
++    input_tokens?: number;
++    output_tokens?: number;
++    total_tokens?: number;
++    cost_usd?: number;
++  };
++  latency_ms?: number;
++  tenantId: string;
++  warnings?: string[];
++}
++
++export interface LLMAdapter {
++  id: ProviderId;
++  complete(req: NormalizedRequest): Promise<StandardizedResponse>;
++}
++
+
+[2025-09-09T07:48:16] apply_patch auto_approved=true:
+A /Users/panda/Desktop/EUFM/src/orchestrator/providers/googleAdapter.ts
+import { LLMAdapter, NormalizedRequest, StandardizedResponse } from './types.js';
+import { geminiComplete } from '../../adapters/google_gemini.js';
+
+export class GoogleAdapter implements LLMAdapter {
+  id = 'google' as const;
+
+  async complete(req: NormalizedRequest): Promise<StandardizedResponse> {
+    const start = Date.now();
+    const prompt = buildPrompt(req);
+    const text = await geminiComplete(prompt, req.model || 'gemini-2.5-flash');
+    const latency_ms = Date.now() - start;
+    return {
+      id: `google_${Date.now()}`,
+      provider: 'google',
+      model: req.model,
+      created: new Date().toISOString(),
+      output: { text },
+      latency_ms,
+      tenantId: req.tenantId,
+    };
+  }
+}
+
+function buildPrompt(req: NormalizedRequest): string {
+  if (req.input.messages?.length) {
+    return req.input.messages
+      .map((m) => `${m.role.toUpperCase()}: ${m.content}`)
+      .join('\n');
+  }
+  return String(req.input.prompt || '');
+}
+
+[2025-09-09T07:48:17] apply_patch(auto_approved=true) exited 0 in 810ms:
+Success. Updated the following files:
+A src/orchestrator/providers/googleAdapter.ts
+[2025-09-09T07:48:17] turn diff:
+diff --git a/src/orchestrator/providers/anthropicAdapter.ts b/src/orchestrator/providers/anthropicAdapter.ts
+new file mode 100644
+index 0000000000000000000000000000000000000000..2b997d79e3be00b1c7edc060cbf1c4345e75fdd8
+--- /dev/null
++++ b/src/orchestrator/providers/anthropicAdapter.ts
+@@ -0,0 +1,32 @@
++import { LLMAdapter, NormalizedRequest, StandardizedResponse } from './types.js';
++import { anthropicComplete } from '../../adapters/anthropic.js';
++
++export class AnthropicAdapter implements LLMAdapter {
++  id = 'anthropic' as const;
++
++  async complete(req: NormalizedRequest): Promise<StandardizedResponse> {
++    const start = Date.now();
++    const prompt = buildPrompt(req);
++    const text = await anthropicComplete(prompt, req.model || 'claude-3-5-sonnet-latest');
++    const latency_ms = Date.now() - start;
++    return {
++      id: `anthropic_${Date.now()}`,
++      provider: 'anthropic',
++      model: req.model,
++      created: new Date().toISOString(),
++      output: { text },
++      latency_ms,
++      tenantId: req.tenantId,
++    };
++  }
++}
++
++function buildPrompt(req: NormalizedRequest): string {
++  if (req.input.messages?.length) {
++    return req.input.messages
++      .map((m) => `${m.role.toUpperCase()}: ${m.content}`)
++      .join('\n');
++  }
++  return String(req.input.prompt || '');
++}
++
+diff --git a/src/orchestrator/providers/googleAdapter.ts b/src/orchestrator/providers/googleAdapter.ts
+new file mode 100644
+index 0000000000000000000000000000000000000000..d119cf05f6ec38e6b50229e62bfde784173b6892
+--- /dev/null
++++ b/src/orchestrator/providers/googleAdapter.ts
+@@ -0,0 +1,32 @@
++import { LLMAdapter, NormalizedRequest, StandardizedResponse } from './types.js';
++import { geminiComplete } from '../../adapters/google_gemini.js';
++
++export class GoogleAdapter implements LLMAdapter {
++  id = 'google' as const;
++
++  async complete(req: NormalizedRequest): Promise<StandardizedResponse> {
++    const start = Date.now();
++    const prompt = buildPrompt(req);
++    const text = await geminiComplete(prompt, req.model || 'gemini-2.5-flash');
++    const latency_ms = Date.now() - start;
++    return {
++      id: `google_${Date.now()}`,
++      provider: 'google',
++      model: req.model,
++      created: new Date().toISOString(),
++      output: { text },
++      latency_ms,
++      tenantId: req.tenantId,
++    };
++  }
++}
++
++function buildPrompt(req: NormalizedRequest): string {
++  if (req.input.messages?.length) {
++    return req.input.messages
++      .map((m) => `${m.role.toUpperCase()}: ${m.content}`)
++      .join('\n');
++  }
++  return String(req.input.prompt || '');
++}
++
+diff --git a/src/orchestrator/providers/openaiAdapter.ts b/src/orchestrator/providers/openaiAdapter.ts
+new file mode 100644
+index 0000000000000000000000000000000000000000..786d32cb1d8660a5aaa23f4d8ddce4f7ddf6981f
+--- /dev/null
++++ b/src/orchestrator/providers/openaiAdapter.ts
+@@ -0,0 +1,37 @@
++import { LLMAdapter, NormalizedRequest, StandardizedResponse } from './types.js';
++import { openaiComplete } from '../../adapters/openai.js';
++
++export class OpenAIAdapter implements LLMAdapter {
++  id = 'openai' as const;
++
++  async complete(req: NormalizedRequest): Promise<StandardizedResponse> {
++    const start = Date.now();
++    const prompt = buildPrompt(req);
++    const text = await openaiComplete(prompt, {
++      model: req.model,
++      temperature: req?.params?.temperature,
++      maxOutputTokens: req?.params?.maxOutputTokens,
++      json: !!req.input.json,
++    });
++    const latency_ms = Date.now() - start;
++    return {
++      id: `openai_${Date.now()}`,
++      provider: 'openai',
++      model: req.model,
++      created: new Date().toISOString(),
++      output: { text },
++      latency_ms,
++      tenantId: req.tenantId,
++    };
++  }
++}
++
++function buildPrompt(req: NormalizedRequest): string {
++  if (req.input.messages?.length) {
++    return req.input.messages
++      .map((m) => `${m.role.toUpperCase()}: ${m.content}`)
++      .join('\n');
++  }
++  return String(req.input.prompt || '');
++}
++
+diff --git a/src/orchestrator/providers/types.ts b/src/orchestrator/providers/types.ts
+new file mode 100644
+index 0000000000000000000000000000000000000000..512862a6134e38720fe42cb521d3bbd716e6a507
+--- /dev/null
++++ b/src/orchestrator/providers/types.ts
+@@ -0,0 +1,45 @@
++export type ProviderId = 'openai' | 'anthropic' | 'google' | 'perplexity';
++
++export interface NormalizedRequest {
++  tenantId: string;
++  provider: ProviderId;
++  model: string;
++  input: {
++    prompt?: string;
++    messages?: { role: 'system' | 'user' | 'assistant' | 'tool'; content: string }[];
++    json?: boolean;
++  };
++  params?: {
++    temperature?: number;
++    maxOutputTokens?: number;
++    top_p?: number;
++  };
++  metadata?: Record<string, any>;
++}
++
++export interface StandardizedResponse {
++  id: string;
++  provider: ProviderId;
++  model: string;
++  created: string;
++  output: {
++    text: string;
++    citations?: any[];
++    tool_calls?: any[];
++  };
++  usage?: {
++    input_tokens?: number;
++    output_tokens?: number;
++    total_tokens?: number;
++    cost_usd?: number;
++  };
++  latency_ms?: number;
++  tenantId: string;
++  warnings?: string[];
++}
++
++export interface LLMAdapter {
++  id: ProviderId;
++  complete(req: NormalizedRequest): Promise<StandardizedResponse>;
++}
++
+
+[2025-09-09T07:48:17] tokens used: 9659
+[2025-09-09T07:48:17] turn diff:
+diff --git a/src/orchestrator/providers/anthropicAdapter.ts b/src/orchestrator/providers/anthropicAdapter.ts
+new file mode 100644
+index 0000000000000000000000000000000000000000..2b997d79e3be00b1c7edc060cbf1c4345e75fdd8
+--- /dev/null
++++ b/src/orchestrator/providers/anthropicAdapter.ts
+@@ -0,0 +1,32 @@
++import { LLMAdapter, NormalizedRequest, StandardizedResponse } from './types.js';
++import { anthropicComplete } from '../../adapters/anthropic.js';
++
++export class AnthropicAdapter implements LLMAdapter {
++  id = 'anthropic' as const;
++
++  async complete(req: NormalizedRequest): Promise<StandardizedResponse> {
++    const start = Date.now();
++    const prompt = buildPrompt(req);
++    const text = await anthropicComplete(prompt, req.model || 'claude-3-5-sonnet-latest');
++    const latency_ms = Date.now() - start;
++    return {
++      id: `anthropic_${Date.now()}`,
++      provider: 'anthropic',
++      model: req.model,
++      created: new Date().toISOString(),
++      output: { text },
++      latency_ms,
++      tenantId: req.tenantId,
++    };
++  }
++}
++
++function buildPrompt(req: NormalizedRequest): string {
++  if (req.input.messages?.length) {
++    return req.input.messages
++      .map((m) => `${m.role.toUpperCase()}: ${m.content}`)
++      .join('\n');
++  }
++  return String(req.input.prompt || '');
++}
++
+diff --git a/src/orchestrator/providers/googleAdapter.ts b/src/orchestrator/providers/googleAdapter.ts
+new file mode 100644
+index 0000000000000000000000000000000000000000..d119cf05f6ec38e6b50229e62bfde784173b6892
+--- /dev/null
++++ b/src/orchestrator/providers/googleAdapter.ts
+@@ -0,0 +1,32 @@
++import { LLMAdapter, NormalizedRequest, StandardizedResponse } from './types.js';
++import { geminiComplete } from '../../adapters/google_gemini.js';
++
++export class GoogleAdapter implements LLMAdapter {
++  id = 'google' as const;
++
++  async complete(req: NormalizedRequest): Promise<StandardizedResponse> {
++    const start = Date.now();
++    const prompt = buildPrompt(req);
++    const text = await geminiComplete(prompt, req.model || 'gemini-2.5-flash');
++    const latency_ms = Date.now() - start;
++    return {
++      id: `google_${Date.now()}`,
++      provider: 'google',
++      model: req.model,
++      created: new Date().toISOString(),
++      output: { text },
++      latency_ms,
++      tenantId: req.tenantId,
++    };
++  }
++}
++
++function buildPrompt(req: NormalizedRequest): string {
++  if (req.input.messages?.length) {
++    return req.input.messages
++      .map((m) => `${m.role.toUpperCase()}: ${m.content}`)
++      .join('\n');
++  }
++  return String(req.input.prompt || '');
++}
++
+diff --git a/src/orchestrator/providers/openaiAdapter.ts b/src/orchestrator/providers/openaiAdapter.ts
+new file mode 100644
+index 0000000000000000000000000000000000000000..786d32cb1d8660a5aaa23f4d8ddce4f7ddf6981f
+--- /dev/null
++++ b/src/orchestrator/providers/openaiAdapter.ts
+@@ -0,0 +1,37 @@
++import { LLMAdapter, NormalizedRequest, StandardizedResponse } from './types.js';
++import { openaiComplete } from '../../adapters/openai.js';
++
++export class OpenAIAdapter implements LLMAdapter {
++  id = 'openai' as const;
++
++  async complete(req: NormalizedRequest): Promise<StandardizedResponse> {
++    const start = Date.now();
++    const prompt = buildPrompt(req);
++    const text = await openaiComplete(prompt, {
++      model: req.model,
++      temperature: req?.params?.temperature,
++      maxOutputTokens: req?.params?.maxOutputTokens,
++      json: !!req.input.json,
++    });
++    const latency_ms = Date.now() - start;
++    return {
++      id: `openai_${Date.now()}`,
++      provider: 'openai',
++      model: req.model,
++      created: new Date().toISOString(),
++      output: { text },
++      latency_ms,
++      tenantId: req.tenantId,
++    };
++  }
++}
++
++function buildPrompt(req: NormalizedRequest): string {
++  if (req.input.messages?.length) {
++    return req.input.messages
++      .map((m) => `${m.role.toUpperCase()}: ${m.content}`)
++      .join('\n');
++  }
++  return String(req.input.prompt || '');
++}
++
+diff --git a/src/orchestrator/providers/types.ts b/src/orchestrator/providers/types.ts
+new file mode 100644
+index 0000000000000000000000000000000000000000..512862a6134e38720fe42cb521d3bbd716e6a507
+--- /dev/null
++++ b/src/orchestrator/providers/types.ts
+@@ -0,0 +1,45 @@
++export type ProviderId = 'openai' | 'anthropic' | 'google' | 'perplexity';
++
++export interface NormalizedRequest {
++  tenantId: string;
++  provider: ProviderId;
++  model: string;
++  input: {
++    prompt?: string;
++    messages?: { role: 'system' | 'user' | 'assistant' | 'tool'; content: string }[];
++    json?: boolean;
++  };
++  params?: {
++    temperature?: number;
++    maxOutputTokens?: number;
++    top_p?: number;
++  };
++  metadata?: Record<string, any>;
++}
++
++export interface StandardizedResponse {
++  id: string;
++  provider: ProviderId;
++  model: string;
++  created: string;
++  output: {
++    text: string;
++    citations?: any[];
++    tool_calls?: any[];
++  };
++  usage?: {
++    input_tokens?: number;
++    output_tokens?: number;
++    total_tokens?: number;
++    cost_usd?: number;
++  };
++  latency_ms?: number;
++  tenantId: string;
++  warnings?: string[];
++}
++
++export interface LLMAdapter {
++  id: ProviderId;
++  complete(req: NormalizedRequest): Promise<StandardizedResponse>;
++}
++
+
+[2025-09-09T07:48:36] apply_patch auto_approved=true:
+A /Users/panda/Desktop/EUFM/src/adapters/perplexity.ts
+import fetch from 'node-fetch';
+
+export interface PerplexityOptions {
+  model: string;
+  temperature?: number;
+  max_tokens?: number;
+}
+
+export async function perplexityComplete(prompt: string, options: PerplexityOptions): Promise<string> {
+  const apiKey = process.env.PERPLEXITY_API_KEY;
+  if (!apiKey) throw new Error('Missing PERPLEXITY_API_KEY');
+  const url = 'https://api.perplexity.ai/chat/completions';
+  const res = await fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${apiKey}`
+    },
+    body: JSON.stringify({
+      model: options.model,
+      messages: [
+        { role: 'system', content: 'You are EUFM Perplexity adapter.' },
+        { role: 'user', content: prompt }
+      ],
+      temperature: options.temperature ?? 0.2,
+      max_tokens: options.max_tokens ?? 1024
+    })
+  });
+  if (!res.ok) throw new Error(`Perplexity error ${res.status}: ${await res.text()}`);
+  const data: any = await res.json();
+  return data?.choices?.[0]?.message?.content ?? '';
+}
+
+[2025-09-09T07:48:37] apply_patch(auto_approved=true) exited 0 in 845ms:
+Success. Updated the following files:
+A src/adapters/perplexity.ts
+[2025-09-09T07:48:37] turn diff:
+diff --git a/src/adapters/perplexity.ts b/src/adapters/perplexity.ts
+new file mode 100644
+index 0000000000000000000000000000000000000000..7ab977e62f42789cc4f9aa3b3a3fd372abccb417
+--- /dev/null
++++ b/src/adapters/perplexity.ts
+@@ -0,0 +1,33 @@
++import fetch from 'node-fetch';
++
++export interface PerplexityOptions {
++  model: string;
++  temperature?: number;
++  max_tokens?: number;
++}
++
++export async function perplexityComplete(prompt: string, options: PerplexityOptions): Promise<string> {
++  const apiKey = process.env.PERPLEXITY_API_KEY;
++  if (!apiKey) throw new Error('Missing PERPLEXITY_API_KEY');
++  const url = 'https://api.perplexity.ai/chat/completions';
++  const res = await fetch(url, {
++    method: 'POST',
++    headers: {
++      'Content-Type': 'application/json',
++      'Authorization': `Bearer ${apiKey}`
++    },
++    body: JSON.stringify({
++      model: options.model,
++      messages: [
++        { role: 'system', content: 'You are EUFM Perplexity adapter.' },
++        { role: 'user', content: prompt }
++      ],
++      temperature: options.temperature ?? 0.2,
++      max_tokens: options.max_tokens ?? 1024
++    })
++  });
++  if (!res.ok) throw new Error(`Perplexity error ${res.status}: ${await res.text()}`);
++  const data: any = await res.json();
++  return data?.choices?.[0]?.message?.content ?? '';
++}
++
+diff --git a/src/orchestrator/providers/anthropicAdapter.ts b/src/orchestrator/providers/anthropicAdapter.ts
+new file mode 100644
+index 0000000000000000000000000000000000000000..2b997d79e3be00b1c7edc060cbf1c4345e75fdd8
+--- /dev/null
++++ b/src/orchestrator/providers/anthropicAdapter.ts
+@@ -0,0 +1,32 @@
++import { LLMAdapter, NormalizedRequest, StandardizedResponse } from './types.js';
++import { anthropicComplete } from '../../adapters/anthropic.js';
++
++export class AnthropicAdapter implements LLMAdapter {
++  id = 'anthropic' as const;
++
++  async complete(req: NormalizedRequest): Promise<StandardizedResponse> {
++    const start = Date.now();
++    const prompt = buildPrompt(req);
++    const text = await anthropicComplete(prompt, req.model || 'claude-3-5-sonnet-latest');
++    const latency_ms = Date.now() - start;
++    return {
++      id: `anthropic_${Date.now()}`,
++      provider: 'anthropic',
++      model: req.model,
++      created: new Date().toISOString(),
++      output: { text },
++      latency_ms,
++      tenantId: req.tenantId,
++    };
++  }
++}
++
++function buildPrompt(req: NormalizedRequest): string {
++  if (req.input.messages?.length) {
++    return req.input.messages
++      .map((m) => `${m.role.toUpperCase()}: ${m.content}`)
++      .join('\n');
++  }
++  return String(req.input.prompt || '');
++}
++
+diff --git a/src/orchestrator/providers/googleAdapter.ts b/src/orchestrator/providers/googleAdapter.ts
+new file mode 100644
+index 0000000000000000000000000000000000000000..d119cf05f6ec38e6b50229e62bfde784173b6892
+--- /dev/null
++++ b/src/orchestrator/providers/googleAdapter.ts
+@@ -0,0 +1,32 @@
++import { LLMAdapter, NormalizedRequest, StandardizedResponse } from './types.js';
++import { geminiComplete } from '../../adapters/google_gemini.js';
++
++export class GoogleAdapter implements LLMAdapter {
++  id = 'google' as const;
++
++  async complete(req: NormalizedRequest): Promise<StandardizedResponse> {
++    const start = Date.now();
++    const prompt = buildPrompt(req);
++    const text = await geminiComplete(prompt, req.model || 'gemini-2.5-flash');
++    const latency_ms = Date.now() - start;
++    return {
++      id: `google_${Date.now()}`,
++      provider: 'google',
++      model: req.model,
++      created: new Date().toISOString(),
++      output: { text },
++      latency_ms,
++      tenantId: req.tenantId,
++    };
++  }
++}
++
++function buildPrompt(req: NormalizedRequest): string {
++  if (req.input.messages?.length) {
++    return req.input.messages
++      .map((m) => `${m.role.toUpperCase()}: ${m.content}`)
++      .join('\n');
++  }
++  return String(req.input.prompt || '');
++}
++
+diff --git a/src/orchestrator/providers/openaiAdapter.ts b/src/orchestrator/providers/openaiAdapter.ts
+new file mode 100644
+index 0000000000000000000000000000000000000000..786d32cb1d8660a5aaa23f4d8ddce4f7ddf6981f
+--- /dev/null
++++ b/src/orchestrator/providers/openaiAdapter.ts
+@@ -0,0 +1,37 @@
++import { LLMAdapter, NormalizedRequest, StandardizedResponse } from './types.js';
++import { openaiComplete } from '../../adapters/openai.js';
++
++export class OpenAIAdapter implements LLMAdapter {
++  id = 'openai' as const;
++
++  async complete(req: NormalizedRequest): Promise<StandardizedResponse> {
++    const start = Date.now();
++    const prompt = buildPrompt(req);
++    const text = await openaiComplete(prompt, {
++      model: req.model,
++      temperature: req?.params?.temperature,
++      maxOutputTokens: req?.params?.maxOutputTokens,
++      json: !!req.input.json,
++    });
++    const latency_ms = Date.now() - start;
++    return {
++      id: `openai_${Date.now()}`,
++      provider: 'openai',
++      model: req.model,
++      created: new Date().toISOString(),
++      output: { text },
++      latency_ms,
++      tenantId: req.tenantId,
++    };
++  }
++}
++
++function buildPrompt(req: NormalizedRequest): string {
++  if (req.input.messages?.length) {
++    return req.input.messages
++      .map((m) => `${m.role.toUpperCase()}: ${m.content}`)
++      .join('\n');
++  }
++  return String(req.input.prompt || '');
++}
++
+diff --git a/src/orchestrator/providers/types.ts b/src/orchestrator/providers/types.ts
+new file mode 100644
+index 0000000000000000000000000000000000000000..512862a6134e38720fe42cb521d3bbd716e6a507
+--- /dev/null
++++ b/src/orchestrator/providers/types.ts
+@@ -0,0 +1,45 @@
++export type ProviderId = 'openai' | 'anthropic' | 'google' | 'perplexity';
++
++export interface NormalizedRequest {
++  tenantId: string;
++  provider: ProviderId;
++  model: string;
++  input: {
++    prompt?: string;
++    messages?: { role: 'system' | 'user' | 'assistant' | 'tool'; content: string }[];
++    json?: boolean;
++  };
++  params?: {
++    temperature?: number;
++    maxOutputTokens?: number;
++    top_p?: number;
++  };
++  metadata?: Record<string, any>;
++}
++
++export interface StandardizedResponse {
++  id: string;
++  provider: ProviderId;
++  model: string;
++  created: string;
++  output: {
++    text: string;
++    citations?: any[];
++    tool_calls?: any[];
++  };
++  usage?: {
++    input_tokens?: number;
++    output_tokens?: number;
++    total_tokens?: number;
++    cost_usd?: number;
++  };
++  latency_ms?: number;
++  tenantId: string;
++  warnings?: string[];
++}
++
++export interface LLMAdapter {
++  id: ProviderId;
++  complete(req: NormalizedRequest): Promise<StandardizedResponse>;
++}
++
+
+[2025-09-09T07:48:37] tokens used: 873
+[2025-09-09T07:48:37] turn diff:
+diff --git a/src/adapters/perplexity.ts b/src/adapters/perplexity.ts
+new file mode 100644
+index 0000000000000000000000000000000000000000..7ab977e62f42789cc4f9aa3b3a3fd372abccb417
+--- /dev/null
++++ b/src/adapters/perplexity.ts
+@@ -0,0 +1,33 @@
++import fetch from 'node-fetch';
++
++export interface PerplexityOptions {
++  model: string;
++  temperature?: number;
++  max_tokens?: number;
++}
++
++export async function perplexityComplete(prompt: string, options: PerplexityOptions): Promise<string> {
++  const apiKey = process.env.PERPLEXITY_API_KEY;
++  if (!apiKey) throw new Error('Missing PERPLEXITY_API_KEY');
++  const url = 'https://api.perplexity.ai/chat/completions';
++  const res = await fetch(url, {
++    method: 'POST',
++    headers: {
++      'Content-Type': 'application/json',
++      'Authorization': `Bearer ${apiKey}`
++    },
++    body: JSON.stringify({
++      model: options.model,
++      messages: [
++        { role: 'system', content: 'You are EUFM Perplexity adapter.' },
++        { role: 'user', content: prompt }
++      ],
++      temperature: options.temperature ?? 0.2,
++      max_tokens: options.max_tokens ?? 1024
++    })
++  });
++  if (!res.ok) throw new Error(`Perplexity error ${res.status}: ${await res.text()}`);
++  const data: any = await res.json();
++  return data?.choices?.[0]?.message?.content ?? '';
++}
++
+diff --git a/src/orchestrator/providers/anthropicAdapter.ts b/src/orchestrator/providers/anthropicAdapter.ts
+new file mode 100644
+index 0000000000000000000000000000000000000000..2b997d79e3be00b1c7edc060cbf1c4345e75fdd8
+--- /dev/null
++++ b/src/orchestrator/providers/anthropicAdapter.ts
+@@ -0,0 +1,32 @@
++import { LLMAdapter, NormalizedRequest, StandardizedResponse } from './types.js';
++import { anthropicComplete } from '../../adapters/anthropic.js';
++
++export class AnthropicAdapter implements LLMAdapter {
++  id = 'anthropic' as const;
++
++  async complete(req: NormalizedRequest): Promise<StandardizedResponse> {
++    const start = Date.now();
++    const prompt = buildPrompt(req);
++    const text = await anthropicComplete(prompt, req.model || 'claude-3-5-sonnet-latest');
++    const latency_ms = Date.now() - start;
++    return {
++      id: `anthropic_${Date.now()}`,
++      provider: 'anthropic',
++      model: req.model,
++      created: new Date().toISOString(),
++      output: { text },
++      latency_ms,
++      tenantId: req.tenantId,
++    };
++  }
++}
++
++function buildPrompt(req: NormalizedRequest): string {
++  if (req.input.messages?.length) {
++    return req.input.messages
++      .map((m) => `${m.role.toUpperCase()}: ${m.content}`)
++      .join('\n');
++  }
++  return String(req.input.prompt || '');
++}
++
+diff --git a/src/orchestrator/providers/googleAdapter.ts b/src/orchestrator/providers/googleAdapter.ts
+new file mode 100644
+index 0000000000000000000000000000000000000000..d119cf05f6ec38e6b50229e62bfde784173b6892
+--- /dev/null
++++ b/src/orchestrator/providers/googleAdapter.ts
+@@ -0,0 +1,32 @@
++import { LLMAdapter, NormalizedRequest, StandardizedResponse } from './types.js';
++import { geminiComplete } from '../../adapters/google_gemini.js';
++
++export class GoogleAdapter implements LLMAdapter {
++  id = 'google' as const;
++
++  async complete(req: NormalizedRequest): Promise<StandardizedResponse> {
++    const start = Date.now();
++    const prompt = buildPrompt(req);
++    const text = await geminiComplete(prompt, req.model || 'gemini-2.5-flash');
++    const latency_ms = Date.now() - start;
++    return {
++      id: `google_${Date.now()}`,
++      provider: 'google',
++      model: req.model,
++      created: new Date().toISOString(),
++      output: { text },
++      latency_ms,
++      tenantId: req.tenantId,
++    };
++  }
++}
++
++function buildPrompt(req: NormalizedRequest): string {
++  if (req.input.messages?.length) {
++    return req.input.messages
++      .map((m) => `${m.role.toUpperCase()}: ${m.content}`)
++      .join('\n');
++  }
++  return String(req.input.prompt || '');
++}
++
+diff --git a/src/orchestrator/providers/openaiAdapter.ts b/src/orchestrator/providers/openaiAdapter.ts
+new file mode 100644
+index 0000000000000000000000000000000000000000..786d32cb1d8660a5aaa23f4d8ddce4f7ddf6981f
+--- /dev/null
++++ b/src/orchestrator/providers/openaiAdapter.ts
+@@ -0,0 +1,37 @@
++import { LLMAdapter, NormalizedRequest, StandardizedResponse } from './types.js';
++import { openaiComplete } from '../../adapters/openai.js';
++
++export class OpenAIAdapter implements LLMAdapter {
++  id = 'openai' as const;
++
++  async complete(req: NormalizedRequest): Promise<StandardizedResponse> {
++    const start = Date.now();
++    const prompt = buildPrompt(req);
++    const text = await openaiComplete(prompt, {
++      model: req.model,
++      temperature: req?.params?.temperature,
++      maxOutputTokens: req?.params?.maxOutputTokens,
++      json: !!req.input.json,
++    });
++    const latency_ms = Date.now() - start;
++    return {
++      id: `openai_${Date.now()}`,
++      provider: 'openai',
++      model: req.model,
++      created: new Date().toISOString(),
++      output: { text },
++      latency_ms,
++      tenantId: req.tenantId,
++    };
++  }
++}
++
++function buildPrompt(req: NormalizedRequest): string {
++  if (req.input.messages?.length) {
++    return req.input.messages
++      .map((m) => `${m.role.toUpperCase()}: ${m.content}`)
++      .join('\n');
++  }
++  return String(req.input.prompt || '');
++}
++
+diff --git a/src/orchestrator/providers/types.ts b/src/orchestrator/providers/types.ts
+new file mode 100644
+index 0000000000000000000000000000000000000000..512862a6134e38720fe42cb521d3bbd716e6a507
+--- /dev/null
++++ b/src/orchestrator/providers/types.ts
+@@ -0,0 +1,45 @@
++export type ProviderId = 'openai' | 'anthropic' | 'google' | 'perplexity';
++
++export interface NormalizedRequest {
++  tenantId: string;
++  provider: ProviderId;
++  model: string;
++  input: {
++    prompt?: string;
++    messages?: { role: 'system' | 'user' | 'assistant' | 'tool'; content: string }[];
++    json?: boolean;
++  };
++  params?: {
++    temperature?: number;
++    maxOutputTokens?: number;
++    top_p?: number;
++  };
++  metadata?: Record<string, any>;
++}
++
++export interface StandardizedResponse {
++  id: string;
++  provider: ProviderId;
++  model: string;
++  created: string;
++  output: {
++    text: string;
++    citations?: any[];
++    tool_calls?: any[];
++  };
++  usage?: {
++    input_tokens?: number;
++    output_tokens?: number;
++    total_tokens?: number;
++    cost_usd?: number;
++  };
++  latency_ms?: number;
++  tenantId: string;
++  warnings?: string[];
++}
++
++export interface LLMAdapter {
++  id: ProviderId;
++  complete(req: NormalizedRequest): Promise<StandardizedResponse>;
++}
++
+

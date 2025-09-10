@@ -1,7 +1,7 @@
 import fetch from 'node-fetch';
 import { trackLLMUsage } from '../analytics/autoTracker.js';
 
-export async function geminiComplete(prompt: string, model = 'gemini-2.0-flash-exp'): Promise<string> {
+export async function geminiComplete(prompt: string, model = 'gemini-2.5-flash'): Promise<string> {
 	const apiKey = process.env.GEMINI_API_KEY;
 	if (!apiKey) throw new Error('Missing GEMINI_API_KEY');
 	const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;

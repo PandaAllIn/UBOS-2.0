@@ -1,0 +1,398 @@
+openapi: 3.1.0
+info:
+  title: EUFM Enterprise AI Orchestration API
+  version: 1.0.0
+  description: |
+    Multi-tenant unified orchestration API for enterprise AI workloads.
+    Provides provider-agnostic orchestration, monitoring, RBAC, and billing.
+servers:
+  - url: https://api.eufm.ai
+    description: Production
+  - url: https://staging.api.eufm.ai
+    description: Staging
+security:
+  - OAuth2: ["openid", "profile", "email"]
+  - ApiKeyAuth: []
+  - TenantHeader: []
+tags:
+  - name: Orchestration
+  - name: Tasks
+  - name: Monitoring
+  - name: Tenancy
+  - name: Security
+  - name: Providers
+  - name: Admin
+components:
+  securitySchemes:
+    OAuth2:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: https://auth.eufm.ai/oauth2/authorize
+          tokenUrl: https://auth.eufm.ai/oauth2/token
+          scopes:
+            openid: OIDC scope
+            profile: User profile
+            email: User email
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+      description: Required for service-to-service and SDK access
+    TenantHeader:
+      type: apiKey
+      in: header
+      name: X-Tenant-Id
+      description: Required to scope requests to a tenant
+  parameters:
+    TenantId:
+      name: X-Tenant-Id
+      in: header
+      required: true
+      schema:
+        type: string
+        format: uuid
+    EnvId:
+      name: X-Env-Id
+      in: header
+      required: false
+      schema:
+        type: string
+        format: uuid
+  schemas:
+    OrchestrateRequest:
+      type: object
+      required: [input]
+      properties:
+        input:
+          oneOf:
+            - type: string
+            - type: object
+        taskType:
+          type: string
+          description: e.g., "chat", "embedding", "completion"
+        routingPolicyId:
+          type: string
+          format: uuid
+        providerPreferences:
+          type: array
+          items:
+            type: object
+            properties:
+              provider:
+                type: string
+              model:
+                type: string
+              weight:
+                type: number
+                default: 1
+        async:
+          type: boolean
+          default: false
+        metadata:
+          type: object
+    OrchestrateResponse:
+      type: object
+      properties:
+        requestId:
+          type: string
+          format: uuid
+        status:
+          type: string
+          enum: [queued, running, completed, failed]
+        output:
+          nullable: true
+        costUsd:
+          type: number
+          nullable: true
+        latencyMs:
+          type: integer
+          nullable: true
+    Task:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        status:
+          type: string
+          enum: [queued, running, succeeded, failed, canceled]
+        createdAt:
+          type: string
+          format: date-time
+        workflowId:
+          type: string
+          format: uuid
+          nullable: true
+        agentId:
+          type: string
+          format: uuid
+          nullable: true
+    ApiKey:
+      type: object
+      properties:
+        id: { type: string, format: uuid }
+        name: { type: string }
+        keyPrefix: { type: string }
+        createdAt: { type: string, format: date-time }
+    ProviderAccount:
+      type: object
+      properties:
+        id: { type: string, format: uuid }
+        provider: { type: string }
+        accountLabel: { type: string }
+        createdAt: { type: string, format: date-time }
+paths:
+  /v1/orchestrate:
+    post:
+      tags: [Orchestration]
+      summary: Run a provider-agnostic orchestration request
+      operationId: orchestrate
+      security:
+        - ApiKeyAuth: []
+        - TenantHeader: []
+      parameters:
+        - $ref: '#/components/parameters/TenantId'
+        - $ref: '#/components/parameters/EnvId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrchestrateRequest'
+      responses:
+        '200':
+          description: Orchestration result (sync)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrchestrateResponse'
+        '202':
+          description: Accepted (async)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrchestrateResponse'
+  /v1/tasks:
+    post:
+      tags: [Tasks]
+      summary: Create a long-running orchestration task
+      security:
+        - ApiKeyAuth: []
+        - TenantHeader: []
+      parameters:
+        - $ref: '#/components/parameters/TenantId'
+        - $ref: '#/components/parameters/EnvId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrchestrateRequest'
+      responses:
+        '202':
+          description: Task created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Task'
+    get:
+      tags: [Tasks]
+      summary: List tasks
+      security:
+        - OAuth2: ["openid"]
+        - TenantHeader: []
+      parameters:
+        - $ref: '#/components/parameters/TenantId'
+        - name: status
+          in: query
+          schema: { type: string }
+      responses:
+        '200':
+          description: Task list
+  /v1/tasks/{id}:
+    get:
+      tags: [Tasks]
+      summary: Get task status
+      security:
+        - ApiKeyAuth: []
+        - TenantHeader: []
+      parameters:
+        - $ref: '#/components/parameters/TenantId'
+        - name: id
+          in: path
+          required: true
+          schema: { type: string, format: uuid }
+      responses:
+        '200':
+          description: Task
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Task'
+  /v1/events:
+    get:
+      tags: [Monitoring]
+      summary: Server-Sent Events stream for real-time updates
+      description: Subscribe to task/request/alert events (SSE). Use WS at wss://events.eufm.ai for WebSocket.
+      security:
+        - ApiKeyAuth: []
+        - TenantHeader: []
+      parameters:
+        - $ref: '#/components/parameters/TenantId'
+        - name: types
+          in: query
+          schema:
+            type: array
+            items: { type: string }
+            default: ["task","request","alert"]
+      responses:
+        '200': { description: Event stream }
+  /v1/metrics/usage:
+    get:
+      tags: [Monitoring]
+      summary: Usage metrics aggregation
+      security:
+        - OAuth2: ["openid"]
+        - TenantHeader: []
+      parameters:
+        - $ref: '#/components/parameters/TenantId'
+        - name: from
+          in: query
+          schema: { type: string, format: date-time }
+        - name: to
+          in: query
+          schema: { type: string, format: date-time }
+        - name: unit
+          in: query
+          schema: { type: string, enum: [requests, tokens, cost_usd] }
+      responses:
+        '200': { description: Aggregated usage }
+  /v1/audit-logs:
+    get:
+      tags: [Security]
+      summary: Query audit logs
+      security:
+        - OAuth2: ["openid"]
+        - TenantHeader: []
+      parameters:
+        - $ref: '#/components/parameters/TenantId'
+        - name: q
+          in: query
+          schema: { type: string }
+      responses:
+        '200': { description: Audit log entries }
+  /v1/api-keys:
+    post:
+      tags: [Security]
+      summary: Create API key
+      security:
+        - OAuth2: ["openid"]
+        - TenantHeader: []
+      parameters:
+        - $ref: '#/components/parameters/TenantId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [name]
+              properties:
+                name: { type: string }
+                scopes: { type: array, items: { type: string } }
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiKey'
+    get:
+      tags: [Security]
+      summary: List API keys
+      security:
+        - OAuth2: ["openid"]
+        - TenantHeader: []
+      parameters:
+        - $ref: '#/components/parameters/TenantId'
+      responses:
+        '200': { description: API keys }
+  /v1/api-keys/{id}:
+    delete:
+      tags: [Security]
+      summary: Revoke API key
+      security:
+        - OAuth2: ["openid"]
+        - TenantHeader: []
+      parameters:
+        - $ref: '#/components/parameters/TenantId'
+        - name: id
+          in: path
+          required: true
+          schema: { type: string, format: uuid }
+      responses:
+        '204': { description: Revoked }
+  /v1/providers:
+    get:
+      tags: [Providers]
+      summary: List configured provider accounts
+      security:
+        - OAuth2: ["openid"]
+        - TenantHeader: []
+      parameters:
+        - $ref: '#/components/parameters/TenantId'
+      responses:
+        '200': { description: Provider accounts }
+    post:
+      tags: [Providers]
+      summary: Add provider account credentials
+      security:
+        - OAuth2: ["openid"]
+        - TenantHeader: []
+      parameters:
+        - $ref: '#/components/parameters/TenantId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [provider, accountLabel, credentials]
+              properties:
+                provider: { type: string }
+                accountLabel: { type: string }
+                credentials: { type: object }
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProviderAccount'
+  /v1/tenants:
+    get:
+      tags: [Tenancy]
+      summary: List tenants (admin)
+      security:
+        - OAuth2: ["openid"]
+      responses:
+        '200': { description: Tenants }
+    post:
+      tags: [Tenancy]
+      summary: Create tenant (admin/self-serve)
+      security:
+        - OAuth2: ["openid"]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [name]
+              properties:
+                name: { type: string }
+                region: { type: string }
+      responses:
+        '201': { description: Created }
+

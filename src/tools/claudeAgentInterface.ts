@@ -6,6 +6,7 @@ import { JulesAgent } from '../agents/julesAgent.js';
 import { codexCLI } from './codexCLI.js';
 import { promises as fs } from 'fs';
 import path from 'path';
+import { repoPath } from '../utils/paths.js';
 
 export interface ClaudeAgentSession {
   sessionId: string;
@@ -85,14 +86,14 @@ export class ClaudeAgentInterface {
   async createFeature(featureDescription: string, relevantFiles?: string[]): Promise<string> {
     return await this.executeCodexTask(
       `Add feature: ${featureDescription}${relevantFiles ? `\nRelevant files: ${relevantFiles.join(', ')}` : ''}`,
-      { relevantFiles }
+      { targetFiles: relevantFiles }
     );
   }
 
   async debugIssue(description: string, relevantFiles?: string[]): Promise<string> {
     return await this.executeCodexTask(
       `Debug: ${description}${relevantFiles ? `\nCheck files: ${relevantFiles.join(', ')}` : ''}`,
-      { relevantFiles }
+      { targetFiles: relevantFiles }
     );
   }
 
@@ -229,31 +230,31 @@ export class ClaudeAgentInterface {
 
   async readProjectFile(filePath: string): Promise<string> {
     try {
-      const fullPath = path.resolve('/Users/panda/Desktop/EUFM', filePath);
+      const fullPath = repoPath(filePath);
       return await fs.readFile(fullPath, 'utf-8');
-    } catch (error) {
+    } catch (error: any) {
       throw new Error(`Could not read file ${filePath}: ${error}`);
     }
   }
 
   async writeProjectFile(filePath: string, content: string): Promise<void> {
     try {
-      const fullPath = path.resolve('/Users/panda/Desktop/EUFM', filePath);
+      const fullPath = repoPath(filePath);
       await fs.mkdir(path.dirname(fullPath), { recursive: true });
       await fs.writeFile(fullPath, content, 'utf-8');
-    } catch (error) {
+    } catch (error: any) {
       throw new Error(`Could not write file ${filePath}: ${error}`);
     }
   }
 
   async listProjectFiles(directory: string = ''): Promise<string[]> {
     try {
-      const fullPath = path.resolve('/Users/panda/Desktop/EUFM', directory);
+      const fullPath = repoPath(directory);
       const entries = await fs.readdir(fullPath, { withFileTypes: true });
       return entries.map(entry => 
         entry.isDirectory() ? `${entry.name}/` : entry.name
       );
-    } catch (error) {
+    } catch (error: any) {
       throw new Error(`Could not list directory ${directory}: ${error}`);
     }
   }
@@ -316,7 +317,7 @@ export class ClaudeAgentInterface {
   }
 
   async saveSession(): Promise<string> {
-    const sessionPath = `/Users/panda/Desktop/EUFM/logs/claude_sessions/${this.session.sessionId}.json`;
+    const sessionPath = repoPath('logs', 'claude_sessions', `${this.session.sessionId}.json`);
     await fs.mkdir(path.dirname(sessionPath), { recursive: true });
     await fs.writeFile(sessionPath, JSON.stringify(this.session, null, 2));
     return sessionPath;
@@ -371,4 +372,3 @@ export async function systemReady(): Promise<boolean> {
   const status = await claudeInterface.getSystemStatus();
   return status.codexAvailable && status.agentsReady.length > 0;
 }
-

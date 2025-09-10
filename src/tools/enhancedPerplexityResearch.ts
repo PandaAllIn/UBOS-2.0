@@ -121,7 +121,7 @@ export class EnhancedPerplexityResearch {
       // Track usage for analytics
       try {
         await trackLLMUsage('perplexity', model, prompt, content, usage);
-      } catch (error) {
+      } catch (error: any) {
         console.warn('Failed to track usage:', error);
       }
 

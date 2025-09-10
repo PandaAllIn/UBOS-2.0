@@ -1,5 +1,4 @@
 import 'dotenv/config';
-import { BaseAgent } from './baseAgent.js';
 import { agentActionLogger } from '../masterControl/agentActionLogger.js';
 import { EnhancedAbacusAgent } from './enhancedAbacusAgent.js';
 
@@ -40,15 +39,14 @@ interface InstitutionalPartnership {
   status: string;
 }
 
-export class OradeaBusinessAgent extends BaseAgent {
+export class OradeaBusinessAgent {
   private contacts: ContactInfo[] = [];
   private meetings: Meeting[] = [];
   private partnerships: InstitutionalPartnership[] = [];
   private researchAgent: EnhancedAbacusAgent;
 
   constructor() {
-    super('Oradea Business Development Agent');
-    this.researchAgent = new EnhancedAbacusAgent();
+    this.researchAgent = new EnhancedAbacusAgent('oradea_research', 'oradea');
     
     // Initialize with known key institutions
     this.initializeKeyInstitutions();
@@ -138,12 +136,13 @@ export class OradeaBusinessAgent extends BaseAgent {
     try {
       console.log(`🔍 Researching Oradea contacts: ${query}`);
       
-      const research = await this.researchAgent.research(
-        `${query} Oradea Romania contacts email phone address 2025`
-      );
+      const researchResult = await this.researchAgent.run({
+        input: `${query} Oradea Romania contacts email phone address 2025`,
+        dryRun: false
+      });
       
       // Parse research results into contacts
-      const contacts: ContactInfo[] = this.parseContactsFromResearch(research.summary, query);
+      const contacts: ContactInfo[] = this.parseContactsFromResearch(researchResult.output || '', query);
       
       this.contacts.push(...contacts);
       
@@ -155,7 +154,7 @@ export class OradeaBusinessAgent extends BaseAgent {
 
       console.log(`✅ Research completed: ${contacts.length} contacts found`);
       return contacts;
-    } catch (error) {
+    } catch (error: any) {
       await agentActionLogger.completeWork(
         actionId,
         `Research failed: ${error}`,
@@ -234,7 +233,7 @@ export class OradeaBusinessAgent extends BaseAgent {
 
       console.log(`✅ Meeting scheduled: ${meeting.title}`);
       return meeting;
-    } catch (error) {
+    } catch (error: any) {
       await agentActionLogger.completeWork(
         actionId,
         `Meeting scheduling failed: ${error}`,
@@ -315,7 +314,7 @@ ${this.partnerships.map(p =>
 
       console.log(`✅ Weekly action plan generated`);
       return plan;
-    } catch (error) {
+    } catch (error: any) {
       await agentActionLogger.completeWork(
         actionId,
         `Action plan generation failed: ${error}`,

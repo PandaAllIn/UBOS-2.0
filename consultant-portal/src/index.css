@@ -1,0 +1,9 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* App-level utility classes */
+.container-max {
+  @apply max-w-6xl mx-auto px-4;
+}
+

@@ -2,7 +2,7 @@
 # EUFM Codex Helper - Non-interactive automation
 set -e
 
-REPO_ROOT="/Users/panda/Desktop/EUFM"
+REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 LOG_DIR="$REPO_ROOT/logs"
 mkdir -p "$LOG_DIR"
 

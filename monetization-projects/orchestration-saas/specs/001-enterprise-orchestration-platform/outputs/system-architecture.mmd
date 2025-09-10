@@ -1,0 +1,100 @@
+%% Enterprise AI Orchestration Platform (EUFM) — System Architecture
+%% Focus: Multi-tenant SaaS, Real-time Monitoring, Enterprise Security
+
+flowchart LR
+  subgraph Clients
+    A1[Web Dashboard (EUFM)]
+    A2[CLI/SDK]
+    A3[Customer Apps]
+  end
+
+  A1 -->|OIDC SSO| GW
+  A2 -->|X-API-Key + JWT| GW
+  A3 -->|Unified API| GW
+
+  subgraph Edge
+    GW[API Gateway / WAF]
+    RT[WebSocket/SSE Edge]
+  end
+
+  GW -->|AuthZ, Routing| API[API Service (REST/GraphQL; TS/Node)]
+  RT --> EVG
+
+  subgraph Core Services
+    ORC[Orchestration Engine\n(workflows, multi-agent, retries)]
+    RTE[Routing Engine\n(policy, cost, latency, SLA)]
+    ADP[Provider Adapter Layer\n(OpenAI, Anthropic, Google, Perplexity...)]
+    Q[Task Queue]
+    EVG[Event Gateway\n(WS/SSE broker)]
+    MON[Monitoring & Analytics Service]
+    AUD[Audit & Compliance Service]
+    CFG[Config/Secrets Service]
+    BLG[Billing & Quota Service]
+  end
+
+  API --> ORC
+  API --> RTE
+  API --> AUD
+  API --> BLG
+  ORC --> Q
+  ORC --> EVG
+  RTE --> ADP
+  Q --> ADP
+  ADP --> EVG
+  ADP --> MON
+  MON --> EVG
+  EVG --> RT
+
+  subgraph Data Plane
+    PG[(PostgreSQL / Timescale\nMulti-tenant, RBAC, audit, usage)]
+    RED[Redis\n(cache, rate limit, locks)]
+    BUS[(Event Bus\n(NATS/Kafka/Redpanda))]
+    OBJ[(Object Storage\n(S3 logs/artifacts))]
+    KMS[(KMS/HSM\n(key mgmt, envelope enc))]
+    SECV[Secrets Vault]
+  end
+
+  API --> PG
+  API --> RED
+  ORC --> BUS
+  MON --> PG
+  MON --> Timeseries[(Timeseries via TimescaleDB)]
+  AUD --> PG
+  ADP -->|Provider creds| SECV
+  CFG --> SECV
+  CFG --> KMS
+  BLG --> PG
+  EVG --> BUS
+
+  subgraph External Providers
+    P1[OpenAI]
+    P2[Anthropic]
+    P3[Google Gemini]
+    P4[Perplexity]
+    Pn[Other Providers]
+  end
+
+  ADP -->|normalized requests| P1
+  ADP --> P2
+  ADP --> P3
+  ADP --> P4
+  ADP --> Pn
+
+  subgraph Enterprise Integrations
+    SSO[SSO (OIDC/SAML)]
+    SIEM[SIEM/Log Archive]
+    VPC[VPC Peering/PrivateLink]
+  end
+
+  GW -->|OIDC| SSO
+  AUD --> SIEM
+  Edge[(CDN/WAF/DDoS)] --> GW
+  VPC --- ADP
+
+  classDef core fill:#eef,stroke:#336,stroke-width:1px;
+  classDef data fill:#efe,stroke:#393,stroke-width:1px;
+  classDef edge fill:#fee,stroke:#933,stroke-width:1px;
+  class API,ORC,RTE,ADP,Q,EVG,MON,AUD,CFG,BLG core;
+  class PG,RED,BUS,OBJ,KMS,SECV,Timeseries data;
+  class GW,RT edge;
+

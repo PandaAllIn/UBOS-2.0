@@ -1,0 +1,17 @@
+{
+  "agentId": "agent:biz-dev:001",
+  "type": "BusinessDevelopment",
+  "created": "2025-01-09T00:00:00Z",
+  "achievements": {
+    "titles": ["Funding Oracle"],
+    "xp": 0,
+    "level": 1,
+    "contributions": []
+  },
+  "memory": {
+    "shortTerm": {},
+    "longTerm": {}
+  },
+  "credentials": {}
+}
+

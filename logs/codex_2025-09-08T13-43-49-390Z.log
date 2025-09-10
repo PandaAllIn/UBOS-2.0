@@ -1,0 +1,1368 @@
+Executing: codex exec --dangerously-bypass-approvals-and-sandbox Create a Stripe MCP server setup guide for EUFM SaaS platform. Include installation steps, configuration, webhook setup, and integration with our subscription billing system. Keep it focused and avoid timeout by breaking into specific tasks.
+
+Project Context: EUFM (European Union Funds Manager) - AI Agent Orchestration System
+Working Directory: /Users/panda/Desktop/EUFM
+Project Type: TypeScript/Node.js multi-agent coordination system
+
+Safety Guidelines:
+- Preserve existing functionality when modifying files
+- Follow TypeScript best practices and existing code patterns
+- Add proper error handling and logging
+- Test changes before completing
+Working Directory: /Users/panda/Desktop/EUFM
+
+[2025-09-08T13:43:49] OpenAI Codex v0.30.0 (research preview)
+--------
+workdir: /Users/panda/Desktop/EUFM
+model: gpt-5
+provider: openai
+approval: never
+sandbox: danger-full-access
+reasoning effort: medium
+reasoning summaries: auto
+--------
+[2025-09-08T13:43:49] User instructions:
+Create a Stripe MCP server setup guide for EUFM SaaS platform. Include installation steps, configuration, webhook setup, and integration with our subscription billing system. Keep it focused and avoid timeout by breaking into specific tasks.
+
+Project Context: EUFM (European Union Funds Manager) - AI Agent Orchestration System
+Working Directory: /Users/panda/Desktop/EUFM
+Project Type: TypeScript/Node.js multi-agent coordination system
+
+Safety Guidelines:
+- Preserve existing functionality when modifying files
+- Follow TypeScript best practices and existing code patterns
+- Add proper error handling and logging
+- Test changes before completing
+
+[2025-09-08T13:43:56] thinking
+
+**Creating a Stripe MCP Guide**
+
+I need to create a setup guide for the Stripe MCP server for the EUFM SaaS platform. MCP likely refers to Model Context Protocol, but the focus here is on creating a setup guide rather than code. They want installation steps, configuration, webhook setup, and integration with the subscription billing system. I’ll make sure to break this into specific tasks to avoid timeouts. I'll also consider their guidelines for preserving functionality when modifying files and using TypeScript best practices. Let's check the repo and start organizing.
+[2025-09-08T13:43:57] codex
+
+I’ll scan the repo to find the right place for this guide and any existing billing or Stripe-related code to align with.
+[2025-09-08T13:43:58] exec bash -lc 'ls -la' in /Users/panda/Desktop/EUFM
+[2025-09-08T13:43:58] bash -lc 'ls -la' succeeded in 33ms:
+total 1072
+drwxr-xr-x   64 panda  staff   2048 Sep  8 16:33 .
+drwx------+  17 panda  staff    544 Sep  7 19:35 ..
+-rw-r--r--@   1 panda  staff  10244 Sep  7 18:05 .DS_Store
+drwxr-xr-x    3 panda  staff     96 Sep  8 14:20 .claude
+-rw-r--r--    1 panda  staff    798 Sep  8 13:28 .env
+-rw-r--r--    1 panda  staff    196 Sep  7 21:10 .env.example
+drwxr-xr-x   17 panda  staff    544 Sep  8 15:21 .git
+drwxr-xr-x    3 panda  staff     96 Sep  3 11:39 .github
+-rw-r--r--    1 panda  staff     71 Sep  8 15:04 .gitignore
+-rw-r--r--    1 panda  staff   3972 Sep  8 14:53 AGENT_QUICK_REFERENCE.md
+-rw-r--r--    1 panda  staff  11019 Sep  6 20:32 CLAUDE_MISSION_BRIEFING.md
+-rw-r--r--    1 panda  staff  15420 Sep  6 21:26 CLAUDE_SESSION_MEMORY.md
+-rw-r--r--    1 panda  staff   2966 Sep  7 18:11 CLAUDE_SESSION_STARTER.md
+-rw-r--r--    1 panda  staff  15118 Sep  8 13:02 CODEX_HANDOFF_BRIEFING.md
+-rw-r--r--    1 panda  staff   8675 Sep  7 17:07 CODEX_IMPLEMENTATION_PLAN.md
+-rw-r--r--    1 panda  staff   5088 Sep  8 15:14 CODE_OF_CONDUCT.md
+-rw-r--r--@   1 panda  staff    458 Sep  3 11:40 CONTRIBUTING.md
+-rw-r--r--    1 panda  staff   8481 Sep  7 19:16 EUFM_BOOTSTRAP_STRATEGY.md
+-rw-r--r--    1 panda  staff  19040 Sep  6 21:02 EUFM_TECHNICAL_ARCHITECTURE_EU_FUNDING.md
+[2025-09-08T13:43:58] tokens used: 6264
+[2025-09-08T13:44:02] exec bash -lc "ls -la docs && rg -n \"Stripe|billing|subscription|webhook|MCP\" -n . | sed -n '1,200p'" in /Users/panda/Desktop/EUFM
+[2025-09-08T13:44:02] bash -lc "ls -la docs && rg -n \"Stripe|billing|subscription|webhook|MCP\" -n . | sed -n '1,200p'" succeeded in 83ms:
+total 144
+drwxr-xr-x  14 panda  staff    448 Sep  8 15:48 .
+drwxr-xr-x  64 panda  staff   2048 Sep  8 16:33 ..
+-rw-r--r--@  1 panda  staff   6148 Sep  3 12:29 .DS_Store
+-rw-r--r--   1 panda  staff   9175 Sep  8 14:53 CLAUDE_SESSION_MEMORY.md
+-rw-r--r--   1 panda  staff  18534 Sep  8 15:48 EUFM_SaaS_Monetization_Strategy.md
+-rw-r--r--   1 panda  staff  10289 Sep  8 15:25 ORADEA_90_DAY_MASTER_PLAN.md
+-rw-r--r--@  1 panda  staff   1294 Sep  3 14:07 README.md
+-rw-r--r--   1 panda  staff    595 Sep  2 23:56 agent_browser_access.md
+-rw-r--r--   1 panda  staff   1111 Sep  2 23:56 architecture.md
+-rw-r--r--   1 panda  staff    533 Sep  2 23:56 funding_eu.md
+-rw-r--r--   1 panda  staff    939 Sep  2 23:56 integration_adapters.md
+drwxr-xr-x   4 panda  staff    128 Sep  3 14:47 obsidian
+drwxr-xr-x   5 panda  staff    160 Sep  3 15:01 subscriptions
+drwxr-xr-x  13 panda  staff    416 Sep  3 11:36 tools
+./src/analytics/usageAnalytics.ts:2:import { FileSubscriptionStore, LimitsFetchResult, PlanDefinition, PLAN_CATALOG, PlanId, Provider, SubscriptionManager, UserSubscriptions } from './subscriptionManager.js';
+./src/analytics/usageAnalytics.ts:16:    this.subs = new SubscriptionManager(new FileSubscriptionStore(`${baseDir}/subscriptions.json`));
+./src/analytics/usageAnalytics.ts:44:    console.log('\nSaved subscriptions to logs/analytics/subscriptions.json');
+./src/analytics/usageAnalytics.ts:123:    for (const [prov, plan] of Object.entries(report.subscriptions) as [Provider, PlanDefinition][]) {
+./src/analytics/toolUsageTracker.ts:3:import { PlanId, Provider } from './subscriptionManager.js';
+[2025-09-08T13:44:02] tokens used: 2151
+[2025-09-08T13:44:07] exec bash -lc 'ls -la docs/subscriptions && rg -n "Stripe|webhook|billing|subscription|MCP|payments|customer portal|checkout" docs/subscriptions -n || true' in /Users/panda/Desktop/EUFM
+[2025-09-08T13:44:07] bash -lc 'ls -la docs/subscriptions && rg -n "Stripe|webhook|billing|subscription|MCP|payments|customer portal|checkout" docs/subscriptions -n || true' succeeded in 28ms:
+total 24
+drwxr-xr-x   5 panda  staff   160 Sep  3 15:01 .
+drwxr-xr-x  14 panda  staff   448 Sep  8 15:48 ..
+-rw-r--r--   1 panda  staff  1647 Sep  3 15:01 optimization-strategies.md
+-rw-r--r--   1 panda  staff  1826 Sep  3 15:01 subscription-tiers.md
+-rw-r--r--   1 panda  staff  1033 Sep  3 15:01 usage-limits.md
+docs/subscriptions/optimization-strategies.md:6:- Prefer subscription web UIs for general Q&A if you already pay (ChatGPT Plus, Claude Pro) to reduce per‑token API costs.
+docs/subscriptions/optimization-strategies.md:22:- If you pay for ChatGPT Plus or Claude Pro, consider offloading simpler queries to those subscriptions during heavy periods.
+[2025-09-08T13:44:07] tokens used: 2933
+[2025-09-08T13:44:10] exec bash -lc "sed -n '1,200p' src/analytics/subscriptionManager.ts" in /Users/panda/Desktop/EUFM
+[2025-09-08T13:44:10] bash -lc "sed -n '1,200p' src/analytics/subscriptionManager.ts" succeeded in 22ms:
+import fetch from 'node-fetch';
+
+export type Provider = 'chatgpt' | 'claude' | 'perplexity' | 'abacus';
+
+export type PlanId =
+  | 'chatgpt_free'
+  | 'chatgpt_plus'
+  | 'claude_free'
+  | 'claude_pro'
+  | 'perplexity_free'
+  | 'perplexity_pro'
+  | 'abacus_free'
+  | 'abacus_pro'
+  | 'abacus_enterprise';
+
+export interface PlanFeature {
+  name: string;
+  description?: string;
+}
+
+[2025-09-08T13:44:10] tokens used: 419
+
+[2025-09-08T13:44:19] thinking
+
+**Creating integration guide**
+
+I’m thinking about the steps required for this integration guide, which includes installing `@modelcontextprotocol/server-*` packages and `stripe` npm, setting environment variables, and handling events like `checkout.session.completed` and `customer.subscription.updated`. Since it’s meant to be a doc-only guide, I shouldn’t modify the code itself, but I can include code. snippets It seems useful to break things into tasks: installation, Stripe configuration, MCP Server setup, webhook setup, and integration with EUFM subscription. I could add expected file paths and commands too!
+**Drafting SDK documentation**
+
+I need to compile information about the MCP JS SDK, which is available as `@modelcontextprotocol/sdk` on npm. Since this is a guide, I’ll avoid network calls and focus on commands for installing dependencies and running the dev environment with tools like ts-node or tsx. I’d like to create a specific documentation file under `docs/subscriptions`, perhaps naming it `Stripe_MCP_Server_Setup.md`. 
+
+In this guide, I should include sample `.env` variable additions while cross-referencing any existing `.env.example`. It’s also worth noting how to expose the MCP server over stdio or sockets, considering the integration with the Node multi-agent system. Let's clarify the integration methods!
+**Defining integration options**
+
+I'll consider using `@modelprotocolcontext/sdk` with `Server` and the two transport options: Node StdioServer or WebSocket. The MCP ecosystem utilizes `@modelcontextprotocol/transport-node` for stdio, while `@modelcontextprotocol/transport-websocket` can be an alternative. I plan to include both options in the guide, defaulting to stdio offering but WebSocket for testing. 
+
+I'll also set up an Express server for handling webhook events at `/stripe/webhook`, along with adding logging and error handling suggestions. Additionally, I’ll detail how to map integrations with the existing subscription manager, noting how to persist subscription statuses in `logs/analytics/subscriptions.json`. We could consider extending it for EUFM subscription tiers with a new file, ensuring there's no conflict.**Creating a setup guide**
+
+I
+ need to provide a mapping of product IDs to EUFM tiers, like Basic, Pro, and Enterprise, which users will define in the configuration. I’m planning to organize the guide into sections, starting with an overview followed by tasks. 
+
+Task one will cover installing dependencies, then task two will focus on setting up the Stripe Dashboard with products, prices, and webhook endpoints. 
+
+In task three, I’ll address environment variables, and in task four, I’ll scaffold the MCP server with file path suggestions and include TypeScript snippets for various Stripe functions. Finally, task five will involve setting up a webhook server with signature verification for multiple events, and task six will propose how to integrate with EUFM and potentially write to `logs/billing/stripe-subscriptions.json`.
+**Detailing testing and security**
+
+Since I'm creating a guide, I’ll describe how to proceed clearly. In task seven, I'll focus on testing. Users can use the Stripe CLI to forward events with the command `stripe listen --forward-to localhost:4242/stripe/webhook`. I’ll also mention creating a checkout session either through curl or the MCP tool provided via the EUFM orchestrator.
+
+Next, task eight will address security and production hardening, including rotating secrets, managing keys, logging, and handling personal information in compliance with GDPR.
+
+For task nine, I’ll cover rollback and monitoring, utilizing logs, health routes, and tools like Cloudflare or NGIN forX added security. I’ll keep the instructions concise but detailed, and don't forget to add the doc file using apply_patch!
+[2025-09-08T13:44:40] codex
+**Drafting SDK documentation**
+
+I need to compile information about the MCP JS SDK, which is available as `@modelcontextprotocol/sdk` on npm. Since this is a guide, I’ll avoid network calls and focus on commands for installing dependencies and running the dev environment with tools like ts-node or tsx. I’d like to create a specific documentation file under `docs/subscriptions`, perhaps naming it `Stripe_MCP_Server_Setup.md`. 
+
+In this guide, I should include sample `.env` variable additions while cross-referencing any existing `.env.example`. It’s also worth noting how to expose the MCP server over stdio or sockets, considering the integration with the Node multi-agent system. Let's clarify the integration methods!
+[2025-09-08T13:44:40] codex
+**Defining integration options**
+
+I'll consider using `@modelcontextprotocol/sdk` with `Server` and the two transport options: Node StdioServer or WebSocket. The MCP ecosystem utilizes `@modelcontextprotocol/transport-node` for stdio, while `@modelcontextprotocol/transport-websocket` can be an alternative. I plan to include both options in the guide, defaulting to stdio but offering WebSocket for testing. 
+
+I'll also set up an Express server for handling webhook events at `/stripe/webhook`, along with adding logging and error handling suggestions. Additionally, I’ll detail how to map integrations with the existing subscription manager, noting how to persist subscription statuses in `logs/analytics/subscriptions.json`. We could consider extending it for EUFM subscription tiers with a new file, ensuring there's no conflict.
+[2025-09-08T13:44:40] codex
+**Creating a setup guide**
+
+I need to provide a mapping of product IDs to EUFM tiers, like Basic, Pro, and Enterprise, which users will define in the configuration. I’m planning to organize the guide into sections, starting with an overview followed by tasks. 
+
+Task one will cover installing dependencies, then task two will focus on setting up the Stripe Dashboard with products, prices, and webhook endpoints. 
+
+In task three, I’ll address environment variables, and in task four, I’ll scaffold the MCP server with file path suggestions and include TypeScript snippets for various Stripe functions. Finally, task five will involve setting up a webhook server with signature verification for multiple events, and task six will propose how to integrate with EUFM and potentially write to `logs/billing/stripe-subscriptions.json`.
+[2025-09-08T13:44:40] codex
+**Detailing testing and security**
+
+Since I'm creating a guide, I’ll describe how to proceed clearly. In task seven, I'll focus on testing. Users can use the Stripe CLI to forward events with the command `stripe listen --forward-to localhost:4242/stripe/webhook`. I’ll also mention creating a checkout session either through curl or the MCP tool provided via the EUFM orchestrator.
+
+Next, task eight will address security and production hardening, including rotating secrets, managing keys, logging, and handling personal information in compliance with GDPR.
+
+For task nine, I’ll cover rollback and monitoring, utilizing logs, health routes, and tools like Cloudflare or NGINX for added security. I’ll keep the instructions concise but detailed, and don't forget to add the doc file using apply_patch!
+[2025-09-08T13:44:40] codex
+
+I’m going to add a new setup guide under docs/subscriptions with step-by-step tasks for installing, configuring, and integrating a Stripe MCP server, including webhook handling and EUFM subscription mapping.
+[2025-09-08T13:45:43] apply_patch auto_approved=true:
+A /Users/panda/Desktop/EUFM/docs/subscriptions/STRIPE_MCP_SERVER_SETUP.md
+# Stripe MCP Server Setup (EUFM SaaS)
+
+Purpose: Add a Stripe-backed MCP server that exposes billing tools (Checkout, Customer Portal, Subscription status) to EUFM agents, with a secure webhook to update internal billing state.
+
+Scope: Focused, task-based steps. Uses TypeScript/Node.js. No changes to existing behavior required.
+
+---
+
+## Task 0 — Prerequisites
+
+- Stripe account with test mode enabled.
+- Node.js 18+ and pnpm/npm.
+- Access to EUFM repo and ability to add env vars.
+- Decide EUFM plans and Stripe mapping (Product/Price IDs):
+  - e.g., EUFM_BASIC → `price_...basic`, EUFM_PRO → `price_...pro`, EUFM_ENTERPRISE → custom.
+
+Output: A short mapping document (JSON or .md) listing Product/Price → EUFM plan.
+
+---
+
+## Task 1 — Install Dependencies
+
+Run in project root:
+
+```bash
+pnpm add stripe express body-parser
+pnpm add -D @types/express @types/body-parser
+pnpm add @modelcontextprotocol/sdk @modelcontextprotocol/transport-node
+```
+
+Notes:
+- `stripe` is the official SDK.
+- MCP SDK/transport packages provide a stdio transport for agent tools.
+
+---
+
+## Task 2 — Stripe Dashboard Setup
+
+1) Create Products and recurring Prices for each EUFM plan.
+2) Get API keys: `STRIPE_SECRET_KEY` (test), `STRIPE_WEBHOOK_SECRET` (created after Stripe CLI or Dashboard endpoint setup).
+3) Optional: Create a restricted key for read-only tools (usage reads, customers lookup).
+4) Configure Customer Portal (Billing → Customer portal) and enable products.
+
+Record:
+- Product IDs: `prod_...`
+- Price IDs: `price_...`
+- Portal return URL: e.g., `https://app.eufm.ai/billing/return`
+
+---
+
+## Task 3 — Environment Variables
+
+Add to `.env` (and mirror in `.env.example` as placeholders):
+
+```
+# Stripe core
+STRIPE_SECRET_KEY=sk_test_xxx
+STRIPE_WEBHOOK_SECRET=whsec_xxx
+
+# EUFM plan mapping (comma-separated pairs of priceId:PlanId)
+EUFM_STRIPE_PLAN_MAP=price_basic:EUFM_BASIC,price_pro:EUFM_PRO,price_enterprise:EUFM_ENTERPRISE
+
+# Public app URLs for redirect/portal
+EUFM_APP_URL=https://app.eufm.ai
+EUFM_BILLING_RETURN_URL=https://app.eufm.ai/billing/return
+
+# MCP server options
+MCP_STRIPE_ENABLE_STDIO=true
+MCP_STRIPE_ENABLE_WS=false
+MCP_STRIPE_WEBSOCKET_PORT=7334
+
+# Webhook server options
+STRIPE_WEBHOOK_PORT=4242
+STRIPE_WEBHOOK_PATH=/stripe/webhook
+```
+
+Security:
+- Keep `sk_*` and `whsec_*` secrets out of logs.
+- Use separate keys per environment; rotate on exposure.
+
+---
+
+## Task 4 — Scaffold MCP Stripe Server (TypeScript)
+
+Create `src/mcp/stripeServer.ts` exposing tools:
+- `stripe.createCheckoutSession`
+- `stripe.createPortalSession`
+- `stripe.getCustomerSubscriptions`
+
+Minimal structure (pseudocode excerpt):
+
+```ts
+// src/mcp/stripeServer.ts
+import Stripe from 'stripe';
+import { createServer } from '@modelcontextprotocol/sdk';
+import { StdioServerTransport } from '@modelcontextprotocol/transport-node';
+
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, { apiVersion: '2023-10-16' });
+
+type PlanId = 'EUFM_BASIC' | 'EUFM_PRO' | 'EUFM_ENTERPRISE';
+const map = Object.fromEntries(
+  (process.env.EUFM_STRIPE_PLAN_MAP ?? '')
+    .split(',')
+    .filter(Boolean)
+    .map(pair => {
+      const [price, plan] = pair.split(':');
+      return [price.trim(), plan.trim() as PlanId];
+    })
+);
+
+export async function startStripeMcp() {
+  const srv = createServer({
+    name: 'eufm-stripe',
+    version: '0.1.0',
+    tools: {
+      // Creates Stripe Checkout Session for a given priceId and userId
+      'stripe.createCheckoutSession': async (args: { priceId: string; customerId?: string; userId: string }) => {
+        try {
+          const session = await stripe.checkout.sessions.create({
+            mode: 'subscription',
+            line_items: [{ price: args.priceId, quantity: 1 }],
+            success_url: `${process.env.EUFM_BILLING_RETURN_URL}?status=success`,
+            cancel_url: `${process.env.EUFM_BILLING_RETURN_URL}?status=cancel`,
+            client_reference_id: args.userId,
+            customer: args.customerId,
+            allow_promotion_codes: true,
+          });
+          return { id: session.id, url: session.url };
+        } catch (err: any) {
+          console.error('createCheckoutSession error', err?.message);
+          throw new Error('Failed to create checkout session');
+        }
+      },
+      // Generates a Customer Portal session
+      'stripe.createPortalSession': async (args: { customerId: string }) => {
+        try {
+          const session = await stripe.billingPortal.sessions.create({
+            customer: args.customerId,
+            return_url: process.env.EUFM_BILLING_RETURN_URL!,
+          });
+          return { url: session.url };
+        } catch (err: any) {
+          console.error('createPortalSession error', err?.message);
+          throw new Error('Failed to create portal session');
+        }
+      },
+      // Fetches active subscriptions for a customer
+      'stripe.getCustomerSubscriptions': async (args: { customerId: string }) => {
+        try {
+          const subs = await stripe.subscriptions.list({ customer: args.customerId, status: 'all' });
+          const result = subs.data.map(s => ({
+            id: s.id,
+            status: s.status,
+            priceId: s.items.data[0]?.price.id,
+            plan: map[s.items.data[0]?.price.id ?? ''] ?? null,
+            currentPeriodEnd: s.current_period_end,
+            cancelAtPeriodEnd: s.cancel_at_period_end,
+          }));
+          return { subscriptions: result };
+        } catch (err: any) {
+          console.error('getCustomerSubscriptions error', err?.message);
+          throw new Error('Failed to fetch subscriptions');
+        }
+      },
+    },
+  });
+
+  if (process.env.MCP_STRIPE_ENABLE_STDIO === 'true') {
+    const transport = new StdioServerTransport();
+    await srv.connect(transport);
+    console.log('[MCP] Stripe server running on stdio');
+  }
+}
+
+if (require.main === module) {
+  startStripeMcp().catch(err => {
+    console.error('Stripe MCP failed to start', err);
+    process.exit(1);
+  });
+}
+```
+
+Add npm scripts:
+
+```json
+{
+  "scripts": {
+    "dev:billing:mcp": "ts-node src/mcp/stripeServer.ts"
+  }
+}
+```
+
+---
+
+## Task 5 — Webhook Server (Express)
+
+Create `src/mcp/stripeWebhook.ts` to verify signatures and update internal state. Handle:
+- `checkout.session.completed` → mark user as active with mapped plan.
+- `customer.subscription.created|updated|deleted` → sync plan and status.
+- `invoice.payment_failed|succeeded` → notify/log; adjust grace periods.
+
+Pseudocode excerpt:
+
+```ts
+// src/mcp/stripeWebhook.ts
+import express from 'express';
+import bodyParser from 'body-parser';
+import Stripe from 'stripe';
+import { promises as fs } from 'fs';
+
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, { apiVersion: '2023-10-16' });
+const app = express();
+const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET!;
+
+// Raw body required for signature verification
+app.post(process.env.STRIPE_WEBHOOK_PATH || '/stripe/webhook', bodyParser.raw({ type: 'application/json' }), async (req, res) => {
+  const sig = req.headers['stripe-signature'];
+  let event: Stripe.Event;
+  try {
+    event = stripe.webhooks.constructEvent(req.body, sig as string, endpointSecret);
+  } catch (err: any) {
+    console.error('Webhook signature verification failed:', err.message);
+    return res.status(400).send(`Webhook Error: ${err.message}`);
+  }
+
+  try {
+    switch (event.type) {
+      case 'checkout.session.completed': {
+        const session = event.data.object as Stripe.Checkout.Session;
+        await persistStatusFromSession(session);
+        break;
+      }
+      case 'customer.subscription.created':
+      case 'customer.subscription.updated':
+      case 'customer.subscription.deleted': {
+        const sub = event.data.object as Stripe.Subscription;
+        await persistStatusFromSubscription(sub);
+        break;
+      }
+      case 'invoice.payment_succeeded':
+      case 'invoice.payment_failed': {
+        // Optional: log or notify
+        break;
+      }
+      default:
+        // ignore others
+        break;
+    }
+    res.json({ received: true });
+  } catch (err: any) {
+    console.error('Webhook processing error:', err.message);
+    res.status(500).json({ error: 'internal_error' });
+  }
+});
+
+async function persistStatusFromSession(session: Stripe.Checkout.Session) {
+  const customerId = session.customer as string;
+  const priceId = (session.line_items?.data?.[0]?.price?.id) || (session.metadata?.price_id) || '';
+  await writeBillingState(customerId, priceId, 'active');
+}
+
+async function persistStatusFromSubscription(sub: Stripe.Subscription) {
+  const customerId = sub.customer as string;
+  const priceId = sub.items.data[0]?.price?.id || '';
+  await writeBillingState(customerId, priceId, sub.status);
+}
+
+async function writeBillingState(customerId: string, priceId: string, status: string) {
+  const outDir = 'logs/billing';
+  await fs.mkdir(outDir, { recursive: true });
+  const file = `${outDir}/stripe-subscriptions.json`;
+  let data: any = {};
+  try { data = JSON.parse(await fs.readFile(file, 'utf8')); } catch {}
+  data[customerId] = { priceId, status, updatedAt: new Date().toISOString() };
+  await fs.writeFile(file, JSON.stringify(data, null, 2), 'utf8');
+  console.log('[billing] saved', customerId, priceId, status);
+}
+
+export function startStripeWebhook() {
+  const port = Number(process.env.STRIPE_WEBHOOK_PORT || 4242);
+  app.listen(port, () => console.log(`[billing] Stripe webhook listening on :${port}`));
+}
+
+if (require.main === module) startStripeWebhook();
+```
+
+Add npm script:
+
+```json
+{
+  "scripts": {
+    "dev:billing:webhook": "ts-node src/mcp/stripeWebhook.ts"
+  }
+}
+```
+
+---
+
+## Task 6 — EUFM Subscription Integration
+
+Goal: Keep EUFM aware of a user’s billing plan and status.
+
+Recommended minimal approach (non-invasive):
+- Persist Stripe-derived state to `logs/billing/stripe-subscriptions.json` (as above).
+- Add a small service in EUFM (later) to read this file and expose billing status to dashboards/agents.
+- Use `EUFM_STRIPE_PLAN_MAP` to translate Stripe Price IDs into EUFM plan enums, enabling feature toggles or limits.
+
+Optional deeper integration:
+- Emit internal events (e.g., via an in-app event bus) on subscription changes.
+- Lock “Pro-only” features if status != `active` or plan != expected.
+
+---
+
+## Task 7 — Webhook Setup (Stripe CLI) and Test
+
+Start webhook server locally:
+
+```bash
+pnpm run dev:billing:webhook
+```
+
+In a new shell, listen and forward events:
+
+```bash
+stripe login
+stripe listen --forward-to localhost:4242/stripe/webhook
+```
+
+The CLI prints a `whsec_...` secret — update `STRIPE_WEBHOOK_SECRET` and restart webhook server.
+
+Test a checkout session (using MCP tool or direct API):
+
+```bash
+# Example direct API test: create a session (replace price and customer)
+node -e "(async()=>{const s=require('stripe')(process.env.STRIPE_SECRET_KEY);const r=await s.checkout.sessions.create({mode:'subscription',line_items:[{price:'price_XXXX',quantity:1}],success_url:process.env.EUFM_BILLING_RETURN_URL,cancel_url:process.env.EUFM_BILLING_RETURN_URL});console.log(r.url)})()"
+```
+
+Verify:
+- Checkout completes in test mode.
+- Webhook logs event and writes `logs/billing/stripe-subscriptions.json`.
+- MCP tools work: create checkout, portal session, and read subscriptions.
+
+---
+
+## Task 8 — Production Hardening
+
+- Use restricted API keys for read-only MCP tools; keep write ops minimal.
+- Enable retry/idempotency on creation calls (pass `idempotencyKey`).
+- Enforce signature verification and HTTPS only.
+- Rotate keys regularly; separate test vs prod projects.
+- Observability: structured logs to `logs/billing/*.log` and error alerts.
+- Privacy: avoid storing full PII; store only IDs needed to map users ↔ customers (GDPR-conscious).
+- Backoff and reconcile: on downtime, fetch `events.list` to backfill missed changes.
+
+---
+
+## Task 9 — Rollout Plan
+
+1) Ship MCP server + webhook to staging with test keys.
+2) QA flows: new checkout, upgrade/downgrade, cancellation, payment failed.
+3) Update dashboards to surface plan/status from `logs/billing/stripe-subscriptions.json`.
+4) Switch to prod keys; create prod webhook endpoint (per region if needed).
+5) Monitor closely for the first billing cycle.
+
+---
+
+## Notes on MCP Integration in EUFM
+
+- Stdio transport is recommended for internal agent usage.
+- If a WebSocket or HTTP transport is preferred, add `MCP_STRIPE_ENABLE_WS=true` and serve on an internal port; restrict network access.
+- Keep MCP tools narrowly scoped: prefer returning URLs (Checkout/Portal) rather than performing destructive account mutations.
+
+---
+
+## Appendix — Suggested Files and Paths
+
+- `src/mcp/stripeServer.ts` — MCP tools for Stripe.
+- `src/mcp/stripeWebhook.ts` — Express webhook handler.
+- `logs/billing/stripe-subscriptions.json` — Internal billing state snapshot.
+- `.env` — Stripe keys and config (no secrets in VCS).
+
+This guide does not modify existing EUFM functionality. Add code incrementally, test with Stripe CLI, and then wire into dashboards as needed.
+
+[2025-09-08T13:45:43] apply_patch(auto_approved=true) exited 0 in 134ms:
+Success. Updated the following files:
+A docs/subscriptions/STRIPE_MCP_SERVER_SETUP.md
+[2025-09-08T13:45:43] turn diff:
+diff --git a/docs/subscriptions/STRIPE_MCP_SERVER_SETUP.md b/docs/subscriptions/STRIPE_MCP_SERVER_SETUP.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..486b36a7957a2d3f4e4cf68c2aedb1811f0188bc
+--- /dev/null
++++ b/docs/subscriptions/STRIPE_MCP_SERVER_SETUP.md
+@@ -0,0 +1,383 @@
++# Stripe MCP Server Setup (EUFM SaaS)
++
++Purpose: Add a Stripe-backed MCP server that exposes billing tools (Checkout, Customer Portal, Subscription status) to EUFM agents, with a secure webhook to update internal billing state.
++
++Scope: Focused, task-based steps. Uses TypeScript/Node.js. No changes to existing behavior required.
++
++---
++
++## Task 0 — Prerequisites
++
++- Stripe account with test mode enabled.
++- Node.js 18+ and pnpm/npm.
++- Access to EUFM repo and ability to add env vars.
++- Decide EUFM plans and Stripe mapping (Product/Price IDs):
++  - e.g., EUFM_BASIC → `price_...basic`, EUFM_PRO → `price_...pro`, EUFM_ENTERPRISE → custom.
++
++Output: A short mapping document (JSON or .md) listing Product/Price → EUFM plan.
++
++---
++
++## Task 1 — Install Dependencies
++
++Run in project root:
++
++```bash
++pnpm add stripe express body-parser
++pnpm add -D @types/express @types/body-parser
++pnpm add @modelcontextprotocol/sdk @modelcontextprotocol/transport-node
++```
++
++Notes:
++- `stripe` is the official SDK.
++- MCP SDK/transport packages provide a stdio transport for agent tools.
++
++---
++
++## Task 2 — Stripe Dashboard Setup
++
++1) Create Products and recurring Prices for each EUFM plan.
++2) Get API keys: `STRIPE_SECRET_KEY` (test), `STRIPE_WEBHOOK_SECRET` (created after Stripe CLI or Dashboard endpoint setup).
++3) Optional: Create a restricted key for read-only tools (usage reads, customers lookup).
++4) Configure Customer Portal (Billing → Customer portal) and enable products.
++
++Record:
++- Product IDs: `prod_...`
++- Price IDs: `price_...`
++- Portal return URL: e.g., `https://app.eufm.ai/billing/return`
++
++---
++
++## Task 3 — Environment Variables
++
++Add to `.env` (and mirror in `.env.example` as placeholders):
++
++```
++# Stripe core
++STRIPE_SECRET_KEY=sk_test_xxx
++STRIPE_WEBHOOK_SECRET=whsec_xxx
++
++# EUFM plan mapping (comma-separated pairs of priceId:PlanId)
++EUFM_STRIPE_PLAN_MAP=price_basic:EUFM_BASIC,price_pro:EUFM_PRO,price_enterprise:EUFM_ENTERPRISE
++
++# Public app URLs for redirect/portal
++EUFM_APP_URL=https://app.eufm.ai
++EUFM_BILLING_RETURN_URL=https://app.eufm.ai/billing/return
++
++# MCP server options
++MCP_STRIPE_ENABLE_STDIO=true
++MCP_STRIPE_ENABLE_WS=false
++MCP_STRIPE_WEBSOCKET_PORT=7334
++
++# Webhook server options
++STRIPE_WEBHOOK_PORT=4242
++STRIPE_WEBHOOK_PATH=/stripe/webhook
++```
++
++Security:
++- Keep `sk_*` and `whsec_*` secrets out of logs.
++- Use separate keys per environment; rotate on exposure.
++
++---
++
++## Task 4 — Scaffold MCP Stripe Server (TypeScript)
++
++Create `src/mcp/stripeServer.ts` exposing tools:
++- `stripe.createCheckoutSession`
++- `stripe.createPortalSession`
++- `stripe.getCustomerSubscriptions`
++
++Minimal structure (pseudocode excerpt):
++
++```ts
++// src/mcp/stripeServer.ts
++import Stripe from 'stripe';
++import { createServer } from '@modelcontextprotocol/sdk';
++import { StdioServerTransport } from '@modelcontextprotocol/transport-node';
++
++const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, { apiVersion: '2023-10-16' });
++
++type PlanId = 'EUFM_BASIC' | 'EUFM_PRO' | 'EUFM_ENTERPRISE';
++const map = Object.fromEntries(
++  (process.env.EUFM_STRIPE_PLAN_MAP ?? '')
++    .split(',')
++    .filter(Boolean)
++    .map(pair => {
++      const [price, plan] = pair.split(':');
++      return [price.trim(), plan.trim() as PlanId];
++    })
++);
++
++export async function startStripeMcp() {
++  const srv = createServer({
++    name: 'eufm-stripe',
++    version: '0.1.0',
++    tools: {
++      // Creates Stripe Checkout Session for a given priceId and userId
++      'stripe.createCheckoutSession': async (args: { priceId: string; customerId?: string; userId: string }) => {
++        try {
++          const session = await stripe.checkout.sessions.create({
++            mode: 'subscription',
++            line_items: [{ price: args.priceId, quantity: 1 }],
++            success_url: `${process.env.EUFM_BILLING_RETURN_URL}?status=success`,
++            cancel_url: `${process.env.EUFM_BILLING_RETURN_URL}?status=cancel`,
++            client_reference_id: args.userId,
++            customer: args.customerId,
++            allow_promotion_codes: true,
++          });
++          return { id: session.id, url: session.url };
++        } catch (err: any) {
++          console.error('createCheckoutSession error', err?.message);
++          throw new Error('Failed to create checkout session');
++        }
++      },
++      // Generates a Customer Portal session
++      'stripe.createPortalSession': async (args: { customerId: string }) => {
++        try {
++          const session = await stripe.billingPortal.sessions.create({
++            customer: args.customerId,
++            return_url: process.env.EUFM_BILLING_RETURN_URL!,
++          });
++          return { url: session.url };
++        } catch (err: any) {
++          console.error('createPortalSession error', err?.message);
++          throw new Error('Failed to create portal session');
++        }
++      },
++      // Fetches active subscriptions for a customer
++      'stripe.getCustomerSubscriptions': async (args: { customerId: string }) => {
++        try {
++          const subs = await stripe.subscriptions.list({ customer: args.customerId, status: 'all' });
++          const result = subs.data.map(s => ({
++            id: s.id,
++            status: s.status,
++            priceId: s.items.data[0]?.price.id,
++            plan: map[s.items.data[0]?.price.id ?? ''] ?? null,
++            currentPeriodEnd: s.current_period_end,
++            cancelAtPeriodEnd: s.cancel_at_period_end,
++          }));
++          return { subscriptions: result };
++        } catch (err: any) {
++          console.error('getCustomerSubscriptions error', err?.message);
++          throw new Error('Failed to fetch subscriptions');
++        }
++      },
++    },
++  });
++
++  if (process.env.MCP_STRIPE_ENABLE_STDIO === 'true') {
++    const transport = new StdioServerTransport();
++    await srv.connect(transport);
++    console.log('[MCP] Stripe server running on stdio');
++  }
++}
++
++if (require.main === module) {
++  startStripeMcp().catch(err => {
++    console.error('Stripe MCP failed to start', err);
++    process.exit(1);
++  });
++}
++```
++
++Add npm scripts:
++
++```json
++{
++  "scripts": {
++    "dev:billing:mcp": "ts-node src/mcp/stripeServer.ts"
++  }
++}
++```
++
++---
++
++## Task 5 — Webhook Server (Express)
++
++Create `src/mcp/stripeWebhook.ts` to verify signatures and update internal state. Handle:
++- `checkout.session.completed` → mark user as active with mapped plan.
++- `customer.subscription.created|updated|deleted` → sync plan and status.
++- `invoice.payment_failed|succeeded` → notify/log; adjust grace periods.
++
++Pseudocode excerpt:
++
++```ts
++// src/mcp/stripeWebhook.ts
++import express from 'express';
++import bodyParser from 'body-parser';
++import Stripe from 'stripe';
++import { promises as fs } from 'fs';
++
++const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, { apiVersion: '2023-10-16' });
++const app = express();
++const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET!;
++
++// Raw body required for signature verification
++app.post(process.env.STRIPE_WEBHOOK_PATH || '/stripe/webhook', bodyParser.raw({ type: 'application/json' }), async (req, res) => {
++  const sig = req.headers['stripe-signature'];
++  let event: Stripe.Event;
++  try {
++    event = stripe.webhooks.constructEvent(req.body, sig as string, endpointSecret);
++  } catch (err: any) {
++    console.error('Webhook signature verification failed:', err.message);
++    return res.status(400).send(`Webhook Error: ${err.message}`);
++  }
++
++  try {
++    switch (event.type) {
++      case 'checkout.session.completed': {
++        const session = event.data.object as Stripe.Checkout.Session;
++        await persistStatusFromSession(session);
++        break;
++      }
++      case 'customer.subscription.created':
++      case 'customer.subscription.updated':
++      case 'customer.subscription.deleted': {
++        const sub = event.data.object as Stripe.Subscription;
++        await persistStatusFromSubscription(sub);
++        break;
++      }
++      case 'invoice.payment_succeeded':
++      case 'invoice.payment_failed': {
++        // Optional: log or notify
++        break;
++      }
++      default:
++        // ignore others
++        break;
++    }
++    res.json({ received: true });
++  } catch (err: any) {
++    console.error('Webhook processing error:', err.message);
++    res.status(500).json({ error: 'internal_error' });
++  }
++});
++
++async function persistStatusFromSession(session: Stripe.Checkout.Session) {
++  const customerId = session.customer as string;
++  const priceId = (session.line_items?.data?.[0]?.price?.id) || (session.metadata?.price_id) || '';
++  await writeBillingState(customerId, priceId, 'active');
++}
++
++async function persistStatusFromSubscription(sub: Stripe.Subscription) {
++  const customerId = sub.customer as string;
++  const priceId = sub.items.data[0]?.price?.id || '';
++  await writeBillingState(customerId, priceId, sub.status);
++}
++
++async function writeBillingState(customerId: string, priceId: string, status: string) {
++  const outDir = 'logs/billing';
++  await fs.mkdir(outDir, { recursive: true });
++  const file = `${outDir}/stripe-subscriptions.json`;
++  let data: any = {};
++  try { data = JSON.parse(await fs.readFile(file, 'utf8')); } catch {}
++  data[customerId] = { priceId, status, updatedAt: new Date().toISOString() };
++  await fs.writeFile(file, JSON.stringify(data, null, 2), 'utf8');
++  console.log('[billing] saved', customerId, priceId, status);
++}
++
++export function startStripeWebhook() {
++  const port = Number(process.env.STRIPE_WEBHOOK_PORT || 4242);
++  app.listen(port, () => console.log(`[billing] Stripe webhook listening on :${port}`));
++}
++
++if (require.main === module) startStripeWebhook();
++```
++
++Add npm script:
++
++```json
++{
++  "scripts": {
++    "dev:billing:webhook": "ts-node src/mcp/stripeWebhook.ts"
++  }
++}
++```
++
++---
++
++## Task 6 — EUFM Subscription Integration
++
++Goal: Keep EUFM aware of a user’s billing plan and status.
++
++Recommended minimal approach (non-invasive):
++- Persist Stripe-derived state to `logs/billing/stripe-subscriptions.json` (as above).
++- Add a small service in EUFM (later) to read this file and expose billing status to dashboards/agents.
++- Use `EUFM_STRIPE_PLAN_MAP` to translate Stripe Price IDs into EUFM plan enums, enabling feature toggles or limits.
++
++Optional deeper integration:
++- Emit internal events (e.g., via an in-app event bus) on subscription changes.
++- Lock “Pro-only” features if status != `active` or plan != expected.
++
++---
++
++## Task 7 — Webhook Setup (Stripe CLI) and Test
++
++Start webhook server locally:
++
++```bash
++pnpm run dev:billing:webhook
++```
++
++In a new shell, listen and forward events:
++
++```bash
++stripe login
++stripe listen --forward-to localhost:4242/stripe/webhook
++```
++
++The CLI prints a `whsec_...` secret — update `STRIPE_WEBHOOK_SECRET` and restart webhook server.
++
++Test a checkout session (using MCP tool or direct API):
++
++```bash
++# Example direct API test: create a session (replace price and customer)
++node -e "(async()=>{const s=require('stripe')(process.env.STRIPE_SECRET_KEY);const r=await s.checkout.sessions.create({mode:'subscription',line_items:[{price:'price_XXXX',quantity:1}],success_url:process.env.EUFM_BILLING_RETURN_URL,cancel_url:process.env.EUFM_BILLING_RETURN_URL});console.log(r.url)})()"
++```
++
++Verify:
++- Checkout completes in test mode.
++- Webhook logs event and writes `logs/billing/stripe-subscriptions.json`.
++- MCP tools work: create checkout, portal session, and read subscriptions.
++
++---
++
++## Task 8 — Production Hardening
++
++- Use restricted API keys for read-only MCP tools; keep write ops minimal.
++- Enable retry/idempotency on creation calls (pass `idempotencyKey`).
++- Enforce signature verification and HTTPS only.
++- Rotate keys regularly; separate test vs prod projects.
++- Observability: structured logs to `logs/billing/*.log` and error alerts.
++- Privacy: avoid storing full PII; store only IDs needed to map users ↔ customers (GDPR-conscious).
++- Backoff and reconcile: on downtime, fetch `events.list` to backfill missed changes.
++
++---
++
++## Task 9 — Rollout Plan
++
++1) Ship MCP server + webhook to staging with test keys.
++2) QA flows: new checkout, upgrade/downgrade, cancellation, payment failed.
++3) Update dashboards to surface plan/status from `logs/billing/stripe-subscriptions.json`.
++4) Switch to prod keys; create prod webhook endpoint (per region if needed).
++5) Monitor closely for the first billing cycle.
++
++---
++
++## Notes on MCP Integration in EUFM
++
++- Stdio transport is recommended for internal agent usage.
++- If a WebSocket or HTTP transport is preferred, add `MCP_STRIPE_ENABLE_WS=true` and serve on an internal port; restrict network access.
++- Keep MCP tools narrowly scoped: prefer returning URLs (Checkout/Portal) rather than performing destructive account mutations.
++
++---
++
++## Appendix — Suggested Files and Paths
++
++- `src/mcp/stripeServer.ts` — MCP tools for Stripe.
++- `src/mcp/stripeWebhook.ts` — Express webhook handler.
++- `logs/billing/stripe-subscriptions.json` — Internal billing state snapshot.
++- `.env` — Stripe keys and config (no secrets in VCS).
++
++This guide does not modify existing EUFM functionality. Add code incrementally, test with Stripe CLI, and then wire into dashboards as needed.
++
+
+[2025-09-08T13:45:43] tokens used: 7473
+[2025-09-08T13:45:43] turn diff:
+diff --git a/docs/subscriptions/STRIPE_MCP_SERVER_SETUP.md b/docs/subscriptions/STRIPE_MCP_SERVER_SETUP.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..486b36a7957a2d3f4e4cf68c2aedb1811f0188bc
+--- /dev/null
++++ b/docs/subscriptions/STRIPE_MCP_SERVER_SETUP.md
+@@ -0,0 +1,383 @@
++# Stripe MCP Server Setup (EUFM SaaS)
++
++Purpose: Add a Stripe-backed MCP server that exposes billing tools (Checkout, Customer Portal, Subscription status) to EUFM agents, with a secure webhook to update internal billing state.
++
++Scope: Focused, task-based steps. Uses TypeScript/Node.js. No changes to existing behavior required.
++
++---
++
++## Task 0 — Prerequisites
++
++- Stripe account with test mode enabled.
++- Node.js 18+ and pnpm/npm.
++- Access to EUFM repo and ability to add env vars.
++- Decide EUFM plans and Stripe mapping (Product/Price IDs):
++  - e.g., EUFM_BASIC → `price_...basic`, EUFM_PRO → `price_...pro`, EUFM_ENTERPRISE → custom.
++
++Output: A short mapping document (JSON or .md) listing Product/Price → EUFM plan.
++
++---
++
++## Task 1 — Install Dependencies
++
++Run in project root:
++
++```bash
++pnpm add stripe express body-parser
++pnpm add -D @types/express @types/body-parser
++pnpm add @modelcontextprotocol/sdk @modelcontextprotocol/transport-node
++```
++
++Notes:
++- `stripe` is the official SDK.
++- MCP SDK/transport packages provide a stdio transport for agent tools.
++
++---
++
++## Task 2 — Stripe Dashboard Setup
++
++1) Create Products and recurring Prices for each EUFM plan.
++2) Get API keys: `STRIPE_SECRET_KEY` (test), `STRIPE_WEBHOOK_SECRET` (created after Stripe CLI or Dashboard endpoint setup).
++3) Optional: Create a restricted key for read-only tools (usage reads, customers lookup).
++4) Configure Customer Portal (Billing → Customer portal) and enable products.
++
++Record:
++- Product IDs: `prod_...`
++- Price IDs: `price_...`
++- Portal return URL: e.g., `https://app.eufm.ai/billing/return`
++
++---
++
++## Task 3 — Environment Variables
++
++Add to `.env` (and mirror in `.env.example` as placeholders):
++
++```
++# Stripe core
++STRIPE_SECRET_KEY=sk_test_xxx
++STRIPE_WEBHOOK_SECRET=whsec_xxx
++
++# EUFM plan mapping (comma-separated pairs of priceId:PlanId)
++EUFM_STRIPE_PLAN_MAP=price_basic:EUFM_BASIC,price_pro:EUFM_PRO,price_enterprise:EUFM_ENTERPRISE
++
++# Public app URLs for redirect/portal
++EUFM_APP_URL=https://app.eufm.ai
++EUFM_BILLING_RETURN_URL=https://app.eufm.ai/billing/return
++
++# MCP server options
++MCP_STRIPE_ENABLE_STDIO=true
++MCP_STRIPE_ENABLE_WS=false
++MCP_STRIPE_WEBSOCKET_PORT=7334
++
++# Webhook server options
++STRIPE_WEBHOOK_PORT=4242
++STRIPE_WEBHOOK_PATH=/stripe/webhook
++```
++
++Security:
++- Keep `sk_*` and `whsec_*` secrets out of logs.
++- Use separate keys per environment; rotate on exposure.
++
++---
++
++## Task 4 — Scaffold MCP Stripe Server (TypeScript)
++
++Create `src/mcp/stripeServer.ts` exposing tools:
++- `stripe.createCheckoutSession`
++- `stripe.createPortalSession`
++- `stripe.getCustomerSubscriptions`
++
++Minimal structure (pseudocode excerpt):
++
++```ts
++// src/mcp/stripeServer.ts
++import Stripe from 'stripe';
++import { createServer } from '@modelcontextprotocol/sdk';
++import { StdioServerTransport } from '@modelcontextprotocol/transport-node';
++
++const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, { apiVersion: '2023-10-16' });
++
++type PlanId = 'EUFM_BASIC' | 'EUFM_PRO' | 'EUFM_ENTERPRISE';
++const map = Object.fromEntries(
++  (process.env.EUFM_STRIPE_PLAN_MAP ?? '')
++    .split(',')
++    .filter(Boolean)
++    .map(pair => {
++      const [price, plan] = pair.split(':');
++      return [price.trim(), plan.trim() as PlanId];
++    })
++);
++
++export async function startStripeMcp() {
++  const srv = createServer({
++    name: 'eufm-stripe',
++    version: '0.1.0',
++    tools: {
++      // Creates Stripe Checkout Session for a given priceId and userId
++      'stripe.createCheckoutSession': async (args: { priceId: string; customerId?: string; userId: string }) => {
++        try {
++          const session = await stripe.checkout.sessions.create({
++            mode: 'subscription',
++            line_items: [{ price: args.priceId, quantity: 1 }],
++            success_url: `${process.env.EUFM_BILLING_RETURN_URL}?status=success`,
++            cancel_url: `${process.env.EUFM_BILLING_RETURN_URL}?status=cancel`,
++            client_reference_id: args.userId,
++            customer: args.customerId,
++            allow_promotion_codes: true,
++          });
++          return { id: session.id, url: session.url };
++        } catch (err: any) {
++          console.error('createCheckoutSession error', err?.message);
++          throw new Error('Failed to create checkout session');
++        }
++      },
++      // Generates a Customer Portal session
++      'stripe.createPortalSession': async (args: { customerId: string }) => {
++        try {
++          const session = await stripe.billingPortal.sessions.create({
++            customer: args.customerId,
++            return_url: process.env.EUFM_BILLING_RETURN_URL!,
++          });
++          return { url: session.url };
++        } catch (err: any) {
++          console.error('createPortalSession error', err?.message);
++          throw new Error('Failed to create portal session');
++        }
++      },
++      // Fetches active subscriptions for a customer
++      'stripe.getCustomerSubscriptions': async (args: { customerId: string }) => {
++        try {
++          const subs = await stripe.subscriptions.list({ customer: args.customerId, status: 'all' });
++          const result = subs.data.map(s => ({
++            id: s.id,
++            status: s.status,
++            priceId: s.items.data[0]?.price.id,
++            plan: map[s.items.data[0]?.price.id ?? ''] ?? null,
++            currentPeriodEnd: s.current_period_end,
++            cancelAtPeriodEnd: s.cancel_at_period_end,
++          }));
++          return { subscriptions: result };
++        } catch (err: any) {
++          console.error('getCustomerSubscriptions error', err?.message);
++          throw new Error('Failed to fetch subscriptions');
++        }
++      },
++    },
++  });
++
++  if (process.env.MCP_STRIPE_ENABLE_STDIO === 'true') {
++    const transport = new StdioServerTransport();
++    await srv.connect(transport);
++    console.log('[MCP] Stripe server running on stdio');
++  }
++}
++
++if (require.main === module) {
++  startStripeMcp().catch(err => {
++    console.error('Stripe MCP failed to start', err);
++    process.exit(1);
++  });
++}
++```
++
++Add npm scripts:
++
++```json
++{
++  "scripts": {
++    "dev:billing:mcp": "ts-node src/mcp/stripeServer.ts"
++  }
++}
++```
++
++---
++
++## Task 5 — Webhook Server (Express)
++
++Create `src/mcp/stripeWebhook.ts` to verify signatures and update internal state. Handle:
++- `checkout.session.completed` → mark user as active with mapped plan.
++- `customer.subscription.created|updated|deleted` → sync plan and status.
++- `invoice.payment_failed|succeeded` → notify/log; adjust grace periods.
++
++Pseudocode excerpt:
++
++```ts
++// src/mcp/stripeWebhook.ts
++import express from 'express';
++import bodyParser from 'body-parser';
++import Stripe from 'stripe';
++import { promises as fs } from 'fs';
++
++const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, { apiVersion: '2023-10-16' });
++const app = express();
++const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET!;
++
++// Raw body required for signature verification
++app.post(process.env.STRIPE_WEBHOOK_PATH || '/stripe/webhook', bodyParser.raw({ type: 'application/json' }), async (req, res) => {
++  const sig = req.headers['stripe-signature'];
++  let event: Stripe.Event;
++  try {
++    event = stripe.webhooks.constructEvent(req.body, sig as string, endpointSecret);
++  } catch (err: any) {
++    console.error('Webhook signature verification failed:', err.message);
++    return res.status(400).send(`Webhook Error: ${err.message}`);
++  }
++
++  try {
++    switch (event.type) {
++      case 'checkout.session.completed': {
++        const session = event.data.object as Stripe.Checkout.Session;
++        await persistStatusFromSession(session);
++        break;
++      }
++      case 'customer.subscription.created':
++      case 'customer.subscription.updated':
++      case 'customer.subscription.deleted': {
++        const sub = event.data.object as Stripe.Subscription;
++        await persistStatusFromSubscription(sub);
++        break;
++      }
++      case 'invoice.payment_succeeded':
++      case 'invoice.payment_failed': {
++        // Optional: log or notify
++        break;
++      }
++      default:
++        // ignore others
++        break;
++    }
++    res.json({ received: true });
++  } catch (err: any) {
++    console.error('Webhook processing error:', err.message);
++    res.status(500).json({ error: 'internal_error' });
++  }
++});
++
++async function persistStatusFromSession(session: Stripe.Checkout.Session) {
++  const customerId = session.customer as string;
++  const priceId = (session.line_items?.data?.[0]?.price?.id) || (session.metadata?.price_id) || '';
++  await writeBillingState(customerId, priceId, 'active');
++}
++
++async function persistStatusFromSubscription(sub: Stripe.Subscription) {
++  const customerId = sub.customer as string;
++  const priceId = sub.items.data[0]?.price?.id || '';
++  await writeBillingState(customerId, priceId, sub.status);
++}
++
++async function writeBillingState(customerId: string, priceId: string, status: string) {
++  const outDir = 'logs/billing';
++  await fs.mkdir(outDir, { recursive: true });
++  const file = `${outDir}/stripe-subscriptions.json`;
++  let data: any = {};
++  try { data = JSON.parse(await fs.readFile(file, 'utf8')); } catch {}
++  data[customerId] = { priceId, status, updatedAt: new Date().toISOString() };
++  await fs.writeFile(file, JSON.stringify(data, null, 2), 'utf8');
++  console.log('[billing] saved', customerId, priceId, status);
++}
++
++export function startStripeWebhook() {
++  const port = Number(process.env.STRIPE_WEBHOOK_PORT || 4242);
++  app.listen(port, () => console.log(`[billing] Stripe webhook listening on :${port}`));
++}
++
++if (require.main === module) startStripeWebhook();
++```
++
++Add npm script:
++
++```json
++{
++  "scripts": {
++    "dev:billing:webhook": "ts-node src/mcp/stripeWebhook.ts"
++  }
++}
++```
++
++---
++
++## Task 6 — EUFM Subscription Integration
++
++Goal: Keep EUFM aware of a user’s billing plan and status.
++
++Recommended minimal approach (non-invasive):
++- Persist Stripe-derived state to `logs/billing/stripe-subscriptions.json` (as above).
++- Add a small service in EUFM (later) to read this file and expose billing status to dashboards/agents.
++- Use `EUFM_STRIPE_PLAN_MAP` to translate Stripe Price IDs into EUFM plan enums, enabling feature toggles or limits.
++
++Optional deeper integration:
++- Emit internal events (e.g., via an in-app event bus) on subscription changes.
++- Lock “Pro-only” features if status != `active` or plan != expected.
++
++---
++
++## Task 7 — Webhook Setup (Stripe CLI) and Test
++
++Start webhook server locally:
++
++```bash
++pnpm run dev:billing:webhook
++```
++
++In a new shell, listen and forward events:
++
++```bash
++stripe login
++stripe listen --forward-to localhost:4242/stripe/webhook
++```
++
++The CLI prints a `whsec_...` secret — update `STRIPE_WEBHOOK_SECRET` and restart webhook server.
++
++Test a checkout session (using MCP tool or direct API):
++
++```bash
++# Example direct API test: create a session (replace price and customer)
++node -e "(async()=>{const s=require('stripe')(process.env.STRIPE_SECRET_KEY);const r=await s.checkout.sessions.create({mode:'subscription',line_items:[{price:'price_XXXX',quantity:1}],success_url:process.env.EUFM_BILLING_RETURN_URL,cancel_url:process.env.EUFM_BILLING_RETURN_URL});console.log(r.url)})()"
++```
++
++Verify:
++- Checkout completes in test mode.
++- Webhook logs event and writes `logs/billing/stripe-subscriptions.json`.
++- MCP tools work: create checkout, portal session, and read subscriptions.
++
++---
++
++## Task 8 — Production Hardening
++
++- Use restricted API keys for read-only MCP tools; keep write ops minimal.
++- Enable retry/idempotency on creation calls (pass `idempotencyKey`).
++- Enforce signature verification and HTTPS only.
++- Rotate keys regularly; separate test vs prod projects.
++- Observability: structured logs to `logs/billing/*.log` and error alerts.
++- Privacy: avoid storing full PII; store only IDs needed to map users ↔ customers (GDPR-conscious).
++- Backoff and reconcile: on downtime, fetch `events.list` to backfill missed changes.
++
++---
++
++## Task 9 — Rollout Plan
++
++1) Ship MCP server + webhook to staging with test keys.
++2) QA flows: new checkout, upgrade/downgrade, cancellation, payment failed.
++3) Update dashboards to surface plan/status from `logs/billing/stripe-subscriptions.json`.
++4) Switch to prod keys; create prod webhook endpoint (per region if needed).
++5) Monitor closely for the first billing cycle.
++
++---
++
++## Notes on MCP Integration in EUFM
++
++- Stdio transport is recommended for internal agent usage.
++- If a WebSocket or HTTP transport is preferred, add `MCP_STRIPE_ENABLE_WS=true` and serve on an internal port; restrict network access.
++- Keep MCP tools narrowly scoped: prefer returning URLs (Checkout/Portal) rather than performing destructive account mutations.
++
++---
++
++## Appendix — Suggested Files and Paths
++
++- `src/mcp/stripeServer.ts` — MCP tools for Stripe.
++- `src/mcp/stripeWebhook.ts` — Express webhook handler.
++- `logs/billing/stripe-subscriptions.json` — Internal billing state snapshot.
++- `.env` — Stripe keys and config (no secrets in VCS).
++
++This guide does not modify existing EUFM functionality. Add code incrementally, test with Stripe CLI, and then wire into dashboards as needed.
++
+
+[2025-09-08T13:45:48] codex
+
+Added a focused, task-based Stripe MCP server setup guide tailored for EUFM.
+
+- New doc: docs/subscriptions/STRIPE_MCP_SERVER_SETUP.md
+
+Highlights
+- Prere andqs plan mapping: Decides EUFM plans Price ↔ Stripe IDs.
+- Installation: Installs stripe, express, MCP SDK
+ERROR: Codex task timed out after 120000ms
+/
+Process exited with code: 0

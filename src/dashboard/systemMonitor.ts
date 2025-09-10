@@ -113,7 +113,7 @@ export class SystemMonitor {
           status
         };
       });
-    } catch (error) {
+    } catch (error: any) {
       return [];
     }
   }

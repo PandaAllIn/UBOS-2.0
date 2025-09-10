@@ -55,7 +55,7 @@ async function main() {
         console.log(`   Date: ${meeting.date}`);
         console.log(`   Location: ${meeting.location}`);
         console.log(`   Attendees: ${meeting.attendees.map(a => a.name).join(', ')}`);
-      } catch (error) {
+      } catch (error: any) {
         console.log(`❌ Failed to schedule meeting: ${error}`);
       }
       break;

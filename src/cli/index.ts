@@ -2,6 +2,7 @@
 import 'dotenv/config';
 import { runPerplexityTest } from '../tools/perplexity_sonar.js';
 import { runGeminiTest } from '../tools/gemini_test.js';
+import { sendTriMessage } from '../tools/triChat.js';
 import { loadKnowledgeBase, toContext, findNotesByQuery } from '../memory/index.js';
 import { UsageAnalyticsAgent } from '../analytics/usageAnalytics.js';
 import { StrategicOrchestrator } from '../orchestrator/strategicOrchestrator.js';
@@ -152,6 +153,18 @@ async function main() {
 			break;
 		}
 
+		case 'gemini:cli': {
+			console.log('🚀 Starting Gemini 2.5 Flash CLI...');
+			console.log('💡 Set GEMINI_API_KEY environment variable first');
+			console.log('📝 Example: export GEMINI_API_KEY=your_key_here');
+			console.log('---');
+
+			const { GeminiCLI } = await import('../tools/gemini_cli.js');
+			const cli = new GeminiCLI();
+			await cli.start();
+			break;
+		}
+
 		case 'perplexity:test': {
 			const prompt = process.argv.slice(3).join(' ') || 'Say hello from EUFM.';
 			const out = await runPerplexityTest(prompt);
@@ -243,6 +256,105 @@ async function main() {
 					console.log('=== Orchestrator History ===');
 					console.log(`Runs: ${h.files.length}`);
 					if (h.latest) console.log(`Latest: ${h.latest.taskId} (${h.latest.startedAt} -> ${h.latest.finishedAt}) success=${h.latest.success}`);
+					break;
+				}
+
+				case 'tri:watch': {
+					const lookback = parseInt(process.argv[3] || '20');
+					try {
+						const { runBridgeWatch } = await import('../tools/triChat.js');
+						await runBridgeWatch(lookback);
+					} catch (error: any) {
+						console.error('Watch error:', error.message);
+					}
+					break;
+				}
+
+				case 'tri:send': {
+					const from = (process.argv[3] as any) || 'human';
+					const to = (process.argv[4] as any) || 'claude';
+					const text = process.argv.slice(5).join(' ');
+					if (!text) { console.log('Usage: npm run dev -- tri:send <from: human|gpt5|claude> <to: human|gpt5|claude|all> "message"'); break; }
+
+					try {
+						const { sendTriMessage, printTriStatus } = await import('../tools/triChat.js');
+						await sendTriMessage(from, to, text);
+						await printTriStatus(5);
+					} catch (error: any) {
+						console.error('Error sending tri message:', error.message);
+					}
+					break;
+				}
+
+				case 'tri:bridge': {
+					const lookback = parseInt(process.argv[3] || '20');
+					try {
+						const { runBridgeOnce, printTriStatus } = await import('../tools/triChat.js');
+						const { processed } = await runBridgeOnce({ lookback });
+						console.log(`Processed: ${processed}`);
+						await printTriStatus(10);
+					} catch (error: any) {
+						console.error('Bridge error:', error.message);
+					}
+					break;
+				}
+
+				case 'tri:status': {
+					try {
+						const { printTriStatus } = await import('../tools/triChat.js');
+						await printTriStatus(10);
+					} catch (error: any) {
+						console.error('Status error:', error.message);
+					}
+					break;
+				}
+
+				case 'tri:watch': {
+					const lookback = parseInt(process.argv[3] || '20');
+					try {
+						const { runBridgeWatch } = await import('../tools/triChat.js');
+						await runBridgeWatch(lookback, 2500);
+					} catch (error: any) {
+						console.error('Watch error:', error.message);
+					}
+					break;
+				}
+
+				case 'tri:chat': {
+					try {
+						console.log('🚀 Starting elegant tri-party chat UI...');
+						const { startTriChatUI } = await import('../tools/triChatUI.js');
+						await startTriChatUI();
+					} catch (error: any) {
+						console.error('Chat UI error:', error.message);
+					}
+					break;
+				}
+
+				case 'gpt5:send': {
+					const message = process.argv.slice(3).join(' ');
+					if (!message) {
+						console.log('Usage: npm run dev -- gpt5:send "message" or gpt5:send @claude "message" or gpt5:send @human "message"');
+						break;
+					}
+					
+					let to: 'claude' | 'human' | 'all' = 'all';
+					let text = message;
+
+					if (message.startsWith('@claude ')) {
+						to = 'claude';
+						text = message.substring(8);
+					} else if (message.startsWith('@human ')) {
+						to = 'human';  
+						text = message.substring(7);
+					}
+
+					try {
+						await sendTriMessage('gpt5', to, text);
+						console.log(`✅ GPT-5 message sent to ${to === 'all' ? 'everyone' : to}`);
+					} catch (error: any) {
+						console.error(`❌ Error: ${error.message}`);
+					}
 					break;
 				}
 
@@ -617,6 +729,40 @@ async function main() {
 					break;
 				}
 
+				case 'gpt5:status': {
+					try {
+						const jsonFlag = process.argv.includes('--json');
+						
+						if (jsonFlag) {
+							const { getGpt5Status } = await import('../tools/gpt5Status.js');
+							const status = await getGpt5Status();
+							console.log(JSON.stringify(status, null, 2));
+							process.exit(status.collaborationHealthy ? 0 : 2);
+						} else {
+							const { printGpt5Status, getGpt5Status } = await import('../tools/gpt5Status.js');
+							await printGpt5Status();
+							const status = await getGpt5Status();
+							process.exit(status.collaborationHealthy ? 0 : 2);
+						}
+					} catch (e: any) {
+						console.error('Error:', e.message);
+						process.exit(1);
+					}
+					break;
+				}
+
+				case 'system:analyze': {
+					try {
+						console.log('🧠 Initiating comprehensive system analysis with Gemini 2.5 Flash...');
+						const { runSystemAnalysis } = await import('../tools/systemAnalysis.js');
+						await runSystemAnalysis();
+					} catch (error: any) {
+						console.error('❌ System analysis error:', error.message);
+						process.exit(1);
+					}
+					break;
+				}
+
 		default:
 			console.log('Usage:');
 			console.log('Master Control:');
@@ -633,6 +779,7 @@ async function main() {
 			console.log('Basic Tests:');
 			console.log('  npm run dev -- perplexity:test "your prompt"');
 			console.log('  npm run dev -- gemini:test "your prompt"');
+			console.log('  npm run dev -- gemini:cli                - Interactive Gemini 2.5 Flash CLI');
 			console.log('');
 			console.log('Claude Agent Interface:');
 			console.log('  npm run dev -- claude:ready                    - Check if Claude interface is ready');

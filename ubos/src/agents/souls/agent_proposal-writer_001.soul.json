@@ -1,0 +1,14 @@
+{
+  "agentId": "agent:proposal-writer:001",
+  "type": "ProposalWriter",
+  "created": "2025-01-09T00:00:00Z",
+  "achievements": {
+    "titles": ["Proposal Artisan"],
+    "xp": 0,
+    "level": 1,
+    "contributions": []
+  },
+  "memory": { "shortTerm": {}, "longTerm": {} },
+  "credentials": {}
+}
+

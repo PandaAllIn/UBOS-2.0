@@ -112,7 +112,7 @@ class EUFMDashboard {
       this.renderDashboard();
       
       this.showToast('✅', 'Dashboard loaded successfully', 'success');
-    } catch (error) {
+    } catch (error: any) {
       console.error('Failed to load data:', error);
       this.showToast('❌', 'Failed to load some data', 'error');
       this.populateSampleData();
@@ -534,7 +534,7 @@ class EUFMDashboard {
         try {
           const data = JSON.parse(event.data);
           this.handleWebSocketMessage(data);
-        } catch (error) {
+        } catch (error: any) {
           console.error('WebSocket message error:', error);
         }
       };
@@ -543,7 +543,7 @@ class EUFMDashboard {
         console.log('WebSocket disconnected, attempting to reconnect...');
         setTimeout(() => this.connectWebSocket(), this.reconnectInterval);
       };
-    } catch (error) {
+    } catch (error: any) {
       console.error('WebSocket connection failed:', error);
     }
   }
@@ -596,7 +596,7 @@ class EUFMDashboard {
       } else {
         throw new Error('Scan failed');
       }
-    } catch (error) {
+    } catch (error: any) {
       this.showToast('❌', 'Funding scan failed', 'error');
     } finally {
       if (scanBtn) {
@@ -635,7 +635,7 @@ class EUFMDashboard {
       if (!response.ok) throw new Error('Sync failed');
       this.showToast('✅', 'Notion sync completed', 'success');
       this.addActivity('Manual Notion sync completed');
-    } catch (error) {
+    } catch (error: any) {
       this.showToast('❌', 'Notion sync failed', 'error');
     }
   }
@@ -647,7 +647,7 @@ class EUFMDashboard {
       if (!response.ok) throw new Error('Daily update failed');
       this.showToast('✅', 'Daily briefing posted to Notion', 'success');
       this.addActivity('Daily briefing generated and synced to Notion');
-    } catch (error) {
+    } catch (error: any) {
       this.showToast('❌', 'Daily update failed', 'error');
     }
   }

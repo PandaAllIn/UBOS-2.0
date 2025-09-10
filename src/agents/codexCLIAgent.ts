@@ -1,6 +1,7 @@
 import { BaseAgent, AgentRunOptions, AgentContext } from './baseAgent.js';
 import { AgentResult } from '../orchestrator/types.js';
 import { codexCLI, CodexTaskOptions } from '../tools/codexCLI.js';
+import { repoRoot } from '../utils/paths.js';
 
 export interface CodexAgentOptions {
   mode?: 'agent' | 'chat' | 'full_access';
@@ -53,8 +54,8 @@ export class CodexCLIAgent extends BaseAgent {
         task: enhancedTask,
         mode: agentOptions.mode || 'agent',
         approvalRequired: agentOptions.approvalRequired ?? false,
-        timeout: agentOptions.timeout || (Number.isFinite(envTimeout) ? envTimeout : 300000), // default 5 minutes
-        workingDirectory: '/Users/panda/Desktop/EUFM',
+        timeout: agentOptions.timeout || (Number.isFinite(envTimeout) ? envTimeout : 600000), // default 10 minutes
+        workingDirectory: repoRoot(),
         saveLog: true
       };
 
@@ -134,11 +135,11 @@ export class CodexCLIAgent extends BaseAgent {
     }
 
     // Timeout
-    let timeout = 120000; // 2 minutes default
+    let timeout = 600000; // 10 minutes default
     if (inputLower.includes('quick') || inputLower.includes('fast')) {
       timeout = 30000; // 30 seconds
     } else if (inputLower.includes('complex') || inputLower.includes('thorough')) {
-      timeout = 300000; // 5 minutes
+      timeout = 600000; // 10 minutes
     }
 
     return {
@@ -154,7 +155,7 @@ export class CodexCLIAgent extends BaseAgent {
 
     // Add project context
     enhancedTask += `\n\nProject Context: EUFM (European Union Funds Manager) - AI Agent Orchestration System`;
-    enhancedTask += `\nWorking Directory: /Users/panda/Desktop/EUFM`;
+    enhancedTask += `\nWorking Directory: ${repoRoot()}`;
     enhancedTask += `\nProject Type: TypeScript/Node.js multi-agent coordination system`;
 
     // Add relevant context from session

@@ -37,7 +37,7 @@ export class SessionMemoryUpdater {
       await fs.mkdir(path.dirname(backupPath), { recursive: true });
       await fs.writeFile(backupPath, updatedContent, 'utf-8');
       
-    } catch (error) {
+    } catch (error: any) {
       console.error('❌ Failed to update session memory:', error);
       throw error;
     }
@@ -205,7 +205,7 @@ Next Focus: ${update.nextSessionFocus}
       await fs.writeFile(this.memoryFilePath, updatedContent, 'utf-8');
       console.log('📊 Performance metrics added to session memory');
       
-    } catch (error) {
+    } catch (error: any) {
       console.error('❌ Failed to add performance metrics:', error);
     }
   }
@@ -252,7 +252,7 @@ export async function trackCommandExecution(command: string, duration: number, s
     await fs.mkdir(path.dirname(metricsFile), { recursive: true });
     await fs.writeFile(metricsFile, JSON.stringify(metrics, null, 2), 'utf-8');
     
-  } catch (error) {
+  } catch (error: any) {
     // Fail silently - this is background tracking
     console.warn('⚠️ Could not track command metrics:', error);
   }

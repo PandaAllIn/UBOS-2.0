@@ -1,6 +1,7 @@
 import { spawn, exec } from 'child_process';
 import { promises as fs } from 'fs';
 import path from 'path';
+import { repoRoot } from '../utils/paths.js';
 import { promisify } from 'util';
 
 const execAsync = promisify(exec);
@@ -27,7 +28,7 @@ export class CodexCLI {
   private baseDir: string;
   private logDir: string;
 
-  constructor(baseDir: string = '/Users/panda/Desktop/EUFM') {
+  constructor(baseDir: string = repoRoot()) {
     this.baseDir = baseDir;
     this.logDir = path.join(baseDir, 'logs');
   }
@@ -63,8 +64,17 @@ export class CodexCLI {
         throw new Error('Codex CLI not found. Please install Codex CLI first.');
       }
 
+      // Resolve effective timeout: explicit option > env > default 10 minutes
+      const envTimeout = parseInt(process.env.CODEX_TIMEOUT_MS || '', 10);
+      const effectiveTimeout = Number.isFinite(envTimeout) ? envTimeout : 600000;
+
       const workingDir = options.workingDirectory || this.baseDir;
-      const result = await this.runCodexCommand(options, workingDir, logFile);
+      const resolved: CodexTaskOptions = {
+        ...options,
+        timeout: options.timeout ?? effectiveTimeout,
+      };
+
+      const result = await this.runCodexCommand(resolved, workingDir, logFile);
       
       const executionTime = Date.now() - startTime;
 
@@ -108,7 +118,7 @@ export class CodexCLI {
       args.push(options.task);
 
       if (logFile) {
-        fs.appendFile(logFile, `Executing: codex ${args.join(' ')}\nWorking Directory: ${workingDir}\n\n`);
+        fs.appendFile(logFile, `Executing: codex ${args.join(' ')}\nWorking Directory: ${workingDir}\nTimeout: ${options.timeout ?? 'none'} ms\n\n`);
       }
 
       const codexProcess = spawn('codex', args, {
@@ -308,4 +318,3 @@ export async function addFeature(featureDescription: string, relevantFiles?: str
   const task = `Add this feature: ${featureDescription}`;
   return await codexCLI.fileTask(task, relevantFiles);
 }
-

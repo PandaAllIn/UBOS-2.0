@@ -1,0 +1,1370 @@
+Executing: codex exec --dangerously-bypass-approvals-and-sandbox 
+PRIORITY: P0 - €75M ARR Enterprise Orchestration Platform
+
+TASK: API-002 — Multi-tenant headers and auth middlewares
+
+CONTEXT FROM GPT-5'S ARCHITECTURE:
+Ticket: API-002 — Multi-tenant headers and auth middlewares
+- Description: Implement header extraction for `X-Tenant-Id`, optional `X-Env-Id`, API key verification (`X-API-Key`), and OAuth2 (OIDC) bearer validation stubs. Normalize auth context into `req.ctx` for downstream.
+- Acceptance Criteria:
+  - Requests without `X-Tenant-Id` rejected 400 (for tenant-scoped endpoints)
+  - API keys validated (prefix + hash) against DB
+  - OIDC bearer verified (JWKS cached) — library integration and config
+  - Unit tests for positive/negative paths
+- Dependencies: API-001, DB-setup
+- Estimate: 3d | Priority: P0
+- Links: openapi.yaml (securitySchemes, parameters), database-schema.sql (api_keys)
+
+Ticket: API-003 — Implement `/v1/orchestrate` endpoint (sync/async)
+- Description: Implement `POST /v1/orchestrate` per OpenAPI with sync (200) and async (202) modes. Validate request schema, enqueue async tasks, return standardized response.
+- Acceptance Criteria:
+  - JSON schema validation for `OrchestrateRequest`
+  - Returns 200 with output for sync; 202 with `requestId` for async
+--
+- Dependencies: API-002, ORCH-001
+- Estimate: 3d | Priority: P0
+- Links: openapi.yaml (/v1/orchestrate), spec (Unified AI Orchestration)
+
+Ticket: API-004 — Tasks endpoints (`/v1/tasks`, `/v1/tasks/{id}`)
+- Description: Implement task creation (long-running) and status retrieval. Persist tasks and executions following schema.
+- Acceptance Criteria:
+  - `POST /v1/tasks` returns 202 with Task record
+  - `GET /v1/tasks/{id}` returns task with status transitions
+  - RBAC checks applied
+- Dependencies: API-002, ORCH-001, DB-setup
+- Estimate: 2d | Priority: P1
+- Links: openapi.yaml (Tasks), database-schema.sql (tasks, task_executions)
+
+Ticket: API-005 — Events and metrics endpoints
+- Description: Implement SSE endpoint `/v1/events` and `/v1/metrics/usage` proxy/aggregation. Multitenant auth on stream.
+- Acceptance Criteria:
+  - SSE delivers task/request/alert events
+  - Usage aggregation query w/ `from`, `to`, `unit`
+  - Backpressure and idle timeouts handled
+- Dependencies: ORCH-003 (event bus), MON-002
+- Estimate: 3d | Priority: P1
+- Links: openapi.yaml (events, metrics)
+
+Ticket: API-006 — API Keys CRUD
+- Description: Implement `POST /v1/api-keys`, `GET /v1/api-keys`, `DELETE /v1/api-keys/{id}` with prefix+hash storage.
+--
+- Dependencies: API-002, SEC-003
+- Estimate: 2d | Priority: P1
+- Links: openapi.yaml (api-keys), database-schema.sql (api_keys)
+
+---
+
+## Epic: Multi-Provider Adapters
+
+Ticket: ADPT-001 — Define provider adapter interface and SDK
+- Description: Create TypeScript interface for providers (send, stream, cost calc, rate limit hints). Include request/response normalization and error taxonomy.
+- Acceptance Criteria:
+  - Interface published in `@eufm/providers`
+  - Normalized response type for chat/completions/embeddings
+  - Error classes: Retryable, RateLimited, AuthError, ValidationError
+- Dependencies: API-003 (types), ORCH-002 (router needs interface)
+- Estimate: 2d | Priority: P0
+--
+- Dependencies: API-002, SEC-002
+- Estimate: 2d | Priority: P1
+- Links: openapi.yaml (/v1/providers), database-schema.sql (provider_accounts)
+
+---
+
+## Epic: Workflow Engine
+
+Ticket: ORCH-001 — Task queue and worker runtime
+- Description: Introduce queue (NATS/Kafka) abstraction, task persistence, retry/backoff policies, idempotency keys.
+- Acceptance Criteria:
+  - Enqueue/consume tasks; visibility timeout; DLQ
+  - Configurable retry/backoff, idempotent replays
+  - Tracing context propagated across worker boundaries
+- Dependencies: API-001, DB-setup
+- Estimate: 4d | Priority: P0
+--
+- Dependencies: BILL-001, SEC-003, API-002
+- Estimate: 3d | Priority: P1
+- Links: database-schema.sql (rate_limits, subscriptions)
+
+Ticket: BILL-003 — Stripe integration (customers, subscriptions, invoices)
+- Description: Sync tenants to Stripe, handle webhooks, and reconcile invoices with usage.
+- Acceptance Criteria:
+  - Customer create/update; subscription create/cancel
+  - Webhook handlers for invoice/payment events (signed)
+  - Reconciliation job validates invoice totals vs usage
+- Dependencies: BILL-001, BILL-002
+- Estimate: 4d | Priority: P2
+- Links: database-schema.sql (billing_customers, subscriptions)
+
+Ticket: BILL-004 — Budget alerts and spend controls
+- Description: Allow admins to set budgets and thresholds that trigger alerts and optional request blocking.
+--
+- Dependencies: SEC-001, API-002
+- Estimate: 4d | Priority: P0
+- Links: database-schema.sql (roles, permissions, user_roles)
+
+Ticket: SEC-004 — Audit logging (tamper-evident) and SIEM export
+- Description: Implement structured audit logs with optional signing/hashing and SIEM export (e.g., Splunk/Datadog) via HTTPS.
+- Acceptance Criteria:
+  - Audit events on auth, config changes, API keys, provider creds
+  - Export pipeline with backpressure and retries
+- Dependencies: API-002, SEC-003
+- Estimate: 3d | Priority: P1
+- Links: database-schema.sql (audit_logs)
+
+Ticket: SEC-005 — Data residency and regional routing controls
+- Description: Enforce data residency policies in request handling and provider selection (EU/US), including storage policies.
+- Acceptance Criteria:
+  - Residency policy checked on every request
+  - Router obeys regional constraints in model selection
+- Dependencies: ORCH-002, ADPT-004
+- Estimate: 3d | Priority: P2
+- Links: database-schema.sql (data_residency_policies)
+
+---
+
+## Shared/Infrastructure
+
+DATABASE SCHEMA:
+-- Enterprise AI Orchestration Platform — Multi-tenant PostgreSQL Schema (EUFM)
+-- Focus: Tenant isolation, RBAC, audit, monitoring, billing
+
+CREATE EXTENSION IF NOT EXISTS pgcrypto;
+-- For time-series metrics, TimescaleDB optional
+-- CREATE EXTENSION IF NOT EXISTS timescaledb;
+
+-- Tenancy & Identity -------------------------------------------------------
+
+CREATE TABLE tenants (
+  id                  uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+  name                text NOT NULL,
+  slug                text UNIQUE NOT NULL,
+  plan                text NOT NULL DEFAULT 'starter',
+  region              text NOT NULL DEFAULT 'eu-central-1',
+  created_at          timestamptz NOT NULL DEFAULT now()
+);
+
+CREATE TABLE environments (
+  id                  uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+  tenant_id           uuid NOT NULL REFERENCES tenants(id) ON DELETE CASCADE,
+  name                text NOT NULL,
+  type                text NOT NULL CHECK (type IN ('dev','staging','prod')),
+  created_at          timestamptz NOT NULL DEFAULT now(),
+  UNIQUE (tenant_id, name)
+);
+
+CREATE TABLE users (
+  id                  uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+  email               citext UNIQUE NOT NULL,
+  name                text,
+  status              text NOT NULL DEFAULT 'active',
+  created_at          timestamptz NOT NULL DEFAULT now(),
+  updated_at          timestamptz NOT NULL DEFAULT now()
+);
+
+CREATE TABLE identities (
+  id                  uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+  user_id             uuid NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  provider            text NOT NULL,        -- 'oidc','saml','password'
+  subject             text NOT NULL,        -- sub from IdP
+  tenant_id           uuid,                 -- optional tenant scoping for SSO
+  created_at          timestamptz NOT NULL DEFAULT now(),
+  UNIQUE (provider, subject)
+);
+
+CREATE TABLE roles (
+  id                  uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+  tenant_id           uuid REFERENCES tenants(id) ON DELETE CASCADE,
+  name                text NOT NULL,
+
+OPENAPI REFERENCE:
+  - ApiKeyAuth: []
+  - TenantHeader: []
+tags:
+  - name: Orchestration
+  - name: Tasks
+  - name: Monitoring
+  - name: Tenancy
+  - name: Security
+  - name: Providers
+  - name: Admin
+components:
+  securitySchemes:
+    OAuth2:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: https://auth.eufm.ai/oauth2/authorize
+          tokenUrl: https://auth.eufm.ai/oauth2/token
+          scopes:
+            openid: OIDC scope
+            profile: User profile
+            email: User email
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+      description: Required for service-to-service and SDK access
+    TenantHeader:
+      type: apiKey
+      in: header
+      name: X-Tenant-Id
+      description: Required to scope requests to a tenant
+  parameters:
+    TenantId:
+      name: X-Tenant-Id
+      in: header
+      required: true
+      schema:
+        type: string
+        format: uuid
+    EnvId:
+      name: X-Env-Id
+      in: header
+      required: false
+      schema:
+        type: string
+        format: uuid
+  schemas:
+--
+        - ApiKeyAuth: []
+        - TenantHeader: []
+      parameters:
+        - $ref: '#/components/parameters/TenantId'
+        - $ref: '#/components/parameters/EnvId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrchestrateRequest'
+      responses:
+        '200':
+          description: Orchestration result (sync)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrchestrateResponse'
+        '202':
+          description: Accepted (async)
+          content:
+            application/json:
+--
+        - ApiKeyAuth: []
+        - TenantHeader: []
+      parameters:
+        - $ref: '#/components/parameters/TenantId'
+        - $ref: '#/components/parameters/EnvId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrchestrateRequest'
+      responses:
+        '202':
+          description: Task created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Task'
+    get:
+      tags: [Tasks]
+      summary: List tasks
+      security:
+--
+        - TenantHeader: []
+      parameters:
+        - $ref: '#/components/parameters/TenantId'
+        - name: status
+          in: query
+          schema: { type: string }
+      responses:
+        '200':
+          description: Task list
+  /v1/tasks/{id}:
+    get:
+      tags: [Tasks]
+      summary: Get task status
+      security:
+        - ApiKeyAuth: []
+        - TenantHeader: []
+      parameters:
+        - $ref: '#/components/parameters/TenantId'
+        - name: id
+          in: path
+          required: true
+          schema: { type: string, format: uuid }
+      responses:
+        '200':
+          description: Task
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Task'
+  /v1/events:
+    get:
+      tags: [Monitoring]
+      summary: Server-Sent Events stream for real-time updates
+      description: Subscribe to task/request/alert events (SSE). Use WS at wss://events.eufm.ai for WebSocket.
+      security:
+        - ApiKeyAuth: []
+        - TenantHeader: []
+      parameters:
+        - $ref: '#/components/parameters/TenantId'
+        - name: types
+          in: query
+          schema:
+            type: array
+            items: { type: string }
+            default: ["task","request","alert"]
+      responses:
+        '200': { description: Event stream }
+  /v1/metrics/usage:
+    get:
+      tags: [Monitoring]
+      summary: Usage metrics aggregation
+      security:
+        - OAuth2: ["openid"]
+        - TenantHeader: []
+      parameters:
+        - $ref: '#/components/parameters/TenantId'
+        - name: from
+          in: query
+          schema: { type: string, format: date-time }
+        - name: to
+          in: query
+          schema: { type: string, format: date-time }
+        - name: unit
+          in: query
+          schema: { type: string, enum: [requests, tokens, cost_usd] }
+      responses:
+        '200': { description: Aggregated usage }
+  /v1/audit-logs:
+    get:
+      tags: [Security]
+      summary: Query audit logs
+      security:
+        - OAuth2: ["openid"]
+        - TenantHeader: []
+      parameters:
+        - $ref: '#/components/parameters/TenantId'
+        - name: q
+          in: query
+          schema: { type: string }
+      responses:
+        '200': { description: Audit log entries }
+  /v1/api-keys:
+    post:
+      tags: [Security]
+      summary: Create API key
+      security:
+        - OAuth2: ["openid"]
+        - TenantHeader: []
+      parameters:
+        - $ref: '#/components/parameters/TenantId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [name]
+              properties:
+                name: { type: string }
+                scopes: { type: array, items: { type: string } }
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiKey'
+    get:
+--
+        - TenantHeader: []
+      parameters:
+        - $ref: '#/components/parameters/TenantId'
+      responses:
+        '200': { description: API keys }
+  /v1/api-keys/{id}:
+    delete:
+      tags: [Security]
+      summary: Revoke API key
+      security:
+        - OAuth2: ["openid"]
+        - TenantHeader: []
+      parameters:
+        - $ref: '#/components/parameters/TenantId'
+        - name: id
+          in: path
+          required: true
+          schema: { type: string, format: uuid }
+      responses:
+        '204': { description: Revoked }
+  /v1/providers:
+    get:
+      tags: [Providers]
+      summary: List configured provider accounts
+      security:
+        - OAuth2: ["openid"]
+        - TenantHeader: []
+      parameters:
+        - $ref: '#/components/parameters/TenantId'
+      responses:
+        '200': { description: Provider accounts }
+    post:
+      tags: [Providers]
+      summary: Add provider account credentials
+      security:
+        - OAuth2: ["openid"]
+        - TenantHeader: []
+      parameters:
+        - $ref: '#/components/parameters/TenantId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [provider, accountLabel, credentials]
+              properties:
+                provider: { type: string }
+                accountLabel: { type: string }
+                credentials: { type: object }
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProviderAccount'
+
+REQUIREMENTS:
+- Header extraction for X-Tenant-Id (required for tenant-scoped endpoints)
+- Optional X-Env-Id header support
+- API key verification (X-API-Key) with prefix + hash validation against DB
+- OAuth2 (OIDC) bearer token validation with JWKS caching
+- Normalize auth context into req.ctx for downstream middleware
+- Follow BaseAgent pattern in /src/agents/
+- Register in src/orchestrator/agentFactory.ts
+- TypeScript strict mode with comprehensive error handling
+- Enterprise security compliance (audit logging, correlation IDs)
+
+ACCEPTANCE CRITERIA:
+- Requests without X-Tenant-Id rejected 400 (for tenant-scoped endpoints)
+- API keys validated (prefix + hash) against DB
+- OIDC bearer verified (JWKS cached) — library integration and config
+- Unit tests for positive/negative paths
+- All auth context normalized in req.ctx
+
+TARGET: Fortune 500 customers paying €999-50K/month
+COMPETITION: Must exceed Microsoft Copilot Studio quality
+
+IMPLEMENT COMPLETE ENTERPRISE-GRADE SOLUTION WITH TESTS.
+
+
+Project Context: EUFM (European Union Funds Manager) - AI Agent Orchestration System
+Working Directory: /Users/panda/Desktop/EUFM
+Project Type: TypeScript/Node.js multi-agent coordination system
+Note: Follow the BaseAgent pattern in src/agents/ and register in AgentFactory
+Note: Use the existing test patterns and ensure TypeScript compatibility
+
+Safety Guidelines:
+- Preserve existing functionality when modifying files
+- Follow TypeScript best practices and existing code patterns
+- Add proper error handling and logging
+- Test changes before completing
+Working Directory: /Users/panda/Desktop/EUFM
+Timeout: 600000 ms
+
+[2025-09-09T14:38:41] OpenAI Codex v0.30.0 (research preview)
+--------
+workdir: /Users/panda/Desktop/EUFM
+model: gpt-5
+provider: openai
+approval: never
+sandbox: danger-full-access
+reasoning effort: medium
+reasoning summaries: auto
+--------
+[2025-09-09T14:38:41] User instructions:
+
+PRIORITY: P0 - €75M ARR Enterprise Orchestration Platform
+
+TASK: API-002 — Multi-tenant headers and auth middlewares
+
+CONTEXT FROM GPT-5'S ARCHITECTURE:
+Ticket: API-002 — Multi-tenant headers and auth middlewares
+- Description: Implement header extraction for `X-Tenant-Id`, optional `X-Env-Id`, API key verification (`X-API-Key`), and OAuth2 (OIDC) bearer validation stubs. Normalize auth context into `req.ctx` for downstream.
+- Acceptance Criteria:
+  - Requests without `X-Tenant-Id` rejected 400 (for tenant-scoped endpoints)
+  - API keys validated (prefix + hash) against DB
+  - OIDC bearer verified (JWKS cached) — library integration and config
+  - Unit tests for positive/negative paths
+- Dependencies: API-001, DB-setup
+- Estimate: 3d | Priority: P0
+- Links: openapi.yaml (securitySchemes, parameters), database-schema.sql (api_keys)
+
+Ticket: API-003 — Implement `/v1/orchestrate` endpoint (sync/async)
+- Description: Implement `POST /v1/orchestrate` per OpenAPI with sync (200) and async (202) modes. Validate request schema, enqueue async tasks, return standardized response.
+- Acceptance Criteria:
+  - JSON schema validation for `OrchestrateRequest`
+  - Returns 200 with output for sync; 202 with `requestId` for async
+--
+- Dependencies: API-002, ORCH-001
+- Estimate: 3d | Priority: P0
+- Links: openapi.yaml (/v1/orchestrate), spec (Unified AI Orchestration)
+
+Ticket: API-004 — Tasks endpoints (`/v1/tasks`, `/v1/tasks/{id}`)
+- Description: Implement task creation (long-running) and status retrieval. Persist tasks and executions following schema.
+- Acceptance Criteria:
+  - `POST /v1/tasks` returns 202 with Task record
+  - `GET /v1/tasks/{id}` returns task with status transitions
+  - RBAC checks applied
+- Dependencies: API-002, ORCH-001, DB-setup
+- Estimate: 2d | Priority: P1
+- Links: openapi.yaml (Tasks), database-schema.sql (tasks, task_executions)
+
+Ticket: API-005 — Events and metrics endpoints
+- Description: Implement SSE endpoint `/v1/events` and `/v1/metrics/usage` proxy/aggregation. Multitenant auth on stream.
+- Acceptance Criteria:
+  - SSE delivers task/request/alert events
+  - Usage aggregation query w/ `from`, `to`, `unit`
+  - Backpressure and idle timeouts handled
+- Dependencies: ORCH-003 (event bus), MON-002
+- Estimate: 3d | Priority: P1
+- Links: openapi.yaml (events, metrics)
+
+Ticket: API-006 — API Keys CRUD
+- Description: Implement `POST /v1/api-keys`, `GET /v1/api-keys`, `DELETE /v1/api-keys/{id}` with prefix+hash storage.
+--
+- Dependencies: API-002, SEC-003
+- Estimate: 2d | Priority: P1
+- Links: openapi.yaml (api-keys), database-schema.sql (api_keys)
+
+---
+
+## Epic: Multi-Provider Adapters
+
+Ticket: ADPT-001 — Define provider adapter interface and SDK
+- Description: Create TypeScript interface for providers (send, stream, cost calc, rate limit hints). Include request/response normalization and error taxonomy.
+- Acceptance Criteria:
+  - Interface published in `@eufm/providers`
+  - Normalized response type for chat/completions/embeddings
+  - Error classes: Retryable, RateLimited, AuthError, ValidationError
+- Dependencies: API-003 (types), ORCH-002 (router needs interface)
+- Estimate: 2d | Priority: P0
+--
+- Dependencies: API-002, SEC-002
+- Estimate: 2d | Priority: P1
+- Links: openapi.yaml (/v1/providers), database-schema.sql (provider_accounts)
+
+---
+
+## Epic: Workflow Engine
+
+Ticket: ORCH-001 — Task queue and worker runtime
+- Description: Introduce queue (NATS/Kafka) abstraction, task persistence, retry/backoff policies, idempotency keys.
+- Acceptance Criteria:
+  - Enqueue/consume tasks; visibility timeout; DLQ
+  - Configurable retry/backoff, idempotent replays
+  - Tracing context propagated across worker boundaries
+- Dependencies: API-001, DB-setup
+- Estimate: 4d | Priority: P0
+--
+- Dependencies: BILL-001, SEC-003, API-002
+- Estimate: 3d | Priority: P1
+- Links: database-schema.sql (rate_limits, subscriptions)
+
+Ticket: BILL-003 — Stripe integration (customers, subscriptions, invoices)
+- Description: Sync tenants to Stripe, handle webhooks, and reconcile invoices with usage.
+- Acceptance Criteria:
+  - Customer create/update; subscription create/cancel
+  - Webhook handlers for invoice/payment events (signed)
+  - Reconciliation job validates invoice totals vs usage
+- Dependencies: BILL-001, BILL-002
+- Estimate: 4d | Priority: P2
+- Links: database-schema.sql (billing_customers, subscriptions)
+
+Ticket: BILL-004 — Budget alerts and spend controls
+- Description: Allow admins to set budgets and thresholds that trigger alerts and optional request blocking.
+--
+- Dependencies: SEC-001, API-002
+- Estimate: 4d | Priority: P0
+- Links: database-schema.sql (roles, permissions, user_roles)
+
+Ticket: SEC-004 — Audit logging (tamper-evident) and SIEM export
+- Description: Implement structured audit logs with optional signing/hashing and SIEM export (e.g., Splunk/Datadog) via HTTPS.
+- Acceptance Criteria:
+  - Audit events on auth, config changes, API keys, provider creds
+  - Export pipeline with backpressure and retries
+- Dependencies: API-002, SEC-003
+- Estimate: 3d | Priority: P1
+- Links: database-schema.sql (audit_logs)
+
+Ticket: SEC-005 — Data residency and regional routing controls
+- Description: Enforce data residency policies in request handling and provider selection (EU/US), including storage policies.
+- Acceptance Criteria:
+  - Residency policy checked on every request
+  - Router obeys regional constraints in model selection
+- Dependencies: ORCH-002, ADPT-004
+- Estimate: 3d | Priority: P2
+- Links: database-schema.sql (data_residency_policies)
+
+---
+
+## Shared/Infrastructure
+
+DATABASE SCHEMA:
+-- Enterprise AI Orchestration Platform — Multi-tenant PostgreSQL Schema (EUFM)
+-- Focus: Tenant isolation, RBAC, audit, monitoring, billing
+
+CREATE EXTENSION IF NOT EXISTS pgcrypto;
+-- For time-series metrics, TimescaleDB optional
+-- CREATE EXTENSION IF NOT EXISTS timescaledb;
+
+-- Tenancy & Identity -------------------------------------------------------
+
+CREATE TABLE tenants (
+  id                  uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+  name                text NOT NULL,
+  slug                text UNIQUE NOT NULL,
+  plan                text NOT NULL DEFAULT 'starter',
+  region              text NOT NULL DEFAULT 'eu-central-1',
+  created_at          timestamptz NOT NULL DEFAULT now()
+);
+
+CREATE TABLE environments (
+  id                  uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+  tenant_id           uuid NOT NULL REFERENCES tenants(id) ON DELETE CASCADE,
+  name                text NOT NULL,
+  type                text NOT NULL CHECK (type IN ('dev','staging','prod')),
+  created_at          timestamptz NOT NULL DEFAULT now(),
+  UNIQUE (tenant_id, name)
+);
+
+CREATE TABLE users (
+  id                  uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+  email               citext UNIQUE NOT NULL,
+  name                text,
+  status              text NOT NULL DEFAULT 'active',
+  created_at          timestamptz NOT NULL DEFAULT now(),
+  updated_at          timestamptz NOT NULL DEFAULT now()
+);
+
+CREATE TABLE identities (
+  id                  uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+  user_id             uuid NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  provider            text NOT NULL,        -- 'oidc','saml','password'
+  subject             text NOT NULL,        -- sub from IdP
+  tenant_id           uuid,                 -- optional tenant scoping for SSO
+  created_at          timestamptz NOT NULL DEFAULT now(),
+  UNIQUE (provider, subject)
+);
+
+CREATE TABLE roles (
+  id                  uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+  tenant_id           uuid REFERENCES tenants(id) ON DELETE CASCADE,
+  name                text NOT NULL,
+
+OPENAPI REFERENCE:
+  - ApiKeyAuth: []
+  - TenantHeader: []
+tags:
+  - name: Orchestration
+  - name: Tasks
+  - name: Monitoring
+  - name: Tenancy
+  - name: Security
+  - name: Providers
+  - name: Admin
+components:
+  securitySchemes:
+    OAuth2:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: https://auth.eufm.ai/oauth2/authorize
+          tokenUrl: https://auth.eufm.ai/oauth2/token
+          scopes:
+            openid: OIDC scope
+            profile: User profile
+            email: User email
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+      description: Required for service-to-service and SDK access
+    TenantHeader:
+      type: apiKey
+      in: header
+      name: X-Tenant-Id
+      description: Required to scope requests to a tenant
+  parameters:
+    TenantId:
+      name: X-Tenant-Id
+      in: header
+      required: true
+      schema:
+        type: string
+        format: uuid
+    EnvId:
+      name: X-Env-Id
+      in: header
+      required: false
+      schema:
+        type: string
+        format: uuid
+  schemas:
+--
+        - ApiKeyAuth: []
+        - TenantHeader: []
+      parameters:
+        - $ref: '#/components/parameters/TenantId'
+        - $ref: '#/components/parameters/EnvId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrchestrateRequest'
+      responses:
+        '200':
+          description: Orchestration result (sync)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrchestrateResponse'
+        '202':
+          description: Accepted (async)
+          content:
+            application/json:
+--
+        - ApiKeyAuth: []
+        - TenantHeader: []
+      parameters:
+        - $ref: '#/components/parameters/TenantId'
+        - $ref: '#/components/parameters/EnvId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrchestrateRequest'
+      responses:
+        '202':
+          description: Task created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Task'
+    get:
+      tags: [Tasks]
+      summary: List tasks
+      security:
+--
+        - TenantHeader: []
+      parameters:
+        - $ref: '#/components/parameters/TenantId'
+        - name: status
+          in: query
+          schema: { type: string }
+      responses:
+        '200':
+          description: Task list
+  /v1/tasks/{id}:
+    get:
+      tags: [Tasks]
+      summary: Get task status
+      security:
+        - ApiKeyAuth: []
+        - TenantHeader: []
+      parameters:
+        - $ref: '#/components/parameters/TenantId'
+        - name: id
+          in: path
+          required: true
+          schema: { type: string, format: uuid }
+      responses:
+        '200':
+          description: Task
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Task'
+  /v1/events:
+    get:
+      tags: [Monitoring]
+      summary: Server-Sent Events stream for real-time updates
+      description: Subscribe to task/request/alert events (SSE). Use WS at wss://events.eufm.ai for WebSocket.
+      security:
+        - ApiKeyAuth: []
+        - TenantHeader: []
+      parameters:
+        - $ref: '#/components/parameters/TenantId'
+        - name: types
+          in: query
+          schema:
+            type: array
+            items: { type: string }
+            default: ["task","request","alert"]
+      responses:
+        '200': { description: Event stream }
+  /v1/metrics/usage:
+    get:
+      tags: [Monitoring]
+      summary: Usage metrics aggregation
+      security:
+        - OAuth2: ["openid"]
+        - TenantHeader: []
+      parameters:
+        - $ref: '#/components/parameters/TenantId'
+        - name: from
+          in: query
+          schema: { type: string, format: date-time }
+        - name: to
+          in: query
+          schema: { type: string, format: date-time }
+        - name: unit
+          in: query
+          schema: { type: string, enum: [requests, tokens, cost_usd] }
+      responses:
+        '200': { description: Aggregated usage }
+  /v1/audit-logs:
+    get:
+      tags: [Security]
+      summary: Query audit logs
+      security:
+        - OAuth2: ["openid"]
+        - TenantHeader: []
+      parameters:
+        - $ref: '#/components/parameters/TenantId'
+        - name: q
+          in: query
+          schema: { type: string }
+      responses:
+        '200': { description: Audit log entries }
+  /v1/api-keys:
+    post:
+      tags: [Security]
+      summary: Create API key
+      security:
+        - OAuth2: ["openid"]
+        - TenantHeader: []
+      parameters:
+        - $ref: '#/components/parameters/TenantId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [name]
+              properties:
+                name: { type: string }
+                scopes: { type: array, items: { type: string } }
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiKey'
+    get:
+--
+        - TenantHeader: []
+      parameters:
+        - $ref: '#/components/parameters/TenantId'
+      responses:
+        '200': { description: API keys }
+  /v1/api-keys/{id}:
+    delete:
+      tags: [Security]
+      summary: Revoke API key
+      security:
+        - OAuth2: ["openid"]
+        - TenantHeader: []
+      parameters:
+        - $ref: '#/components/parameters/TenantId'
+        - name: id
+          in: path
+          required: true
+          schema: { type: string, format: uuid }
+      responses:
+        '204': { description: Revoked }
+  /v1/providers:
+    get:
+      tags: [Providers]
+      summary: List configured provider accounts
+      security:
+        - OAuth2: ["openid"]
+        - TenantHeader: []
+      parameters:
+        - $ref: '#/components/parameters/TenantId'
+      responses:
+        '200': { description: Provider accounts }
+    post:
+      tags: [Providers]
+      summary: Add provider account credentials
+      security:
+        - OAuth2: ["openid"]
+        - TenantHeader: []
+      parameters:
+        - $ref: '#/components/parameters/TenantId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [provider, accountLabel, credentials]
+              properties:
+                provider: { type: string }
+                accountLabel: { type: string }
+                credentials: { type: object }
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProviderAccount'
+
+REQUIREMENTS:
+- Header extraction for X-Tenant-Id (required for tenant-scoped endpoints)
+- Optional X-Env-Id header support
+- API key verification (X-API-Key) with prefix + hash validation against DB
+- OAuth2 (OIDC) bearer token validation with JWKS caching
+- Normalize auth context into req.ctx for downstream middleware
+- Follow BaseAgent pattern in /src/agents/
+- Register in src/orchestrator/agentFactory.ts
+- TypeScript strict mode with comprehensive error handling
+- Enterprise security compliance (audit logging, correlation IDs)
+
+ACCEPTANCE CRITERIA:
+- Requests without X-Tenant-Id rejected 400 (for tenant-scoped endpoints)
+- API keys validated (prefix + hash) against DB
+- OIDC bearer verified (JWKS cached) — library integration and config
+- Unit tests for positive/negative paths
+- All auth context normalized in req.ctx
+
+TARGET: Fortune 500 customers paying €999-50K/month
+COMPETITION: Must exceed Microsoft Copilot Studio quality
+
+IMPLEMENT COMPLETE ENTERPRISE-GRADE SOLUTION WITH TESTS.
+
+
+Project Context: EUFM (European Union Funds Manager) - AI Agent Orchestration System
+Working Directory: /Users/panda/Desktop/EUFM
+Project Type: TypeScript/Node.js multi-agent coordination system
+Note: Follow the BaseAgent pattern in src/agents/ and register in AgentFactory
+Note: Use the existing test patterns and ensure TypeScript compatibility
+
+Safety Guidelines:
+- Preserve existing functionality when modifying files
+- Follow TypeScript best practices and existing code patterns
+- Add proper error handling and logging
+- Test changes before completing
+
+[2025-09-09T14:38:49] thinking
+
+**Exploring API implementation**
+
+I need to focus on implementing API-002, which involves middleware for extracting headers, API key authentication, and OIDC bearer with JWKS caching. There's a goal to normalize the auth context into req.ctx, and the BaseAgent pattern seems a bit odd since it pertains to agents in the system, yet this is for API middleware. I'll investigate the repository structure to clarify this and see how it all ties together. I should. list the repo using the shell
+[2025-09-09T14:38:51] codex
+
+I’m going to scan the repository to find the API server structure, middleware patterns, and the AgentFactory so I can implement the multi-tenant auth middleware with tests and register any new agents.
+[2025-09-09T14:38:54] exec bash -lc 'ls -la' in /Users/panda/Desktop/EUFM
+[2025-09-09T14:38:54] bash -lc 'ls -la' succeeded in 79ms:
+total 1400
+drwxr-xr-x   86 panda  staff   2752 Sep  9 17:29 .
+drwx------+  18 panda  staff    576 Sep  9 15:28 ..
+-rw-r--r--@   1 panda  staff  10244 Sep  7 18:05 .DS_Store
+drwxr-xr-x    3 panda  staff     96 Sep  9 10:36 .claude
+drwxr-xr-x    3 panda  staff     96 Sep  8 16:46 .cursor
+-rw-r--r--    1 panda  staff    798 Sep  8 13:28 .env
+-rw-r--r--    1 panda  staff    196 Sep  7 21:10 .env.example
+drwxr-xr-x   17 panda  staff    544 Sep  9 17:02 .git
+drwxr-xr-x    3 panda  staff     96 Sep  3 11:39 .github
+-rw-r--r--    1 panda  staff     71 Sep  8 15:04 .gitignore
+drwxr-xr-x    3 panda  staff     96 Sep  9 16:53 .vscode
+-rw-r--r--    1 panda  staff   6792 Sep  8 17:14 AGENTS.md
+-rw-r--r--    1 panda  staff   5024 Sep  8 19:19 AGENT_QUICK_REFERENCE.md
+-rw-r--r--    1 panda  staff   5123 Sep  8 17:38 CLAUDE_CODE_INSTRUCTIONS.md
+-rw-r--r--    1 panda  staff   7825 Sep  8 17:31 CLAUDE_CODE_ORIENTATION.md
+-rw-r--r--    1 panda  staff  22828 Sep  9 17:29 CLAUDE_CODE_SPEC_KIT_IMPLEMENTATION.md
+-rw-r--r--    1 panda  staff   6460 Sep  9 10:56 CLAUDE_GPT5_CONTINUATION_SPEC.md
+-rw-r--r--    1 panda  staff  11019 Sep  6 20:32 CLAUDE_MISSION_BRIEFING.md
+-rw-r--r--    1 panda  staff   7089 Sep  8 17:47 CLAUDE_READING_INSTRUCTION.md
+[2025-09-09T14:38:54] tokens used: 5723
+[2025-09-09T14:38:57] exec bash -lc "ls -la src && rg -n \"BaseAgent|agentFactory|orchestrator|middleware|openapi|api|server|express|fastify|koa|router\" -S --no-ignore -g '"'!node_modules'"'" in /Users/panda/Desktop/EUFM
+[2025-09-09T14:39:01] bash -lc "ls -la src && rg -n \"BaseAgent|agentFactory|orchestrator|middleware|openapi|api|server|express|fastify|koa|router\" -S --no-ignore -g '"'!node_modules'"'" succeeded in 3.28s:
+total 16
+drwxr-xr-x  17 panda  staff   544 Sep  8 13:14 .
+drwxr-xr-x  86 panda  staff  2752 Sep  9 17:29 ..
+-rw-r--r--@  1 panda  staff  6148 Sep  3 12:43 .DS_Store
+drwxr-xr-x   6 panda  staff   192 Sep  9 10:48 adapters
+drwxr-xr-x  20 panda  staff   640 Sep  9 10:43 agents
+drwxr-xr-x   7 panda  staff   224 Sep  3 15:12 analytics
+drwxr-xr-x   3 panda  staff    96 Sep  8 19:49 cli
+drwxr-xr-x   8 panda  staff   256 Sep  8 14:01 dashboard
+drwxr-xr-x   3 panda  staff    96 Sep  8 13:14 integrations
+drwxr-xr-x   4 panda  staff   128 Sep  3 15:34 intelligence
+drwxr-xr-x   4 panda  staff   128 Sep  7 17:25 masterControl
+drwxr-xr-x   6 panda  staff   192 Sep  6 21:37 mcc
+drwxr-xr-x   4 panda  staff   128 Sep  3 14:48 memory
+drwxr-xr-x   9 panda  staff   288 Sep  9 10:47 orchestrator
+drwxr-xr-x   6 panda  staff   192 Sep  8 17:09 tests
+drwxr-xr-x  18 panda  staff   576 Sep  8 20:00 tools
+drwxr-xr-x   5 panda  staff   160 Sep  8 17:09 utils
+src/analytics/autoTracker.ts:44:    const apiTotal = (usageFromApi?.total_tokens ?? 0) || ((usageFromApi?.prompt_tokens ?? 0) + (usageFromApi?.completion_tokens ?? 0));
+src/analytics/autoTracker.ts:45:    const estTotal = apiTotal > 0 ? apiTotal : (estimateTokens(prompt) + estimateTokens(completion));
+[2025-09-09T14:39:01] tokens used: 2839
+
+[2025-09-09T14:39:05] thinking
+
+**Examining server structure**
+
+I'm looking at the `src/dashboard/dashboardServer.ts`, which appears to be an Express server featuring various routes. It's not strictly the enterprise API though. There's also a `monetization-projects` specification that includes an `openapi.yaml`. Additionally, I notice `src/orchestrator/agentFactory.ts` mentioned. My next step is to dive into these files to explore their relevance and how they connect. Let's see what I can find!
+[2025-09-09T14:39:08] exec bash -lc "sed -n '1,220p' src/orchestrator/agentFactory.ts" in /Users/panda/Desktop/EUFM
+[2025-09-09T14:39:08] bash -lc "sed -n '1,220p' src/orchestrator/agentFactory.ts" succeeded in 37ms:
+import { AgentSpec } from './types.js';
+import { BaseAgent } from '../agents/baseAgent.js';
+import { CodexAgent } from '../agents/codexAgent.js';
+import { CodexCLIAgent } from '../agents/codexCLIAgent.js';
+import { JulesAgent } from '../agents/julesAgent.js';
+import { AbacusAgent } from '../agents/abacusAgent.js';
+import { BrowserAgent } from '../agents/browserAgent.js';
+import { MemoryAgent } from '../agents/memoryAgent.js';
+import { AgentSummonerAgent } from '../agents/agentSummonerAgent.js';
+import { AgentSummoner } from '../agents/agentSummoner.js';
+import { EnhancedAbacusAgent } from '../agents/enhancedAbacusAgent.js';
+import { EUFMAgentSummoner } from '../agents/eufmAgentSummoner.js';
+import { SmokeTestAgent } from '../agents/smokeTestAgent.js';
+import { TestAgent } from '../agents/testAgent.js';
+import { EUFundingProposalAgent } from '../agents/euFundingProposalAgent.js';
+import { FigmaMCPAgent } from '../agents/figmaMCPAgent.js';
+import { SpecKitCodexAgent } from '../agents/specKitCodexAgent.js';
+
+export class AgentFactory {
+  create(spec: AgentSpec): BaseAgent {
+[2025-09-09T14:39:08] tokens used: 3239
+[2025-09-09T14:39:11] exec bash -lc "sed -n '1,220p' src/agents/baseAgent.ts" in /Users/panda/Desktop/EUFM
+[2025-09-09T14:39:11] bash -lc "sed -n '1,220p' src/agents/baseAgent.ts" succeeded in 21ms:
+import { AgentResult } from '../orchestrator/types.js';
+
+export interface AgentContext {
+  workingDir?: string;
+  shared?: Record<string, any>;
+}
+
+export interface AgentRunOptions {
+  input: string;
+  timeoutMs?: number;
+  dryRun?: boolean;
+}
+
+export abstract class BaseAgent {
+  constructor(public id: string, public requirementId: string) {}
+
+  abstract get type(): string;
+  abstract run(opts: AgentRunOptions, ctx?: AgentContext): Promise<AgentResult>;
+
+  protected now() { return new Date().toISOString(); }
+[2025-09-09T14:39:11] tokens used: 801
+[2025-09-09T14:39:15] exec bash -lc "sed -n '1,240p' src/dashboard/dashboardServer.ts" in /Users/panda/Desktop/EUFM
+[2025-09-09T14:39:15] bash -lc "sed -n '1,240p' src/dashboard/dashboardServer.ts" succeeded in 34ms:
+import express from 'express';
+import { createServer } from 'http';
+import { WebSocketServer } from 'ws';
+import path from 'path';
+import { fileURLToPath } from 'url';
+import { MissionControl } from './missionControl.js';
+import { NotionSyncService } from '../integrations/notionSyncService.js';
+import { geminiComplete } from '../adapters/google_gemini.js';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+export class DashboardServer {
+  private app = express();
+  private server = createServer(this.app);
+  private wss = new WebSocketServer({ server: this.server });
+  private missionControl = new MissionControl();
+  private port = process.env.DASHBOARD_PORT || 3000;
+
+  constructor() {
+[2025-09-09T14:39:15] tokens used: 238
+[2025-09-09T14:39:19] exec bash -lc "sed -n '240,520p' src/dashboard/dashboardServer.ts" in /Users/panda/Desktop/EUFM
+[2025-09-09T14:39:19] bash -lc "sed -n '240,520p' src/dashboard/dashboardServer.ts" succeeded in 38ms:
+      this.sendStatusUpdate(ws);
+      
+      // Handle client messages
+      ws.on('message', async (message) => {
+        try {
+          const data = JSON.parse(message.toString());
+          await this.handleWebSocketMessage(ws, data);
+        } catch (error) {
+          ws.send(JSON.stringify({ error: 'Invalid message format' }));
+        }
+      });
+
+      ws.on('close', () => {
+        console.log('Dashboard client disconnected');
+      });
+    });
+
+    // Relay mission control events to all clients
+    this.missionControl.events.on('alert', (evt) => {
+      const payload = JSON.stringify({ type: 'activity', message: `[${evt.level.toUpperCase()}] ${evt.message}` });
+[2025-09-09T14:39:19] tokens used: 2667
+
+[2025-09-09T14:39:23] thinking
+
+**Planning server implementation**
+
+I there’m considering that’s an express server specifically for the dashboard, but there’s no enterprise API yet. It seems like I need to implement middlewares as library code to potentially support future endpoints. Plus, creating unit tests is essential to ensure everything works smoothly. I should check the `src/tests` directory for any existing tests or guidelines. It feels like a good opportunity to establish a solid foundation!
+[2025-09-09T14:39:25] exec bash -lc "ls -la src/tests && rg -n \"jest|vitest|mocha|chai|supertest|tap|ava|node:test|ts-jest|tsx|ts-node|ts-mocha|describe\\(|it\\(|test\\(\" -S src/tests || true" in /Users/panda/Desktop/EUFM
+[2025-09-09T14:39:25] bash -lc "ls -la src/tests && rg -n \"jest|vitest|mocha|chai|supertest|tap|ava|node:test|ts-jest|tsx|ts-node|ts-mocha|describe\\(|it\\(|test\\(\" -S src/tests || true" succeeded in 71ms:
+total 32
+drwxr-xr-x   6 panda  staff   192 Sep  8 17:09 .
+drwxr-xr-x  17 panda  staff   544 Sep  8 13:14 ..
+-rw-r--r--   1 panda  staff  1477 Sep  6 21:08 countryCodes_test.ts
+-rw-r--r--   1 panda  staff  2605 Sep  8 17:09 deadlineValidator_test.ts
+-rw-r--r--   1 panda  staff  1483 Sep  6 21:12 euFundingProposalAgent_test.ts
+-rw-r--r--   1 panda  staff  1416 Sep  6 17:22 eufm_integration_test.ts
+src/tests/countryCodes_test.ts:49:  process.exit(1);
+src/tests/deadlineValidator_test.ts:56:  process.exit(1);
+src/tests/euFundingProposalAgent_test.ts:28:// Allow running directly with `tsx src/tests/euFundingProposalAgent_test.ts`
+src/tests/eufm_integration_test.ts:24:// Allow running directly with `tsx src/tests/eufm_integration_test.ts "hello"`
+[2025-09-09T14:39:25] tokens used: 1485
+[2025-09-09T14:39:29] exec bash -lc "sed -n '1,240p' src/tests/eufm_integration_test.ts" in /Users/panda/Desktop/EUFM
+[2025-09-09T14:39:29] bash -lc "sed -n '1,240p' src/tests/eufm_integration_test.ts" succeeded in 13ms:
+import { AgentFactory } from '../orchestrator/agentFactory.js';
+import type { AgentSpec, AgentResult } from '../orchestrator/types.js';
+
+/**
+ * Simple integration demo: constructs a TestAgent via AgentFactory and runs it.
+ * Safe to run without external APIs or network.
+ */
+export async function runAgentIntegrationDemo(input: string): Promise<AgentResult> {
+  const factory = new AgentFactory();
+
+  const spec: AgentSpec = {
+    id: 'agent-test-1',
+    type: 'TestAgent',
+    requirementId: 'req-demo-1',
+    capabilities: ['memory'],
+    params: { note: 'integration-smoke' },
+  };
+
+  const agent = factory.create(spec);
+  const ctx = { workingDir: process.cwd(), shared: { demo: true } };
+[2025-09-09T14:39:29] tokens used: 460
+
+[2025-09-09T14:39:38] thinking
+
+**Investigating custom tests**
+
+I’m looking at tests that are custom scripts, rather than using a framework like Jest. It seems they utilize TSX for execution, but there is no API server handling requests. I think we might need to add new middleware under src/api. To get further, I’ll search for references to the api_keys table. This should help clarify how everything is interconnected. It's bit a of a puzzle, but I'm on it!
+[2025-09-09T14:39:43] exec bash -lc "rg -n \"api_keys|X-API-Key|X-Tenant-Id|X-Env-Id|Bearer|OIDC|JWKS|tenant|middleware|auth|req\\.ctx|ctx\" -S src | sed -n '1,200p'" in /Users/panda/Desktop/EUFM
+[2025-09-09T14:39:43] bash -lc "rg -n \"api_keys|X-API-Key|X-Tenant-Id|X-Env-Id|Bearer|OIDC|JWKS|tenant|middleware|auth|req\\.ctx|ctx\" -S src | sed -n '1,200p'" succeeded in 50ms:
+src/orchestrator/executionCoordinator.ts:15:    const ctxShared: Record<string, any> = {};
+src/orchestrator/executionCoordinator.ts:26:          const out = await agent.run({ input: inputByReq[reqId], timeoutMs: options.timeoutMs, dryRun: options.dryRun }, { shared: { ...ctxShared, ...(spec.params || {}) } });
+src/orchestrator/executionCoordinator.ts:29:          ctxShared[`out_${reqId}_${spec.type}`] = out.output;
+src/orchestrator/providers/anthropicAdapter.ts:19:      tenantId: req.tenantId,
+src/adapters/perplexity.ts:17:      'Authorization': `Bearer ${apiKey}`
+src/orchestrator/providers/openaiAdapter.ts:24:      tenantId: req.tenantId,
+src/adapters/openai.ts:26:			'Authorization': `Bearer ${apiKey}`
+src/orchestrator/providers/googleAdapter.ts:19:      tenantId: req.tenantId,
+src/orchestrator/providers/types.ts:4:  tenantId: string;
+src/orchestrator/providers/types.ts:37:  tenantId: string;
+src/integrations/notionSyncService.ts:42:    this.notion = new Client({ auth: envOrThrow('NOTION_TOKEN') });
+src/agents/smokeTestAgent.ts:7:  async run(opts: AgentRunOptions, _ctx?: AgentContext): Promise<AgentResult> {
+src/agents/browserAgent.ts:6:  async run(opts: AgentRunOptions, _ctx?: AgentContext): Promise<AgentResult> {
+src/agents/agentSummonerAgent.ts:48:  async run(opts: AgentRunOptions, ctx?: AgentContext): Promise<AgentResult> {
+src/agents/baseAgent.ts:18:  abstract run(opts: AgentRunOptions, ctx?: AgentContext): Promise<AgentResult>;
+src/agents/codexCLIAgent.ts:15:  async run(opts: AgentRunOptions, ctx?: AgentContext): Promise<AgentResult> {
+src/agents/codexCLIAgent.ts:45:      const agentOptions = this.parseOptions(opts.input, ctx);
+src/agents/codexCLIAgent.ts:48:      const enhancedTask = this.enhanceTask(opts.input, ctx);
+src/agents/codexCLIAgent.ts:111:  private parseOptions(input: string, ctx?: AgentContext): CodexAgentOptions {
+src/agents/codexCLIAgent.ts:113:    const contextOptions = ctx?.shared?.codexOptions as CodexAgentOptions || {};
+[2025-09-09T14:39:43] tokens used: 594
+
+[2025-09-09T14:39:46] thinking
+
+**Adding middleware and DB interactionsI**
+
+’m noting that there’s no existing middleware, so I’ll have to add new files. We also need to implement database interactions for API key verification, involving a prefix and hash. I'm curious if the repository includes a DB module, so I should search for terms like "postgres" or "database" to find relevant components. It’s crucial to ensure everything is properly integrated for smooth! functionality
+[2025-09-09T14:39:53] exec bash -lc "rg -n \"pg\\b|postgres|prisma|knex|sequelize|database|sql|connection string|pool|db\\.|pg-promise|drizzle|typeorm|libpq|sqlite|better-sqlite|sql\\.\" -S src | sed -n '1,200p'" in /Users/panda/Desktop/EUFM
+[2025-09-09T14:39:53] bash -lc "rg -n \"pg\\b|postgres|prisma|knex|sequelize|database|sql|connection string|pool|db\\.|pg-promise|drizzle|typeorm|libpq|sqlite|better-sqlite|sql\\.\" -S src | sed -n '1,200p'" succeeded in 144ms:
+src/integrations/notionSyncService.ts:110:  private async tryUpsertProjectsDatabase(p: ProjectMetadata): Promise<void> {
+src/integrations/notionSyncService.ts:115:        parent: { database_id: this.projectsDbId },
+src/integrations/notionSyncService.ts:141:        await this.tryUpsertProjectsDatabase(p);
+[2025-09-09T14:39:53] tokens used: 1782
+
+[2025-09-09T14:40:01] thinking
+
+**Considering testing with Express**
+
+I’m thinking about how to demonstrate usage by adding an express router with a sample route. It’ll be good to ensure tests run with supertest by setting up a simple express app that includes the necessary middlewares. The repo’s tests don’t use, jest but I could add a script to incorporate tsx for running Node with supertest. We’ll want to make sure the acceptance criteria are met with unit tests for both positive and negative paths. Time to check package.json for the dev dependencies!
+[2025-09-09T14:40:05] exec bash -lc 'cat package.json' in /Users/panda/Desktop/EUFM
+[2025-09-09T14:40:05] bash -lc 'cat package.json' succeeded in 26ms:
+{
+  "name": "eufm",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "tsc -p .",
+    "start": "node dist/cli/index.js",
+    "dev": "tsx src/cli/index.ts",
+    "lint": "eslint .",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test:integration": "tsx src/tests/eufm_integration_test.ts 'Integration check'",
+    "test:country-codes": "tsx src/tests/countryCodes_test.ts",
+    "dev:oradea": "tsx src/tools/oradea_business_cli.ts",
+    "dev:dashboard": "tsx src/dashboard/dashboardServer.ts"
+  },
+  "dependencies": {
+    "@notionhq/client": "^5.0.0",
+    "@types/express": "^5.0.3",
+    "@types/ws": "^8.18.1",
+[2025-09-09T14:40:05] tokens used: 546
+[2025-09-09T14:40:34] codex
+
+Next, I’ll add the middleware, types, and tests: request context typing, tenant and auth middlewares, OIDC verifier, API key verifier, and a simple agent for registration. Then I’ll update dependencies and tests create unit.
+[2025-09-09T14:40:38] apply_patch auto_approved=true:
+A /Users/panda/Desktop/EUFM/src/api/types.ts
+import type { JWTPayload } from 'jose';
+
+export type AuthType = 'api-key' | 'oidc' | 'none';
+
+export interface AuthContext {
+  type: AuthType;
+  // API key context
+  apiKeyId?: string;
+  apiKeyPrefix?: string;
+  apiKeyName?: string;
+  apiKeyScopes?: string[];
+  // OIDC context
+  userId?: string;
+  subject?: string;
+  email?: string;
+  scopes?: string[];
+  claims?: JWTPayload;
+}
+
+export interface RequestContext {
+  correlationId: string;
+  tenantId?: string;
+  envId?: string;
+  auth: AuthContext;
+}
+
+export interface ApiErrorBody {
+  error: string;
+  message: string;
+  correlationId: string;
+}
+
+// Utility to build consistent error responses
+export function errorBody(error: string, message: string, correlationId: string): ApiErrorBody {
+  return { error, message, correlationId };
+}
+
+[2025-09-09T14:40:38] apply_patch(auto_approved=true) exited 0 in 96ms:
+Success. Updated the following files:
+A src/api/types.ts
+[2025-09-09T14:40:38] turn diff:
+diff --git a/src/api/types.ts b/src/api/types.ts
+new file mode 100644
+index 0000000000000000000000000000000000000000..35d3c01610bd3725d77bd454fbf1f04f17c02db4
+--- /dev/null
++++ b/src/api/types.ts
+@@ -0,0 +1,37 @@
++import type { JWTPayload } from 'jose';
++
++export type AuthType = 'api-key' | 'oidc' | 'none';
++
++export interface AuthContext {
++  type: AuthType;
++  // API key context
++  apiKeyId?: string;
++  apiKeyPrefix?: string;
++  apiKeyName?: string;
++  apiKeyScopes?: string[];
++  // OIDC context
++  userId?: string;
++  subject?: string;
++  email?: string;
++  scopes?: string[];
++  claims?: JWTPayload;
++}
++
++export interface RequestContext {
++  correlationId: string;
++  tenantId?: string;
++  envId?: string;
++  auth: AuthContext;
++}
++
++export interface ApiErrorBody {
++  error: string;
++  message: string;
++  correlationId: string;
++}
++
++// Utility to build consistent error responses
++export function errorBody(error: string, message: string, correlationId: string): ApiErrorBody {
++  return { error, message, correlationId };
++}
++
+
+[2025-09-09T14:40:38] tokens used: 2350
+[2025-09-09T14:40:38] turn diff:
+diff --git a/src/api/types.ts b/src/api/types.ts
+new file mode 100644
+index 0000000000000000000000000000000000000000..35d3c01610bd3725d77bd454fbf1f04f17c02db4
+--- /dev/null
++++ b/src/api/types.ts
+@@ -0,0 +1,37 @@
++import type { JWTPayload } from 'jose';
++
++export type AuthType = 'api-key' | 'oidc' | 'none';
++
++export interface AuthContext {
++  type: AuthType;
++  // API key context
++  apiKeyId?: string;
++  apiKeyPrefix?: string;
++  apiKeyName?: string;
++  apiKeyScopes?: string[];
++  // OIDC context
++  userId?: string;
++  subject?: string;
++  email?: string;
++  scopes?: string[];
++  claims?: JWTPayload;
++}
++
++export interface RequestContext {
++  correlationId: string;
++  tenantId?: string;
++  envId?: string;
++  auth: AuthContext;
++}
++
++export interface ApiErrorBody {
++  error: string;
++  message: string;
++  correlationId: string;
++}
++
++// Utility to build consistent error responses
++export function errorBody(error: string, message: string, correlationId: string): ApiErrorBody {
++  return { error, message, correlationId };
++}
++
+

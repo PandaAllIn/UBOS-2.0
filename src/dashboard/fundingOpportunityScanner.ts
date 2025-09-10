@@ -47,7 +47,7 @@ export class FundingOpportunityScanner {
         const sourceOpportunities = await this.scanSource(source);
         opportunities.push(...sourceOpportunities);
         progressCb?.({ stage: 'parsed', message: `Analyzing ${source} results…`, percent: Math.round(((i + 0.6) / total) * 100) });
-      } catch (error) {
+      } catch (error: any) {
         console.warn(`Failed to scan ${source}:`, error);
       }
     }
@@ -102,7 +102,7 @@ Return only valid JSON.`;
       const analysis = await geminiComplete(analysisPrompt, 'gemini-2.0-flash-exp');
       const parsed = this.parseOpportunities(analysis, program);
       return parsed;
-    } catch (error) {
+    } catch (error: any) {
       console.warn(`Analysis failed for ${program}:`, error);
       return [];
     }
@@ -130,7 +130,7 @@ Return only valid JSON.`;
         status: this.determineStatus(opp.deadline),
         scannedAt: new Date().toISOString()
       }));
-    } catch (error) {
+    } catch (error: any) {
       console.warn('Failed to parse opportunities:', error);
       return [];
     }

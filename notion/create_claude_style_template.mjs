@@ -116,7 +116,7 @@ async function createClaudeStyleTemplate() {
             {
               type: 'paragraph',
               paragraph: {
-                rich_text: [{ text: { content: 'Status: Active and operational\nHealth: 98%\nLocation: /Users/panda/Desktop/Claude Code/eufm XF/\nAgents: AgentSummoner, MissionControl, ResearchAgent' } }]
+          rich_text: [{ text: { content: `Status: Active and operational\nHealth: 98%\nLocation: ${process.cwd()}/eufm/docs/xf/\nAgents: AgentSummoner, MissionControl, ResearchAgent` } }]
               }
             }
           ]
@@ -130,7 +130,7 @@ async function createClaudeStyleTemplate() {
             {
               type: 'paragraph',
               paragraph: {
-                rich_text: [{ text: { content: 'Status: Critical (10 days to deadline!)\nHealth: 92%\nLocation: /Users/panda/Desktop/EUFM/\nAgents: AgentSummoner, EUFundingProposal, EnhancedAbacus, CodexCLI' } }]
+          rich_text: [{ text: { content: `Status: Critical (10 days to deadline!)\nHealth: 92%\nLocation: ${process.cwd()}/\nAgents: AgentSummoner, EUFundingProposal, EnhancedAbacus, CodexCLI` } }]
               }
             }
           ]

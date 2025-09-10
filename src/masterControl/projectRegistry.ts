@@ -1,5 +1,6 @@
 import { promises as fs } from 'fs';
 import path from 'path';
+import { repoPath } from '../utils/paths.js';
 
 export interface ProjectMetadata {
   id: string;
@@ -81,7 +82,7 @@ export class ProjectRegistry {
         await this.createDefaultProjects();
       }
       this.isInitialized = true;
-    } catch (error) {
+    } catch (error: any) {
       console.error('❌ Failed to initialize project registry:', error);
     }
   }
@@ -142,9 +143,9 @@ export class ProjectRegistry {
         }
       ],
       location: {
-        baseDirectory: '/Users/panda/Desktop/Claude Code/eufm XF',
+        baseDirectory: repoPath('eufm', 'docs', 'xf'),
         configFile: 'mission_control.py',
-        logsDirectory: '/Users/panda/Desktop/Claude Code/eufm XF/logs'
+        logsDirectory: repoPath('logs', 'xf')
       }
     };
 
@@ -223,9 +224,9 @@ export class ProjectRegistry {
         }
       ],
       location: {
-        baseDirectory: '/Users/panda/Desktop/EUFM',
-        configFile: 'CLAUDE_SESSION_MEMORY.md',
-        logsDirectory: '/Users/panda/Desktop/EUFM/logs'
+        baseDirectory: repoPath(),
+        configFile: 'eufm/docs/agents/CLAUDE_SESSION_MEMORY.md',
+        logsDirectory: repoPath('logs')
       }
     };
 
@@ -361,7 +362,7 @@ export class ProjectRegistry {
     try {
       const registryData = Object.fromEntries(this.projectsData);
       await fs.writeFile(this.registryPath, JSON.stringify(registryData, null, 2), 'utf-8');
-    } catch (error) {
+    } catch (error: any) {
       console.error('❌ Failed to save project registry:', error);
     }
   }

@@ -1,4 +1,13 @@
-export type Capability = 'coding' | 'research' | 'data' | 'web_automation' | 'memory';
+export type Capability =
+  | 'coding'
+  | 'research'
+  | 'data'
+  | 'web_automation'
+  | 'memory'
+  | 'file_operations'
+  | 'system_access'
+  | 'agent_discovery'
+  | 'meta_analysis';
 
 export interface TaskRequirement {
   id: string;
@@ -33,11 +42,15 @@ export interface AgentSpec {
     | 'AbacusAgent'
     | 'EnhancedAbacusAgent'
     | 'AgentSummonerAgent'
+    | 'AgentSummoner'
     | 'EUFMAgentSummoner'
+    | 'SmokeTestAgent'
     | 'EUFundingProposalAgent'
     | 'BrowserAgent'
     | 'MemoryAgent'
-    | 'TestAgent';
+    | 'TestAgent'
+    | 'figma-mcp'
+    | 'spec-kit-codex';
   requirementId: string;
   capabilities: Capability[];
   params?: Record<string, any>;
@@ -54,6 +67,7 @@ export interface AgentResult {
   finishedAt: string;
   retries?: number;
   error?: string;
+  metadata?: Record<string, any>;
 }
 
 export interface OrchestrationPlan {

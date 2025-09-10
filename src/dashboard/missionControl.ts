@@ -26,7 +26,7 @@ export interface MissionControlStatus {
 }
 
 export class MissionControl {
-  private orchestrator = new StrategicOrchestrator();
+  protected orchestrator = new StrategicOrchestrator();
   private analytics = new UsageAnalyticsAgent();
   private monitor = new SystemMonitor();
   private fundingScanner = new FundingOpportunityScanner();
@@ -150,7 +150,7 @@ export class MissionControl {
       await this.addAlert('info', `Task completed successfully: ${result.taskId}`);
       this.events.emit('notify', { level: 'success', message: 'Task completed successfully' });
       return result;
-    } catch (error) {
+    } catch (error: any) {
       await this.addAlert('error', `Task failed: ${error}`);
       this.events.emit('notify', { level: 'error', message: 'Task execution failed' });
       throw error;
@@ -164,7 +164,7 @@ export class MissionControl {
       await this.addAlert('info', `Found ${opportunities.length} funding opportunities`);
       this.events.emit('notify', { level: 'success', message: `Scan complete — ${opportunities.length} found` });
       return opportunities;
-    } catch (error) {
+    } catch (error: any) {
       await this.addAlert('error', `Funding scan failed: ${error}`);
       this.events.emit('notify', { level: 'error', message: 'Funding scan failed' });
       throw error;

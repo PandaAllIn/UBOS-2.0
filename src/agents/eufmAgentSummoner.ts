@@ -4,6 +4,7 @@ import { EnhancedPerplexityResearch, ResearchQuery } from '../tools/enhancedPerp
 import { codexCLI } from '../tools/codexCLI.js';
 import { promises as fs } from 'fs';
 import path from 'path';
+import { repoPath } from '../utils/paths.js';
 
 interface EUFMTaskAnalysis {
   taskType: 'development' | 'research' | 'architecture' | 'integration' | 'documentation' | 'testing';
@@ -38,8 +39,14 @@ export class EUFMAgentSummoner extends BaseAgent {
   private async loadEUFMKnowledge() {
     // Load EUFM-specific knowledge about agents and capabilities
     try {
-      const projectOverview = await fs.readFile('/Users/panda/Desktop/EUFM/PROJECT_OVERVIEW.md', 'utf-8');
-      const architecture = await fs.readFile('/Users/panda/Desktop/EUFM/docs/architecture.md', 'utf-8');
+      const projectOverview = await fs.readFile(
+        repoPath('eufm', 'docs', 'general', 'PROJECT_OVERVIEW.md'),
+        'utf-8'
+      );
+      const architecture = await fs.readFile(
+        repoPath('eufm', 'docs', 'guides', 'architecture.md'),
+        'utf-8'
+      );
       
       this.knowledgeBase.set('project_overview', projectOverview);
       this.knowledgeBase.set('architecture', architecture);
@@ -87,7 +94,7 @@ export class EUFMAgentSummoner extends BaseAgent {
         }
       });
 
-    } catch (error) {
+    } catch (error: any) {
       console.warn('Could not load EUFM knowledge base:', error);
     }
   }

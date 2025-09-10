@@ -69,7 +69,7 @@ export class AgentActionLogger {
       }
       
       this.isInitialized = true;
-    } catch (error) {
+    } catch (error: any) {
       console.error('❌ Failed to initialize AgentActionLogger:', error);
     }
   }
@@ -245,7 +245,7 @@ export class AgentActionLogger {
   private async saveActions(): Promise<void> {
     try {
       await fs.writeFile(this.logPath, JSON.stringify(this.actions, null, 2), 'utf-8');
-    } catch (error) {
+    } catch (error: any) {
       console.error('❌ Failed to save agent actions:', error);
     }
   }

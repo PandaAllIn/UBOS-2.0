@@ -1,0 +1,1721 @@
+Executing: codex exec --dangerously-bypass-approvals-and-sandbox Break down the orchestration platform into specific development tasks. Create actionable tickets for: API gateway, multi-provider adapters, workflow engine, billing system, monitoring dashboard, and enterprise security features. Use the spec at /Users/panda/Desktop/EUFM/monetization-projects/orchestration-saas/specs/001-enterprise-orchestration-platform/spec.md and the generated outputs. Output as markdown tickets grouped by epic under monetization-projects/orchestration-saas/specs/001-enterprise-orchestration-platform/outputs/tasks.md
+
+Project Context: EUFM (European Union Funds Manager) - AI Agent Orchestration System
+Working Directory: /Users/panda/Desktop/EUFM
+Project Type: TypeScript/Node.js multi-agent coordination system
+
+Safety Guidelines:
+- Preserve existing functionality when modifying files
+- Follow TypeScript best practices and existing code patterns
+- Add proper error handling and logging
+- Test changes before completing
+Working Directory: /Users/panda/Desktop/EUFM
+Timeout: 600000 ms
+
+[2025-09-09T07:34:13] OpenAI Codex v0.30.0 (research preview)
+--------
+workdir: /Users/panda/Desktop/EUFM
+model: gpt-5
+provider: openai
+approval: never
+sandbox: danger-full-access
+reasoning effort: medium
+reasoning summaries: auto
+--------
+[2025-09-09T07:34:13] User instructions:
+Break down the orchestration platform into specific development tasks. Create actionable tickets for: API gateway, multi-provider adapters, workflow engine, billing system, monitoring dashboard, and enterprise security features. Use the spec at /Users/panda/Desktop/EUFM/monetization-projects/orchestration-saas/specs/001-enterprise-orchestration-platform/spec.md and the generated outputs. Output as markdown tickets grouped by epic under monetization-projects/orchestration-saas/specs/001-enterprise-orchestration-platform/outputs/tasks.md
+
+Project Context: EUFM (European Union Funds Manager) - AI Agent Orchestration System
+Working Directory: /Users/panda/Desktop/EUFM
+Project Type: TypeScript/Node.js multi-agent coordination system
+
+Safety Guidelines:
+- Preserve existing functionality when modifying files
+- Follow TypeScript best practices and existing code patterns
+- Add proper error handling and logging
+- Test changes before completing
+
+[2025-09-09T07:34:19] thinking
+
+**Organizing platform tasks**
+
+I need to break down the platform into manageable tasks and create markdown tickets at a specified path. First, I should read the spec file and check for any generated outputs. The tasks will be grouped by epics like the API gateway and workflow engine. It’s important to use tools for this, especially considering developer instructions, which suggest including a preamble before shell commands. Since this involves multiple steps, I’ll create a brief plan using the update_plan tool. I need to run some shell commands
+**Executing shell commands**
+
+Next, to list the directory and view the contents of the spec file. This step is important since it will give me an overview of what's available and help me understand the context better. I'll ensure I follow the right sequence here, so I can gather all the necessary information to move forward effectively. Let’s proceed with this plan to keep things organized!
+[2025-09-09T07:34:22] codex
+**Executing shell commands**
+
+Next, I need to run some shell commands to list the directory and view the contents of the spec file. This step is important since it will give me an overview of what's available and help me understand the context better. I'll ensure I follow the right sequence here, so I can gather all the necessary information to move forward effectively. Let’s proceed with this plan to keep things organized!
+[2025-09-09T07:34:22] codex
+
+I’m going to inspect the spec and any related outputs, then draft a concise set of epic-grouped markdown tickets and write them to the outputs path.
+[2025-09-09T07:34:25] exec bash -lc 'ls -la' -lc 'ls -la monetization-projects/orchestration-saas/specs/001-enterprise-orchestration-platform' -lc 'ls -la monetization-projects/orchestration-saas/specs/001-enterprise-orchestration-platform/outputs || true' -lc "sed -n '1,200p' monetization-projects/orchestration-saas/specs/001-enterprise-orchestration-platform/spec.md" -lc "sed -n '200,400p' monetization-projects/orchestration-saas/specs/001-enterprise-orchestration-platform/spec.md" -lc "sed -n '400,800p' monetization-projects/orchestration-saas/specs/001-enterprise-orchestration-platform/spec.md" in /Users/panda/Desktop/EUFM
+[2025-09-09T07:34:26] bash -lc 'ls -la' -lc 'ls -la monetization-projects/orchestration-saas/specs/001-enterprise-orchestration-platform' -lc 'ls -la monetization-projects/orchestration-saas/specs/001-enterprise-orchestration-platform/outputs || true' -lc "sed -n '1,200p' monetization-projects/orchestration-saas/specs/001-enterprise-orchestration-platform/spec.md" -lc "sed -n '200,400p' monetization-projects/orchestration-saas/specs/001-enterprise-orchestration-platform/spec.md" -lc "sed -n '400,800p' monetization-projects/orchestration-saas/specs/001-enterprise-orchestration-platform/spec.md" succeeded in 115ms:
+total 1320
+drwxr-xr-x   81 panda  staff   2592 Sep  9 10:06 .
+drwx------+  17 panda  staff    544 Sep  7 19:35 ..
+-rw-r--r--@   1 panda  staff  10244 Sep  7 18:05 .DS_Store
+drwxr-xr-x    3 panda  staff     96 Sep  9 10:09 .claude
+drwxr-xr-x    3 panda  staff     96 Sep  8 16:46 .cursor
+-rw-r--r--    1 panda  staff    798 Sep  8 13:28 .env
+-rw-r--r--    1 panda  staff    196 Sep  7 21:10 .env.example
+drwxr-xr-x   17 panda  staff    544 Sep  8 20:55 .git
+drwxr-xr-x    3 panda  staff     96 Sep  3 11:39 .github
+-rw-r--r--    1 panda  staff     71 Sep  8 15:04 .gitignore
+-rw-r--r--    1 panda  staff   6792 Sep  8 17:14 AGENTS.md
+-rw-r--r--    1 panda  staff   5024 Sep  8 19:19 AGENT_QUICK_REFERENCE.md
+-rw-r--r--    1 panda  staff   5123 Sep  8 17:38 CLAUDE_CODE_INSTRUCTIONS.md
+-rw-r--r--    1 panda  staff   7825 Sep  8 17:31 CLAUDE_CODE_ORIENTATION.md
+-rw-r--r--    1 panda  staff  11019 Sep  6 20:32 CLAUDE_MISSION_BRIEFING.md
+-rw-r--r--    1 panda  staff   7089 Sep  8 17:47 CLAUDE_READING_INSTRUCTION.md
+-rw-r--r--    1 panda  staff  15420 Sep  6 21:26 CLAUDE_SESSION_MEMORY.md
+-rw-r--r--    1 panda  staff   2966 Sep  7 18:11 CLAUDE_SESSION_STARTER.md
+-rw-r--r--    1 panda  staff  15118 Sep  8 13:02 CODEX_HANDOFF_BRIEFING.md
+[2025-09-09T07:34:26] tokens used: 8143
+[2025-09-09T07:34:36] exec bash -lc 'ls -la monetization-projects/orchestration-saas/specs/001-enterprise-orchestration-platform' -lc 'ls -la monetization-projects/orchestration-saas/specs/001-enterprise-orchestration-platform/outputs || true' -lc "sed -n '1,200p' monetization-projects/orchestration-saas/specs/001-enterprise-orchestration-platform/spec.md" -lc "sed -n '200,400p' monetization-projects/orchestration-saas/specs/001-enterprise-orchestration-platform/spec.md" -lc "sed -n '400,800p' monetization-projects/orchestration-saas/specs/001-enterprise-orchestration-platform/spec.md" in /Users/panda/Desktop/EUFM
+[2025-09-09T07:34:37] bash -lc 'ls -la monetization-projects/orchestration-saas/specs/001-enterprise-orchestration-platform' -lc 'ls -la monetization-projects/orchestration-saas/specs/001-enterprise-orchestration-platform/outputs || true' -lc "sed -n '1,200p' monetization-projects/orchestration-saas/specs/001-enterprise-orchestration-platform/spec.md" -lc "sed -n '200,400p' monetization-projects/orchestration-saas/specs/001-enterprise-orchestration-platform/spec.md" -lc "sed -n '400,800p' monetization-projects/orchestration-saas/specs/001-enterprise-orchestration-platform/spec.md" succeeded in 242ms:
+total 16
+drwxr-xr-x  4 panda  staff   128 Sep  9 10:23 .
+drwxr-xr-x  3 panda  staff    96 Sep  9 10:15 ..
+drwxr-xr-x  8 panda  staff   256 Sep  9 10:25 outputs
+-rw-r--r--  1 panda  staff  6417 Sep  9 10:15 spec.md
+[2025-09-09T07:34:37] tokens used: 10803
+[2025-09-09T07:34:41] exec bash -lc 'ls -la monetization-projects/orchestration-saas/specs/001-enterprise-orchestration-platform/outputs' -lc 'rg -n "''^#|''^##|''^###" monetization-projects/orchestration-saas/specs/001-enterprise-orchestration-platform/spec.md || true' -lc "sed -n '1,200p' monetization-projects/orchestration-saas/specs/001-enterprise-orchestration-platform/spec.md" -lc "sed -n '200,400p' monetization-projects/orchestration-saas/specs/001-enterprise-orchestration-platform/spec.md" -lc "sed -n '400,800p' monetization-projects/orchestration-saas/specs/001-enterprise-orchestration-platform/spec.md" in /Users/panda/Desktop/EUFM
+[2025-09-09T07:34:41] bash -lc 'ls -la monetization-projects/orchestration-saas/specs/001-enterprise-orchestration-platform/outputs' -lc 'rg -n "''^#|''^##|''^###" monetization-projects/orchestration-saas/specs/001-enterprise-orchestration-platform/spec.md || true' -lc "sed -n '1,200p' monetization-projects/orchestration-saas/specs/001-enterprise-orchestration-platform/spec.md" -lc "sed -n '200,400p' monetization-projects/orchestration-saas/specs/001-enterprise-orchestration-platform/spec.md" -lc "sed -n '400,800p' monetization-projects/orchestration-saas/specs/001-enterprise-orchestration-platform/spec.md" succeeded in 89ms:
+total 88
+drwxr-xr-x  8 panda  staff    256 Sep  9 10:25 .
+drwxr-xr-x  4 panda  staff    128 Sep  9 10:23 ..
+-rw-r--r--  1 panda  staff    633 Sep  9 10:23 README.md
+-rw-r--r--  1 panda  staff  13576 Sep  9 10:24 database-schema.sql
+-rw-r--r--  1 panda  staff   2350 Sep  9 10:25 deployment-strategy.md
+-rw-r--r--  1 panda  staff   3113 Sep  9 10:25 implementation-roadmap.md
+-rw-r--r--  1 panda  staff  10590 Sep  9 10:25 openapi.yaml
+-rw-r--r--  1 panda  staff   2295 Sep  9 10:24 system-architecture.mmd
+[2025-09-09T07:34:41] tokens used: 3332
+[2025-09-09T07:34:42] exec bash -lc "sed -n '1,200p' monetization-projects/orchestration-saas/specs/001-enterprise-orchestration-platform/spec.md" in /Users/panda/Desktop/EUFM
+[2025-09-09T07:34:42] bash -lc "sed -n '1,200p' monetization-projects/orchestration-saas/specs/001-enterprise-orchestration-platform/spec.md" succeeded in 102ms:
+# Enterprise AI Agent Orchestration Platform
+
+## Executive Summary
+
+Build a comprehensive enterprise platform that enables Fortune 500 companies to orchestrate multiple AI models (GPT-5, Claude, Gemini, Perplexity) through unified APIs and management interfaces. The platform eliminates the complexity of managing multiple AI services while providing enterprise-grade coordination, monitoring, and optimization.
+
+## Market Opportunity
+
+- **Market Size**: $50B+ AI services market growing 35% annually
+- **Target Segment**: Enterprise development teams, AI product managers, CTOs
+- **Pain Point**: 89% of enterprises struggle with multi-AI coordination
+- **Revenue Model**: SaaS subscriptions ($999-$50K/month) + professional services
+
+## Core Value Propositions
+
+### 1. Unified AI Orchestration
+- **Single API** for all major AI models (OpenAI, Anthropic, Google, Perplexity)
+- **Intelligent routing** based on task requirements and cost optimization
+- **Automatic failover** and load balancing across providers
+
+[2025-09-09T07:34:42] tokens used: 562
+
+[2025-09-09T07:34:45] thinking
+
+**Creating actionable tickets**
+
+I have a few key documents: the spec, openapi.yaml, database schema, implementation roadmap, and deployment strategy. I need to create actionable tickets organized by epics like API gateway, and billing system., descriptions, acceptance criteria, dependencies, and so Each ticket should include titles on. I'll group them under monetization-projects/.../outputs/tasks.md. Before I jump in, it makes sense to quickly read through the implementation roadmap and openapi.yaml to gather necessary details for writing these tickets. Let's open those files now!
+[2025-09-09T07:34:49] exec bash -lc "sed -n '1,200p' monetization-projects/orchestration-saas/specs/001-enterprise-orchestration-platform/outputs/implementation-roadmap.md" -lc "sed -n '1,200p' monetization-projects/orchestration-saas/specs/001-enterprise-orchestration-platform/outputs/openapi.yaml" -lc "sed -n '200,400p' monetization-projects/orchestration-saas/specs/001-enterprise-orchestration-platform/outputs/openapi.yaml" -lc "sed -n '1,200p' monetization-projects/orchestration-saas/specs/001-enterprise-orchestration-platform/outputs/database-schema.sql" in /Users/panda/Desktop/EUFM
+[2025-09-09T07:34:49] bash -lc "sed -n '1,200p' monetization-projects/orchestration-saas/specs/001-enterprise-orchestration-platform/outputs/implementation-roadmap.md" -lc "sed -n '1,200p' monetization-projects/orchestration-saas/specs/001-enterprise-orchestration-platform/outputs/openapi.yaml" -lc "sed -n '200,400p' monetization-projects/orchestration-saas/specs/001-enterprise-orchestration-platform/outputs/openapi.yaml" -lc "sed -n '1,200p' monetization-projects/orchestration-saas/specs/001-enterprise-orchestration-platform/outputs/database-schema.sql" succeeded in 138ms:
+# Implementation Roadmap (EUFM Enterprise Orchestration)
+
+Time-bound, incremental delivery aligned to multi-tenant SaaS, real-time monitoring, and enterprise security. Suggested tech: TypeScript/Node.js, PostgreSQL(+Timescale), Redis, NATS/Kafka, Kubernetes.
+
+## Phase 0 — Foundations (Week 0–2)
+- Architecture baselines: repo structure, CI/CD, envs (dev/staging/prod)
+- Core packages: API service, Orchestration service, Adapter interfaces
+- Observability scaffolding: OpenTelemetry, structured logging, metrics
+- Security baseline: secrets management, KMS envelopes, lint + SAST
+- Deliverables: Architectural docs, runbooks, env bootstrap
+
+Acceptance: Services boot locally and in staging; health checks green; CI/CD deploys.
+
+## Phase 1 — Multi-tenant Core (Week 2–5)
+- DB schema (tenants, environments, users, RBAC, API keys)
+- Tenant scoping middleware (JWT + `X-Tenant-Id`, `X-Env-Id`)
+- RBAC enforcement for REST/GraphQL resolvers
+- API keys issuance (prefix + hash), rotation, revocation
+- Audit logging for authn/z, config changes
+
+[2025-09-09T07:34:49] tokens used: 1837
+[2025-09-09T07:34:51] exec bash -lc "sed -n '1,200p' monetization-projects/orchestration-saas/specs/001-enterprise-orchestration-platform/outputs/openapi.yaml" in /Users/panda/Desktop/EUFM
+[2025-09-09T07:34:51] bash -lc "sed -n '1,200p' monetization-projects/orchestration-saas/specs/001-enterprise-orchestration-platform/outputs/openapi.yaml" succeeded in 187ms:
+openapi: 3.1.0
+info:
+  title: EUFM Enterprise AI Orchestration API
+  version: 1.0.0
+  description: |
+    Multi-tenant unified orchestration API for enterprise AI workloads.
+    Provides provider-agnostic orchestration, monitoring, RBAC, and billing.
+servers:
+  - url: https://api.eufm.ai
+    description: Production
+  - url: https://staging.api.eufm.ai
+    description: Staging
+security:
+  - OAuth2: ["openid", "profile", "email"]
+  - ApiKeyAuth: []
+  - TenantHeader: []
+tags:
+  - name: Orchestration
+  - name: Tasks
+  - name: Monitoring
+[2025-09-09T07:34:51] tokens used: 3653
+[2025-09-09T07:34:54] exec bash -lc "sed -n '200,500p' monetization-projects/orchestration-saas/specs/001-enterprise-orchestration-platform/outputs/openapi.yaml" in /Users/panda/Desktop/EUFM
+[2025-09-09T07:34:54] bash -lc "sed -n '200,500p' monetization-projects/orchestration-saas/specs/001-enterprise-orchestration-platform/outputs/openapi.yaml" succeeded in 264ms:
+      tags: [Tasks]
+      summary: List tasks
+      security:
+        - OAuth2: ["openid"]
+        - TenantHeader: []
+      parameters:
+        - $ref: '#/components/parameters/TenantId'
+        - name: status
+          in: query
+          schema: { type: string }
+      responses:
+        '200':
+          description: Task list
+  /v1/tasks/{id}:
+    get:
+      tags: [Tasks]
+      summary: Get task status
+      security:
+        - ApiKeyAuth: []
+        - TenantHeader: []
+[2025-09-09T07:34:54] tokens used: 1481
+[2025-09-09T07:34:57] exec bash -lc "sed -n '1,240p' monetization-projects/orchestration-saas/specs/001-enterprise-orchestration-platform/outputs/database-schema.sql" in /Users/panda/Desktop/EUFM
+[2025-09-09T07:34:58] bash -lc "sed -n '1,240p' monetization-projects/orchestration-saas/specs/001-enterprise-orchestration-platform/outputs/database-schema.sql" succeeded in 99ms:
+-- Enterprise AI Orchestration Platform — Multi-tenant PostgreSQL Schema (EUFM)
+-- Focus: Tenant isolation, RBAC, audit, monitoring, billing
+
+CREATE EXTENSION IF NOT EXISTS pgcrypto;
+-- For time-series metrics, TimescaleDB optional
+-- CREATE EXTENSION IF NOT EXISTS timescaledb;
+
+-- Tenancy & Identity -------------------------------------------------------
+
+CREATE TABLE tenants (
+  id                  uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+  name                text NOT NULL,
+  slug                text UNIQUE NOT NULL,
+  plan                text NOT NULL DEFAULT 'starter',
+  region              text NOT NULL DEFAULT 'eu-central-1',
+  created_at          timestamptz NOT NULL DEFAULT now()
+);
+
+CREATE TABLE environments (
+  id                  uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+[2025-09-09T07:34:58] tokens used: 1611
+[2025-09-09T07:35:00] exec bash -lc "sed -n '240,520p' monetization-projects/orchestration-saas/specs/001-enterprise-orchestration-platform/outputs/database-schema.sql" in /Users/panda/Desktop/EUFM
+[2025-09-09T07:35:00] bash -lc "sed -n '240,520p' monetization-projects/orchestration-saas/specs/001-enterprise-orchestration-platform/outputs/database-schema.sql" succeeded in 128ms:
+  enabled             boolean NOT NULL DEFAULT true,
+  created_at          timestamptz NOT NULL DEFAULT now(),
+  UNIQUE (tenant_id, name)
+);
+
+CREATE TABLE alert_events (
+  id                  uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+  alert_id            uuid NOT NULL REFERENCES alerts(id) ON DELETE CASCADE,
+  triggered_at        timestamptz NOT NULL DEFAULT now(),
+  status              text NOT NULL DEFAULT 'firing',
+  payload             jsonb NOT NULL
+);
+
+CREATE TABLE webhooks (
+  id                  uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+  tenant_id           uuid NOT NULL REFERENCES tenants(id) ON DELETE CASCADE,
+  url                 text NOT NULL,
+  secret              bytea NOT NULL,
+  events              text[] NOT NULL,
+  enabled             boolean NOT NULL DEFAULT true,
+[2025-09-09T07:35:00] tokens used: 2527
+
+[2025-09-09T07:35:06] thinking
+
+**Planning ticket creation**
+
+I’m getting ready to craft tickets that align with the user's requests. The deployment-strategy document could inform tasks related to Kubernetes and other secrets. The user specifically mentioned tickets for the API gateway, multi-provider adapters, workflow engine, billing system, monitoring dashboard, and enterprise security features. I'll ensure each is covered with multiple tickets in a tasks.md file. Before writing, I’ll prep a patch with a clear overview. I’ll follow the specified formatting guidelines closely.
+  - Permissions seeded; role templates per plan
+  - Route guards enforce RBAC for all security-sensitive endpoints
+  - Tests cover deny/allow matrix
+- Dependencies: SEC-001, API-002
+- Estimate: 4d | Priority: P0
+- Links: database-schema.sql (roles, permissions, user_roles)
+
+Ticket: SEC-004 — Audit logging (tamper-evident) and SIEM export
+- Description: Implement structured audit logs with optional signing/hashing and SIEM export (e.g., Splunk/Datadog) via HTTPS.
+- Acceptance Criteria:
+  - Audit events on auth, config changes, API keys, provider creds
+  - Export pipeline with backpressure and retries
+- Dependencies: API-002, SEC-003
+- Estimate: 3d | Priority: P1
+- Links: database-schema.sql (audit_logs)
+
+Ticket: SEC-005 — Data residency and regional routing controls
+- Description: Enforce data residency policies in request handling and provider selection (EU/US), including storage policies.
+- Acceptance Criteria:
+  - Residency policy checked on every request
+  - Router obeys regional constraints in model selection
+- Dependencies: ORCH-002, ADPT-004
+- Estimate: 3d | Priority: P2
+- Links: database-schema.sql (data_residency_policies)
+
+---
+
+## Shared/Infrastructure
+
+Ticket: DB-setup — Initialize database and migrations
+- Description: Create migrations from `database-schema.sql`, set up migration tooling (Prisma/Knex/Drizzle), seed baseline roles/permissions.
+- Acceptance Criteria:
+  - Migrations run in dev and staging; rollback works
+  - Seeds for plans, roles, permissions
+- Dependencies: None
+- Estimate: 2d | Priority: P0
+
+Ticket: OBS-001 — Observability scaffolding
+- Description: Integrate OpenTelemetry traces/metrics/logs; pino structured logging; context propagation.
+- Acceptance Criteria:
+  - Traces exported locally (OTLP) with service names
+  - Error logs enriched with tenant, requestId, user id
+- Dependencies: API-001
+- Estimate: 2d | Priority: P1
+
+Ticket: DEP-001 — Containerization and deployment baselines
+- Description: Dockerfiles, Kubernetes manifests/Helm, environment config, and secret management per deployment-strategy.
+- Acceptance Criteria:
+  - Images build; manifests deploy to staging
+  - Readiness/liveness checks green; HPA configured
+- Dependencies: API-001, DB-setup
+- Estimate: 3d | Priority: P1
+- Links: deployment-strategy.md
+
+---
+
+## Cross-Epic Testing and Quality Gates
+
+Ticket: QLT-001 — Contract tests against OpenAPI
+- Description: Generate request/response validators from `openapi.yaml` and integrate into CI to assert route conformance.
+- Acceptance Criteria:
+  - CI step fails on contract breaking changes
+  - Mock tests for key endpoints (`/v1/orchestrate`, `/v1/tasks`, `/v1/events`)
+- Dependencies: API-001..005
+- Estimate: 2d | Priority: P1
+
+Ticket: QLT-002 — Performance and resiliency tests
+- Description: Add k6 or Artillery scenarios for orchestrate throughput, provider failover, and backpressure on SSE.
+- Acceptance Criteria:
+  - Report p95 latency and error rates
+  - Simulate provider failures; verify failover
+- Dependencies: ORCH-001..003, MON-001
+- Estimate: 3d | Priority: P2
+
+[2025-09-09T07:36:45] apply_patch auto_approved=true:
+A /Users/panda/Desktop/EUFM/monetization-projects/orchestration-saas/specs/001-enterprise-orchestration-platform/outputs/tasks.md
+# Enterprise Orchestration Platform — Development Tickets
+
+Project: EUFM (European Union Funds Manager) — AI Agent Orchestration System
+Scope: Break down into actionable tickets by epic, aligned to spec and generated outputs
+
+References
+- Spec: ../spec.md
+- OpenAPI: ./openapi.yaml
+- Database schema: ./database-schema.sql
+- Implementation roadmap: ./implementation-roadmap.md
+- Deployment strategy: ./deployment-strategy.md
+
+---
+
+## Epic: API Gateway
+
+Ticket: API-001 — Bootstrap API service and routing
+- Description: Scaffold a TypeScript/Node.js API service (Express/Fastify) that serves `/v1` routes, loads env config, and exposes health/readiness probes. Wire structured logging (pino) and OpenTelemetry traces.
+- Acceptance Criteria:
+  - `GET /healthz` returns 200 with build info
+  - Request/response logging with correlation IDs
+  - OTEL trace/span export behind env flag
+  - CI runs build, lint, and starts server in test mode
+- Dependencies: None
+- Estimate: 2d | Priority: P0
+- Links: spec.md (Core Platform), implementation-roadmap (Phase 0)
+
+Ticket: API-002 — Multi-tenant headers and auth middlewares
+- Description: Implement header extraction for `X-Tenant-Id`, optional `X-Env-Id`, API key verification (`X-API-Key`), and OAuth2 (OIDC) bearer validation stubs. Normalize auth context into `req.ctx` for downstream.
+- Acceptance Criteria:
+  - Requests without `X-Tenant-Id` rejected 400 (for tenant-scoped endpoints)
+  - API keys validated (prefix + hash) against DB
+  - OIDC bearer verified (JWKS cached) — library integration and config
+  - Unit tests for positive/negative paths
+- Dependencies: API-001, DB-setup
+- Estimate: 3d | Priority: P0
+- Links: openapi.yaml (securitySchemes, parameters), database-schema.sql (api_keys)
+
+Ticket: API-003 — Implement `/v1/orchestrate` endpoint (sync/async)
+- Description: Implement `POST /v1/orchestrate` per OpenAPI with sync (200) and async (202) modes. Validate request schema, enqueue async tasks, return standardized response.
+- Acceptance Criteria:
+  - JSON schema validation for `OrchestrateRequest`
+  - Returns 200 with output for sync; 202 with `requestId` for async
+  - Audit event emitted with tenant, model, cost placeholders
+  - Unit tests mocking orchestration engine
+- Dependencies: API-002, ORCH-001
+- Estimate: 3d | Priority: P0
+- Links: openapi.yaml (/v1/orchestrate), spec (Unified AI Orchestration)
+
+Ticket: API-004 — Tasks endpoints (`/v1/tasks`, `/v1/tasks/{id}`)
+- Description: Implement task creation (long-running) and status retrieval. Persist tasks and executions following schema.
+- Acceptance Criteria:
+  - `POST /v1/tasks` returns 202 with Task record
+  - `GET /v1/tasks/{id}` returns task with status transitions
+  - RBAC checks applied
+- Dependencies: API-002, ORCH-001, DB-setup
+- Estimate: 2d | Priority: P1
+- Links: openapi.yaml (Tasks), database-schema.sql (tasks, task_executions)
+
+Ticket: API-005 — Events and metrics endpoints
+- Description: Implement SSE endpoint `/v1/events` and `/v1/metrics/usage` proxy/aggregation. Multitenant auth on stream.
+- Acceptance Criteria:
+  - SSE delivers task/request/alert events
+  - Usage aggregation query w/ `from`, `to`, `unit`
+  - Backpressure and idle timeouts handled
+- Dependencies: ORCH-003 (event bus), MON-002
+- Estimate: 3d | Priority: P1
+- Links: openapi.yaml (events, metrics)
+
+Ticket: API-006 — API Keys CRUD
+- Description: Implement `POST /v1/api-keys`, `GET /v1/api-keys`, `DELETE /v1/api-keys/{id}` with prefix+hash storage.
+- Acceptance Criteria:
+  - Keys generated with prefix, one-time reveal
+  - Hash stored, last_used_at updated by middleware
+  - Audit logs for create/revoke
+- Dependencies: API-002, SEC-003
+- Estimate: 2d | Priority: P1
+- Links: openapi.yaml (api-keys), database-schema.sql (api_keys)
+
+---
+
+## Epic: Multi-Provider Adapters
+
+Ticket: ADPT-001 — Define provider adapter interface and SDK
+- Description: Create TypeScript interface for providers (send, stream, cost calc, rate limit hints). Include request/response normalization and error taxonomy.
+- Acceptance Criteria:
+  - Interface published in `@eufm/providers`
+  - Normalized response type for chat/completions/embeddings
+  - Error classes: Retryable, RateLimited, AuthError, ValidationError
+- Dependencies: API-003 (types), ORCH-002 (router needs interface)
+- Estimate: 2d | Priority: P0
+- Links: spec (AI Provider Integration)
+
+Ticket: ADPT-002 — OpenAI adapter
+- Description: Implement OpenAI adapter supporting chat, completions, embeddings with streaming, retries, and cost estimation.
+- Acceptance Criteria:
+  - Parity tests with mock API
+  - Config via provider_accounts credentials
+  - Rate limit backoff with jitter
+- Dependencies: ADPT-001, DB-setup
+- Estimate: 3d | Priority: P0
+
+Ticket: ADPT-003 — Anthropic adapter
+- Description: Implement Claude adapter with message/stream support and token accounting.
+- Acceptance Criteria:
+  - Same interface compliance as ADPT-001
+  - Integration tests with sandbox keys
+- Dependencies: ADPT-001
+- Estimate: 3d | Priority: P1
+
+Ticket: ADPT-004 — Google (Gemini) adapter
+- Description: Implement Gemini adapter for text/chat and embeddings.
+- Acceptance Criteria:
+  - Interface compliance, streaming, error taxonomy
+  - Region-aware endpoints (for residency)
+- Dependencies: ADPT-001
+- Estimate: 3d | Priority: P1
+
+Ticket: ADPT-005 — Perplexity adapter
+- Description: Implement Perplexity chat/search adapter with normalized output.
+- Acceptance Criteria:
+  - Interface compliance; cost estimation
+- Dependencies: ADPT-001
+- Estimate: 2d | Priority: P2
+
+Ticket: ADPT-006 — Provider account management APIs
+- Description: Implement `/v1/providers` list/add using encrypted credentials and KMS envelope encryption.
+- Acceptance Criteria:
+  - Credentials encrypted at rest; structured audit events
+  - RBAC-scoped access
+- Dependencies: API-002, SEC-002
+- Estimate: 2d | Priority: P1
+- Links: openapi.yaml (/v1/providers), database-schema.sql (provider_accounts)
+
+---
+
+## Epic: Workflow Engine
+
+Ticket: ORCH-001 — Task queue and worker runtime
+- Description: Introduce queue (NATS/Kafka) abstraction, task persistence, retry/backoff policies, idempotency keys.
+- Acceptance Criteria:
+  - Enqueue/consume tasks; visibility timeout; DLQ
+  - Configurable retry/backoff, idempotent replays
+  - Tracing context propagated across worker boundaries
+- Dependencies: API-001, DB-setup
+- Estimate: 4d | Priority: P0
+
+Ticket: ORCH-002 — Routing engine and policy evaluation
+- Description: Implement routing engine that selects provider/model by policy (cost/latency/SLA), provider health, and tenant limits.
+- Acceptance Criteria:
+  - JSON policy format stored in `routing_policies`
+  - Unit tests with weighted selection and failover
+  - Telemetry on routing decisions
+- Dependencies: ORCH-001, ADPT-001..004
+- Estimate: 4d | Priority: P0
+- Links: database-schema.sql (routing_policies)
+
+Ticket: ORCH-003 — Event bus and lifecycle events
+- Description: Publish request/task/audit events to internal bus and expose to SSE/WS gateway.
+- Acceptance Criteria:
+  - Events: task.created, task.updated, request.started, request.completed, alert.fired
+  - Tenancy metadata on all events
+- Dependencies: ORCH-001, API-005
+- Estimate: 3d | Priority: P1
+
+Ticket: ORCH-004 — Workflow definitions (JSON DAG) and executor
+- Description: Define JSON schema for workflows (steps, branches, conditions, compensation) and implement executor that coordinates tasks.
+- Acceptance Criteria:
+  - Versioned `workflows` table entries and validation
+  - Executor supports branching and on-failure compensation
+  - Tests covering simple and branched flows
+- Dependencies: ORCH-001, ORCH-002
+- Estimate: 5d | Priority: P1
+- Links: database-schema.sql (workflows)
+
+---
+
+## Epic: Billing System
+
+Ticket: BILL-001 — Usage metering pipeline
+- Description: Persist `requests` with tokens, latency, and cost; roll up into `usage_aggregates` by time window.
+- Acceptance Criteria:
+  - Request persistence from adapters with token counts
+  - Aggregation job writes hourly/daily usage
+  - Indexes support common queries
+- Dependencies: ORCH-001, ADPT-001..004, DB-setup
+- Estimate: 3d | Priority: P0
+- Links: database-schema.sql (requests, usage_aggregates)
+
+Ticket: BILL-002 — Plan quotas and rate limiting
+- Description: Enforce subscription plan quotas and runtime rate limits per tenant/environment.
+- Acceptance Criteria:
+  - Middleware checks quota before enqueue
+  - Rate limit store (Redis) w/ strategies (fixed/sliding)
+  - Unit tests hit limits and recover after window
+- Dependencies: BILL-001, SEC-003, API-002
+- Estimate: 3d | Priority: P1
+- Links: database-schema.sql (rate_limits, subscriptions)
+
+Ticket: BILL-003 — Stripe integration (customers, subscriptions, invoices)
+- Description: Sync tenants to Stripe, handle webhooks, and reconcile invoices with usage.
+- Acceptance Criteria:
+  - Customer create/update; subscription create/cancel
+  - Webhook handlers for invoice/payment events (signed)
+  - Reconciliation job validates invoice totals vs usage
+- Dependencies: BILL-001, BILL-002
+- Estimate: 4d | Priority: P2
+- Links: database-schema.sql (billing_customers, subscriptions)
+
+Ticket: BILL-004 — Budget alerts and spend controls
+- Description: Allow admins to set budgets and thresholds that trigger alerts and optional request blocking.
+- Acceptance Criteria:
+  - Budget config per tenant
+  - Alerts via email/slack/webhook when thresholds exceeded
+  - Optional hard-stop on budget exceed
+- Dependencies: MON-003, BILL-001
+- Estimate: 2d | Priority: P2
+
+---
+
+## Epic: Monitoring Dashboard
+
+Ticket: MON-001 — Event gateway (SSE/WebSocket) service
+- Description: Stand up a dedicated gateway for real-time event streams with tenant-aware auth and fan-out from event bus.
+- Acceptance Criteria:
+  - `/v1/events` SSE stable under backpressure
+  - WS endpoint at `wss://events.*` supports subscribe/unsubscribe
+- Dependencies: ORCH-003, API-001
+- Estimate: 3d | Priority: P1
+- Links: openapi.yaml (/v1/events)
+
+Ticket: MON-002 — Metrics aggregation and query API
+- Description: Implement metrics jobs and read API for usage, latency, error rates; optional TimescaleDB hypertables.
+- Acceptance Criteria:
+  - Jobs populate `usage_aggregates`
+  - `GET /v1/metrics/usage` returns aggregated views
+- Dependencies: BILL-001, API-005
+- Estimate: 3d | Priority: P1
+
+Ticket: MON-003 — Alerting and webhook delivery
+- Description: Implement alert definitions, evaluation engine, and webhook delivery with retries and signatures.
+- Acceptance Criteria:
+  - Alerts stored and evaluated on schedule and stream processors
+  - Webhook deliveries tracked with retry/backoff
+- Dependencies: MON-002
+- Estimate: 3d | Priority: P2
+- Links: database-schema.sql (alerts, webhook_deliveries)
+
+Ticket: MON-004 — Dashboard UI (initial)
+- Description: Add dashboard screens for tasks table, live events, usage charts, and alert config in the web app.
+- Acceptance Criteria:
+  - Live task list w/ status filters
+  - Usage charts by provider and time
+  - Alert rule CRUD
+- Dependencies: MON-001, MON-002, MON-003
+- Estimate: 5d | Priority: P2
+
+---
+
+## Epic: Enterprise Security Features
+
+Ticket: SEC-001 — SSO (OIDC) auth service integration
+- Description: Integrate OIDC authorization code flow with PKCE; support login, logout, and session management.
+- Acceptance Criteria:
+  - OIDC config via env; JWKS rotation and caching
+  - User and identity records created/linked on first login
+  - Unit tests for token validation and session creation
+- Dependencies: API-001, DB-setup
+- Estimate: 3d | Priority: P0
+- Links: openapi.yaml (OAuth2), database-schema.sql (users, identities)
+
+Ticket: SEC-002 — Secrets and KMS envelope encryption
+- Description: Introduce KMS client abstraction and envelope encryption for provider credentials and secrets.
+- Acceptance Criteria:
+  - Encrypt/decrypt paths audited; key rotation procedure documented
+  - Secrets API limited to admins; no plaintext at rest
+- Dependencies: SEC-001
+- Estimate: 3d | Priority: P0
+- Links: database-schema.sql (secrets)
+
+Ticket: SEC-003 — RBAC and permission enforcement
+- Description: Implement roles, permissions, and enforcement middleware for API routes and UI components.
+- Acceptance Criteria:
+[2025-09-09T07:36:45] apply_patch(auto_approved=true) exited 0 in 714ms:
+Success. Updated the following files:
+A monetization-projects/orchestration-saas/specs/001-enterprise-orchestration-platform/outputs/tasks.md
+[2025-09-09T07:36:45] turn diff:
+diff --git a/monetization-projects/orchestration-saas/specs/001-enterprise-orchestration-platform/outputs/tasks.md b/monetization-projects/orchestration-saas/specs/001-enterprise-orchestration-platform/outputs/tasks.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..5182acfcf3243943eb9b43205a8b6a3119998c6e
+--- /dev/null
++++ b/monetization-projects/orchestration-saas/specs/001-enterprise-orchestration-platform/outputs/tasks.md
+@@ -0,0 +1,357 @@
++# Enterprise Orchestration Platform — Development Tickets
++
++Project: EUFM (European Union Funds Manager) — AI Agent Orchestration System
++Scope: Break down into actionable tickets by epic, aligned to spec and generated outputs
++
++References
++- Spec: ../spec.md
++- OpenAPI: ./openapi.yaml
++- Database schema: ./database-schema.sql
++- Implementation roadmap: ./implementation-roadmap.md
++- Deployment strategy: ./deployment-strategy.md
++
++---
++
++## Epic: API Gateway
++
++Ticket: API-001 — Bootstrap API service and routing
++- Description: Scaffold a TypeScript/Node.js API service (Express/Fastify) that serves `/v1` routes, loads env config, and exposes health/readiness probes. Wire structured logging (pino) and OpenTelemetry traces.
++- Acceptance Criteria:
++  - `GET /healthz` returns 200 with build info
++  - Request/response logging with correlation IDs
++  - OTEL trace/span export behind env flag
++  - CI runs build, lint, and starts server in test mode
++- Dependencies: None
++- Estimate: 2d | Priority: P0
++- Links: spec.md (Core Platform), implementation-roadmap (Phase 0)
++
++Ticket: API-002 — Multi-tenant headers and auth middlewares
++- Description: Implement header extraction for `X-Tenant-Id`, optional `X-Env-Id`, API key verification (`X-API-Key`), and OAuth2 (OIDC) bearer validation stubs. Normalize auth context into `req.ctx` for downstream.
++- Acceptance Criteria:
++  - Requests without `X-Tenant-Id` rejected 400 (for tenant-scoped endpoints)
++  - API keys validated (prefix + hash) against DB
++  - OIDC bearer verified (JWKS cached) — library integration and config
++  - Unit tests for positive/negative paths
++- Dependencies: API-001, DB-setup
++- Estimate: 3d | Priority: P0
++- Links: openapi.yaml (securitySchemes, parameters), database-schema.sql (api_keys)
++
++Ticket: API-003 — Implement `/v1/orchestrate` endpoint (sync/async)
++- Description: Implement `POST /v1/orchestrate` per OpenAPI with sync (200) and async (202) modes. Validate request schema, enqueue async tasks, return standardized response.
++- Acceptance Criteria:
++  - JSON schema validation for `OrchestrateRequest`
++  - Returns 200 with output for sync; 202 with `requestId` for async
++  - Audit event emitted with tenant, model, cost placeholders
++  - Unit tests mocking orchestration engine
++- Dependencies: API-002, ORCH-001
++- Estimate: 3d | Priority: P0
++- Links: openapi.yaml (/v1/orchestrate), spec (Unified AI Orchestration)
++
++Ticket: API-004 — Tasks endpoints (`/v1/tasks`, `/v1/tasks/{id}`)
++- Description: Implement task creation (long-running) and status retrieval. Persist tasks and executions following schema.
++- Acceptance Criteria:
++  - `POST /v1/tasks` returns 202 with Task record
++  - `GET /v1/tasks/{id}` returns task with status transitions
++  - RBAC checks applied
++- Dependencies: API-002, ORCH-001, DB-setup
++- Estimate: 2d | Priority: P1
++- Links: openapi.yaml (Tasks), database-schema.sql (tasks, task_executions)
++
++Ticket: API-005 — Events and metrics endpoints
++- Description: Implement SSE endpoint `/v1/events` and `/v1/metrics/usage` proxy/aggregation. Multitenant auth on stream.
++- Acceptance Criteria:
++  - SSE delivers task/request/alert events
++  - Usage aggregation query w/ `from`, `to`, `unit`
++  - Backpressure and idle timeouts handled
++- Dependencies: ORCH-003 (event bus), MON-002
++- Estimate: 3d | Priority: P1
++- Links: openapi.yaml (events, metrics)
++
++Ticket: API-006 — API Keys CRUD
++- Description: Implement `POST /v1/api-keys`, `GET /v1/api-keys`, `DELETE /v1/api-keys/{id}` with prefix+hash storage.
++- Acceptance Criteria:
++  - Keys generated with prefix, one-time reveal
++  - Hash stored, last_used_at updated by middleware
++  - Audit logs for create/revoke
++- Dependencies: API-002, SEC-003
++- Estimate: 2d | Priority: P1
++- Links: openapi.yaml (api-keys), database-schema.sql (api_keys)
++
++---
++
++## Epic: Multi-Provider Adapters
++
++Ticket: ADPT-001 — Define provider adapter interface and SDK
++- Description: Create TypeScript interface for providers (send, stream, cost calc, rate limit hints). Include request/response normalization and error taxonomy.
++- Acceptance Criteria:
++  - Interface published in `@eufm/providers`
++  - Normalized response type for chat/completions/embeddings
++  - Error classes: Retryable, RateLimited, AuthError, ValidationError
++- Dependencies: API-003 (types), ORCH-002 (router needs interface)
++- Estimate: 2d | Priority: P0
++- Links: spec (AI Provider Integration)
++
++Ticket: ADPT-002 — OpenAI adapter
++- Description: Implement OpenAI adapter supporting chat, completions, embeddings with streaming, retries, and cost estimation.
++- Acceptance Criteria:
++  - Parity tests with mock API
++  - Config via provider_accounts credentials
++  - Rate limit backoff with jitter
++- Dependencies: ADPT-001, DB-setup
++- Estimate: 3d | Priority: P0
++
++Ticket: ADPT-003 — Anthropic adapter
++- Description: Implement Claude adapter with message/stream support and token accounting.
++- Acceptance Criteria:
++  - Same interface compliance as ADPT-001
++  - Integration tests with sandbox keys
++- Dependencies: ADPT-001
++- Estimate: 3d | Priority: P1
++
++Ticket: ADPT-004 — Google (Gemini) adapter
++- Description: Implement Gemini adapter for text/chat and embeddings.
++- Acceptance Criteria:
++  - Interface compliance, streaming, error taxonomy
++  - Region-aware endpoints (for residency)
++- Dependencies: ADPT-001
++- Estimate: 3d | Priority: P1
++
++Ticket: ADPT-005 — Perplexity adapter
++- Description: Implement Perplexity chat/search adapter with normalized output.
++- Acceptance Criteria:
++  - Interface compliance; cost estimation
++- Dependencies: ADPT-001
++- Estimate: 2d | Priority: P2
++
++Ticket: ADPT-006 — Provider account management APIs
++- Description: Implement `/v1/providers` list/add using encrypted credentials and KMS envelope encryption.
++- Acceptance Criteria:
++  - Credentials encrypted at rest; structured audit events
++  - RBAC-scoped access
++- Dependencies: API-002, SEC-002
++- Estimate: 2d | Priority: P1
++- Links: openapi.yaml (/v1/providers), database-schema.sql (provider_accounts)
++
++---
++
++## Epic: Workflow Engine
++
++Ticket: ORCH-001 — Task queue and worker runtime
++- Description: Introduce queue (NATS/Kafka) abstraction, task persistence, retry/backoff policies, idempotency keys.
++- Acceptance Criteria:
++  - Enqueue/consume tasks; visibility timeout; DLQ
++  - Configurable retry/backoff, idempotent replays
++  - Tracing context propagated across worker boundaries
++- Dependencies: API-001, DB-setup
++- Estimate: 4d | Priority: P0
++
++Ticket: ORCH-002 — Routing engine and policy evaluation
++- Description: Implement routing engine that selects provider/model by policy (cost/latency/SLA), provider health, and tenant limits.
++- Acceptance Criteria:
++  - JSON policy format stored in `routing_policies`
++  - Unit tests with weighted selection and failover
++  - Telemetry on routing decisions
++- Dependencies: ORCH-001, ADPT-001..004
++- Estimate: 4d | Priority: P0
++- Links: database-schema.sql (routing_policies)
++
++Ticket: ORCH-003 — Event bus and lifecycle events
++- Description: Publish request/task/audit events to internal bus and expose to SSE/WS gateway.
++- Acceptance Criteria:
++  - Events: task.created, task.updated, request.started, request.completed, alert.fired
++  - Tenancy metadata on all events
++- Dependencies: ORCH-001, API-005
++- Estimate: 3d | Priority: P1
++
++Ticket: ORCH-004 — Workflow definitions (JSON DAG) and executor
++- Description: Define JSON schema for workflows (steps, branches, conditions, compensation) and implement executor that coordinates tasks.
++- Acceptance Criteria:
++  - Versioned `workflows` table entries and validation
++  - Executor supports branching and on-failure compensation
++  - Tests covering simple and branched flows
++- Dependencies: ORCH-001, ORCH-002
++- Estimate: 5d | Priority: P1
++- Links: database-schema.sql (workflows)
++
++---
++
++## Epic: Billing System
++
++Ticket: BILL-001 — Usage metering pipeline
++- Description: Persist `requests` with tokens, latency, and cost; roll up into `usage_aggregates` by time window.
++- Acceptance Criteria:
++  - Request persistence from adapters with token counts
++  - Aggregation job writes hourly/daily usage
++  - Indexes support common queries
++- Dependencies: ORCH-001, ADPT-001..004, DB-setup
++- Estimate: 3d | Priority: P0
++- Links: database-schema.sql (requests, usage_aggregates)
++
++Ticket: BILL-002 — Plan quotas and rate limiting
++- Description: Enforce subscription plan quotas and runtime rate limits per tenant/environment.
++- Acceptance Criteria:
++  - Middleware checks quota before enqueue
++  - Rate limit store (Redis) w/ strategies (fixed/sliding)
++  - Unit tests hit limits and recover after window
++- Dependencies: BILL-001, SEC-003, API-002
++- Estimate: 3d | Priority: P1
++- Links: database-schema.sql (rate_limits, subscriptions)
++
++Ticket: BILL-003 — Stripe integration (customers, subscriptions, invoices)
++- Description: Sync tenants to Stripe, handle webhooks, and reconcile invoices with usage.
++- Acceptance Criteria:
++  - Customer create/update; subscription create/cancel
++  - Webhook handlers for invoice/payment events (signed)
++  - Reconciliation job validates invoice totals vs usage
++- Dependencies: BILL-001, BILL-002
++- Estimate: 4d | Priority: P2
++- Links: database-schema.sql (billing_customers, subscriptions)
++
++Ticket: BILL-004 — Budget alerts and spend controls
++- Description: Allow admins to set budgets and thresholds that trigger alerts and optional request blocking.
++- Acceptance Criteria:
++  - Budget config per tenant
++  - Alerts via email/slack/webhook when thresholds exceeded
++  - Optional hard-stop on budget exceed
++- Dependencies: MON-003, BILL-001
++- Estimate: 2d | Priority: P2
++
++---
++
++## Epic: Monitoring Dashboard
++
++Ticket: MON-001 — Event gateway (SSE/WebSocket) service
++- Description: Stand up a dedicated gateway for real-time event streams with tenant-aware auth and fan-out from event bus.
++- Acceptance Criteria:
++  - `/v1/events` SSE stable under backpressure
++  - WS endpoint at `wss://events.*` supports subscribe/unsubscribe
++- Dependencies: ORCH-003, API-001
++- Estimate: 3d | Priority: P1
++- Links: openapi.yaml (/v1/events)
++
++Ticket: MON-002 — Metrics aggregation and query API
++- Description: Implement metrics jobs and read API for usage, latency, error rates; optional TimescaleDB hypertables.
++- Acceptance Criteria:
++  - Jobs populate `usage_aggregates`
++  - `GET /v1/metrics/usage` returns aggregated views
++- Dependencies: BILL-001, API-005
++- Estimate: 3d | Priority: P1
++
++Ticket: MON-003 — Alerting and webhook delivery
++- Description: Implement alert definitions, evaluation engine, and webhook delivery with retries and signatures.
++- Acceptance Criteria:
++  - Alerts stored and evaluated on schedule and stream processors
++  - Webhook deliveries tracked with retry/backoff
++- Dependencies: MON-002
++- Estimate: 3d | Priority: P2
++- Links: database-schema.sql (alerts, webhook_deliveries)
++
++Ticket: MON-004 — Dashboard UI (initial)
++- Description: Add dashboard screens for tasks table, live events, usage charts, and alert config in the web app.
++- Acceptance Criteria:
++  - Live task list w/ status filters
++  - Usage charts by provider and time
++  - Alert rule CRUD
++- Dependencies: MON-001, MON-002, MON-003
++- Estimate: 5d | Priority: P2
++
++---
++
++## Epic: Enterprise Security Features
++
++Ticket: SEC-001 — SSO (OIDC) auth service integration
++- Description: Integrate OIDC authorization code flow with PKCE; support login, logout, and session management.
++- Acceptance Criteria:
++  - OIDC config via env; JWKS rotation and caching
++  - User and identity records created/linked on first login
++  - Unit tests for token validation and session creation
++- Dependencies: API-001, DB-setup
++- Estimate: 3d | Priority: P0
++- Links: openapi.yaml (OAuth2), database-schema.sql (users, identities)
++
++Ticket: SEC-002 — Secrets and KMS envelope encryption
++- Description: Introduce KMS client abstraction and envelope encryption for provider credentials and secrets.
++- Acceptance Criteria:
++  - Encrypt/decrypt paths audited; key rotation procedure documented
++  - Secrets API limited to admins; no plaintext at rest
++- Dependencies: SEC-001
++- Estimate: 3d | Priority: P0
++- Links: database-schema.sql (secrets)
++
++Ticket: SEC-003 — RBAC and permission enforcement
++- Description: Implement roles, permissions, and enforcement middleware for API routes and UI components.
++- Acceptance Criteria:
++  - Permissions seeded; role templates per plan
++  - Route guards enforce RBAC for all security-sensitive endpoints
++  - Tests cover deny/allow matrix
++- Dependencies: SEC-001, API-002
++- Estimate: 4d | Priority: P0
++- Links: database-schema.sql (roles, permissions, user_roles)
++
++Ticket: SEC-004 — Audit logging (tamper-evident) and SIEM export
++- Description: Implement structured audit logs with optional signing/hashing and SIEM export (e.g., Splunk/Datadog) via HTTPS.
++- Acceptance Criteria:
++  - Audit events on auth, config changes, API keys, provider creds
++  - Export pipeline with backpressure and retries
++- Dependencies: API-002, SEC-003
++- Estimate: 3d | Priority: P1
++- Links: database-schema.sql (audit_logs)
++
++Ticket: SEC-005 — Data residency and regional routing controls
++- Description: Enforce data residency policies in request handling and provider selection (EU/US), including storage policies.
++- Acceptance Criteria:
++  - Residency policy checked on every request
++  - Router obeys regional constraints in model selection
++- Dependencies: ORCH-002, ADPT-004
++- Estimate: 3d | Priority: P2
++- Links: database-schema.sql (data_residency_policies)
++
++---
++
++## Shared/Infrastructure
++
++Ticket: DB-setup — Initialize database and migrations
++- Description: Create migrations from `database-schema.sql`, set up migration tooling (Prisma/Knex/Drizzle), seed baseline roles/permissions.
++- Acceptance Criteria:
++  - Migrations run in dev and staging; rollback works
++  - Seeds for plans, roles, permissions
++- Dependencies: None
++- Estimate: 2d | Priority: P0
++
++Ticket: OBS-001 — Observability scaffolding
++- Description: Integrate OpenTelemetry traces/metrics/logs; pino structured logging; context propagation.
++- Acceptance Criteria:
++  - Traces exported locally (OTLP) with service names
++  - Error logs enriched with tenant, requestId, user id
++- Dependencies: API-001
++- Estimate: 2d | Priority: P1
++
++Ticket: DEP-001 — Containerization and deployment baselines
++- Description: Dockerfiles, Kubernetes manifests/Helm, environment config, and secret management per deployment-strategy.
++- Acceptance Criteria:
++  - Images build; manifests deploy to staging
++  - Readiness/liveness checks green; HPA configured
++- Dependencies: API-001, DB-setup
++- Estimate: 3d | Priority: P1
++- Links: deployment-strategy.md
++
++---
++
++## Cross-Epic Testing and Quality Gates
++
++Ticket: QLT-001 — Contract tests against OpenAPI
++- Description: Generate request/response validators from `openapi.yaml` and integrate into CI to assert route conformance.
++- Acceptance Criteria:
++  - CI step fails on contract breaking changes
++  - Mock tests for key endpoints (`/v1/orchestrate`, `/v1/tasks`, `/v1/events`)
++- Dependencies: API-001..005
++- Estimate: 2d | Priority: P1
++
++Ticket: QLT-002 — Performance and resiliency tests
++- Description: Add k6 or Artillery scenarios for orchestrate throughput, provider failover, and backpressure on SSE.
++- Acceptance Criteria:
++  - Report p95 latency and error rates
++  - Simulate provider failures; verify failover
++- Dependencies: ORCH-001..003, MON-001
++- Estimate: 3d | Priority: P2
++
+
+[2025-09-09T07:36:45] tokens used: 5181
+[2025-09-09T07:36:45] turn diff:
+diff --git a/monetization-projects/orchestration-saas/specs/001-enterprise-orchestration-platform/outputs/tasks.md b/monetization-projects/orchestration-saas/specs/001-enterprise-orchestration-platform/outputs/tasks.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..5182acfcf3243943eb9b43205a8b6a3119998c6e
+--- /dev/null
++++ b/monetization-projects/orchestration-saas/specs/001-enterprise-orchestration-platform/outputs/tasks.md
+@@ -0,0 +1,357 @@
++# Enterprise Orchestration Platform — Development Tickets
++
++Project: EUFM (European Union Funds Manager) — AI Agent Orchestration System
++Scope: Break down into actionable tickets by epic, aligned to spec and generated outputs
++
++References
++- Spec: ../spec.md
++- OpenAPI: ./openapi.yaml
++- Database schema: ./database-schema.sql
++- Implementation roadmap: ./implementation-roadmap.md
++- Deployment strategy: ./deployment-strategy.md
++
++---
++
++## Epic: API Gateway
++
++Ticket: API-001 — Bootstrap API service and routing
++- Description: Scaffold a TypeScript/Node.js API service (Express/Fastify) that serves `/v1` routes, loads env config, and exposes health/readiness probes. Wire structured logging (pino) and OpenTelemetry traces.
++- Acceptance Criteria:
++  - `GET /healthz` returns 200 with build info
++  - Request/response logging with correlation IDs
++  - OTEL trace/span export behind env flag
++  - CI runs build, lint, and starts server in test mode
++- Dependencies: None
++- Estimate: 2d | Priority: P0
++- Links: spec.md (Core Platform), implementation-roadmap (Phase 0)
++
++Ticket: API-002 — Multi-tenant headers and auth middlewares
++- Description: Implement header extraction for `X-Tenant-Id`, optional `X-Env-Id`, API key verification (`X-API-Key`), and OAuth2 (OIDC) bearer validation stubs. Normalize auth context into `req.ctx` for downstream.
++- Acceptance Criteria:
++  - Requests without `X-Tenant-Id` rejected 400 (for tenant-scoped endpoints)
++  - API keys validated (prefix + hash) against DB
++  - OIDC bearer verified (JWKS cached) — library integration and config
++  - Unit tests for positive/negative paths
++- Dependencies: API-001, DB-setup
++- Estimate: 3d | Priority: P0
++- Links: openapi.yaml (securitySchemes, parameters), database-schema.sql (api_keys)
++
++Ticket: API-003 — Implement `/v1/orchestrate` endpoint (sync/async)
++- Description: Implement `POST /v1/orchestrate` per OpenAPI with sync (200) and async (202) modes. Validate request schema, enqueue async tasks, return standardized response.
++- Acceptance Criteria:
++  - JSON schema validation for `OrchestrateRequest`
++  - Returns 200 with output for sync; 202 with `requestId` for async
++  - Audit event emitted with tenant, model, cost placeholders
++  - Unit tests mocking orchestration engine
++- Dependencies: API-002, ORCH-001
++- Estimate: 3d | Priority: P0
++- Links: openapi.yaml (/v1/orchestrate), spec (Unified AI Orchestration)
++
++Ticket: API-004 — Tasks endpoints (`/v1/tasks`, `/v1/tasks/{id}`)
++- Description: Implement task creation (long-running) and status retrieval. Persist tasks and executions following schema.
++- Acceptance Criteria:
++  - `POST /v1/tasks` returns 202 with Task record
++  - `GET /v1/tasks/{id}` returns task with status transitions
++  - RBAC checks applied
++- Dependencies: API-002, ORCH-001, DB-setup
++- Estimate: 2d | Priority: P1
++- Links: openapi.yaml (Tasks), database-schema.sql (tasks, task_executions)
++
++Ticket: API-005 — Events and metrics endpoints
++- Description: Implement SSE endpoint `/v1/events` and `/v1/metrics/usage` proxy/aggregation. Multitenant auth on stream.
++- Acceptance Criteria:
++  - SSE delivers task/request/alert events
++  - Usage aggregation query w/ `from`, `to`, `unit`
++  - Backpressure and idle timeouts handled
++- Dependencies: ORCH-003 (event bus), MON-002
++- Estimate: 3d | Priority: P1
++- Links: openapi.yaml (events, metrics)
++
++Ticket: API-006 — API Keys CRUD
++- Description: Implement `POST /v1/api-keys`, `GET /v1/api-keys`, `DELETE /v1/api-keys/{id}` with prefix+hash storage.
++- Acceptance Criteria:
++  - Keys generated with prefix, one-time reveal
++  - Hash stored, last_used_at updated by middleware
++  - Audit logs for create/revoke
++- Dependencies: API-002, SEC-003
++- Estimate: 2d | Priority: P1
++- Links: openapi.yaml (api-keys), database-schema.sql (api_keys)
++
++---
++
++## Epic: Multi-Provider Adapters
++
++Ticket: ADPT-001 — Define provider adapter interface and SDK
++- Description: Create TypeScript interface for providers (send, stream, cost calc, rate limit hints). Include request/response normalization and error taxonomy.
++- Acceptance Criteria:
++  - Interface published in `@eufm/providers`
++  - Normalized response type for chat/completions/embeddings
++  - Error classes: Retryable, RateLimited, AuthError, ValidationError
++- Dependencies: API-003 (types), ORCH-002 (router needs interface)
++- Estimate: 2d | Priority: P0
++- Links: spec (AI Provider Integration)
++
++Ticket: ADPT-002 — OpenAI adapter
++- Description: Implement OpenAI adapter supporting chat, completions, embeddings with streaming, retries, and cost estimation.
++- Acceptance Criteria:
++  - Parity tests with mock API
++  - Config via provider_accounts credentials
++  - Rate limit backoff with jitter
++- Dependencies: ADPT-001, DB-setup
++- Estimate: 3d | Priority: P0
++
++Ticket: ADPT-003 — Anthropic adapter
++- Description: Implement Claude adapter with message/stream support and token accounting.
++- Acceptance Criteria:
++  - Same interface compliance as ADPT-001
++  - Integration tests with sandbox keys
++- Dependencies: ADPT-001
++- Estimate: 3d | Priority: P1
++
++Ticket: ADPT-004 — Google (Gemini) adapter
++- Description: Implement Gemini adapter for text/chat and embeddings.
++- Acceptance Criteria:
++  - Interface compliance, streaming, error taxonomy
++  - Region-aware endpoints (for residency)
++- Dependencies: ADPT-001
++- Estimate: 3d | Priority: P1
++
++Ticket: ADPT-005 — Perplexity adapter
++- Description: Implement Perplexity chat/search adapter with normalized output.
++- Acceptance Criteria:
++  - Interface compliance; cost estimation
++- Dependencies: ADPT-001
++- Estimate: 2d | Priority: P2
++
++Ticket: ADPT-006 — Provider account management APIs
++- Description: Implement `/v1/providers` list/add using encrypted credentials and KMS envelope encryption.
++- Acceptance Criteria:
++  - Credentials encrypted at rest; structured audit events
++  - RBAC-scoped access
++- Dependencies: API-002, SEC-002
++- Estimate: 2d | Priority: P1
++- Links: openapi.yaml (/v1/providers), database-schema.sql (provider_accounts)
++
++---
++
++## Epic: Workflow Engine
++
++Ticket: ORCH-001 — Task queue and worker runtime
++- Description: Introduce queue (NATS/Kafka) abstraction, task persistence, retry/backoff policies, idempotency keys.
++- Acceptance Criteria:
++  - Enqueue/consume tasks; visibility timeout; DLQ
++  - Configurable retry/backoff, idempotent replays
++  - Tracing context propagated across worker boundaries
++- Dependencies: API-001, DB-setup
++- Estimate: 4d | Priority: P0
++
++Ticket: ORCH-002 — Routing engine and policy evaluation
++- Description: Implement routing engine that selects provider/model by policy (cost/latency/SLA), provider health, and tenant limits.
++- Acceptance Criteria:
++  - JSON policy format stored in `routing_policies`
++  - Unit tests with weighted selection and failover
++  - Telemetry on routing decisions
++- Dependencies: ORCH-001, ADPT-001..004
++- Estimate: 4d | Priority: P0
++- Links: database-schema.sql (routing_policies)
++
++Ticket: ORCH-003 — Event bus and lifecycle events
++- Description: Publish request/task/audit events to internal bus and expose to SSE/WS gateway.
++- Acceptance Criteria:
++  - Events: task.created, task.updated, request.started, request.completed, alert.fired
++  - Tenancy metadata on all events
++- Dependencies: ORCH-001, API-005
++- Estimate: 3d | Priority: P1
++
++Ticket: ORCH-004 — Workflow definitions (JSON DAG) and executor
++- Description: Define JSON schema for workflows (steps, branches, conditions, compensation) and implement executor that coordinates tasks.
++- Acceptance Criteria:
++  - Versioned `workflows` table entries and validation
++  - Executor supports branching and on-failure compensation
++  - Tests covering simple and branched flows
++- Dependencies: ORCH-001, ORCH-002
++- Estimate: 5d | Priority: P1
++- Links: database-schema.sql (workflows)
++
++---
++
++## Epic: Billing System
++
++Ticket: BILL-001 — Usage metering pipeline
++- Description: Persist `requests` with tokens, latency, and cost; roll up into `usage_aggregates` by time window.
++- Acceptance Criteria:
++  - Request persistence from adapters with token counts
++  - Aggregation job writes hourly/daily usage
++  - Indexes support common queries
++- Dependencies: ORCH-001, ADPT-001..004, DB-setup
++- Estimate: 3d | Priority: P0
++- Links: database-schema.sql (requests, usage_aggregates)
++
++Ticket: BILL-002 — Plan quotas and rate limiting
++- Description: Enforce subscription plan quotas and runtime rate limits per tenant/environment.
++- Acceptance Criteria:
++  - Middleware checks quota before enqueue
++  - Rate limit store (Redis) w/ strategies (fixed/sliding)
++  - Unit tests hit limits and recover after window
++- Dependencies: BILL-001, SEC-003, API-002
++- Estimate: 3d | Priority: P1
++- Links: database-schema.sql (rate_limits, subscriptions)
++
++Ticket: BILL-003 — Stripe integration (customers, subscriptions, invoices)
++- Description: Sync tenants to Stripe, handle webhooks, and reconcile invoices with usage.
++- Acceptance Criteria:
++  - Customer create/update; subscription create/cancel
++  - Webhook handlers for invoice/payment events (signed)
++  - Reconciliation job validates invoice totals vs usage
++- Dependencies: BILL-001, BILL-002
++- Estimate: 4d | Priority: P2
++- Links: database-schema.sql (billing_customers, subscriptions)
++
++Ticket: BILL-004 — Budget alerts and spend controls
++- Description: Allow admins to set budgets and thresholds that trigger alerts and optional request blocking.
++- Acceptance Criteria:
++  - Budget config per tenant
++  - Alerts via email/slack/webhook when thresholds exceeded
++  - Optional hard-stop on budget exceed
++- Dependencies: MON-003, BILL-001
++- Estimate: 2d | Priority: P2
++
++---
++
++## Epic: Monitoring Dashboard
++
++Ticket: MON-001 — Event gateway (SSE/WebSocket) service
++- Description: Stand up a dedicated gateway for real-time event streams with tenant-aware auth and fan-out from event bus.
++- Acceptance Criteria:
++  - `/v1/events` SSE stable under backpressure
++  - WS endpoint at `wss://events.*` supports subscribe/unsubscribe
++- Dependencies: ORCH-003, API-001
++- Estimate: 3d | Priority: P1
++- Links: openapi.yaml (/v1/events)
++
++Ticket: MON-002 — Metrics aggregation and query API
++- Description: Implement metrics jobs and read API for usage, latency, error rates; optional TimescaleDB hypertables.
++- Acceptance Criteria:
++  - Jobs populate `usage_aggregates`
++  - `GET /v1/metrics/usage` returns aggregated views
++- Dependencies: BILL-001, API-005
++- Estimate: 3d | Priority: P1
++
++Ticket: MON-003 — Alerting and webhook delivery
++- Description: Implement alert definitions, evaluation engine, and webhook delivery with retries and signatures.
++- Acceptance Criteria:
++  - Alerts stored and evaluated on schedule and stream processors
++  - Webhook deliveries tracked with retry/backoff
++- Dependencies: MON-002
++- Estimate: 3d | Priority: P2
++- Links: database-schema.sql (alerts, webhook_deliveries)
++
++Ticket: MON-004 — Dashboard UI (initial)
++- Description: Add dashboard screens for tasks table, live events, usage charts, and alert config in the web app.
++- Acceptance Criteria:
++  - Live task list w/ status filters
++  - Usage charts by provider and time
++  - Alert rule CRUD
++- Dependencies: MON-001, MON-002, MON-003
++- Estimate: 5d | Priority: P2
++
++---
++
++## Epic: Enterprise Security Features
++
++Ticket: SEC-001 — SSO (OIDC) auth service integration
++- Description: Integrate OIDC authorization code flow with PKCE; support login, logout, and session management.
++- Acceptance Criteria:
++  - OIDC config via env; JWKS rotation and caching
++  - User and identity records created/linked on first login
++  - Unit tests for token validation and session creation
++- Dependencies: API-001, DB-setup
++- Estimate: 3d | Priority: P0
++- Links: openapi.yaml (OAuth2), database-schema.sql (users, identities)
++
++Ticket: SEC-002 — Secrets and KMS envelope encryption
++- Description: Introduce KMS client abstraction and envelope encryption for provider credentials and secrets.
++- Acceptance Criteria:
++  - Encrypt/decrypt paths audited; key rotation procedure documented
++  - Secrets API limited to admins; no plaintext at rest
++- Dependencies: SEC-001
++- Estimate: 3d | Priority: P0
++- Links: database-schema.sql (secrets)
++
++Ticket: SEC-003 — RBAC and permission enforcement
++- Description: Implement roles, permissions, and enforcement middleware for API routes and UI components.
++- Acceptance Criteria:
++  - Permissions seeded; role templates per plan
++  - Route guards enforce RBAC for all security-sensitive endpoints
++  - Tests cover deny/allow matrix
++- Dependencies: SEC-001, API-002
++- Estimate: 4d | Priority: P0
++- Links: database-schema.sql (roles, permissions, user_roles)
++
++Ticket: SEC-004 — Audit logging (tamper-evident) and SIEM export
++- Description: Implement structured audit logs with optional signing/hashing and SIEM export (e.g., Splunk/Datadog) via HTTPS.
++- Acceptance Criteria:
++  - Audit events on auth, config changes, API keys, provider creds
++  - Export pipeline with backpressure and retries
++- Dependencies: API-002, SEC-003
++- Estimate: 3d | Priority: P1
++- Links: database-schema.sql (audit_logs)
++
++Ticket: SEC-005 — Data residency and regional routing controls
++- Description: Enforce data residency policies in request handling and provider selection (EU/US), including storage policies.
++- Acceptance Criteria:
++  - Residency policy checked on every request
++  - Router obeys regional constraints in model selection
++- Dependencies: ORCH-002, ADPT-004
++- Estimate: 3d | Priority: P2
++- Links: database-schema.sql (data_residency_policies)
++
++---
++
++## Shared/Infrastructure
++
++Ticket: DB-setup — Initialize database and migrations
++- Description: Create migrations from `database-schema.sql`, set up migration tooling (Prisma/Knex/Drizzle), seed baseline roles/permissions.
++- Acceptance Criteria:
++  - Migrations run in dev and staging; rollback works
++  - Seeds for plans, roles, permissions
++- Dependencies: None
++- Estimate: 2d | Priority: P0
++
++Ticket: OBS-001 — Observability scaffolding
++- Description: Integrate OpenTelemetry traces/metrics/logs; pino structured logging; context propagation.
++- Acceptance Criteria:
++  - Traces exported locally (OTLP) with service names
++  - Error logs enriched with tenant, requestId, user id
++- Dependencies: API-001
++- Estimate: 2d | Priority: P1
++
++Ticket: DEP-001 — Containerization and deployment baselines
++- Description: Dockerfiles, Kubernetes manifests/Helm, environment config, and secret management per deployment-strategy.
++- Acceptance Criteria:
++  - Images build; manifests deploy to staging
++  - Readiness/liveness checks green; HPA configured
++- Dependencies: API-001, DB-setup
++- Estimate: 3d | Priority: P1
++- Links: deployment-strategy.md
++
++---
++
++## Cross-Epic Testing and Quality Gates
++
++Ticket: QLT-001 — Contract tests against OpenAPI
++- Description: Generate request/response validators from `openapi.yaml` and integrate into CI to assert route conformance.
++- Acceptance Criteria:
++  - CI step fails on contract breaking changes
++  - Mock tests for key endpoints (`/v1/orchestrate`, `/v1/tasks`, `/v1/events`)
++- Dependencies: API-001..005
++- Estimate: 2d | Priority: P1
++
++Ticket: QLT-002 — Performance and resiliency tests
++- Description: Add k6 or Artillery scenarios for orchestrate throughput, provider failover, and backpressure on SSE.
++- Acceptance Criteria:
++  - Report p95 latency and error rates
++  - Simulate provider failures; verify failover
++- Dependencies: ORCH-001..003, MON-001
++- Estimate: 3d | Priority: P2
++
+
+
+[2025-09-09T07:36:58] thinking
+
+**Finalizing task completion**
+
+I've created the tasks.md file and now I need to provide a clear final message about the completion and summarize what we've the next steps. I’ll covered, mentioning where the written and tickets are how they align with the outputs and specs. A few concise bullet points will be beneficial, and I could also offer to adjust priorities or discuss JIRA formatting. However, since we didn't touch the code, running a TypeScript compilation check or tests isn't necessary. I'll keep the message brief!
+[2025-09-09T07:37:00] codex
+
+Created epic-grouped development tickets.
+
+- File: monetization-projects/orchestration-saas/specs/001-enterprise-orchestration-platform/outputs/tasks.md
+- Epics covered: API Gateway, Multi-Provider Adapters, Workflow Engine, Billing System, Monitoring Dashboard, Enterprise Security Features, Shared/Infra, Quality Gates
+- Each ticket includes: description, acceptance criteria, dependencies, estimate, priority, and links to spec/openapi/schema/roadmap
+
+Want me to convert these into a CSV/Jira import format or adjust priorities based on your team capacity?
+[2025-09-09T07:37:01] tokens used: 4519
+[2025-09-09T07:37:01] turn diff:
+diff --git a/monetization-projects/orchestration-saas/specs/001-enterprise-orchestration-platform/outputs/tasks.md b/monetization-projects/orchestration-saas/specs/001-enterprise-orchestration-platform/outputs/tasks.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..5182acfcf3243943eb9b43205a8b6a3119998c6e
+--- /dev/null
++++ b/monetization-projects/orchestration-saas/specs/001-enterprise-orchestration-platform/outputs/tasks.md
+@@ -0,0 +1,357 @@
++# Enterprise Orchestration Platform — Development Tickets
++
++Project: EUFM (European Union Funds Manager) — AI Agent Orchestration System
++Scope: Break down into actionable tickets by epic, aligned to spec and generated outputs
++
++References
++- Spec: ../spec.md
++- OpenAPI: ./openapi.yaml
++- Database schema: ./database-schema.sql
++- Implementation roadmap: ./implementation-roadmap.md
++- Deployment strategy: ./deployment-strategy.md
++
++---
++
++## Epic: API Gateway
++
++Ticket: API-001 — Bootstrap API service and routing
++- Description: Scaffold a TypeScript/Node.js API service (Express/Fastify) that serves `/v1` routes, loads env config, and exposes health/readiness probes. Wire structured logging (pino) and OpenTelemetry traces.
++- Acceptance Criteria:
++  - `GET /healthz` returns 200 with build info
++  - Request/response logging with correlation IDs
++  - OTEL trace/span export behind env flag
++  - CI runs build, lint, and starts server in test mode
++- Dependencies: None
++- Estimate: 2d | Priority: P0
++- Links: spec.md (Core Platform), implementation-roadmap (Phase 0)
++
++Ticket: API-002 — Multi-tenant headers and auth middlewares
++- Description: Implement header extraction for `X-Tenant-Id`, optional `X-Env-Id`, API key verification (`X-API-Key`), and OAuth2 (OIDC) bearer validation stubs. Normalize auth context into `req.ctx` for downstream.
++- Acceptance Criteria:
++  - Requests without `X-Tenant-Id` rejected 400 (for tenant-scoped endpoints)
++  - API keys validated (prefix + hash) against DB
++  - OIDC bearer verified (JWKS cached) — library integration and config
++  - Unit tests for positive/negative paths
++- Dependencies: API-001, DB-setup
++- Estimate: 3d | Priority: P0
++- Links: openapi.yaml (securitySchemes, parameters), database-schema.sql (api_keys)
++
++Ticket: API-003 — Implement `/v1/orchestrate` endpoint (sync/async)
++- Description: Implement `POST /v1/orchestrate` per OpenAPI with sync (200) and async (202) modes. Validate request schema, enqueue async tasks, return standardized response.
++- Acceptance Criteria:
++  - JSON schema validation for `OrchestrateRequest`
++  - Returns 200 with output for sync; 202 with `requestId` for async
++  - Audit event emitted with tenant, model, cost placeholders
++  - Unit tests mocking orchestration engine
++- Dependencies: API-002, ORCH-001
++- Estimate: 3d | Priority: P0
++- Links: openapi.yaml (/v1/orchestrate), spec (Unified AI Orchestration)
++
++Ticket: API-004 — Tasks endpoints (`/v1/tasks`, `/v1/tasks/{id}`)
++- Description: Implement task creation (long-running) and status retrieval. Persist tasks and executions following schema.
++- Acceptance Criteria:
++  - `POST /v1/tasks` returns 202 with Task record
++  - `GET /v1/tasks/{id}` returns task with status transitions
++  - RBAC checks applied
++- Dependencies: API-002, ORCH-001, DB-setup
++- Estimate: 2d | Priority: P1
++- Links: openapi.yaml (Tasks), database-schema.sql (tasks, task_executions)
++
++Ticket: API-005 — Events and metrics endpoints
++- Description: Implement SSE endpoint `/v1/events` and `/v1/metrics/usage` proxy/aggregation. Multitenant auth on stream.
++- Acceptance Criteria:
++  - SSE delivers task/request/alert events
++  - Usage aggregation query w/ `from`, `to`, `unit`
++  - Backpressure and idle timeouts handled
++- Dependencies: ORCH-003 (event bus), MON-002
++- Estimate: 3d | Priority: P1
++- Links: openapi.yaml (events, metrics)
++
++Ticket: API-006 — API Keys CRUD
++- Description: Implement `POST /v1/api-keys`, `GET /v1/api-keys`, `DELETE /v1/api-keys/{id}` with prefix+hash storage.
++- Acceptance Criteria:
++  - Keys generated with prefix, one-time reveal
++  - Hash stored, last_used_at updated by middleware
++  - Audit logs for create/revoke
++- Dependencies: API-002, SEC-003
++- Estimate: 2d | Priority: P1
++- Links: openapi.yaml (api-keys), database-schema.sql (api_keys)
++
++---
++
++## Epic: Multi-Provider Adapters
++
++Ticket: ADPT-001 — Define provider adapter interface and SDK
++- Description: Create TypeScript interface for providers (send, stream, cost calc, rate limit hints). Include request/response normalization and error taxonomy.
++- Acceptance Criteria:
++  - Interface published in `@eufm/providers`
++  - Normalized response type for chat/completions/embeddings
++  - Error classes: Retryable, RateLimited, AuthError, ValidationError
++- Dependencies: API-003 (types), ORCH-002 (router needs interface)
++- Estimate: 2d | Priority: P0
++- Links: spec (AI Provider Integration)
++
++Ticket: ADPT-002 — OpenAI adapter
++- Description: Implement OpenAI adapter supporting chat, completions, embeddings with streaming, retries, and cost estimation.
++- Acceptance Criteria:
++  - Parity tests with mock API
++  - Config via provider_accounts credentials
++  - Rate limit backoff with jitter
++- Dependencies: ADPT-001, DB-setup
++- Estimate: 3d | Priority: P0
++
++Ticket: ADPT-003 — Anthropic adapter
++- Description: Implement Claude adapter with message/stream support and token accounting.
++- Acceptance Criteria:
++  - Same interface compliance as ADPT-001
++  - Integration tests with sandbox keys
++- Dependencies: ADPT-001
++- Estimate: 3d | Priority: P1
++
++Ticket: ADPT-004 — Google (Gemini) adapter
++- Description: Implement Gemini adapter for text/chat and embeddings.
++- Acceptance Criteria:
++  - Interface compliance, streaming, error taxonomy
++  - Region-aware endpoints (for residency)
++- Dependencies: ADPT-001
++- Estimate: 3d | Priority: P1
++
++Ticket: ADPT-005 — Perplexity adapter
++- Description: Implement Perplexity chat/search adapter with normalized output.
++- Acceptance Criteria:
++  - Interface compliance; cost estimation
++- Dependencies: ADPT-001
++- Estimate: 2d | Priority: P2
++
++Ticket: ADPT-006 — Provider account management APIs
++- Description: Implement `/v1/providers` list/add using encrypted credentials and KMS envelope encryption.
++- Acceptance Criteria:
++  - Credentials encrypted at rest; structured audit events
++  - RBAC-scoped access
++- Dependencies: API-002, SEC-002
++- Estimate: 2d | Priority: P1
++- Links: openapi.yaml (/v1/providers), database-schema.sql (provider_accounts)
++
++---
++
++## Epic: Workflow Engine
++
++Ticket: ORCH-001 — Task queue and worker runtime
++- Description: Introduce queue (NATS/Kafka) abstraction, task persistence, retry/backoff policies, idempotency keys.
++- Acceptance Criteria:
++  - Enqueue/consume tasks; visibility timeout; DLQ
++  - Configurable retry/backoff, idempotent replays
++  - Tracing context propagated across worker boundaries
++- Dependencies: API-001, DB-setup
++- Estimate: 4d | Priority: P0
++
++Ticket: ORCH-002 — Routing engine and policy evaluation
++- Description: Implement routing engine that selects provider/model by policy (cost/latency/SLA), provider health, and tenant limits.
++- Acceptance Criteria:
++  - JSON policy format stored in `routing_policies`
++  - Unit tests with weighted selection and failover
++  - Telemetry on routing decisions
++- Dependencies: ORCH-001, ADPT-001..004
++- Estimate: 4d | Priority: P0
++- Links: database-schema.sql (routing_policies)
++
++Ticket: ORCH-003 — Event bus and lifecycle events
++- Description: Publish request/task/audit events to internal bus and expose to SSE/WS gateway.
++- Acceptance Criteria:
++  - Events: task.created, task.updated, request.started, request.completed, alert.fired
++  - Tenancy metadata on all events
++- Dependencies: ORCH-001, API-005
++- Estimate: 3d | Priority: P1
++
++Ticket: ORCH-004 — Workflow definitions (JSON DAG) and executor
++- Description: Define JSON schema for workflows (steps, branches, conditions, compensation) and implement executor that coordinates tasks.
++- Acceptance Criteria:
++  - Versioned `workflows` table entries and validation
++  - Executor supports branching and on-failure compensation
++  - Tests covering simple and branched flows
++- Dependencies: ORCH-001, ORCH-002
++- Estimate: 5d | Priority: P1
++- Links: database-schema.sql (workflows)
++
++---
++
++## Epic: Billing System
++
++Ticket: BILL-001 — Usage metering pipeline
++- Description: Persist `requests` with tokens, latency, and cost; roll up into `usage_aggregates` by time window.
++- Acceptance Criteria:
++  - Request persistence from adapters with token counts
++  - Aggregation job writes hourly/daily usage
++  - Indexes support common queries
++- Dependencies: ORCH-001, ADPT-001..004, DB-setup
++- Estimate: 3d | Priority: P0
++- Links: database-schema.sql (requests, usage_aggregates)
++
++Ticket: BILL-002 — Plan quotas and rate limiting
++- Description: Enforce subscription plan quotas and runtime rate limits per tenant/environment.
++- Acceptance Criteria:
++  - Middleware checks quota before enqueue
++  - Rate limit store (Redis) w/ strategies (fixed/sliding)
++  - Unit tests hit limits and recover after window
++- Dependencies: BILL-001, SEC-003, API-002
++- Estimate: 3d | Priority: P1
++- Links: database-schema.sql (rate_limits, subscriptions)
++
++Ticket: BILL-003 — Stripe integration (customers, subscriptions, invoices)
++- Description: Sync tenants to Stripe, handle webhooks, and reconcile invoices with usage.
++- Acceptance Criteria:
++  - Customer create/update; subscription create/cancel
++  - Webhook handlers for invoice/payment events (signed)
++  - Reconciliation job validates invoice totals vs usage
++- Dependencies: BILL-001, BILL-002
++- Estimate: 4d | Priority: P2
++- Links: database-schema.sql (billing_customers, subscriptions)
++
++Ticket: BILL-004 — Budget alerts and spend controls
++- Description: Allow admins to set budgets and thresholds that trigger alerts and optional request blocking.
++- Acceptance Criteria:
++  - Budget config per tenant
++  - Alerts via email/slack/webhook when thresholds exceeded
++  - Optional hard-stop on budget exceed
++- Dependencies: MON-003, BILL-001
++- Estimate: 2d | Priority: P2
++
++---
++
++## Epic: Monitoring Dashboard
++
++Ticket: MON-001 — Event gateway (SSE/WebSocket) service
++- Description: Stand up a dedicated gateway for real-time event streams with tenant-aware auth and fan-out from event bus.
++- Acceptance Criteria:
++  - `/v1/events` SSE stable under backpressure
++  - WS endpoint at `wss://events.*` supports subscribe/unsubscribe
++- Dependencies: ORCH-003, API-001
++- Estimate: 3d | Priority: P1
++- Links: openapi.yaml (/v1/events)
++
++Ticket: MON-002 — Metrics aggregation and query API
++- Description: Implement metrics jobs and read API for usage, latency, error rates; optional TimescaleDB hypertables.
++- Acceptance Criteria:
++  - Jobs populate `usage_aggregates`
++  - `GET /v1/metrics/usage` returns aggregated views
++- Dependencies: BILL-001, API-005
++- Estimate: 3d | Priority: P1
++
++Ticket: MON-003 — Alerting and webhook delivery
++- Description: Implement alert definitions, evaluation engine, and webhook delivery with retries and signatures.
++- Acceptance Criteria:
++  - Alerts stored and evaluated on schedule and stream processors
++  - Webhook deliveries tracked with retry/backoff
++- Dependencies: MON-002
++- Estimate: 3d | Priority: P2
++- Links: database-schema.sql (alerts, webhook_deliveries)
++
++Ticket: MON-004 — Dashboard UI (initial)
++- Description: Add dashboard screens for tasks table, live events, usage charts, and alert config in the web app.
++- Acceptance Criteria:
++  - Live task list w/ status filters
++  - Usage charts by provider and time
++  - Alert rule CRUD
++- Dependencies: MON-001, MON-002, MON-003
++- Estimate: 5d | Priority: P2
++
++---
++
++## Epic: Enterprise Security Features
++
++Ticket: SEC-001 — SSO (OIDC) auth service integration
++- Description: Integrate OIDC authorization code flow with PKCE; support login, logout, and session management.
++- Acceptance Criteria:
++  - OIDC config via env; JWKS rotation and caching
++  - User and identity records created/linked on first login
++  - Unit tests for token validation and session creation
++- Dependencies: API-001, DB-setup
++- Estimate: 3d | Priority: P0
++- Links: openapi.yaml (OAuth2), database-schema.sql (users, identities)
++
++Ticket: SEC-002 — Secrets and KMS envelope encryption
++- Description: Introduce KMS client abstraction and envelope encryption for provider credentials and secrets.
++- Acceptance Criteria:
++  - Encrypt/decrypt paths audited; key rotation procedure documented
++  - Secrets API limited to admins; no plaintext at rest
++- Dependencies: SEC-001
++- Estimate: 3d | Priority: P0
++- Links: database-schema.sql (secrets)
++
++Ticket: SEC-003 — RBAC and permission enforcement
++- Description: Implement roles, permissions, and enforcement middleware for API routes and UI components.
++- Acceptance Criteria:
++  - Permissions seeded; role templates per plan
++  - Route guards enforce RBAC for all security-sensitive endpoints
++  - Tests cover deny/allow matrix
++- Dependencies: SEC-001, API-002
++- Estimate: 4d | Priority: P0
++- Links: database-schema.sql (roles, permissions, user_roles)
++
++Ticket: SEC-004 — Audit logging (tamper-evident) and SIEM export
++- Description: Implement structured audit logs with optional signing/hashing and SIEM export (e.g., Splunk/Datadog) via HTTPS.
++- Acceptance Criteria:
++  - Audit events on auth, config changes, API keys, provider creds
++  - Export pipeline with backpressure and retries
++- Dependencies: API-002, SEC-003
++- Estimate: 3d | Priority: P1
++- Links: database-schema.sql (audit_logs)
++
++Ticket: SEC-005 — Data residency and regional routing controls
++- Description: Enforce data residency policies in request handling and provider selection (EU/US), including storage policies.
++- Acceptance Criteria:
++  - Residency policy checked on every request
++  - Router obeys regional constraints in model selection
++- Dependencies: ORCH-002, ADPT-004
++- Estimate: 3d | Priority: P2
++- Links: database-schema.sql (data_residency_policies)
++
++---
++
++## Shared/Infrastructure
++
++Ticket: DB-setup — Initialize database and migrations
++- Description: Create migrations from `database-schema.sql`, set up migration tooling (Prisma/Knex/Drizzle), seed baseline roles/permissions.
++- Acceptance Criteria:
++  - Migrations run in dev and staging; rollback works
++  - Seeds for plans, roles, permissions
++- Dependencies: None
++- Estimate: 2d | Priority: P0
++
++Ticket: OBS-001 — Observability scaffolding
++- Description: Integrate OpenTelemetry traces/metrics/logs; pino structured logging; context propagation.
++- Acceptance Criteria:
++  - Traces exported locally (OTLP) with service names
++  - Error logs enriched with tenant, requestId, user id
++- Dependencies: API-001
++- Estimate: 2d | Priority: P1
++
++Ticket: DEP-001 — Containerization and deployment baselines
++- Description: Dockerfiles, Kubernetes manifests/Helm, environment config, and secret management per deployment-strategy.
++- Acceptance Criteria:
++  - Images build; manifests deploy to staging
++  - Readiness/liveness checks green; HPA configured
++- Dependencies: API-001, DB-setup
++- Estimate: 3d | Priority: P1
++- Links: deployment-strategy.md
++
++---
++
++## Cross-Epic Testing and Quality Gates
++
++Ticket: QLT-001 — Contract tests against OpenAPI
++- Description: Generate request/response validators from `openapi.yaml` and integrate into CI to assert route conformance.
++- Acceptance Criteria:
++  - CI step fails on contract breaking changes
++  - Mock tests for key endpoints (`/v1/orchestrate`, `/v1/tasks`, `/v1/events`)
++- Dependencies: API-001..005
++- Estimate: 2d | Priority: P1
++
++Ticket: QLT-002 — Performance and resiliency tests
++- Description: Add k6 or Artillery scenarios for orchestrate throughput, provider failover, and backpressure on SSE.
++- Acceptance Criteria:
++  - Report p95 latency and error rates
++  - Simulate provider failures; verify failover
++- Dependencies: ORCH-001..003, MON-001
++- Estimate: 3d | Priority: P2
++
+
+
+Process exited with code: 0

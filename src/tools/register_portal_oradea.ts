@@ -1,5 +1,6 @@
 import 'dotenv/config';
 import { projectRegistry, type ProjectMetadata } from '../masterControl/projectRegistry.js';
+import { repoPath } from '../utils/paths.js';
 
 async function main() {
   try {
@@ -44,9 +45,9 @@ async function main() {
       },
       automatedTasks: [],
       location: {
-        baseDirectory: '/Users/panda/Desktop/EUFM/PROJECTS/Portal Oradea',
+        baseDirectory: repoPath('PROJECTS', 'Portal Oradea'),
         configFile: 'PROJECT_BRIEF.md',
-        logsDirectory: '/Users/panda/Desktop/EUFM/logs/Portal Oradea'
+        logsDirectory: repoPath('logs', 'Portal Oradea')
       }
     };
 
@@ -59,4 +60,3 @@ async function main() {
 }
 
 main();
-

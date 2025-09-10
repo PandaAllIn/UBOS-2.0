@@ -33,7 +33,7 @@ export class DashboardServer {
       try {
         const status = await this.missionControl.getStatus();
         res.json(status);
-      } catch (error) {
+      } catch (error: any) {
         res.status(500).json({ error: 'Failed to get status' });
       }
     });
@@ -43,7 +43,7 @@ export class DashboardServer {
         const { task, dryRun = false } = req.body;
         const result = await this.missionControl.executeTask(task, { dryRun });
         res.json(result);
-      } catch (error) {
+      } catch (error: any) {
         res.status(500).json({ error: error instanceof Error ? error.message : 'Task execution failed' });
       }
     });
@@ -52,7 +52,7 @@ export class DashboardServer {
       try {
         const opportunities = await this.missionControl.scanFundingOpportunities();
         res.json({ message: 'Funding scan complete', found: opportunities.length });
-      } catch (error) {
+      } catch (error: any) {
         res.status(500).json({ error: 'Funding scan failed' });
       }
     });
@@ -244,7 +244,7 @@ Task: Answer the user's question and suggest 1-3 concrete next actions using the
         try {
           const data = JSON.parse(message.toString());
           await this.handleWebSocketMessage(ws, data);
-        } catch (error) {
+        } catch (error: any) {
           ws.send(JSON.stringify({ error: 'Invalid message format' }));
         }
       });
@@ -280,7 +280,7 @@ Task: Answer the user's question and suggest 1-3 concrete next actions using the
         try {
           const result = await this.missionControl.executeTask(data.task, data.options);
           ws.send(JSON.stringify({ type: 'task_result', data: result }));
-        } catch (error) {
+        } catch (error: any) {
           ws.send(JSON.stringify({ type: 'error', message: 'Task execution failed' }));
         }
         break;
@@ -289,7 +289,7 @@ Task: Answer the user's question and suggest 1-3 concrete next actions using the
         try {
           const opportunities = await this.missionControl.scanFundingOpportunities();
           ws.send(JSON.stringify({ type: 'funding_opportunities', data: opportunities }));
-        } catch (error) {
+        } catch (error: any) {
           ws.send(JSON.stringify({ type: 'error', message: 'Funding scan failed' }));
         }
         break;
@@ -307,7 +307,7 @@ Task: Answer the user's question and suggest 1-3 concrete next actions using the
     try {
       const status = await this.missionControl.getStatus();
       ws.send(JSON.stringify({ type: 'status_update', data: status }));
-    } catch (error) {
+    } catch (error: any) {
       ws.send(JSON.stringify({ type: 'error', message: 'Failed to get status' }));
     }
   }
@@ -322,7 +322,7 @@ Task: Answer the user's question and suggest 1-3 concrete next actions using the
           client.send(message);
         }
       });
-    } catch (error) {
+    } catch (error: any) {
       console.error('Failed to broadcast status update:', error);
     }
   }

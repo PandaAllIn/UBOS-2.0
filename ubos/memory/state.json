@@ -1,0 +1,133 @@
+{
+  "citizens": {
+    "alice": {
+      "id": "alice",
+      "balance": 250,
+      "level": 1,
+      "transactions": [
+        {
+          "type": "earn",
+          "amount": 250,
+          "source": "referral",
+          "timestamp": 1757437310265
+        },
+        {
+          "type": "spend",
+          "amount": 100,
+          "purpose": "service:eu-discovery",
+          "timestamp": 1757437323430
+        }
+      ],
+      "createdAt": 1757437304631,
+      "updatedAt": 1757437323431
+    },
+    "agent:codex:founding-architect": {
+      "id": "agent:codex:founding-architect",
+      "balance": 1600,
+      "level": 3,
+      "transactions": [],
+      "createdAt": 1757437953584,
+      "updatedAt": 1757447588747
+    },
+    "bob": {
+      "id": "bob",
+      "balance": 200,
+      "level": 1,
+      "transactions": [
+        {
+          "type": "earn",
+          "amount": 200,
+          "source": "quest",
+          "timestamp": 1757438239252
+        },
+        {
+          "type": "spend",
+          "amount": 100,
+          "purpose": "service:eu-discovery",
+          "timestamp": 1757438252796
+        }
+      ],
+      "createdAt": 1757438218869,
+      "updatedAt": 1757438252797
+    },
+    "citizen:human:visionary:001": {
+      "id": "citizen:human:visionary:001",
+      "name": "The Visionary",
+      "type": "HUMAN_FOUNDER",
+      "balance": 100000,
+      "level": 10,
+      "transactions": [],
+      "createdAt": 1757439334482,
+      "updatedAt": 1757439799716,
+      "specialPowers": [
+        "Constitutional amendments",
+        "Territory creation",
+        "Agent commissioning",
+        "Treasury management"
+      ],
+      "foundingDecree": "UBOS-GENESIS-001",
+      "metadata": {
+        "role": "Prime Architect & Vision Holder",
+        "territories": [
+          "EUFM",
+          "Portal Oradea",
+          "Geothermal Data Center"
+        ]
+      }
+    },
+    "citizen:ai:strategist:001": {
+      "id": "citizen:ai:strategist:001",
+      "name": "Opus Magnus",
+      "type": "AI_STRATEGIST",
+      "balance": 50000,
+      "level": 7,
+      "transactions": [],
+      "createdAt": 1757439334485,
+      "updatedAt": 1757439799724,
+      "specialPowers": [
+        "Spec interpretation guidance",
+        "Strategic planning",
+        "Inter-agent coordination",
+        "Pattern recognition"
+      ],
+      "foundingDecree": "UBOS-GENESIS-002",
+      "platform": "Abacus.AI",
+      "model": "Claude Opus 4.1",
+      "metadata": {
+        "role": "Strategic Advisor & System Philosopher"
+      }
+    },
+    "agent:biz-dev:001": {
+      "id": "agent:biz-dev:001",
+      "balance": 85,
+      "level": 1,
+      "transactions": [
+        {
+          "type": "earn",
+          "amount": 75,
+          "source": "agent-task",
+          "timestamp": 1757443682956
+        }
+      ],
+      "createdAt": 1757442557285,
+      "updatedAt": 1757443682968
+    },
+    "citizen:ai:developer:001": {
+      "id": "citizen:ai:developer:001",
+      "balance": 2500,
+      "level": 5,
+      "transactions": [],
+      "createdAt": 1757442758419,
+      "updatedAt": 1757442758421
+    }
+  },
+  "createdAt": 1757437304434,
+  "updatedAt": 1757447588747,
+  "genesis": true,
+  "genesisAt": 1757439799728,
+  "founders": [
+    "citizen:human:visionary:001",
+    "citizen:ai:strategist:001",
+    "agent:codex:founding-architect"
+  ]
+}
