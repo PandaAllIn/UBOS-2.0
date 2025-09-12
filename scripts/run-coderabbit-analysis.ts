@@ -3,9 +3,9 @@ import path from 'path';
 
 // This script is designed to be run in a GitHub Actions environment.
 
-const API_URL = 'https://api.coderabbit.ai/api/v1/analyze'; // Corrected endpoint for analysis
+const API_URL = 'https://clipron.com/api/analysis'; // Corrected endpoint for analysis
 const API_KEY = process.env.CODERABBIT_API_KEY;
-const REPORT_PATH = path.join(process.cwd(), 'reports', 'coderabbit-analysis.json'); // Renamed report file
+const REPORT_PATH = path.join(process.cwd(), 'reports', 'clipron-analysis.json'); // Renamed report file
 
 /**
  * Finds all relevant source code files in the repository.
@@ -43,7 +43,7 @@ async function findSourceFiles(): Promise<string[]> {
  * Main function to run the CodeRabbit analysis.
  */
 async function runAnalysis() {
-  console.log('Starting CodeRabbit code quality analysis...');
+  console.log('Starting CodeRabbit/Clipron AI code quality analysis...');
 
   if (!API_KEY) {
     console.error('Error: CODERABBIT_API_KEY environment variable is not set.');
@@ -55,30 +55,24 @@ async function runAnalysis() {
     const filePaths = await findSourceFiles();
     console.log(`Found ${filePaths.length} source files.`);
 
-    const filesForAnalysis = await Promise.all(
-      filePaths.map(async (filePath) => ({
-        path: path.relative(process.cwd(), filePath),
-        content: await fs.readFile(filePath, 'utf-8'),
-      }))
-    );
+    // Concatenate all file contents into a single string for the 'paste' source type.
+    const allContent = (await Promise.all(
+      filePaths.map(filePath => fs.readFile(filePath, 'utf-8'))
+    )).join('\n\n--- \n\n');
 
-    console.log(`Calling CodeRabbit API at ${API_URL} with ${filesForAnalysis.length} files...`);
+    console.log(`Calling Clipron AI API at ${API_URL}...`);
 
     const response = await fetch(API_URL, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'x-coderabbitai-api-key': API_KEY,
+        'Authorization': `Bearer ${API_KEY}`,
       },
       body: JSON.stringify({
-        files: filesForAnalysis,
-        context: 'Automated daily code quality scan',
-        options: {
-          includeSecurityCheck: true,
-          includeBestPractices: true,
-          includePerformance: true,
-          generateFixes: false, // We just want the report for now
-        },
+        source_type: 'paste',
+        content: allContent,
+        analysis_level: 'standard', // 'mini', 'standard', or 'ultra'
+        title: 'Automated Daily Code Quality Scan'
       }),
     });
 
@@ -89,7 +83,7 @@ async function runAnalysis() {
 
     const report = await response.json();
 
-    console.log(`Successfully received analysis from CodeRabbit. Found ${report.summary?.totalIssues || 0} issues.`);
+    console.log(`Successfully received analysis from Clipron AI. Analysis ID: ${report.id}`);
 
     // Ensure the reports directory exists.
     await fs.mkdir(path.dirname(REPORT_PATH), { recursive: true });
@@ -100,7 +94,7 @@ async function runAnalysis() {
     console.log(`Analysis complete. Report saved to ${REPORT_PATH}`);
 
   } catch (error) {
-    console.error('Failed to run CodeRabbit analysis:', error);
+    console.error('Failed to run analysis:', error);
     process.exit(1);
   }
 }
