@@ -91,7 +91,13 @@ export class AgentBillingService {
     }
 
     // Check if customer can afford this execution
-    const canProceed = await usageTracker.checkLimits(customerId, 'agent_execution');
+    let canProceed = false;
+    try {
+      canProceed = await usageTracker.checkLimits(customerId, 'agent_execution');
+    } catch (error) {
+      throw new Error(`Error checking usage limits: ${error instanceof Error ? error.message : String(error)}`);
+    }
+    
     if (!canProceed) {
       throw new Error('Usage limit exceeded. Upgrade your subscription for higher limits.');
     }
@@ -137,13 +143,28 @@ export class AgentBillingService {
       throw new Error('Execution not found');
     }
 
-    // Log progress to action logger
-    await agentActionLogger.startWork(
+    const actionId = await agentActionLogger.startWork(
       'AgentBillingService',
       `Progress update for ${execution.agentType}`,
       `${progress}% complete: ${taskDescription}`,
       'system'
     );
+
+    try {
+      // Log progress to action logger
+      await agentActionLogger.completeWork(
+        actionId,
+        `Progress updated: ${progress}% for ${executionId}`,
+        []
+      );
+    } catch (error) {
+      await agentActionLogger.completeWork(
+        actionId,
+        `Failed to record progress: ${error instanceof Error ? error.message : String(error)}`,
+        []
+      );
+      throw error;
+    }
   }
 
   async completeAgentExecution(executionId: string, output: any = null) {

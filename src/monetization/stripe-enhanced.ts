@@ -1,14 +1,6 @@
 import Stripe from 'stripe';
 import { agentActionLogger } from '../masterControl/agentActionLogger.js';
 
-if (!process.env.STRIPE_SECRET_KEY) {
-  throw new Error('STRIPE_SECRET_KEY environment variable is required');
-}
-
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
-  apiVersion: '2025-08-27.basil',
-});
-
 export interface SubscriptionTier {
   id: string;
   name: string;
@@ -62,6 +54,18 @@ export const subscriptionTiers: SubscriptionTier[] = [
 ];
 
 export class StripeService {
+  private stripe: Stripe;
+
+  constructor() {
+    const stripeSecretKey = process.env.STRIPE_SECRET_KEY;
+    if (!stripeSecretKey) {
+      throw new Error('STRIPE_SECRET_KEY environment variable is required');
+    }
+    this.stripe = new Stripe(stripeSecretKey, {
+      apiVersion: '2025-08-27', // Consider making this configurable or updating periodically
+    });
+  }
+
   async createCustomer(email: string, name?: string) {
     const actionId = await agentActionLogger.startWork(
       'StripeService',
@@ -71,7 +75,7 @@ export class StripeService {
     );
 
     try {
-      const customer = await stripe.customers.create({
+      const customer = await this.stripe.customers.create({
         email,
         name: name || email.split('@')[0],
         metadata: {
@@ -103,7 +107,7 @@ export class StripeService {
       throw new Error(`Invalid subscription tier: ${tierId}`);
     }
 
-    return await stripe.subscriptions.create({
+    return await this.stripe.subscriptions.create({
       customer: customerId,
       items: [{ price: tier.priceId }],
       payment_behavior: 'default_incomplete',
@@ -113,9 +117,10 @@ export class StripeService {
   }
 
   async recordUsage(subscriptionId: string, quantity: number, timestamp?: number) {
-    const subscription = await stripe.subscriptions.retrieve(subscriptionId);
+    const subscription = await this.stripe.subscriptions.retrieve(subscriptionId);
 
-    return await (stripe as any).usageRecords.create(
+    // Corrected usage record creation without 'as any' cast
+    return await this.stripe.usageRecords.create(
       subscription.items.data[0].id,
       {
         quantity,

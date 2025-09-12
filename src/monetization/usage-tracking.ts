@@ -70,9 +70,10 @@ export class UsageTracker {
       return usageData[customerId] || null;
     } catch (error) {
       if ((error as any).code === 'ENOENT') {
-        return null;
+        return null; // File not found is expected for new customers
       }
-      throw error;
+      console.error(`Error reading customer usage file for ${customerId}:`, error);
+      throw error; // Re-throw other errors
     }
   }
 
@@ -96,10 +97,17 @@ export class UsageTracker {
     try {
       usageData = JSON.parse(await fs.readFile(this.usageFile, 'utf8'));
     } catch (error) {
-      if ((error as any).code !== 'ENOENT') throw error;
+      if ((error as any).code !== 'ENOENT') {
+        console.error('Error parsing customer usage file:', error);
+        // If file is corrupted, we might want to recover or start fresh, 
+        // but for now, re-throw to indicate a problem.
+        throw error;
+      }
     }
 
     const now = Date.now();
+    // Using simple date calculations for period start/end. 
+    // For production billing, consider a robust date library like 'date-fns'.
     const periodStart = new Date(now).setDate(1);
     const periodEnd = new Date(periodStart).setMonth(new Date(periodStart).getMonth() + 1);
 

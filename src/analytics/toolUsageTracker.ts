@@ -45,14 +45,20 @@ export class ToolUsageTracker {
       const txt = await fs.readFile(this.dbPath, 'utf8');
       const arr = JSON.parse(txt);
       return Array.isArray(arr) ? arr : [];
-    } catch {
+    } catch (error) {
+      console.error('Failed to load usage data from file:', error);
       return [];
     }
   }
 
   private async saveAll(events: UsageEvent[]): Promise<void> {
-    await fs.mkdir(path.dirname(this.dbPath), { recursive: true });
-    await fs.writeFile(this.dbPath, JSON.stringify(events, null, 2), 'utf8');
+    try {
+      await fs.mkdir(path.dirname(this.dbPath), { recursive: true });
+      await fs.writeFile(this.dbPath, JSON.stringify(events, null, 2), 'utf8');
+    } catch (error) {
+      console.error('Failed to save usage data to file:', error);
+      throw error; // Re-throw to indicate a critical failure
+    }
   }
 
   async record(ev: Omit<UsageEvent, 'id' | 'ts'> & { ts?: string; id?: string }): Promise<UsageEvent> {

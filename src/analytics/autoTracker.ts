@@ -45,12 +45,17 @@ export async function trackLLMUsage(
     const estTotal = apiTotal > 0 ? apiTotal : (estimateTokens(prompt) + estimateTokens(completion));
 
     // Fire-and-forget with safety: do not block or throw if tracking fails.
-    agent.recordEvent({ provider: provider as any, plan, metric: 'requests', amount: 1, model, tags: ['auto'] }).catch(() => {});
+    agent.recordEvent({ provider: provider as any, plan, metric: 'requests', amount: 1, model, tags: ['auto'] }).catch((err) => {
+      console.error('Error recording analytics event (requests):', err);
+    });
     if (estTotal > 0) {
-      agent.recordEvent({ provider: provider as any, plan, metric: 'tokens', amount: estTotal, model, tags: ['auto'] }).catch(() => {});
+      agent.recordEvent({ provider: provider as any, plan, metric: 'tokens', amount: estTotal, model, tags: ['auto'] }).catch((err) => {
+        console.error('Error recording analytics event (tokens):', err);
+      });
     }
-  } catch {
-    // Swallow any tracking errors completely
+  } catch (err) {
+    // Swallow any tracking errors completely, but log them for debugging
+    console.error('Error in trackLLMUsage:', err);
   }
 }
 

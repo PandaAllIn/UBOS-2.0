@@ -1,6 +1,11 @@
 import fetch from 'node-fetch';
 
-export async function anthropicComplete(prompt: string, model = 'claude-3-5-sonnet-latest'): Promise<string> {
+export interface AnthropicOptions {
+  model?: string;
+  max_tokens?: number;
+}
+
+export async function anthropicComplete(prompt: string, options: AnthropicOptions = {}): Promise<string> {
 	const apiKey = process.env.ANTHROPIC_API_KEY;
 	if (!apiKey) throw new Error('Missing ANTHROPIC_API_KEY');
 	const url = 'https://api.anthropic.com/v1/messages';
@@ -12,8 +17,8 @@ export async function anthropicComplete(prompt: string, model = 'claude-3-5-sonn
 			'anthropic-version': '2023-06-01'
 		},
 		body: JSON.stringify({
-			model,
-			max_tokens: 1024,
+			model: options.model || 'claude-3-5-sonnet-latest',
+			max_tokens: options.max_tokens || 1024,
 			messages: [
 				{ role: 'user', content: prompt }
 			]
