@@ -47,12 +47,12 @@ export class AgentActionLogger {
   private logPath: string;
   private snapshotPath: string;
   private actions: AgentAction[] = [];
-  private isInitialized = false;
+  private initializationPromise: Promise<void> | null = null;
 
   constructor() {
     this.logPath = path.join('logs', 'master_control', 'agent_actions.json');
     this.snapshotPath = path.join('logs', 'master_control', 'system_snapshot.json');
-    this.initialize();
+    this.initializationPromise = this.initialize();
   }
 
   private async initialize(): Promise<void> {
@@ -63,14 +63,17 @@ export class AgentActionLogger {
       try {
         const data = await fs.readFile(this.logPath, 'utf-8');
         this.actions = JSON.parse(data);
-      } catch {
-        // No existing log file, start fresh
+      } catch (readError: any) {
+        if (readError.code !== 'ENOENT') {
+          console.error('❌ Failed to read existing agent actions log:', readError);
+          // If file exists but is corrupted, we start fresh but log the error
+        }
         this.actions = [];
       }
       
-      this.isInitialized = true;
     } catch (error: any) {
-      console.error('❌ Failed to initialize AgentActionLogger:', error);
+      console.error('❌ Failed to initialize AgentActionLogger (mkdir or initial read):', error);
+      throw error; // Re-throw to indicate a critical initialization failure
     }
   }
 
@@ -78,10 +81,18 @@ export class AgentActionLogger {
     return `action_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
   }
 
-  async logAction(action: Omit<AgentAction, 'id' | 'timestamp'>): Promise<string> {
-    if (!this.isInitialized) {
-      await this.initialize();
+  private async ensureInitialized(): Promise<void> {
+    if (this.initializationPromise) {
+      await this.initializationPromise;
+    } else {
+      // Should not happen if constructor is called correctly, but as a safeguard
+      this.initializationPromise = this.initialize();
+      await this.initializationPromise;
     }
+  }
+
+  async logAction(action: Omit<AgentAction, 'id' | 'timestamp'>): Promise<string> {
+    await this.ensureInitialized();
 
     const actionWithMeta: AgentAction = {
       id: this.generateActionId(),
@@ -107,6 +118,7 @@ export class AgentActionLogger {
     status: AgentAction['status'], 
     updates?: Partial<AgentAction>
   ): Promise<void> {
+    await this.ensureInitialized();
     const action = this.actions.find(a => a.id === actionId);
     if (action) {
       action.status = status;
@@ -127,16 +139,12 @@ export class AgentActionLogger {
   }
 
   async getRecentActions(limit: number = 50): Promise<AgentAction[]> {
-    if (!this.isInitialized) {
-      await this.initialize();
-    }
+    await this.ensureInitialized();
     return this.actions.slice(-limit).reverse(); // Most recent first
   }
 
   async getActionsByAgent(agent: string, limit: number = 20): Promise<AgentAction[]> {
-    if (!this.isInitialized) {
-      await this.initialize();
-    }
+    await this.ensureInitialized();
     return this.actions
       .filter(a => a.agent === agent)
       .slice(-limit)
@@ -144,9 +152,7 @@ export class AgentActionLogger {
   }
 
   async getActionsByCategory(category: AgentAction['category'], limit: number = 30): Promise<AgentAction[]> {
-    if (!this.isInitialized) {
-      await this.initialize();
-    }
+    await this.ensureInitialized();
     return this.actions
       .filter(a => a.category === category)
       .slice(-limit)
@@ -154,18 +160,14 @@ export class AgentActionLogger {
   }
 
   async getActiveActions(): Promise<AgentAction[]> {
-    if (!this.isInitialized) {
-      await this.initialize();
-    }
+    await this.ensureInitialized();
     return this.actions.filter(a => 
       a.status === 'started' || a.status === 'in_progress'
     );
   }
 
   async generateSystemSnapshot(): Promise<SystemSnapshot> {
-    if (!this.isInitialized) {
-      await this.initialize();
-    }
+    await this.ensureInitialized();
 
     const recentActions = await this.getRecentActions(100);
     const activeActions = await this.getActiveActions();
@@ -181,7 +183,7 @@ export class AgentActionLogger {
       a.status === 'completed' || a.status === 'failed'
     );
     const successRate = completedActions.length > 0 
-      ? Math.round((completedActions.filter(a => a.status === 'completed').length / completedActions.length) * 100)
+      ? Math.round((completedActions.filter(a => a.status === 'completed').length / completedActions.length) * 100) 
       : 100;
 
     // Calculate average duration
@@ -224,9 +226,7 @@ export class AgentActionLogger {
     dateTo?: Date;
     fileModified?: string;
   }): Promise<AgentAction[]> {
-    if (!this.isInitialized) {
-      await this.initialize();
-    }
+    await this.ensureInitialized();
 
     return this.actions.filter(action => {
       if (query.agent && action.agent !== query.agent) return false;
@@ -247,6 +247,7 @@ export class AgentActionLogger {
       await fs.writeFile(this.logPath, JSON.stringify(this.actions, null, 2), 'utf-8');
     } catch (error: any) {
       console.error('❌ Failed to save agent actions:', error);
+      throw error; // Re-throw to indicate a critical failure
     }
   }
 
@@ -271,11 +272,14 @@ export class AgentActionLogger {
 
   // Get coordination timeline for agents
   async getCoordinationTimeline(hours: number = 24): Promise<AgentAction[]> {
+    await this.ensureInitialized();
     const cutoff = new Date(Date.now() - hours * 60 * 60 * 1000);
     return this.actions
       .filter(a => new Date(a.timestamp) > cutoff)
       .sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
   }
 }
+
+export const agentActionLogger = new AgentActionLogger();
 
 export const agentActionLogger = new AgentActionLogger();

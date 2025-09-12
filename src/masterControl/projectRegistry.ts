@@ -60,7 +60,6 @@ export class ProjectRegistry {
   private registryPath: string;
   private projectsData: Map<string, ProjectMetadata> = new Map();
   private initializationPromise: Promise<void> | null = null;
-  private isInitialized = false;
 
   constructor() {
     this.registryPath = path.join('logs', 'master_control', 'project_registry.json');
@@ -77,13 +76,18 @@ export class ProjectRegistry {
         const data = await fs.readFile(this.registryPath, 'utf-8');
         const projects = JSON.parse(data);
         this.projectsData = new Map(Object.entries(projects));
-      } catch {
-        // Registry doesn't exist, create with default projects
+      } catch (readError: any) {
+        if (readError.code !== 'ENOENT') {
+          console.error('❌ Failed to read existing project registry:', readError);
+          // If file exists but is corrupted, we start fresh but log the error
+        }
+        // Registry doesn't exist or is corrupted, create with default projects
         await this.createDefaultProjects();
       }
       this.isInitialized = true;
     } catch (error: any) {
-      console.error('❌ Failed to initialize project registry:', error);
+      console.error('❌ Failed to initialize project registry (mkdir or initial read):', error);
+      throw error; // Re-throw to indicate a critical initialization failure
     }
   }
 
@@ -136,7 +140,7 @@ export class ProjectRegistry {
         {
           id: 'xf_health_check',
           description: 'Daily system health monitoring',
-          schedule: '0 6 * * *', // 6 AM daily
+          schedule: '0 6 * * *',
           agent: 'SystemMonitor',
           nextRun: this.getNextCronRun('0 6 * * *'),
           status: 'active'
@@ -209,7 +213,7 @@ export class ProjectRegistry {
         {
           id: 'eu_funding_scan',
           description: 'Daily EU funding opportunity scan',
-          schedule: '0 4 * * *', // 4 AM daily
+          schedule: '0 4 * * *',
           agent: 'AgentSummoner',
           nextRun: this.getNextCronRun('0 4 * * *'),
           status: 'active'
@@ -217,7 +221,7 @@ export class ProjectRegistry {
         {
           id: 'deadline_monitor',
           description: 'Critical deadline monitoring',
-          schedule: '0 8 * * *', // 8 AM daily
+          schedule: '0 8 * * *',
           agent: 'ProjectMonitor',
           nextRun: this.getNextCronRun('0 8 * * *'),
           status: 'active'
@@ -240,18 +244,12 @@ export class ProjectRegistry {
   // Ensures registry is initialized before any public operation
   private async ensureInitialized(): Promise<void> {
     if (this.isInitialized && this.projectsData.size > 0) return;
-    try {
-      if (this.initializationPromise) {
-        await this.initializationPromise;
-      }
-      // If still not initialized (e.g., previous failure), retry once
-      if (!this.isInitialized || this.projectsData.size === 0) {
-        this.initializationPromise = this.initializeRegistry();
-        await this.initializationPromise;
-      }
-    } catch (err) {
-      console.error('❌ ProjectRegistry initialization failed:', err);
-      throw err;
+    if (this.initializationPromise) {
+      await this.initializationPromise;
+    } else {
+      // Should not happen if constructor is called correctly, but as a safeguard
+      this.initializationPromise = this.initializeRegistry();
+      await this.initializationPromise;
     }
   }
 
@@ -374,7 +372,7 @@ export class ProjectRegistry {
     const [minute, hour, day, month, dayOfWeek] = cronExpression.split(' ');
     
     // Handle daily tasks (0 X * * *)
-    if (day === '*' && month === '*' && dayOfWeek === '*') {
+    if (day === '*' && month === '*' && dayOfWeek === '*' && hour !== undefined && minute !== undefined) {
       const nextRun = new Date(now);
       nextRun.setHours(parseInt(hour), parseInt(minute), 0, 0);
       
