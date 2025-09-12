@@ -3,9 +3,9 @@ import path from 'path';
 
 // This script is designed to be run in a GitHub Actions environment.
 
-const API_URL = 'https://api.coderabbit.ai/api/v1/report.generate';
+const API_URL = 'https://api.coderabbit.ai/api/v1/analyze'; // Corrected endpoint for analysis
 const API_KEY = process.env.CODERABBIT_API_KEY;
-const REPORT_PATH = path.join(process.cwd(), 'reports', 'coderabbit-report.json');
+const REPORT_PATH = path.join(process.cwd(), 'reports', 'coderabbit-analysis.json'); // Renamed report file
 
 /**
  * Finds all relevant source code files in the repository.
@@ -14,21 +14,24 @@ const REPORT_PATH = path.join(process.cwd(), 'reports', 'coderabbit-report.json'
 async function findSourceFiles(): Promise<string[]> {
   const files: string[] = [];
   const extensions = new Set(['.ts', '.tsx', '.js', '.jsx', '.mjs']);
-  const excludedDirs = new Set(['node_modules', '.git', 'dist', 'build', 'reports']);
+  const excludedDirs = new Set(['node_modules', '.git', 'dist', 'build', 'reports', 'analysis-output']);
 
   async function traverse(dir: string): Promise<void> {
-    const entries = await fs.readdir(dir, { withFileTypes: true });
-
-    for (const entry of entries) {
-      if (excludedDirs.has(entry.name)) {
-        continue;
+    try {
+      const entries = await fs.readdir(dir, { withFileTypes: true });
+      for (const entry of entries) {
+        if (excludedDirs.has(entry.name)) {
+          continue;
+        }
+        const fullPath = path.join(dir, entry.name);
+        if (entry.isDirectory()) {
+          await traverse(fullPath);
+        } else if (extensions.has(path.extname(entry.name))) {
+          files.push(fullPath);
+        }
       }
-      const fullPath = path.join(dir, entry.name);
-      if (entry.isDirectory()) {
-        await traverse(fullPath);
-      } else if (extensions.has(path.extname(entry.name))) {
-        files.push(fullPath);
-      }
+    } catch (error) {
+      // Ignore errors from directories that might not exist
     }
   }
 
@@ -40,7 +43,7 @@ async function findSourceFiles(): Promise<string[]> {
  * Main function to run the CodeRabbit analysis.
  */
 async function runAnalysis() {
-  console.log('Starting CodeRabbit analysis...');
+  console.log('Starting CodeRabbit code quality analysis...');
 
   if (!API_KEY) {
     console.error('Error: CODERABBIT_API_KEY environment variable is not set.');
@@ -48,10 +51,18 @@ async function runAnalysis() {
   }
 
   try {
-    // In a real scenario, you would gather file contents and send them.
-    // For this script, we will simulate calling the report.generate endpoint.
-    // The actual analysis endpoint might require a different payload.
-    console.log(`Calling CodeRabbit API at ${API_URL}`);
+    console.log('Finding source files to analyze...');
+    const filePaths = await findSourceFiles();
+    console.log(`Found ${filePaths.length} source files.`);
+
+    const filesForAnalysis = await Promise.all(
+      filePaths.map(async (filePath) => ({
+        path: path.relative(process.cwd(), filePath),
+        content: await fs.readFile(filePath, 'utf-8'),
+      }))
+    );
+
+    console.log(`Calling CodeRabbit API at ${API_URL} with ${filesForAnalysis.length} files...`);
 
     const response = await fetch(API_URL, {
       method: 'POST',
@@ -59,13 +70,15 @@ async function runAnalysis() {
         'Content-Type': 'application/json',
         'x-coderabbitai-api-key': API_KEY,
       },
-      // The report.generate endpoint seems to take a date range.
-      // A full analysis endpoint would likely take file contents.
-      // We will use the documented payload for report.generate.
       body: JSON.stringify({
-        // Using a placeholder date range for the purpose of this script.
-        from: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
-        to: new Date().toISOString().split('T')[0],
+        files: filesForAnalysis,
+        context: 'Automated daily code quality scan',
+        options: {
+          includeSecurityCheck: true,
+          includeBestPractices: true,
+          includePerformance: true,
+          generateFixes: false, // We just want the report for now
+        },
       }),
     });
 
@@ -76,7 +89,7 @@ async function runAnalysis() {
 
     const report = await response.json();
 
-    console.log('Successfully received report from CodeRabbit.');
+    console.log(`Successfully received analysis from CodeRabbit. Found ${report.summary?.totalIssues || 0} issues.`);
 
     // Ensure the reports directory exists.
     await fs.mkdir(path.dirname(REPORT_PATH), { recursive: true });
