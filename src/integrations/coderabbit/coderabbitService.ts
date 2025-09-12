@@ -79,12 +79,14 @@ export class CodeRabbitService {
       // Store review data
       this.reviews.set(payload.review.id, payload.review);
 
-      // Log to project registry
-      await projectRegistry.updateProjectHealth(payload.repository.name, {
-        codeQuality: this.calculateCodeQualityScore(payload.review),
-        lastReview: new Date(),
-        issues: payload.review.issues.length,
-        resolved: payload.review.issues.filter(i => i.resolved).length
+      // Log to project registry 
+      const codeQualityScore = this.calculateCodeQualityScore(payload.review);
+      const criticalIssues = payload.review.issues.filter(i => i.severity === 'critical' && !i.resolved).length;
+      
+      await projectRegistry.updateProjectMetrics(payload.repository.name, {
+        healthScore: codeQualityScore,
+        riskLevel: criticalIssues > 0 ? 'critical' : codeQualityScore < 70 ? 'high' : codeQualityScore < 85 ? 'medium' : 'low',
+        lastUpdated: new Date().toISOString()
       });
 
       // Process based on event type
@@ -177,7 +179,14 @@ export class CodeRabbitService {
   generateDashboardSummary(): {
     status: 'healthy' | 'warning' | 'critical';
     message: string;
-    metrics: ReturnType<typeof this.getCodeQualityMetrics>;
+    metrics: {
+      totalReviews: number;
+      averageIssues: number;
+      resolutionRate: number;
+      criticalIssues: number;
+      securityIssues: number;
+      performanceIssues: number;
+    };
     recentReviews: CodeRabbitReview[];
   } {
     const metrics = this.getCodeQualityMetrics();
@@ -231,8 +240,8 @@ export class CodeRabbitService {
     const { issues } = review;
     if (issues.length === 0) return 100;
 
-    const weights = { critical: 10, high: 5, medium: 2, low: 1 };
-    const totalWeight = issues.reduce((sum, issue) => sum + weights[issue.severity], 0);
+    const weights: Record<string, number> = { critical: 10, high: 5, medium: 2, low: 1 };
+    const totalWeight = issues.reduce((sum: number, issue) => sum + (weights[issue.severity] || 0), 0);
     const maxPossibleScore = 100;
     
     return Math.max(0, maxPossibleScore - totalWeight);
