@@ -38,7 +38,6 @@ async function main() {
     bus.subscribe(`task.result/${s.requirementId}`, (msg: any) => {
       const result = msg?.body?.result;
       if (result) aggregator.add(result);
-      // eslint-disable-next-line no-console
       console.log(`[result] ${s.requirementId}: ${result?.success ? 'OK' : 'ERR'}`);
     });
   });
@@ -46,7 +45,7 @@ async function main() {
   // Send tasks via bus and await replies (request/response)
   const taskId = randomUUID();
   // 1) Hello smoke test
-  const res1: any = await bus.request(
+  const res1: { body?: { result?: { success: boolean } } } = await bus.request(
     `task.assign/${specs[0].requirementId}`,
     {
       header: { type: 'task.assign', source: 'demo', timestamp: new Date().toISOString() },
@@ -56,7 +55,7 @@ async function main() {
   );
 
   // 2) Memory agent simple prompt
-  const res2: any = await bus.request(
+  const res2: { body?: { result?: { success: boolean } } } = await bus.request(
     `task.assign/${specs[1].requirementId}`,
     {
       header: { type: 'task.assign', source: 'demo', timestamp: new Date().toISOString() },
@@ -69,15 +68,13 @@ async function main() {
   if (res1?.body?.result) aggregator.add(res1.body.result);
   if (res2?.body?.result) aggregator.add(res2.body.result);
 
-  // eslint-disable-next-line no-console
   console.log('\n=== EUFM Demo Aggregated Summary ===');
-  // eslint-disable-next-line no-console
   console.log(aggregator.summary());
 }
 
 main().catch((err) => {
-  // eslint-disable-next-line no-console
   console.error('Demo failed:', err);
   process.exit(1);
 });
+
 
