@@ -150,5 +150,119 @@
       "realtime-collab",
       "session-bridge"
     ]
+  },
+  {
+    "ts": "2025-09-11T16:45:13.480Z",
+    "traceId": "boot_mffn33hj_d7mh",
+    "file": "/Users/apple/Desktop/UBOS/ubos/specs/territories/consultant-portal.spec.md",
+    "id": "consultant-portal",
+    "version": "1.0.0",
+    "services": [
+      "pricing-insights",
+      "opportunity-analysis",
+      "document-upload",
+      "results-report"
+    ]
+  },
+  {
+    "ts": "2025-09-11T16:45:13.484Z",
+    "traceId": "boot_mffn33hj_d7mh",
+    "file": "/Users/apple/Desktop/UBOS/ubos/specs/territories/eufm.spec.md",
+    "id": "eufm",
+    "version": "1.0.0",
+    "services": [
+      "eu-discovery",
+      "proposal-writing",
+      "compliance-check"
+    ]
+  },
+  {
+    "ts": "2025-09-11T16:45:13.489Z",
+    "traceId": "boot_mffn33hj_d7mh",
+    "file": "/Users/apple/Desktop/UBOS/ubos/specs/territories/integration-bridge.spec.md",
+    "id": "integration-bridge",
+    "version": "1.0.0",
+    "services": [
+      "cross-ai-comm",
+      "multi-agent-orchestration",
+      "realtime-collab",
+      "session-bridge"
+    ]
+  },
+  {
+    "ts": "2025-09-11T17:21:31.821Z",
+    "traceId": "boot_mffodsb1_rwc6",
+    "file": "/Users/apple/Desktop/UBOS/ubos/specs/territories/consultant-portal.spec.md",
+    "id": "consultant-portal",
+    "version": "1.0.0",
+    "services": [
+      "pricing-insights",
+      "opportunity-analysis",
+      "document-upload",
+      "results-report"
+    ]
+  },
+  {
+    "ts": "2025-09-11T17:21:31.828Z",
+    "traceId": "boot_mffodsb1_rwc6",
+    "file": "/Users/apple/Desktop/UBOS/ubos/specs/territories/eufm.spec.md",
+    "id": "eufm",
+    "version": "1.0.0",
+    "services": [
+      "eu-discovery",
+      "proposal-writing",
+      "compliance-check"
+    ]
+  },
+  {
+    "ts": "2025-09-11T17:21:31.832Z",
+    "traceId": "boot_mffodsb1_rwc6",
+    "file": "/Users/apple/Desktop/UBOS/ubos/specs/territories/integration-bridge.spec.md",
+    "id": "integration-bridge",
+    "version": "1.0.0",
+    "services": [
+      "cross-ai-comm",
+      "multi-agent-orchestration",
+      "realtime-collab",
+      "session-bridge"
+    ]
+  },
+  {
+    "ts": "2025-09-11T17:22:07.267Z",
+    "traceId": "boot_mffoejnt_nwiv",
+    "file": "/Users/apple/Desktop/UBOS/ubos/specs/territories/consultant-portal.spec.md",
+    "id": "consultant-portal",
+    "version": "1.0.0",
+    "services": [
+      "pricing-insights",
+      "opportunity-analysis",
+      "document-upload",
+      "results-report"
+    ]
+  },
+  {
+    "ts": "2025-09-11T17:22:07.271Z",
+    "traceId": "boot_mffoejnt_nwiv",
+    "file": "/Users/apple/Desktop/UBOS/ubos/specs/territories/eufm.spec.md",
+    "id": "eufm",
+    "version": "1.0.0",
+    "services": [
+      "eu-discovery",
+      "proposal-writing",
+      "compliance-check"
+    ]
+  },
+  {
+    "ts": "2025-09-11T17:22:07.276Z",
+    "traceId": "boot_mffoejnt_nwiv",
+    "file": "/Users/apple/Desktop/UBOS/ubos/specs/territories/integration-bridge.spec.md",
+    "id": "integration-bridge",
+    "version": "1.0.0",
+    "services": [
+      "cross-ai-comm",
+      "multi-agent-orchestration",
+      "realtime-collab",
+      "session-bridge"
+    ]
   }
 ]

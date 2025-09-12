@@ -1,0 +1,14 @@
+[
+  {
+    "id": "4cc79efea689653b86d89d55ac291914",
+    "customerId": "customer-test-001",
+    "keyHash": "139c5b1ffba3273428593fed35a4eb03fa67aeceb26c0928ad78ff8003e3a875",
+    "name": "Test Beta Key",
+    "created": 1757622473060,
+    "permissions": [
+      "api:read",
+      "api:execute"
+    ],
+    "status": "active"
+  }
+]

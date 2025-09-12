@@ -6,6 +6,9 @@ import { fileURLToPath } from 'url';
 import { MissionControl } from './missionControl.js';
 import { NotionSyncService } from '../integrations/notionSyncService.js';
 import { geminiComplete } from '../adapters/google_gemini.js';
+import { billingMiddleware } from '../middleware/api-billing.js';
+import { agentMarketplaceRouter } from '../api/agent-marketplace.js';
+import { codeRabbitWebhook } from '../integrations/coderabbit/index.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -41,9 +44,9 @@ export class DashboardServer {
       }
     });
 
-    this.app.post('/api/execute', async (req, res) => {
+    this.app.post('/api/execute', billingMiddleware, async (req, res) => {
       try {
-        const { task, dryRun = false } = req.body;
+        const { task, dryRun = false } = req.body as any;
         const result = await this.missionControl.executeTask(task, { dryRun });
         res.json(result);
       } catch (error: any) {
@@ -51,9 +54,9 @@ export class DashboardServer {
       }
     });
 
-    this.app.post('/api/analyze', async (req, res) => {
+    this.app.post('/api/analyze', billingMiddleware, async (req, res) => {
       try {
-        const { task } = req.body || {};
+        const { task } = (req as any).body || {};
         if (!task || String(task).trim().length === 0) {
           return res.status(400).json({ error: 'Missing task' });
         }
@@ -64,7 +67,7 @@ export class DashboardServer {
       }
     });
 
-    this.app.post('/api/scan-funding', async (req, res) => {
+    this.app.post('/api/scan-funding', billingMiddleware, async (req, res) => {
       try {
         const opportunities = await this.missionControl.scanFundingOpportunities();
         res.json({ message: 'Funding scan complete', found: opportunities.length });
@@ -122,9 +125,9 @@ export class DashboardServer {
     });
 
     // Assistant endpoint powered by Gemini; uses current status+opportunities as context
-    this.app.post('/api/assistant', async (req, res) => {
+    this.app.post('/api/assistant', billingMiddleware, async (req, res) => {
       try {
-        const { message } = req.body || {};
+        const { message } = (req as any).body || {};
         if (!message || String(message).trim().length === 0) {
           return res.status(400).json({ error: 'Missing message' });
         }
@@ -251,10 +254,17 @@ Task: Answer the user's question and suggest 1-3 concrete next actions using the
       }
     });
 
+    // Agent Marketplace Integration
+    this.app.use('/api/marketplace', agentMarketplaceRouter);
+
+    // CodeRabbit Integration
+    this.app.use('/api/coderabbit', codeRabbitWebhook);
+
     // Serve React dashboard build, if present, at /app
     const reactDir = path.join(process.cwd(), 'dashboard-react', 'dist');
     this.app.use('/app', express.static(reactDir));
-    this.app.get('/app/*', (req, res) => {
+    // React SPA routing - serve index.html for all app routes
+    this.app.get(/\/app\/?.*/, (req, res) => {
       res.sendFile(path.join(reactDir, 'index.html'));
     });
 
@@ -362,6 +372,7 @@ Task: Answer the user's question and suggest 1-3 concrete next actions using the
   async start(): Promise<void> {
     return new Promise((resolve) => {
       this.server.listen(this.port, () => {
+        console.log(this.app.router.stack);
         console.log(`🚀 EUFM Mission Control Dashboard running at:`);
         console.log(`   Local:   http://localhost:${this.port}`);
         console.log(`   Network: http://0.0.0.0:${this.port}`);

@@ -1,0 +1,31 @@
+reviews:
+  profile: chill
+  request_changes_workflow: false
+  high_level_summary: true
+  poem: true
+  review_status: true
+  auto_review:
+    enabled: true
+    drafts: false
+  path_filters:
+    - "!**/*.md"
+    - "!**/node_modules/**"
+    - "!**/dist/**"
+    - "!**/build/**"
+    - "!**/*.log"
+  language:
+    typescript:
+      level: verbose
+    javascript:
+      level: verbose
+  rules:
+    - no-secrets
+    - security-best-practices
+    - performance-optimization
+    - code-organization
+    - type-safety
+
+chat:
+  auto_reply: false
+
+early_access: false
