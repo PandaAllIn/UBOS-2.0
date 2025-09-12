@@ -73,19 +73,22 @@ export class APIKeyManager {
   }
 
   async validateKey(apiKey: string): Promise<APIKey | null> {
+    await this.initialize();
     const key = this.keyMap.get(apiKey);
     if (!key || !key.active) {
       return null;
     }
 
-    // Update last used timestamp
+    // OPTIMIZATION: In a high-traffic system, writing to the file on every
+    // validation is a major bottleneck. We update the timestamp in memory only.
+    // A separate mechanism should be used to persist this data periodically.
     key.lastUsed = Date.now();
-    await this.saveKeysToFile();
 
     return key;
   }
 
   async revokeKey(keyId: string, customerId: string): Promise<boolean> {
+    await this.initialize();
     const actionId = await agentActionLogger.startWork(
       'APIKeyManager',
       'Revoke API key',
@@ -130,6 +133,7 @@ export class APIKeyManager {
   }
 
   async getKeysByCustomer(customerId: string): Promise<APIKey[]> {
+    await this.initialize();
     const customerKeys: APIKey[] = [];
     for (const keyData of this.keyMap.values()) {
       if (keyData.customerId === customerId) {
@@ -140,11 +144,13 @@ export class APIKeyManager {
   }
 
   async getCustomerFromKey(apiKey: string): Promise<string | null> {
+    await this.initialize();
     const key = this.keyMap.get(apiKey);
     return key && key.active ? key.customerId : null;
   }
 
-  async regnerateKey(keyId: string, customerId: string): Promise<APIKey | null> {
+  async regenerateKey(keyId: string, customerId: string): Promise<APIKey | null> {
+    await this.initialize();
     const actionId = await agentActionLogger.startWork(
       'APIKeyManager',
       'Regenerate API key',
