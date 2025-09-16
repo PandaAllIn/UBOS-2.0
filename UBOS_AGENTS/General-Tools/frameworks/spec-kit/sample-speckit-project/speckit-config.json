@@ -1,0 +1,13 @@
+{
+  "project_name": "Sample AI-Assisted Application",
+  "created_at": "2025-09-13T11:45:27.114428",
+  "specification_format": "markdown",
+  "ai_agent": "claude",
+  "phases": [
+    "specify",
+    "plan",
+    "tasks",
+    "implement"
+  ],
+  "current_phase": "specify"
+}
