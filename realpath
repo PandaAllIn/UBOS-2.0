@@ -1,7 +1,0 @@
-#!/bin/bash
-# realpath replacement script
-if [[ $1 == /* ]]; then
-    echo "$1"
-else
-    echo "$(pwd)/${1#./}"
-fi

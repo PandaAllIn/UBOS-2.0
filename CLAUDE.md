@@ -5,7 +5,13 @@
 
 ---
 
-## **ENHANCED CLAUDE CODE OPTIMIZATION** 
+## ❌ CRITICAL: CLAUDE NEVER IMPLEMENTS CODE ❌
+**ROLE SEPARATION (MANDATORY):**
+- **CLAUDE**: Writes SpecKit specifications ONLY
+- **GEMINI**: Implements code from specifications
+- **NEVER**: Claude writes implementation code directly
+
+## **ENHANCED CLAUDE CODE OPTIMIZATION**
 ### **Framework Trinity Integration (2025-09-13)**
 
 **ACTIVE OPTIMIZATIONS:**
@@ -111,18 +117,30 @@ Additional context files for specialized work:
 
 
 ### **SPEC-DRIVEN DEVELOPMENT STANDARDS**
-**Integration with GitHub Spec-Kit Philosophy:**
-- **Specifications First**: Define "what" and "why" before "how" 
-- **Living Specs**: `.spec.md` files in `ubos/specs/` are executable configurations
-- **Constitutional Evolution**: All system changes require governance approval
-- **Metamorphosis Integration**: Specs hot-reload through `MetamorphosisWatcher`
+**MANDATORY: SpecKit Command Usage:**
+- **ALL specifications MUST be created using SpecKit commands**
+- **Use `.specify/scripts/bash/create-new-feature.sh` for every spec**
+- **Follow SpecKit four-phase workflow: SPECIFY→PLAN→TASKS→IMPLEMENT**
+- **Living Specs**: `.spec.md` files are executable configurations with hot-reload
 
-**Development Workflow:**
-1. **Create/Update Spec**: Define requirements in `.spec.md` format
-2. **Governance Review**: Submit proposal if constitutional impact
-3. **Implementation**: Use `SpecInterpreter` to generate executable config
-4. **Validation**: Test against acceptance criteria in spec
-5. **Metamorphosis**: System evolves via hot-reload mechanisms
+**REQUIRED Development Workflow:**
+1. **Create Spec**: `./specify/scripts/bash/create-new-feature.sh "feature description"`
+2. **Follow SpecKit Template**: Use generated spec.md template exactly
+3. **Governance Review**: Submit proposal if constitutional impact
+4. **Implementation**: Use SpecKit workflow for systematic development
+5. **Validation**: Test against SpecKit acceptance criteria
+6. **Metamorphosis**: System evolves via MetamorphosisWatcher hot-reload
+
+**SpecKit Integration Commands:**
+```bash
+# Create new feature specification
+.specify/scripts/bash/create-new-feature.sh "Feature Description"
+
+# This creates:
+# - New git branch: 001-feature-name
+# - Spec file: specs/001-feature-name/spec.md
+# - Proper SpecKit template structure
+```
 
 
 
