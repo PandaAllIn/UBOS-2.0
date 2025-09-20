@@ -1,11 +1,54 @@
-import { BaseAgent } from '../agents/baseAgent';
+import { BaseAgent as KernelAgent } from '../agents/baseAgent';
 import { AgentConfig, AgentFilter, Task } from '../agents/types';
 import { UBOSKernel } from '../kernel/kernel';
 import { AgentMemoryService } from '../agents/memory/agentMemory';
 import * as fs from 'fs/promises';
 import * as path from 'path';
+import type { AgentSpec } from './types.js';
+import type { BaseAgent as SpecAgent } from '../agents/premium/baseAgent.js';
+import { SmokeTestAgent } from '../agents/community/smokeTestAgent.js';
+import { MemoryAgent } from '../agents/community/memoryAgent.js';
+import { CodexAgent as CommunityCodexAgent } from '../agents/community/codexAgent.js';
+import { BrowserAgent } from '../agents/community/browserAgent.js';
+import { AbacusAgent } from '../agents/community/abacusAgent.js';
+import { CodeReviewAgent } from '../agents/community/codeReviewAgent.js';
+import { TestAgent } from '../agents/community/testAgent.js';
+import { CodexCLIAgent } from '../agents/premium/codexCLIAgent.js';
+import { EnhancedAbacusAgent } from '../agents/premium/enhancedAbacusAgent.js';
+import { AgentSummonerAgent } from '../agents/premium/agentSummonerAgent.js';
+import { AgentSummoner } from '../agents/premium/agentSummoner.js';
+import { EUFMAgentSummoner } from '../agents/premium/eufmAgentSummoner.js';
+import { EUFundingProposalAgent } from '../agents/premium/euFundingProposalAgent.js';
+import { FigmaMCPAgent } from '../agents/premium/figmaMCPAgent.js';
+import { SpecKitCodexAgent } from '../agents/premium/specKitCodexAgent.js';
+import { ToolDocumentationAgent } from '../agents/premium/toolDocumentationAgent.js';
+import { UBOSDesignSpecAgent } from '../agents/premium/ubosDesignSpecAgent.js';
+import { CoordinationAgent } from '../agents/premium/coordinationAgent.js';
 
-type AgentCtor = new (kernel: UBOSKernel, soul: any) => BaseAgent;
+type AgentCtor = new (kernel: UBOSKernel, soul: any) => KernelAgent;
+type SpecAgentFactory = (spec: AgentSpec) => SpecAgent;
+
+const DEFAULT_SPEC_FACTORIES = new Map<AgentSpec['type'], SpecAgentFactory>([
+  ['SmokeTestAgent', (spec) => new SmokeTestAgent(spec.id, spec.requirementId)],
+  ['MemoryAgent', (spec) => new MemoryAgent(spec.id, spec.requirementId)],
+  ['CodexAgent', (spec) => new CommunityCodexAgent(spec.id, spec.requirementId)],
+  ['BrowserAgent', (spec) => new BrowserAgent(spec.id, spec.requirementId)],
+  ['AbacusAgent', (spec) => new AbacusAgent(spec.id, spec.requirementId)],
+  ['CodeReviewAgent', (spec) => new CodeReviewAgent(spec.id, spec.requirementId)],
+  ['TestAgent', (spec) => new TestAgent(spec.id, spec.requirementId)],
+  ['CodexCLIAgent', (spec) => new CodexCLIAgent(spec.id, spec.requirementId)],
+  ['EnhancedAbacusAgent', (spec) => new EnhancedAbacusAgent(spec.id, spec.requirementId)],
+  ['AgentSummonerAgent', (spec) => new AgentSummonerAgent(spec.id, spec.requirementId)],
+  ['AgentSummoner', (spec) => new AgentSummoner(spec.id, spec.requirementId)],
+  ['EUFMAgentSummoner', (spec) => new EUFMAgentSummoner(spec.id, spec.requirementId)],
+  ['EUFundingProposalAgent', (spec) => new EUFundingProposalAgent(spec.id, spec.requirementId)],
+  ['figma-mcp', (spec) => new FigmaMCPAgent(spec.id, spec.requirementId)],
+  ['spec-kit-codex', (spec) => new SpecKitCodexAgent(spec.id, spec.requirementId)],
+  ['tool-docs', (spec) => new ToolDocumentationAgent(spec.id, spec.requirementId)],
+  ['enhanced-tool-docs', (spec) => new ToolDocumentationAgent(spec.id, spec.requirementId)],
+  ['UBOSDesignSpecAgent', (spec) => new UBOSDesignSpecAgent(spec.id, spec.requirementId)],
+  ['CoordinationAgent', (spec) => new CoordinationAgent(spec.id, spec.requirementId)],
+]);
 
 type AgentRecord = {
   id: string;
@@ -29,15 +72,36 @@ async function writeAgents(state: AgentsState) { await fs.mkdir(path.dirname(age
 
 export class AgentFactory {
   private registry = new Map<string, AgentCtor>();
-  private instances = new Map<string, BaseAgent>();
+  private instances = new Map<string, KernelAgent>();
+  private readonly specFactories = new Map(DEFAULT_SPEC_FACTORIES);
 
-  constructor(private kernel: UBOSKernel) {}
+  constructor(private kernel: UBOSKernel = new UBOSKernel()) {}
 
   registerAgentType(type: string, agentClass: AgentCtor): void {
     this.registry.set(type, agentClass);
   }
 
-  async createAgent(type: string, config: AgentConfig): Promise<BaseAgent> {
+  registerSpecAgent(type: AgentSpec['type'], factory: SpecAgentFactory): void {
+    this.specFactories.set(type, factory);
+  }
+
+  create(spec: AgentSpec): SpecAgent {
+    const factory = this.specFactories.get(spec.type);
+    if (!factory) {
+      throw new Error(`Unknown agent spec type: ${spec.type}`);
+    }
+    const normalizedSpec: AgentSpec = {
+      ...spec,
+      requirementId: spec.requirementId || spec.id,
+    };
+    const agent = factory(normalizedSpec);
+    if (spec.params && typeof spec.params === 'object') {
+      Object.assign(agent as object, spec.params);
+    }
+    return agent;
+  }
+
+  async createAgent(type: string, config: AgentConfig): Promise<KernelAgent> {
     const Ctor = this.registry.get(type);
     if (!Ctor) throw new Error(`Unknown agent type: ${type}`);
     const mem = new AgentMemoryService();
@@ -58,7 +122,7 @@ export class AgentFactory {
     return agent;
   }
 
-  async spawnAgent(type: string, soulId?: string): Promise<BaseAgent> {
+  async spawnAgent(type: string, soulId?: string): Promise<KernelAgent> {
     const agent = await this.createAgent(type, { soulId });
     await agent.initialize();
     // Auto-register as citizen with soul achievements (default behavior)
@@ -72,7 +136,7 @@ export class AgentFactory {
     return agent;
   }
 
-  async getAgent(id: string): Promise<BaseAgent | null> {
+  async getAgent(id: string): Promise<KernelAgent | null> {
     if (this.instances.has(id)) return this.instances.get(id)!;
     // Rehydrate from state
     const state = await readAgents();
@@ -106,8 +170,8 @@ export class AgentFactory {
     this.instances.delete(id);
   }
 
-  async assignTask(task: Task, agentId?: string): Promise<BaseAgent> {
-    let agent: BaseAgent | null = null;
+  async assignTask(task: Task, agentId?: string): Promise<KernelAgent> {
+    let agent: KernelAgent | null = null;
     if (agentId) agent = await this.getAgent(agentId);
     if (!agent) {
       // naive pick: first agent
@@ -120,7 +184,7 @@ export class AgentFactory {
     return agent;
   }
 
-  async findCapableAgent(capability: string): Promise<BaseAgent | null> {
+  async findCapableAgent(capability: string): Promise<KernelAgent | null> {
     // naive: iterate instances only
     for (const a of this.instances.values()) {
       const caps = (a as any).capabilities?.canExecute || [];

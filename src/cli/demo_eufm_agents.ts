@@ -1,6 +1,6 @@
 import { randomUUID } from 'node:crypto';
 import { AgentFactory } from '../orchestrator/agentFactory.js';
-import type { AgentSpec } from '../orchestrator/types.js';
+import type { AgentSpec, AgentResult } from '../orchestrator/types.js';
 import { MessageBus } from '../messaging/messageBus.js';
 import { AgentAdapter } from '../messaging/agentAdapter.js';
 import { ResultAggregator } from '../aggregation/resultAggregator.js';
@@ -10,6 +10,8 @@ async function main() {
   const factory = new AgentFactory();
   const aggregator = new ResultAggregator();
   const adapter = new AgentAdapter(bus);
+
+  type ResultEnvelope = { body?: { result?: AgentResult } };
 
   // Minimal demo specs using existing agents in repo
   const specs: AgentSpec[] = [
@@ -45,7 +47,7 @@ async function main() {
   // Send tasks via bus and await replies (request/response)
   const taskId = randomUUID();
   // 1) Hello smoke test
-  const res1: { body?: { result?: { success: boolean } } } = await bus.request(
+  const res1 = await bus.request<any, ResultEnvelope>(
     `task.assign/${specs[0].requirementId}`,
     {
       header: { type: 'task.assign', source: 'demo', timestamp: new Date().toISOString() },
@@ -55,7 +57,7 @@ async function main() {
   );
 
   // 2) Memory agent simple prompt
-  const res2: { body?: { result?: { success: boolean } } } = await bus.request(
+  const res2 = await bus.request<any, ResultEnvelope>(
     `task.assign/${specs[1].requirementId}`,
     {
       header: { type: 'task.assign', source: 'demo', timestamp: new Date().toISOString() },
@@ -76,5 +78,4 @@ main().catch((err) => {
   console.error('Demo failed:', err);
   process.exit(1);
 });
-
 

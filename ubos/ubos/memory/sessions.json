@@ -1,0 +1,21 @@
+{
+  "sess_1757437958894_xpi5am": {
+    "sessionId": "sess_1757437958894_xpi5am",
+    "agentId": "agent:codex:founding-architect",
+    "startTime": 1757437958894,
+    "state": {},
+    "credits": 1000
+  },
+  "sess_1757440166842_ioh2up": {
+    "sessionId": "sess_1757440166842_ioh2up",
+    "agentId": "agent:codex:founding-architect",
+    "startTime": 1757440166842,
+    "state": {},
+    "credits": 1500,
+    "credentials": {
+      "token": "cred_1757440166842_wqb0ql",
+      "expiry": 1757443766842,
+      "isolationLevel": "session"
+    }
+  }
+}

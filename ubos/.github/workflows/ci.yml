@@ -1,0 +1,42 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install root deps
+        run: npm ci
+
+      - name: Typecheck
+        run: npm run -s typecheck
+
+      - name: EUFM tests
+        run: |
+          npm run -s test:country-codes
+          npm run -s test:integration
+
+      - name: UBOS tests
+        run: |
+          cd ubos
+          npm ci
+          npm -s test
+
+      - name: Consultant Portal build
+        run: |
+          cd consultant-portal
+          npm ci
+          npm run -s build
+

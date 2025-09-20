@@ -32,12 +32,10 @@ export class OpenAIAdapter implements LLMAdapter {
         provider: 'openai',
         model: req.model,
         created: new Date().toISOString(),
-        output: { 
-          text: '',
-          error: error instanceof Error ? error.message : String(error) 
-        },
+        output: { text: '' },
         latency_ms,
         tenantId: req.tenantId,
+        warnings: [error instanceof Error ? error.message : String(error)],
       };
     }
   }
@@ -55,4 +53,3 @@ function buildPrompt(req: NormalizedRequest): string {
   }
   return String(req.input.prompt || '');
 }
-

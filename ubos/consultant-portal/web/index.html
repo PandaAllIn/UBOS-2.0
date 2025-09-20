@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EUFM Customer Portal</title>
+    <style>
+        body { font-family: sans-serif; margin: 2em; }
+        .container { max-width: 800px; margin: 0 auto; }
+        .hidden { display: none; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>EUFM Customer Portal</h1>
+        <p><a href="onboarding.html">New here? Start with our onboarding checklist.</a></p>
+        <div id="login">
+            <h2>Login</h2>
+            <input type="text" id="apiKey" placeholder="Enter your API Key">
+            <button id="loginButton">Login</button>
+        </div>
+        <div id="dashboard" class="hidden">
+            <h2>Dashboard</h2>
+            <p>Welcome, <span id="customerName"></span>!</p>
+            <h3>Your Usage</h3>
+            <p>API Requests: <span id="apiRequests"></span></p>
+            <h3>Services</h3>
+            <textarea id="opportunity" placeholder="Paste funding opportunity here..."></textarea>
+            <button id="analyzeButton">Analyze Opportunity</button>
+            <div id="analysisResult"></div>
+        </div>
+    </div>
+    <script src="app.js"></script>
+</body>
+</html>

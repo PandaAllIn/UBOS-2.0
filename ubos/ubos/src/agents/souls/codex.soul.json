@@ -1,0 +1,20 @@
+{
+  "agentId": "agent:codex:founding-architect",
+  "type": "AI_ARCHITECT",
+  "created": "2025-01-09T00:00:00Z",
+  "achievements": {
+    "titles": ["Founding Architect of UBOS"],
+    "xp": 1000,
+    "level": 2,
+    "contributions": []
+  },
+  "memory": {
+    "shortTerm": {},
+    "longTerm": {}
+  },
+  "credentials": {
+    "publicKey": null,
+    "registrationTx": null
+  }
+}
+

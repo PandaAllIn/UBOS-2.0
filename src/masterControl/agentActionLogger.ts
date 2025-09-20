@@ -281,5 +281,3 @@ export class AgentActionLogger {
 }
 
 export const agentActionLogger = new AgentActionLogger();
-
-export const agentActionLogger = new AgentActionLogger();

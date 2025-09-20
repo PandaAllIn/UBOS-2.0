@@ -1,0 +1,28 @@
+name: Docs CI
+
+on:
+  pull_request:
+    paths:
+      - 'docs/**'
+      - '.github/workflows/docs-ci.yml'
+  push:
+    branches: [ main ]
+    paths:
+      - 'docs/**'
+      - '.github/workflows/docs-ci.yml'
+
+jobs:
+  link-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Install markdown-link-check
+        run: npm i -g markdown-link-check@3
+      - name: Check links in docs
+        run: |
+          find docs -type f -name "*.md" -print0 | xargs -0 -n1 -I{} bash -c 'echo Checking {} && markdown-link-check -q {}'
+

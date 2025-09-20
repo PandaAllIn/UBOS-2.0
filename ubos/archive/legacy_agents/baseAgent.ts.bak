@@ -1,0 +1,29 @@
+import { AgentResult } from '../../orchestrator/types.js';
+
+export interface AgentContext {
+  workingDir?: string;
+  shared?: Record<string, unknown>;
+  userId?: string;
+}
+
+export interface AgentRunOptions {
+  input: string;
+  timeoutMs?: number;
+  dryRun?: boolean;
+  userId: string;
+}
+
+export abstract class BaseAgent {
+  public now: string;
+
+  constructor(public id: string, public requirementId: string) {
+    this.now = new Date().toISOString();
+  }
+
+  abstract get type(): string;
+  abstract run(opts: AgentRunOptions, ctx?: AgentContext): Promise<AgentResult>;
+
+  protected getNow() {
+    return new Date().toISOString();
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "name": "@eufm/api",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "tsx src/server.ts",
+    "dev:worker": "START_WORKER=true tsx src/server.ts",
+    "build": "tsc -p .",
+    "start": "node dist/server.js",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@fastify/cors": "^9.0.1",
+    "openai": "^4.58.1",
+    "bullmq": "^5.12.0",
+    "ioredis": "^5.4.1",
+    "stripe": "^18.5.0",
+    "fastify": "^4.28.1",
+    "fastify-plugin": "^4.5.1",
+    "sqlite": "^5.1.1",
+    "sqlite3": "^5.1.7",
+    "jose": "^5.9.6",
+    "pino": "^9.4.0",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@opentelemetry/api": "^1.9.0",
+    "@opentelemetry/sdk-trace-node": "^1.26.0",
+    "@opentelemetry/resources": "^1.26.0",
+    "@opentelemetry/semantic-conventions": "^1.26.0",
+    "@opentelemetry/exporter-trace-otlp-http": "^0.53.0",
+    "@types/node": "^20.12.7",
+    "supertest": "^7.0.0",
+    "tsx": "^4.16.2",
+    "typescript": "^5.5.4",
+    "vitest": "^2.1.3"
+  }
+}
+
+

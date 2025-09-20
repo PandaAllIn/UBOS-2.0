@@ -1,0 +1,102 @@
+{
+  "version": "0.1",
+  "palette": {
+    "bg": { "primary": "#0B1220", "secondary": "#121A2B" },
+    "accent": { "primary": "#49C0C7", "secondary": "#2DA1A8" },
+    "neutral": { "100": "#F5F7FA", "300": "#C9D3E0", "500": "#8CA0B3", "700": "#5E6C82" },
+    "status": { "ok": "#43D17C", "warn": "#F4A261", "danger": "#E76F51" },
+    "gridline": "rgba(255,255,255,0.08)"
+  },
+  "typography": {
+    "headlineWeight": "semibold",
+    "valueWeight": "semibold",
+    "bodyWeight": "regular"
+  },
+  "depthLevels": [
+    {
+      "id": 0,
+      "name": "minimal",
+      "showAxes": false,
+      "showScrub": false,
+      "showBands": false,
+      "strokeWidth": 1.5,
+      "gridOpacity": 0.06
+    },
+    {
+      "id": 1,
+      "name": "standard",
+      "showAxes": true,
+      "showScrub": true,
+      "showBands": false,
+      "strokeWidth": 1.8,
+      "gridOpacity": 0.08
+    },
+    {
+      "id": 2,
+      "name": "expanded",
+      "showAxes": true,
+      "showScrub": true,
+      "showBands": true,
+      "strokeWidth": 2.0,
+      "gridOpacity": 0.1
+    }
+  ],
+  "modules": [
+    {
+      "id": "citizenActivity",
+      "title": "Citizen Activity",
+      "visual": {
+        "type": "line",
+        "range": "24h",
+        "gradient": true,
+        "accent": "accent.primary"
+      },
+      "metrics": ["activityRate", "dailyPeak", "engagementWindow"]
+    },
+    {
+      "id": "agentPerformance",
+      "title": "Agent Performance",
+      "visual": {
+        "type": "line",
+        "range": "7d",
+        "gradient": true,
+        "accent": "accent.secondary"
+      },
+      "metrics": ["successRate", "throughput", "latencyMs", "costPerTask"]
+    },
+    {
+      "id": "territoryHealth",
+      "title": "Territory Health",
+      "visual": {
+        "type": "line",
+        "range": "30d",
+        "gradient": false,
+        "accent": "status.ok",
+        "bands": [
+          { "label": "Healthy", "min": 0.7, "max": 1.0, "color": "rgba(67,209,124,0.10)" },
+          { "label": "Attention", "min": 0.5, "max": 0.7, "color": "rgba(244,162,97,0.10)" },
+          { "label": "Critical", "min": 0.0, "max": 0.5, "color": "rgba(231,111,81,0.10)" }
+        ]
+      },
+      "metrics": ["healthIndex", "environment", "economy", "infrastructure"]
+    },
+    {
+      "id": "governance",
+      "title": "Governance",
+      "visual": {
+        "type": "line",
+        "range": "30d",
+        "gradient": false,
+        "accent": "neutral.500"
+      },
+      "metrics": ["policyAdoption", "decisionThroughput", "backlogAge", "complianceRate"]
+    }
+  ],
+  "interactions": {
+    "tapToExpand": true,
+    "scrub": true,
+    "timeRanges": ["24h", "7d", "30d"],
+    "tables": true
+  }
+}
+

@@ -1,0 +1,14 @@
+{
+  "agentId": "agent:partner-matcher:001",
+  "type": "PartnerMatcher",
+  "created": "2025-01-09T00:00:00Z",
+  "achievements": {
+    "titles": ["Connector"],
+    "xp": 0,
+    "level": 1,
+    "contributions": []
+  },
+  "memory": { "shortTerm": {}, "longTerm": {} },
+  "credentials": {}
+}
+

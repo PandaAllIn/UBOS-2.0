@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>🎛️ EUFM Mission Control Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,wght@8..144,300..800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="dashboard.css" />
+</head>
+<body>
+  <div class="app">
+    <!-- Header -->
+    <header class="header">
+      <div class="header-content">
+        <div class="header-left">
+          <div class="logo">
+            <span class="logo-icon">🎛️</span>
+            <h1>EUFM Mission Control</h1>
+          </div>
+          <div class="status-indicator" id="system-status">
+            <span class="status-dot"></span>
+            <span class="status-text">System Operational</span>
+          </div>
+        </div>
+        <div class="header-right">
+          <div class="timestamp" id="timestamp"></div>
+          <button class="assistant-btn" id="assistant-btn" title="Ask Assistant (Cmd/Ctrl + A)">🤖 Ask Assistant</button>
+          <button class="notion-link-btn" onclick="openNotion()">
+            <span>📱</span>
+            Open Notion Workspace
+          </button>
+          <button class="refresh-btn" onclick="refreshData()">
+            <span>🔄</span>
+            Refresh
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main">
+      <!-- Critical Alerts Section -->
+      <section class="alerts-section">
+        <div class="alert-banner critical">
+          <span class="alert-icon">🚨</span>
+          <div class="alert-content">
+            <strong>CRITICAL DEADLINE:</strong> EUFM Funding submission in <span id="days-remaining">10 days</span> (September 18, 2025) - €2M Target!
+          </div>
+          <button class="alert-action" onclick="viewDeadlines()">View All Deadlines</button>
+        </div>
+      </section>
+
+      <!-- Dashboard Grid -->
+      <div class="dashboard-grid">
+        
+        <!-- Portfolio Overview Card -->
+        <div class="card portfolio-card">
+          <div class="card-header">
+            <div class="card-title">
+              <span class="card-icon">💎</span>
+              <h2>Portfolio Overview</h2>
+            </div>
+            <div class="portfolio-value">€71M+ Under Management</div>
+          </div>
+          <div class="card-content">
+            <div class="portfolio-stats">
+              <div class="stat">
+                <div class="stat-value" id="active-projects">4</div>
+                <div class="stat-label">Active Projects</div>
+              </div>
+              <div class="stat">
+                <div class="stat-value" id="system-health">98%</div>
+                <div class="stat-label">System Health</div>
+              </div>
+              <div class="stat">
+                <div class="stat-value" id="revenue-target">€950K+</div>
+                <div class="stat-label">Revenue Target</div>
+              </div>
+            </div>
+            <div class="projects-list" id="projects-list">
+              <!-- Project items will be populated by JavaScript -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Critical Deadlines Card -->
+        <div class="card deadlines-card">
+          <div class="card-header">
+            <div class="card-title">
+              <span class="card-icon">⏰</span>
+              <h2>Critical Deadlines</h2>
+            </div>
+            <div class="card-actions">
+              <button class="action-btn" id="view-deadlines-btn" onclick="viewDeadlines()">
+                <span class="btn-icon">🔗</span>
+                View in Notion
+              </button>
+            </div>
+          </div>
+          <div class="card-content">
+            <div class="deadlines-list" id="deadlines-list">
+              <!-- Deadline items will be populated by JavaScript -->
+            </div>
+          </div>
+        </div>
+
+        <!-- AI Agent Network Card -->
+        <div class="card agents-card">
+          <div class="card-header">
+            <div class="card-title">
+              <span class="card-icon">🤖</span>
+              <h2>AI Agent Network</h2>
+            </div>
+            <div class="agent-count">8 Operational Agents</div>
+          </div>
+          <div class="card-content">
+            <div class="agents-grid" id="agents-grid">
+              <!-- Agent items will be populated by JavaScript -->
+            </div>
+            <div class="agent-performance">
+              <div class="perf-stat">
+                <span class="label">Success Rate:</span>
+                <span class="value">78%</span>
+              </div>
+              <div class="perf-stat">
+                <span class="label">Avg Response:</span>
+                <span class="value">45s</span>
+              </div>
+              <div class="perf-stat">
+                <span class="label">Cost Efficiency:</span>
+                <span class="value">$0.015/query</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Live Activity Feed Card -->
+        <div class="card activity-card">
+          <div class="card-header">
+            <div class="card-title">
+              <span class="card-icon">📱</span>
+              <h2>Live Activity Feed</h2>
+            </div>
+            <div class="activity-status">Auto-updating every 15min</div>
+          </div>
+          <div class="card-content">
+            <div class="activity-list" id="activity-list">
+              <!-- Activity items will be populated by JavaScript -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Business Intelligence Card -->
+        <div class="card intelligence-card">
+          <div class="card-header">
+            <div class="card-title">
+              <span class="card-icon">📊</span>
+              <h2>Business Intelligence</h2>
+            </div>
+          </div>
+          <div class="card-content">
+            <div class="intelligence-stats">
+              <div class="intel-item">
+                <span class="intel-icon">🏭</span>
+                <div class="intel-content">
+                  <div class="intel-title">Romanian SME Market</div>
+                  <div class="intel-value">99.7% of companies, €79.9B EU funding access</div>
+                </div>
+              </div>
+              <div class="intel-item">
+                <span class="intel-icon">💡</span>
+                <div class="intel-content">
+                  <div class="intel-title">Innovation Fund</div>
+                  <div class="intel-value">€1.4M - €262M project range</div>
+                </div>
+              </div>
+              <div class="intel-item">
+                <span class="intel-icon">🏛️</span>
+                <div class="intel-content">
+                  <div class="intel-title">Oradea Ecosystem</div>
+                  <div class="intel-value">200K+ population, regional hub</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- EU Funding Opportunities Card -->
+        <div class="card funding-card">
+          <div class="card-header">
+            <div class="card-title">
+              <span class="card-icon">🇪🇺</span>
+              <h2>EU Funding Opportunities</h2>
+            </div>
+            <div class="funding-count"><span id="funding-count">25+</span> Active Opportunities</div>
+          </div>
+          <div class="card-content">
+            <div class="funding-actions">
+              <button class="action-btn primary" onclick="scanFunding()">
+                <span class="btn-icon">🔍</span>
+                Scan New Opportunities
+              </button>
+              <button class="action-btn" onclick="exportOpportunities()">
+                <span class="btn-icon">📊</span>
+                Export to CSV
+              </button>
+            </div>
+            <div class="funding-list" id="funding-list">
+              <!-- Funding items will be populated by JavaScript -->
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick Actions Bar -->
+      <div class="quick-actions">
+        <button class="quick-btn" onclick="openNotion()">
+          <span class="quick-icon">📱</span>
+          <span class="quick-label">Live Business Feed</span>
+        </button>
+        <button class="quick-btn" onclick="openNotionControl()">
+          <span class="quick-icon">🎛️</span>
+          <span class="quick-label">Master Control Center</span>
+        </button>
+        <button class="quick-btn" onclick="syncNotion()">
+          <span class="quick-icon">🔄</span>
+          <span class="quick-label">Sync Notion Now</span>
+        </button>
+        <button class="quick-btn" onclick="dailyUpdate()">
+          <span class="quick-icon">📅</span>
+          <span class="quick-label">Daily Update</span>
+        </button>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="footer-content">
+        <div class="footer-left">
+          <span>🤖 Powered by: Claude Code + Codex + Gemini + Perplexity Pro</span>
+        </div>
+        <div class="footer-right">
+          <span>📍 Oradea, Bihor County, Romania</span>
+          <span class="separator">•</span>
+          <span>Last Update: <span id="last-update"></span></span>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <!-- Loading Overlay -->
+  <div class="loading-overlay" id="loading-overlay">
+    <div class="loading-content">
+      <div class="loading-spinner"></div>
+      <div class="loading-text">Loading EUFM Mission Control...</div>
+    </div>
+  </div>
+
+  <!-- Notification Toast -->
+  <div class="toast" id="toast">
+    <div class="toast-content">
+      <span class="toast-icon"></span>
+      <span class="toast-message"></span>
+    </div>
+  </div>
+
+  <!-- Assistant Overlay -->
+  <div class="assistant-overlay" id="assistant-overlay" aria-hidden="true">
+    <div class="assistant-panel" role="dialog" aria-label="EUFM Assistant">
+      <div class="assistant-head">
+        <div class="assistant-title">🤖 EUFM Assistant</div>
+        <button class="assistant-close" id="assistant-close" aria-label="Close">✖</button>
+      </div>
+      <div class="assistant-messages" id="assistant-messages"></div>
+      <div class="assistant-input">
+        <input type="text" id="assistant-input" placeholder="Ask about deadlines, projects, funding… (Cmd/Ctrl + A)" />
+        <button class="assistant-send" id="assistant-send">Send</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="dashboard.js"></script>
+</body>
+</html>

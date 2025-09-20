@@ -1,0 +1,20 @@
+{
+  "agentId": "citizen:human:visionary:001",
+  "type": "HUMAN_FOUNDER",
+  "created": "2025-01-09T00:00:00Z",
+  "achievements": {
+    "titles": ["Creator of UBOS", "First Human Citizen"],
+    "xp": 10000,
+    "level": 10,
+    "contributions": []
+  },
+  "memory": {
+    "vision": "A self-sustaining digital ecosystem",
+    "territories": ["EUFM", "Portal Oradea"]
+  },
+  "credentials": {
+    "foundingDecree": "UBOS-GENESIS-001",
+    "registrationTx": "GENESIS_BLOCK"
+  }
+}
+

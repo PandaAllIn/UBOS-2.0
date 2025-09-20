@@ -1,0 +1,65 @@
+{
+  "taskId": "task_1757092846620",
+  "startedAt": "2025-09-05T17:20:46.552Z",
+  "finishedAt": "2025-09-05T17:20:46.654Z",
+  "plan": {
+    "task": {
+      "taskId": "task_1757092846620",
+      "title": "analiz our sys capab",
+      "original": "analiz our sys capab",
+      "requirements": [
+        {
+          "id": "req_1",
+          "description": "analiz our sys capab",
+          "capabilities": [
+            "research"
+          ],
+          "estimatedComplexity": "low",
+          "estimatedResources": {
+            "timeMinutes": 20,
+            "tokens": 50000,
+            "concurrency": 1
+          },
+          "dependencies": [],
+          "priority": 3,
+          "optimizations": [
+            "Use cached knowledge base context to reduce API calls"
+          ]
+        }
+      ],
+      "riskLevel": "low",
+      "notes": []
+    },
+    "agentSpecs": [
+      {
+        "id": "agent_req_1_abacus",
+        "type": "AbacusAgent",
+        "requirementId": "req_1",
+        "capabilities": [
+          "research"
+        ],
+        "params": {
+          "mode": "research"
+        }
+      }
+    ],
+    "parallelBatches": [
+      [
+        "req_1"
+      ]
+    ],
+    "suggestions": []
+  },
+  "results": [
+    {
+      "agentId": "agent_req_1_abacus",
+      "requirementId": "req_1",
+      "success": true,
+      "output": "[Dry run] AbacusAgent would query research models.",
+      "startedAt": "2025-09-05T17:20:46.654Z",
+      "finishedAt": "2025-09-05T17:20:46.654Z"
+    }
+  ],
+  "success": true,
+  "summary": "All agents completed successfully."
+}

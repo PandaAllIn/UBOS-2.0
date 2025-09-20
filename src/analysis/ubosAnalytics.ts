@@ -52,7 +52,7 @@ interface UBOSAnalytics {
     }>;
   };
   tracking: {
-    €6MTrackRecord: {
+    e6MTrackRecord: {
       maintained: boolean;
       riskFactors: string[];
       strengthFactors: string[];
@@ -116,7 +116,7 @@ export async function generateUBOSAnalytics(): Promise<UBOSAnalytics> {
     keyInsights,
     actionPlan,
     tracking: {
-      €6MTrackRecord: trackRecordAnalysis,
+      e6MTrackRecord: trackRecordAnalysis,
       projectHealth: {
         eufm: calculateProjectHealth('eufm', overview),
         ubos: calculateProjectHealth('ubos', overview),
@@ -253,7 +253,7 @@ function createActionPlan(overview: any, insights: UBOSAnalytics['keyInsights'])
   return { immediate, shortTerm, longTerm };
 }
 
-function assess6MTrackRecord(overview: any, qualityScore: number, securityScore: number): UBOSAnalytics['tracking']['€6MTrackRecord'] {
+function assess6MTrackRecord(overview: any, qualityScore: number, securityScore: number): UBOSAnalytics['tracking']['e6MTrackRecord'] {
   const riskFactors: string[] = [];
   const strengthFactors: string[] = [];
 
@@ -355,14 +355,14 @@ ${analytics.keyInsights.opportunities.map(o => `- 💡 ${o}`).join('\n')}
 
 ## 💰 €6M+ Track Record Status
 
-**Status:** ${analytics.tracking.€6MTrackRecord.maintained ? '✅ MAINTAINED' : '⚠️ AT RISK'}
+**Status:** ${analytics.tracking.e6MTrackRecord.maintained ? '✅ MAINTAINED' : '⚠️ AT RISK'}
 
 ### Strength Factors:
-${analytics.tracking.€6MTrackRecord.strengthFactors.map(s => `- 🌟 ${s}`).join('\n')}
+${analytics.tracking.e6MTrackRecord.strengthFactors.map(s => `- 🌟 ${s}`).join('\n')}
 
-${analytics.tracking.€6MTrackRecord.riskFactors.length > 0 ? `
+${analytics.tracking.e6MTrackRecord.riskFactors.length > 0 ? `
 ### Risk Factors:
-${analytics.tracking.€6MTrackRecord.riskFactors.map(r => `- ⚠️ ${r}`).join('\n')}
+${analytics.tracking.e6MTrackRecord.riskFactors.map(r => `- ⚠️ ${r}`).join('\n')}
 ` : ''}
 
 ## 📈 Project Health Scores

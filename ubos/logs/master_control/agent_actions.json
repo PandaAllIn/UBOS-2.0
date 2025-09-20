@@ -1,0 +1,1248 @@
+[
+  {
+    "id": "action_1757255695798_080d6qh88",
+    "timestamp": "2025-09-07T14:34:55.798Z",
+    "agent": "Claude",
+    "action": "Agent Action Logging System Implementation",
+    "details": "Created comprehensive action logging system for agent coordination with CLI integration",
+    "category": "development",
+    "status": "completed",
+    "files_modified": [
+      "src/masterControl/agentActionLogger.ts",
+      "src/cli/index.ts"
+    ],
+    "output": {
+      "summary": "Successfully implemented agent action logging with CLI commands and system snapshot capabilities"
+    },
+    "duration": 0
+  },
+  {
+    "id": "action_1757255695799_2z2yv6r58",
+    "timestamp": "2025-09-07T14:34:55.799Z",
+    "agent": "Claude",
+    "action": "System Coordination CLI Commands",
+    "details": "Added system:timeline, system:snapshot, system:agents commands for real-time coordination",
+    "category": "development",
+    "status": "completed",
+    "files_modified": [
+      "src/cli/index.ts"
+    ],
+    "output": {
+      "summary": "Successfully integrated system coordination commands into CLI interface"
+    },
+    "duration": 0
+  },
+  {
+    "id": "action_1757256085616_dos8nkjoz",
+    "timestamp": "2025-09-07T14:41:25.616Z",
+    "agent": "Claude",
+    "action": "Strategic Planning Session",
+    "details": "User identified powerful Codex capabilities and need for Tools & Knowledge Manager Agent. Planned integration of Deep Abacus AI with Jules, browser automation, and comprehensive tool optimization workflow.",
+    "category": "coordination",
+    "status": "completed",
+    "files_modified": [
+      "TodoWrite system update"
+    ],
+    "output": {
+      "summary": "Successfully updated todo system with 10 strategic priorities: Tools Manager Agent, Codex optimization, Abacus-Jules integration, GitHub automation, 24/7 scheduling, dashboard interface"
+    },
+    "duration": 0
+  },
+  {
+    "id": "action_1757256085619_cjxgdbq81",
+    "timestamp": "2025-09-07T14:41:25.619Z",
+    "agent": "Claude",
+    "action": "Coordination System Workflow Testing",
+    "details": "Testing new agent coordination system with CLI commands and action logging to validate workflow effectiveness",
+    "category": "system",
+    "status": "completed",
+    "files_modified": [],
+    "output": {
+      "summary": "Coordination system functioning perfectly - CLI commands working, action logging operational, system health tracking active"
+    },
+    "duration": 0
+  },
+  {
+    "id": "action_1757260431989_6mgu1czno",
+    "timestamp": "2025-09-07T15:53:51.989Z",
+    "agent": "OradeaBusinessAgent",
+    "action": "Generate weekly action plan",
+    "details": "Creating prioritized action plan for Oradea business development",
+    "category": "coordination",
+    "status": "started"
+  },
+  {
+    "id": "action_1757261811768_21a01rb7i",
+    "timestamp": "2025-09-07T16:16:51.768Z",
+    "agent": "OradeaBusinessAgent",
+    "action": "Research Oradea contacts: Mihai Jurca Oradea city manager economic development",
+    "details": "Using Enhanced Abacus for local research",
+    "category": "research",
+    "status": "completed",
+    "files_modified": [],
+    "output": {
+      "summary": "Research failed: TypeError: this.researchAgent.research is not a function"
+    },
+    "duration": 0
+  },
+  {
+    "id": "action_1757326607970_zu8kty4xs",
+    "timestamp": "2025-09-08T10:16:47.971Z",
+    "agent": "CodexCLI",
+    "action": "Notion sync: projects",
+    "details": "Sync projects into Notion",
+    "category": "automation",
+    "status": "started"
+  },
+  {
+    "id": "action_1757326646099_xnej7mi38",
+    "timestamp": "2025-09-08T10:17:26.099Z",
+    "agent": "CodexCLI",
+    "action": "Notion sync: projects",
+    "details": "Sync projects into Notion",
+    "category": "automation",
+    "status": "started"
+  },
+  {
+    "id": "action_1757326699272_ukuzbv0d6",
+    "timestamp": "2025-09-08T10:18:19.273Z",
+    "agent": "CodexCLI",
+    "action": "Notion sync: projects",
+    "details": "Sync projects into Notion",
+    "category": "automation",
+    "status": "completed",
+    "output": {
+      "summary": "Synced 4 projects into Notion"
+    },
+    "duration": 15
+  },
+  {
+    "id": "action_1757326785395_de0uegpai",
+    "timestamp": "2025-09-08T10:19:45.395Z",
+    "agent": "CodexCLI",
+    "action": "Notion sync: projects",
+    "details": "Sync projects into Notion",
+    "category": "automation",
+    "status": "started"
+  },
+  {
+    "id": "action_1757327508156_5zx0sw76h",
+    "timestamp": "2025-09-08T10:31:48.156Z",
+    "agent": "CodexCLI",
+    "action": "Notion sync: projects",
+    "details": "Sync projects into Notion",
+    "category": "automation",
+    "status": "started"
+  },
+  {
+    "0": "N",
+    "1": "o",
+    "2": "t",
+    "3": "i",
+    "4": "o",
+    "5": "n",
+    "6": "S",
+    "7": "y",
+    "8": "n",
+    "9": "c",
+    "10": "A",
+    "11": "g",
+    "12": "e",
+    "13": "n",
+    "14": "t",
+    "id": "action_1757328088401_cv4al8pty",
+    "timestamp": "2025-09-08T10:41:28.401Z"
+  },
+  {
+    "0": "N",
+    "1": "o",
+    "2": "t",
+    "3": "i",
+    "4": "o",
+    "5": "n",
+    "6": "S",
+    "7": "y",
+    "8": "n",
+    "9": "c",
+    "10": "A",
+    "11": "g",
+    "12": "e",
+    "13": "n",
+    "14": "t",
+    "id": "action_1757328215844_rrej3q95n",
+    "timestamp": "2025-09-08T10:43:35.844Z"
+  },
+  {
+    "0": "N",
+    "1": "o",
+    "2": "t",
+    "3": "i",
+    "4": "o",
+    "5": "n",
+    "6": "S",
+    "7": "y",
+    "8": "n",
+    "9": "c",
+    "10": "A",
+    "11": "g",
+    "12": "e",
+    "13": "n",
+    "14": "t",
+    "id": "action_1757329131939_njd3ajg5i",
+    "timestamp": "2025-09-08T10:58:51.940Z"
+  },
+  {
+    "0": "N",
+    "1": "o",
+    "2": "t",
+    "3": "i",
+    "4": "o",
+    "5": "n",
+    "6": "S",
+    "7": "y",
+    "8": "n",
+    "9": "c",
+    "10": "A",
+    "11": "g",
+    "12": "e",
+    "13": "n",
+    "14": "t",
+    "id": "action_1757330039788_grayhetvj",
+    "timestamp": "2025-09-08T11:13:59.788Z"
+  },
+  {
+    "0": "N",
+    "1": "o",
+    "2": "t",
+    "3": "i",
+    "4": "o",
+    "5": "n",
+    "6": "S",
+    "7": "y",
+    "8": "n",
+    "9": "c",
+    "10": "A",
+    "11": "g",
+    "12": "e",
+    "13": "n",
+    "14": "t",
+    "id": "action_1757330928957_8d9951p9f",
+    "timestamp": "2025-09-08T11:28:48.958Z"
+  },
+  {
+    "id": "action_1757622410469_60stobtnq",
+    "timestamp": "2025-09-11T20:26:50.469Z",
+    "agent": "BillingMiddleware",
+    "action": "Process API billing",
+    "details": "Processing billing for /api/execute",
+    "category": "system",
+    "status": "started"
+  },
+  {
+    "id": "action_1757622419489_f0frnvuu6",
+    "timestamp": "2025-09-11T20:26:59.489Z",
+    "agent": "BillingMiddleware",
+    "action": "Process API billing",
+    "details": "Processing billing for /api/execute",
+    "category": "system",
+    "status": "started"
+  },
+  {
+    "id": "action_1757622453020_pm6e5yjrd",
+    "timestamp": "2025-09-11T20:27:33.020Z",
+    "agent": "BillingMiddleware",
+    "action": "Process API billing",
+    "details": "Processing billing for /api/execute",
+    "category": "system",
+    "status": "started"
+  },
+  {
+    "id": "action_1757622453808_494rsge0e",
+    "timestamp": "2025-09-11T20:27:33.808Z",
+    "agent": "BillingMiddleware",
+    "action": "Process API billing",
+    "details": "Processing billing for /api/analyze",
+    "category": "system",
+    "status": "started"
+  },
+  {
+    "id": "action_1757622480507_egxs8cxje",
+    "timestamp": "2025-09-11T20:28:00.507Z",
+    "agent": "BillingMiddleware",
+    "action": "Process API billing",
+    "details": "Processing billing for /api/execute",
+    "category": "system",
+    "status": "started"
+  },
+  {
+    "id": "action_1757622481302_a88qib4eh",
+    "timestamp": "2025-09-11T20:28:01.302Z",
+    "agent": "BillingMiddleware",
+    "action": "Process API billing",
+    "details": "Processing billing for /api/analyze",
+    "category": "system",
+    "status": "started"
+  },
+  {
+    "id": "action_1757622518253_sezt49vph",
+    "timestamp": "2025-09-11T20:28:38.253Z",
+    "agent": "BillingMiddleware",
+    "action": "Process API billing",
+    "details": "Processing billing for /api/scan-funding",
+    "category": "system",
+    "status": "started"
+  },
+  {
+    "id": "action_1757622519190_uw9oi61c2",
+    "timestamp": "2025-09-11T20:28:39.190Z",
+    "agent": "BillingMiddleware",
+    "action": "Process API billing",
+    "details": "Processing billing for /api/assistant",
+    "category": "system",
+    "status": "started"
+  },
+  {
+    "id": "action_1757669658842_wxqhdodjj",
+    "timestamp": "2025-09-12T09:34:18.842Z",
+    "agent": "CodebaseAnalyzer",
+    "action": "Full codebase analysis",
+    "details": "Analyzing entire UBOS codebase for organization and optimization",
+    "category": "system",
+    "status": "started"
+  },
+  {
+    "id": "action_1757670488163_eb30kw0dn",
+    "timestamp": "2025-09-12T09:48:08.163Z",
+    "agent": "SecurityFixer",
+    "action": "Find security issues",
+    "details": "Scanning codebase for security vulnerabilities",
+    "category": "system",
+    "status": "completed",
+    "files_modified": [
+      "src/analysis/codebaseAnalyzer.ts"
+    ],
+    "output": {
+      "summary": "Found 1 security issues"
+    },
+    "duration": 5
+  },
+  {
+    "id": "action_1757670488185_paw343b7n",
+    "timestamp": "2025-09-12T09:48:08.185Z",
+    "agent": "CodeRabbitAPI",
+    "action": "Analyze code",
+    "details": "Analyzing 10 files with CodeRabbit Pro",
+    "category": "system",
+    "status": "completed",
+    "files_modified": [],
+    "output": {
+      "summary": "Analysis failed: Error: CodeRabbit API error: 404 Not Found"
+    },
+    "duration": 0
+  },
+  {
+    "id": "action_1757670488409_pfswqd7k4",
+    "timestamp": "2025-09-12T09:48:08.409Z",
+    "agent": "CodeRabbitAPI",
+    "action": "Analyze code",
+    "details": "Analyzing 10 files with CodeRabbit Pro",
+    "category": "system",
+    "status": "completed",
+    "files_modified": [],
+    "output": {
+      "summary": "Analysis failed: Error: CodeRabbit API error: 404 Not Found"
+    },
+    "duration": 0
+  },
+  {
+    "id": "action_1757670488628_tyci0j9iw",
+    "timestamp": "2025-09-12T09:48:08.628Z",
+    "agent": "CodeRabbitAPI",
+    "action": "Analyze code",
+    "details": "Analyzing 10 files with CodeRabbit Pro",
+    "category": "system",
+    "status": "completed",
+    "files_modified": [],
+    "output": {
+      "summary": "Analysis failed: Error: CodeRabbit API error: 404 Not Found"
+    },
+    "duration": 0
+  },
+  {
+    "id": "action_1757670488831_i5i3f35ig",
+    "timestamp": "2025-09-12T09:48:08.831Z",
+    "agent": "CodeRabbitAPI",
+    "action": "Analyze code",
+    "details": "Analyzing 10 files with CodeRabbit Pro",
+    "category": "system",
+    "status": "completed",
+    "files_modified": [],
+    "output": {
+      "summary": "Analysis failed: Error: CodeRabbit API error: 404 Not Found"
+    },
+    "duration": 0
+  },
+  {
+    "id": "action_1757670489028_rnj33vo5a",
+    "timestamp": "2025-09-12T09:48:09.028Z",
+    "agent": "CodeRabbitAPI",
+    "action": "Analyze code",
+    "details": "Analyzing 10 files with CodeRabbit Pro",
+    "category": "system",
+    "status": "completed",
+    "files_modified": [],
+    "output": {
+      "summary": "Analysis failed: Error: CodeRabbit API error: 404 Not Found"
+    },
+    "duration": 0
+  },
+  {
+    "id": "action_1757670489285_80x20mh24",
+    "timestamp": "2025-09-12T09:48:09.285Z",
+    "agent": "CodeRabbitAPI",
+    "action": "Analyze code",
+    "details": "Analyzing 10 files with CodeRabbit Pro",
+    "category": "system",
+    "status": "completed",
+    "files_modified": [],
+    "output": {
+      "summary": "Analysis failed: Error: CodeRabbit API error: 404 Not Found"
+    },
+    "duration": 0
+  },
+  {
+    "id": "action_1757670489513_y2n0mjebg",
+    "timestamp": "2025-09-12T09:48:09.513Z",
+    "agent": "CodeRabbitAPI",
+    "action": "Analyze code",
+    "details": "Analyzing 10 files with CodeRabbit Pro",
+    "category": "system",
+    "status": "completed",
+    "files_modified": [],
+    "output": {
+      "summary": "Analysis failed: Error: CodeRabbit API error: 404 Not Found"
+    },
+    "duration": 0
+  },
+  {
+    "id": "action_1757670489755_c1k7o8mdn",
+    "timestamp": "2025-09-12T09:48:09.755Z",
+    "agent": "CodeRabbitAPI",
+    "action": "Analyze code",
+    "details": "Analyzing 10 files with CodeRabbit Pro",
+    "category": "system",
+    "status": "completed",
+    "files_modified": [],
+    "output": {
+      "summary": "Analysis failed: Error: CodeRabbit API error: 404 Not Found"
+    },
+    "duration": 0
+  },
+  {
+    "id": "action_1757670490116_qmkezhdd7",
+    "timestamp": "2025-09-12T09:48:10.116Z",
+    "agent": "CodeRabbitAPI",
+    "action": "Analyze code",
+    "details": "Analyzing 10 files with CodeRabbit Pro",
+    "category": "system",
+    "status": "completed",
+    "files_modified": [],
+    "output": {
+      "summary": "Analysis failed: Error: CodeRabbit API error: 404 Not Found"
+    },
+    "duration": 0
+  },
+  {
+    "id": "action_1757670490368_j5ckx0w1t",
+    "timestamp": "2025-09-12T09:48:10.368Z",
+    "agent": "CodeRabbitAPI",
+    "action": "Analyze code",
+    "details": "Analyzing 10 files with CodeRabbit Pro",
+    "category": "system",
+    "status": "completed",
+    "files_modified": [],
+    "output": {
+      "summary": "Analysis failed: Error: CodeRabbit API error: 404 Not Found"
+    },
+    "duration": 0
+  },
+  {
+    "id": "action_1757670490665_0l59y61ir",
+    "timestamp": "2025-09-12T09:48:10.665Z",
+    "agent": "CodeRabbitAPI",
+    "action": "Analyze code",
+    "details": "Analyzing 10 files with CodeRabbit Pro",
+    "category": "system",
+    "status": "completed",
+    "files_modified": [],
+    "output": {
+      "summary": "Analysis failed: Error: CodeRabbit API error: 404 Not Found"
+    },
+    "duration": 0
+  },
+  {
+    "id": "action_1757670491134_aubn3ijeb",
+    "timestamp": "2025-09-12T09:48:11.134Z",
+    "agent": "CodeRabbitAPI",
+    "action": "Analyze code",
+    "details": "Analyzing 10 files with CodeRabbit Pro",
+    "category": "system",
+    "status": "completed",
+    "files_modified": [],
+    "output": {
+      "summary": "Analysis failed: Error: CodeRabbit API error: 404 Not Found"
+    },
+    "duration": 0
+  },
+  {
+    "id": "action_1757670491470_023yqpc18",
+    "timestamp": "2025-09-12T09:48:11.470Z",
+    "agent": "CodeRabbitAPI",
+    "action": "Analyze code",
+    "details": "Analyzing 10 files with CodeRabbit Pro",
+    "category": "system",
+    "status": "completed",
+    "files_modified": [],
+    "output": {
+      "summary": "Analysis failed: Error: CodeRabbit API error: 404 Not Found"
+    },
+    "duration": 0
+  },
+  {
+    "id": "action_1757670491714_lvsy4g4d8",
+    "timestamp": "2025-09-12T09:48:11.714Z",
+    "agent": "CodeRabbitAPI",
+    "action": "Analyze code",
+    "details": "Analyzing 10 files with CodeRabbit Pro",
+    "category": "system",
+    "status": "completed",
+    "files_modified": [],
+    "output": {
+      "summary": "Analysis failed: Error: CodeRabbit API error: 404 Not Found"
+    },
+    "duration": 0
+  },
+  {
+    "id": "action_1757670491937_s9pvhr5zk",
+    "timestamp": "2025-09-12T09:48:11.937Z",
+    "agent": "CodeRabbitAPI",
+    "action": "Analyze code",
+    "details": "Analyzing 10 files with CodeRabbit Pro",
+    "category": "system",
+    "status": "completed",
+    "files_modified": [],
+    "output": {
+      "summary": "Analysis failed: Error: CodeRabbit API error: 404 Not Found"
+    },
+    "duration": 0
+  },
+  {
+    "id": "action_1757670492144_s5mcrc3xg",
+    "timestamp": "2025-09-12T09:48:12.144Z",
+    "agent": "CodeRabbitAPI",
+    "action": "Analyze code",
+    "details": "Analyzing 10 files with CodeRabbit Pro",
+    "category": "system",
+    "status": "completed",
+    "files_modified": [],
+    "output": {
+      "summary": "Analysis failed: Error: CodeRabbit API error: 404 Not Found"
+    },
+    "duration": 0
+  },
+  {
+    "id": "action_1757670492464_b7vq0y36z",
+    "timestamp": "2025-09-12T09:48:12.464Z",
+    "agent": "CodeRabbitAPI",
+    "action": "Analyze code",
+    "details": "Analyzing 10 files with CodeRabbit Pro",
+    "category": "system",
+    "status": "completed",
+    "files_modified": [],
+    "output": {
+      "summary": "Analysis failed: Error: CodeRabbit API error: 404 Not Found"
+    },
+    "duration": 0
+  },
+  {
+    "id": "action_1757670492699_jwwkq7xhp",
+    "timestamp": "2025-09-12T09:48:12.699Z",
+    "agent": "CodeRabbitAPI",
+    "action": "Analyze code",
+    "details": "Analyzing 10 files with CodeRabbit Pro",
+    "category": "system",
+    "status": "completed",
+    "files_modified": [],
+    "output": {
+      "summary": "Analysis failed: Error: CodeRabbit API error: 404 Not Found"
+    },
+    "duration": 0
+  },
+  {
+    "id": "action_1757670492935_0mha7q5mr",
+    "timestamp": "2025-09-12T09:48:12.935Z",
+    "agent": "CodeRabbitAPI",
+    "action": "Analyze code",
+    "details": "Analyzing 10 files with CodeRabbit Pro",
+    "category": "system",
+    "status": "completed",
+    "files_modified": [],
+    "output": {
+      "summary": "Analysis failed: Error: CodeRabbit API error: 404 Not Found"
+    },
+    "duration": 0
+  },
+  {
+    "id": "action_1757670493150_penkfa6nq",
+    "timestamp": "2025-09-12T09:48:13.150Z",
+    "agent": "CodeRabbitAPI",
+    "action": "Analyze code",
+    "details": "Analyzing 10 files with CodeRabbit Pro",
+    "category": "system",
+    "status": "completed",
+    "files_modified": [],
+    "output": {
+      "summary": "Analysis failed: Error: CodeRabbit API error: 404 Not Found"
+    },
+    "duration": 0
+  },
+  {
+    "id": "action_1757670493402_ylfsy5t32",
+    "timestamp": "2025-09-12T09:48:13.402Z",
+    "agent": "CodeRabbitAPI",
+    "action": "Analyze code",
+    "details": "Analyzing 6 files with CodeRabbit Pro",
+    "category": "system",
+    "status": "completed",
+    "files_modified": [],
+    "output": {
+      "summary": "Analysis failed: Error: CodeRabbit API error: 404 Not Found"
+    },
+    "duration": 0
+  },
+  {
+    "id": "action_1757670824689_ejcgy8sxj",
+    "timestamp": "2025-09-12T09:53:44.689Z",
+    "agent": "CodebaseAnalyzer",
+    "action": "Full codebase analysis",
+    "details": "Analyzing entire UBOS codebase for organization and optimization",
+    "category": "system",
+    "status": "started"
+  },
+  {
+    "id": "action_1757671282138_qld4ppn6b",
+    "timestamp": "2025-09-12T10:01:22.138Z",
+    "agent": "SecurityFixer",
+    "action": "Find security issues",
+    "details": "Scanning codebase for security vulnerabilities",
+    "category": "system",
+    "status": "completed",
+    "files_modified": [],
+    "output": {
+      "summary": "Found 0 security issues"
+    },
+    "duration": 6
+  },
+  {
+    "id": "action_1757671282292_h55vy5oy1",
+    "timestamp": "2025-09-12T10:01:22.292Z",
+    "agent": "CodeRabbitAPI",
+    "action": "Analyze code",
+    "details": "Analyzing 10 files with CodeRabbit Pro",
+    "category": "system",
+    "status": "completed",
+    "files_modified": [],
+    "output": {
+      "summary": "Analysis failed: Error: CodeRabbit API error: 404 Not Found"
+    },
+    "duration": 0
+  },
+  {
+    "id": "action_1757671282519_mv0536awk",
+    "timestamp": "2025-09-12T10:01:22.519Z",
+    "agent": "CodeRabbitAPI",
+    "action": "Analyze code",
+    "details": "Analyzing 10 files with CodeRabbit Pro",
+    "category": "system",
+    "status": "completed",
+    "files_modified": [],
+    "output": {
+      "summary": "Analysis failed: Error: CodeRabbit API error: 404 Not Found"
+    },
+    "duration": 0
+  },
+  {
+    "id": "action_1757671282732_6ni0h3yjn",
+    "timestamp": "2025-09-12T10:01:22.732Z",
+    "agent": "CodeRabbitAPI",
+    "action": "Analyze code",
+    "details": "Analyzing 10 files with CodeRabbit Pro",
+    "category": "system",
+    "status": "completed",
+    "files_modified": [],
+    "output": {
+      "summary": "Analysis failed: Error: CodeRabbit API error: 404 Not Found"
+    },
+    "duration": 0
+  },
+  {
+    "id": "action_1757671282935_kvo4cv9ln",
+    "timestamp": "2025-09-12T10:01:22.935Z",
+    "agent": "CodeRabbitAPI",
+    "action": "Analyze code",
+    "details": "Analyzing 10 files with CodeRabbit Pro",
+    "category": "system",
+    "status": "completed",
+    "files_modified": [],
+    "output": {
+      "summary": "Analysis failed: Error: CodeRabbit API error: 404 Not Found"
+    },
+    "duration": 0
+  },
+  {
+    "id": "action_1757671283136_muu2ky3id",
+    "timestamp": "2025-09-12T10:01:23.136Z",
+    "agent": "CodeRabbitAPI",
+    "action": "Analyze code",
+    "details": "Analyzing 10 files with CodeRabbit Pro",
+    "category": "system",
+    "status": "completed",
+    "files_modified": [],
+    "output": {
+      "summary": "Analysis failed: Error: CodeRabbit API error: 404 Not Found"
+    },
+    "duration": 0
+  },
+  {
+    "id": "action_1757671283378_jfjsarm4l",
+    "timestamp": "2025-09-12T10:01:23.378Z",
+    "agent": "CodeRabbitAPI",
+    "action": "Analyze code",
+    "details": "Analyzing 10 files with CodeRabbit Pro",
+    "category": "system",
+    "status": "completed",
+    "files_modified": [],
+    "output": {
+      "summary": "Analysis failed: Error: CodeRabbit API error: 404 Not Found"
+    },
+    "duration": 0
+  },
+  {
+    "id": "action_1757671283591_ww90eip4n",
+    "timestamp": "2025-09-12T10:01:23.591Z",
+    "agent": "CodeRabbitAPI",
+    "action": "Analyze code",
+    "details": "Analyzing 10 files with CodeRabbit Pro",
+    "category": "system",
+    "status": "completed",
+    "files_modified": [],
+    "output": {
+      "summary": "Analysis failed: Error: CodeRabbit API error: 404 Not Found"
+    },
+    "duration": 0
+  },
+  {
+    "id": "action_1757671283812_glmq6wge8",
+    "timestamp": "2025-09-12T10:01:23.812Z",
+    "agent": "CodeRabbitAPI",
+    "action": "Analyze code",
+    "details": "Analyzing 10 files with CodeRabbit Pro",
+    "category": "system",
+    "status": "completed",
+    "files_modified": [],
+    "output": {
+      "summary": "Analysis failed: Error: CodeRabbit API error: 404 Not Found"
+    },
+    "duration": 0
+  },
+  {
+    "id": "action_1757671284210_jpj1r5lz4",
+    "timestamp": "2025-09-12T10:01:24.210Z",
+    "agent": "CodeRabbitAPI",
+    "action": "Analyze code",
+    "details": "Analyzing 10 files with CodeRabbit Pro",
+    "category": "system",
+    "status": "completed",
+    "files_modified": [],
+    "output": {
+      "summary": "Analysis failed: Error: CodeRabbit API error: 404 Not Found"
+    },
+    "duration": 0
+  },
+  {
+    "id": "action_1757671284613_xau2l818o",
+    "timestamp": "2025-09-12T10:01:24.613Z",
+    "agent": "CodeRabbitAPI",
+    "action": "Analyze code",
+    "details": "Analyzing 10 files with CodeRabbit Pro",
+    "category": "system",
+    "status": "completed",
+    "files_modified": [],
+    "output": {
+      "summary": "Analysis failed: Error: CodeRabbit API error: 404 Not Found"
+    },
+    "duration": 0
+  },
+  {
+    "id": "action_1757671284920_5mzwzfuf1",
+    "timestamp": "2025-09-12T10:01:24.920Z",
+    "agent": "CodeRabbitAPI",
+    "action": "Analyze code",
+    "details": "Analyzing 10 files with CodeRabbit Pro",
+    "category": "system",
+    "status": "completed",
+    "files_modified": [],
+    "output": {
+      "summary": "Analysis failed: Error: CodeRabbit API error: 404 Not Found"
+    },
+    "duration": 0
+  },
+  {
+    "id": "action_1757671285284_crgc4bqgk",
+    "timestamp": "2025-09-12T10:01:25.284Z",
+    "agent": "CodeRabbitAPI",
+    "action": "Analyze code",
+    "details": "Analyzing 10 files with CodeRabbit Pro",
+    "category": "system",
+    "status": "completed",
+    "files_modified": [],
+    "output": {
+      "summary": "Analysis failed: Error: CodeRabbit API error: 404 Not Found"
+    },
+    "duration": 0
+  },
+  {
+    "id": "action_1757671285558_pqgqe79f0",
+    "timestamp": "2025-09-12T10:01:25.558Z",
+    "agent": "CodeRabbitAPI",
+    "action": "Analyze code",
+    "details": "Analyzing 10 files with CodeRabbit Pro",
+    "category": "system",
+    "status": "completed",
+    "files_modified": [],
+    "output": {
+      "summary": "Analysis failed: Error: CodeRabbit API error: 404 Not Found"
+    },
+    "duration": 0
+  },
+  {
+    "id": "action_1757671285899_u0w7m9lx1",
+    "timestamp": "2025-09-12T10:01:25.899Z",
+    "agent": "CodeRabbitAPI",
+    "action": "Analyze code",
+    "details": "Analyzing 10 files with CodeRabbit Pro",
+    "category": "system",
+    "status": "completed",
+    "files_modified": [],
+    "output": {
+      "summary": "Analysis failed: Error: CodeRabbit API error: 404 Not Found"
+    },
+    "duration": 0
+  },
+  {
+    "id": "action_1757671286129_8zw9x6nl3",
+    "timestamp": "2025-09-12T10:01:26.129Z",
+    "agent": "CodeRabbitAPI",
+    "action": "Analyze code",
+    "details": "Analyzing 10 files with CodeRabbit Pro",
+    "category": "system",
+    "status": "completed",
+    "files_modified": [],
+    "output": {
+      "summary": "Analysis failed: Error: CodeRabbit API error: 404 Not Found"
+    },
+    "duration": 0
+  },
+  {
+    "id": "action_1757671286351_fzpoght18",
+    "timestamp": "2025-09-12T10:01:26.351Z",
+    "agent": "CodeRabbitAPI",
+    "action": "Analyze code",
+    "details": "Analyzing 10 files with CodeRabbit Pro",
+    "category": "system",
+    "status": "completed",
+    "files_modified": [],
+    "output": {
+      "summary": "Analysis failed: Error: CodeRabbit API error: 404 Not Found"
+    },
+    "duration": 0
+  },
+  {
+    "id": "action_1757671286631_qjn1vjetb",
+    "timestamp": "2025-09-12T10:01:26.631Z",
+    "agent": "CodeRabbitAPI",
+    "action": "Analyze code",
+    "details": "Analyzing 10 files with CodeRabbit Pro",
+    "category": "system",
+    "status": "completed",
+    "files_modified": [],
+    "output": {
+      "summary": "Analysis failed: Error: CodeRabbit API error: 404 Not Found"
+    },
+    "duration": 0
+  },
+  {
+    "id": "action_1757671286864_stb99qtk5",
+    "timestamp": "2025-09-12T10:01:26.864Z",
+    "agent": "CodeRabbitAPI",
+    "action": "Analyze code",
+    "details": "Analyzing 10 files with CodeRabbit Pro",
+    "category": "system",
+    "status": "completed",
+    "files_modified": [],
+    "output": {
+      "summary": "Analysis failed: Error: CodeRabbit API error: 404 Not Found"
+    },
+    "duration": 0
+  },
+  {
+    "id": "action_1757671287091_8ch3gz9kl",
+    "timestamp": "2025-09-12T10:01:27.091Z",
+    "agent": "CodeRabbitAPI",
+    "action": "Analyze code",
+    "details": "Analyzing 10 files with CodeRabbit Pro",
+    "category": "system",
+    "status": "completed",
+    "files_modified": [],
+    "output": {
+      "summary": "Analysis failed: Error: CodeRabbit API error: 404 Not Found"
+    },
+    "duration": 0
+  },
+  {
+    "id": "action_1757671287295_d3fl1g288",
+    "timestamp": "2025-09-12T10:01:27.295Z",
+    "agent": "CodeRabbitAPI",
+    "action": "Analyze code",
+    "details": "Analyzing 10 files with CodeRabbit Pro",
+    "category": "system",
+    "status": "completed",
+    "files_modified": [],
+    "output": {
+      "summary": "Analysis failed: Error: CodeRabbit API error: 404 Not Found"
+    },
+    "duration": 0
+  },
+  {
+    "id": "action_1757671287572_j2nsad6um",
+    "timestamp": "2025-09-12T10:01:27.572Z",
+    "agent": "CodeRabbitAPI",
+    "action": "Analyze code",
+    "details": "Analyzing 7 files with CodeRabbit Pro",
+    "category": "system",
+    "status": "completed",
+    "files_modified": [],
+    "output": {
+      "summary": "Analysis failed: Error: CodeRabbit API error: 404 Not Found"
+    },
+    "duration": 0
+  },
+  {
+    "id": "action_1757671644118_s5xi14a1l",
+    "timestamp": "2025-09-12T10:07:24.118Z",
+    "agent": "SecurityFixer",
+    "action": "Find security issues",
+    "details": "Scanning codebase for security vulnerabilities",
+    "category": "system",
+    "status": "completed",
+    "files_modified": [],
+    "output": {
+      "summary": "Found 0 security issues"
+    },
+    "duration": 6
+  },
+  {
+    "id": "action_1757671644150_kepcy257s",
+    "timestamp": "2025-09-12T10:07:24.151Z",
+    "agent": "CodeRabbitAPI",
+    "action": "Analyze code",
+    "details": "Analyzing 10 files with CodeRabbit Pro",
+    "category": "system",
+    "status": "completed",
+    "files_modified": [],
+    "output": {
+      "summary": "Analysis failed: Error: CodeRabbit API error: 404 Not Found"
+    },
+    "duration": 0
+  },
+  {
+    "id": "action_1757671644375_5ig3z3p92",
+    "timestamp": "2025-09-12T10:07:24.375Z",
+    "agent": "CodeRabbitAPI",
+    "action": "Analyze code",
+    "details": "Analyzing 10 files with CodeRabbit Pro",
+    "category": "system",
+    "status": "completed",
+    "files_modified": [],
+    "output": {
+      "summary": "Analysis failed: Error: CodeRabbit API error: 404 Not Found"
+    },
+    "duration": 0
+  },
+  {
+    "id": "action_1757671644612_lw1sjtg7p",
+    "timestamp": "2025-09-12T10:07:24.612Z",
+    "agent": "CodeRabbitAPI",
+    "action": "Analyze code",
+    "details": "Analyzing 10 files with CodeRabbit Pro",
+    "category": "system",
+    "status": "completed",
+    "files_modified": [],
+    "output": {
+      "summary": "Analysis failed: Error: CodeRabbit API error: 404 Not Found"
+    },
+    "duration": 0
+  },
+  {
+    "id": "action_1757671644833_cdsy0tsqg",
+    "timestamp": "2025-09-12T10:07:24.833Z",
+    "agent": "CodeRabbitAPI",
+    "action": "Analyze code",
+    "details": "Analyzing 10 files with CodeRabbit Pro",
+    "category": "system",
+    "status": "completed",
+    "files_modified": [],
+    "output": {
+      "summary": "Analysis failed: Error: CodeRabbit API error: 404 Not Found"
+    },
+    "duration": 0
+  },
+  {
+    "id": "action_1757671645044_ktgy6vwr8",
+    "timestamp": "2025-09-12T10:07:25.044Z",
+    "agent": "CodeRabbitAPI",
+    "action": "Analyze code",
+    "details": "Analyzing 10 files with CodeRabbit Pro",
+    "category": "system",
+    "status": "completed",
+    "files_modified": [],
+    "output": {
+      "summary": "Analysis failed: Error: CodeRabbit API error: 404 Not Found"
+    },
+    "duration": 0
+  },
+  {
+    "id": "action_1757671645302_3c6xgkpsd",
+    "timestamp": "2025-09-12T10:07:25.302Z",
+    "agent": "CodeRabbitAPI",
+    "action": "Analyze code",
+    "details": "Analyzing 10 files with CodeRabbit Pro",
+    "category": "system",
+    "status": "completed",
+    "files_modified": [],
+    "output": {
+      "summary": "Analysis failed: Error: CodeRabbit API error: 404 Not Found"
+    },
+    "duration": 0
+  },
+  {
+    "id": "action_1757671645516_6bjqy8oaa",
+    "timestamp": "2025-09-12T10:07:25.516Z",
+    "agent": "CodeRabbitAPI",
+    "action": "Analyze code",
+    "details": "Analyzing 10 files with CodeRabbit Pro",
+    "category": "system",
+    "status": "completed",
+    "files_modified": [],
+    "output": {
+      "summary": "Analysis failed: Error: CodeRabbit API error: 404 Not Found"
+    },
+    "duration": 0
+  },
+  {
+    "id": "action_1757671645878_ymrozxqpt",
+    "timestamp": "2025-09-12T10:07:25.878Z",
+    "agent": "CodeRabbitAPI",
+    "action": "Analyze code",
+    "details": "Analyzing 10 files with CodeRabbit Pro",
+    "category": "system",
+    "status": "completed",
+    "files_modified": [],
+    "output": {
+      "summary": "Analysis failed: Error: CodeRabbit API error: 404 Not Found"
+    },
+    "duration": 0
+  },
+  {
+    "id": "action_1757671646239_tx9j2vd8v",
+    "timestamp": "2025-09-12T10:07:26.239Z",
+    "agent": "CodeRabbitAPI",
+    "action": "Analyze code",
+    "details": "Analyzing 10 files with CodeRabbit Pro",
+    "category": "system",
+    "status": "completed",
+    "files_modified": [],
+    "output": {
+      "summary": "Analysis failed: Error: CodeRabbit API error: 404 Not Found"
+    },
+    "duration": 0
+  },
+  {
+    "id": "action_1757671646615_1klxkvib6",
+    "timestamp": "2025-09-12T10:07:26.615Z",
+    "agent": "CodeRabbitAPI",
+    "action": "Analyze code",
+    "details": "Analyzing 10 files with CodeRabbit Pro",
+    "category": "system",
+    "status": "completed",
+    "files_modified": [],
+    "output": {
+      "summary": "Analysis failed: Error: CodeRabbit API error: 404 Not Found"
+    },
+    "duration": 0
+  },
+  {
+    "id": "action_1757671646879_pzi0q7xvg",
+    "timestamp": "2025-09-12T10:07:26.879Z",
+    "agent": "CodeRabbitAPI",
+    "action": "Analyze code",
+    "details": "Analyzing 10 files with CodeRabbit Pro",
+    "category": "system",
+    "status": "completed",
+    "files_modified": [],
+    "output": {
+      "summary": "Analysis failed: Error: CodeRabbit API error: 404 Not Found"
+    },
+    "duration": 0
+  },
+  {
+    "id": "action_1757671647187_3lp0b7tli",
+    "timestamp": "2025-09-12T10:07:27.187Z",
+    "agent": "CodeRabbitAPI",
+    "action": "Analyze code",
+    "details": "Analyzing 10 files with CodeRabbit Pro",
+    "category": "system",
+    "status": "completed",
+    "files_modified": [],
+    "output": {
+      "summary": "Analysis failed: Error: CodeRabbit API error: 404 Not Found"
+    },
+    "duration": 0
+  },
+  {
+    "id": "action_1757671647461_dxit1hjoi",
+    "timestamp": "2025-09-12T10:07:27.461Z",
+    "agent": "CodeRabbitAPI",
+    "action": "Analyze code",
+    "details": "Analyzing 10 files with CodeRabbit Pro",
+    "category": "system",
+    "status": "completed",
+    "files_modified": [],
+    "output": {
+      "summary": "Analysis failed: Error: CodeRabbit API error: 404 Not Found"
+    },
+    "duration": 0
+  },
+  {
+    "id": "action_1757671647770_x0koaa15k",
+    "timestamp": "2025-09-12T10:07:27.770Z",
+    "agent": "CodeRabbitAPI",
+    "action": "Analyze code",
+    "details": "Analyzing 10 files with CodeRabbit Pro",
+    "category": "system",
+    "status": "completed",
+    "files_modified": [],
+    "output": {
+      "summary": "Analysis failed: Error: CodeRabbit API error: 404 Not Found"
+    },
+    "duration": 0
+  },
+  {
+    "id": "action_1757671648026_am23f0wga",
+    "timestamp": "2025-09-12T10:07:28.026Z",
+    "agent": "CodeRabbitAPI",
+    "action": "Analyze code",
+    "details": "Analyzing 10 files with CodeRabbit Pro",
+    "category": "system",
+    "status": "completed",
+    "files_modified": [],
+    "output": {
+      "summary": "Analysis failed: Error: CodeRabbit API error: 404 Not Found"
+    },
+    "duration": 0
+  },
+  {
+    "id": "action_1757671648236_r26dnpzmz",
+    "timestamp": "2025-09-12T10:07:28.236Z",
+    "agent": "CodeRabbitAPI",
+    "action": "Analyze code",
+    "details": "Analyzing 10 files with CodeRabbit Pro",
+    "category": "system",
+    "status": "completed",
+    "files_modified": [],
+    "output": {
+      "summary": "Analysis failed: Error: CodeRabbit API error: 404 Not Found"
+    },
+    "duration": 0
+  },
+  {
+    "id": "action_1757671648516_kpugudhcd",
+    "timestamp": "2025-09-12T10:07:28.516Z",
+    "agent": "CodeRabbitAPI",
+    "action": "Analyze code",
+    "details": "Analyzing 10 files with CodeRabbit Pro",
+    "category": "system",
+    "status": "completed",
+    "files_modified": [],
+    "output": {
+      "summary": "Analysis failed: Error: CodeRabbit API error: 404 Not Found"
+    },
+    "duration": 0
+  },
+  {
+    "id": "action_1757671648736_rpj98q82u",
+    "timestamp": "2025-09-12T10:07:28.736Z",
+    "agent": "CodeRabbitAPI",
+    "action": "Analyze code",
+    "details": "Analyzing 10 files with CodeRabbit Pro",
+    "category": "system",
+    "status": "completed",
+    "files_modified": [],
+    "output": {
+      "summary": "Analysis failed: Error: CodeRabbit API error: 404 Not Found"
+    },
+    "duration": 0
+  },
+  {
+    "id": "action_1757671648945_sm8v2a7gg",
+    "timestamp": "2025-09-12T10:07:28.945Z",
+    "agent": "CodeRabbitAPI",
+    "action": "Analyze code",
+    "details": "Analyzing 10 files with CodeRabbit Pro",
+    "category": "system",
+    "status": "completed",
+    "files_modified": [],
+    "output": {
+      "summary": "Analysis failed: Error: CodeRabbit API error: 404 Not Found"
+    },
+    "duration": 0
+  },
+  {
+    "id": "action_1757671649258_4mea9h0qi",
+    "timestamp": "2025-09-12T10:07:29.258Z",
+    "agent": "CodeRabbitAPI",
+    "action": "Analyze code",
+    "details": "Analyzing 10 files with CodeRabbit Pro",
+    "category": "system",
+    "status": "completed",
+    "files_modified": [],
+    "output": {
+      "summary": "Analysis failed: Error: CodeRabbit API error: 404 Not Found"
+    },
+    "duration": 0
+  },
+  {
+    "id": "action_1757671649564_zgoqdyu3z",
+    "timestamp": "2025-09-12T10:07:29.564Z",
+    "agent": "CodeRabbitAPI",
+    "action": "Analyze code",
+    "details": "Analyzing 7 files with CodeRabbit Pro",
+    "category": "system",
+    "status": "completed",
+    "files_modified": [],
+    "output": {
+      "summary": "Analysis failed: Error: CodeRabbit API error: 404 Not Found"
+    },
+    "duration": 0
+  }
+]

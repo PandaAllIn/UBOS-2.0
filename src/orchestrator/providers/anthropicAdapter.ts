@@ -8,7 +8,7 @@ export class AnthropicAdapter implements LLMAdapter {
     const start = Date.now();
     try {
       const prompt = buildPrompt(req);
-      const text = await anthropicComplete(prompt, req.model || 'claude-3-5-sonnet-latest');
+      const text = await anthropicComplete(prompt, { model: req.model || 'claude-3-5-sonnet-latest' });
       const latency_ms = Date.now() - start;
       return {
         id: `anthropic_${Date.now()}`,
@@ -27,12 +27,10 @@ export class AnthropicAdapter implements LLMAdapter {
         provider: 'anthropic',
         model: req.model,
         created: new Date().toISOString(),
-        output: { 
-          text: '',
-          error: error instanceof Error ? error.message : String(error) 
-        },
+        output: { text: '' },
         latency_ms,
         tenantId: req.tenantId,
+        warnings: [error instanceof Error ? error.message : String(error)],
       };
     }
   }
@@ -47,4 +45,3 @@ function buildPrompt(req: NormalizedRequest): string {
   }
   return String(req.input.prompt || '');
 }
-

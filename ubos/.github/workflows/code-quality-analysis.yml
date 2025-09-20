@@ -1,0 +1,40 @@
+name: Code Quality Analysis
+
+on:
+  schedule:
+    # Runs 'at 03:00 on every day-of-week from Monday through Friday'
+    - cron: '0 3 * * 1-5'
+  workflow_dispatch: # Allows manual runs from the Actions tab
+
+jobs:
+  analyze:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run CodeRabbit Analysis
+        env:
+          CODERABBIT_API_KEY: ${{ secrets.CODERABBIT_API_KEY }}
+        run: npx tsx scripts/run-coderabbit-analysis.ts
+
+      - name: Commit report
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: 'chore: Update CodeRabbit analysis report'
+          file_pattern: 'reports/coderabbit-report.json'
+          commit_user_name: 'github-actions[bot]'
+          commit_user_email: 'github-actions[bot]@users.noreply.github.com'
+          commit_author: 'github-actions[bot] <github-actions[bot]@users.noreply.github.com>'

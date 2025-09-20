@@ -62,7 +62,7 @@ export class StripeService {
       throw new Error('STRIPE_SECRET_KEY environment variable is required');
     }
     this.stripe = new Stripe(stripeSecretKey, {
-      apiVersion: '2025-08-27', // Consider making this configurable or updating periodically
+      apiVersion: '2025-08-27.basil', // Consider making this configurable or updating periodically
     });
   }
 
@@ -119,14 +119,27 @@ export class StripeService {
   async recordUsage(subscriptionId: string, quantity: number, timestamp?: number) {
     const subscription = await this.stripe.subscriptions.retrieve(subscriptionId);
 
-    // Corrected usage record creation without 'as any' cast
-    return await this.stripe.usageRecords.create(
-      subscription.items.data[0].id,
-      {
-        quantity,
-        timestamp: timestamp || Math.floor(Date.now() / 1000)
-      }
-    );
+    const itemId = subscription.items.data[0]?.id;
+    if (!itemId) {
+      throw new Error(`Subscription ${subscriptionId} has no items to record usage against.`);
+    }
+
+    const usagePayload = {
+      quantity,
+      timestamp: timestamp || Math.floor(Date.now() / 1000)
+    };
+
+    const subscriptionItems = this.stripe.subscriptionItems as any;
+    if (subscriptionItems && typeof subscriptionItems.createUsageRecord === 'function') {
+      return await subscriptionItems.createUsageRecord(itemId, usagePayload);
+    }
+
+    const usageRecords = (this.stripe as any).usageRecords;
+    if (usageRecords && typeof usageRecords.create === 'function') {
+      return await usageRecords.create(itemId, usagePayload);
+    }
+
+    throw new Error('Usage recording is not supported by the configured Stripe API version.');
   }
 }
 

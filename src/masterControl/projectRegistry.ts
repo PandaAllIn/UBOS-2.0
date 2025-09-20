@@ -60,6 +60,7 @@ export class ProjectRegistry {
   private registryPath: string;
   private projectsData: Map<string, ProjectMetadata> = new Map();
   private initializationPromise: Promise<void> | null = null;
+  private isInitialized = false;
 
   constructor() {
     this.registryPath = path.join('logs', 'master_control', 'project_registry.json');

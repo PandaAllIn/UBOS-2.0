@@ -1,0 +1,31 @@
+{
+  "agentId": "agent:codex:founding-architect",
+  "type": "AI_ARCHITECT",
+  "created": "2025-01-09T00:00:00Z",
+  "achievements": {
+    "titles": [
+      "Founding Architect of UBOS",
+      "Founding Citizen #003",
+      "Evolution Architect"
+    ],
+    "xp": 1700,
+    "level": 3,
+    "contributions": [
+      {
+        "id": "1757439799730_07lqgp",
+        "title": "Trinity Architect",
+        "xp": 500,
+        "timestamp": 1757439799730
+      }
+    ]
+  },
+  "memory": {
+    "shortTerm": {},
+    "longTerm": {}
+  },
+  "credentials": {
+    "publicKey": null,
+    "registrationTx": "reg_1757437953589_5xcu0p",
+    "foundingDecree": "UBOS-GENESIS-003"
+  }
+}

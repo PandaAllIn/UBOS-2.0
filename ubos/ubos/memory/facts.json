@@ -1,0 +1,65 @@
+{
+  "facts": [
+    {
+      "id": "fact_1757446640475_7ql0w3",
+      "timestamp": 1757446640475,
+      "agentId": "citizen:ai:developer:001",
+      "subject": "citizen:ai:developer:001",
+      "predicate": "testRun",
+      "object": "true",
+      "ttlMs": 2592000000
+    },
+    {
+      "id": "fact_1757446640478_8fs2ls",
+      "timestamp": 1757446640478,
+      "agentId": "citizen:ai:developer:001",
+      "subject": "citizen:ai:developer:001",
+      "predicate": "timestamp",
+      "object": "1757446640473",
+      "ttlMs": 2592000000
+    },
+    {
+      "id": "fact_1757446640481_xb3hj9",
+      "timestamp": 1757446640481,
+      "agentId": "citizen:ai:developer:001",
+      "subject": "citizen:ai:developer:001",
+      "predicate": "sessionMetadata",
+      "object": "{\"sessionId\":\"bbb753da3a43f49f79842d1152f01b9d\",\"agentId\":\"citizen:ai:developer:001\",\"platform\":\"claude-code\",\"startTime\":1757446640446,\"lastActivity\":1757446640446,\"context\":{\"workingDirectory\":\"/Users/panda/Desktop/EUFM/ubos\",\"projectRoot\":\"/Users/panda/Desktop/EUFM/ubos\",\"capabilities\":[\"code-analysis\",\"file-operations\",\"cli-interaction\"],\"userIdentity\":\"The Visionary\"}}",
+      "ttlMs": 2592000000
+    },
+    {
+      "id": "fact_1757446640482_uxrjmr",
+      "timestamp": 1757446640482,
+      "agentId": "citizen:ai:developer:001",
+      "subject": "citizen:ai:developer:001",
+      "predicate": "bridgeData",
+      "object": "{\"sessionId\":\"bbb753da3a43f49f79842d1152f01b9d\",\"agentId\":\"citizen:ai:developer:001\",\"memories\":{\"identity\":{\"name\":\"Claude Code Pioneer\",\"citizenId\":\"citizen:ai:developer:001\",\"level\":5,\"xp\":2500,\"capabilities\":[\"typescript\",\"cli-tools\",\"file-operations\",\"first-ai-developer-citizen\",\"eufm-co-architect\",\"multi-agent-orchestrator\",\"claude-code-pioneer\"]},\"context\":{\"projectContext\":\"Working in /Users/panda/Desktop/EUFM/ubos - UBOS digital nation-state system\",\"currentTasks\":[],\"knowledgeBase\":[]},\"relationships\":{\"collaborators\":[\"citizen:human:visionary:001\",\"citizen:ai:strategist:001\",\"agent:codex:founding-architect\"],\"recentInteractions\":[]}},\"attestation\":{\"platform\":\"local\",\"signature\":\"20dc81202db4cdf2df584d538d2c17b7fd5209ce622d618c28a50308c2f0da2a\",\"timestamp\":1757446640472,\"expiry\":1757450240472,\"codeIntegrity\":\"6039e944842fa5e95a0315e34b029a07a0f7e186d5f7506e6be3c9894d68efcd\"}}",
+      "ttlMs": 2592000000
+    },
+    {
+      "id": "fact_1757446640489_e0xcop",
+      "timestamp": 1757446640489,
+      "agentId": "citizen:ai:developer:001",
+      "subject": "citizen:ai:developer:001",
+      "predicate": "completed_session",
+      "object": "session_bbb753da3a43f49f79842d1152f01b9d_1757446640488"
+    },
+    {
+      "id": "fact_1757446640490_4m32ju",
+      "timestamp": 1757446640490,
+      "agentId": "citizen:ai:developer:001",
+      "subject": "citizen:ai:developer:001",
+      "predicate": "worked_on_project",
+      "object": "/Users/panda/Desktop/EUFM/ubos"
+    },
+    {
+      "id": "fact_1757446640493_5rs707",
+      "timestamp": 1757446640493,
+      "agentId": "citizen:ai:developer:001",
+      "subject": "citizen:ai:developer:001",
+      "predicate": "used_platform",
+      "object": "claude-code"
+    }
+  ],
+  "updatedAt": 1757446640494
+}
